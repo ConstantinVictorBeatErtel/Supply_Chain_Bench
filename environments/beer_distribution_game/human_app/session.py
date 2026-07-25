@@ -149,6 +149,8 @@ class HumanSession:
         return {
             "status": record["status"],
             "weeks_played": len(record["actions"]),
+            "actions": list(record["actions"]),
+            "weekly": list(record["weekly"]),
             "final_total_cost": record["final_total_cost"],
             "base_stock_cost": record["base_stock_cost"],
             "episode_reward": record["episode_reward"],

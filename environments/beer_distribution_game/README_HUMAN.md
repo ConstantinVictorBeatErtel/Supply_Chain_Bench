@@ -2,7 +2,9 @@
 
 Anonymous human play on the **Tier 5 Y** beer game as the **Wholesaler** (36 weeks, orders 0–128, Hub seeds from development + validation). Retailers and upstream seats stay scripted — same task as LLM eval/training. Observations stay fog-of-war identical to the model prompt.
 
-Learning pipeline (export SFT → warm-start → GRPO): see [`docs/HUMAN_TO_MODEL.md`](../../docs/HUMAN_TO_MODEL.md).
+**UI:** Wholesale Command skin (dark tactical layout). Debrief compares your cost to the same-seed DeepSeek V4 Flash LLM eval and adaptive base-stock baseline.
+
+**Learning:** Offline only — collect sessions → export SFT → LoRA warm-start → GRPO on the programmatic wholesaler reward. See [`docs/HUMAN_TO_MODEL.md`](../../docs/HUMAN_TO_MODEL.md). Deploying this app as a public Hugging Face Space is a separate next step.
 
 ## Local run
 
@@ -33,7 +35,7 @@ If `HF_TOKEN` is unset or Hub sync fails, sessions append to local `human_sessio
 
 ## Data collected
 
-Per finished or abandoned session: session UUID, timestamp, env version, tier, role, seed, actions, weekly inventory/backlog/cost, final cost / base-stock cost / reward when completed, prior beer-game experience (`yes`/`no`/`unsure`). No names, emails, IPs, or free text.
+Per finished or abandoned session: session UUID, timestamp, env version, tier, role, seed, actions, weekly inventory/backlog/cost, final cost / base-stock cost / reward when completed. Prior beer-game experience is logged as `unsure` (no UI prompt). No names, emails, IPs, or free text.
 
 ## App entry
 

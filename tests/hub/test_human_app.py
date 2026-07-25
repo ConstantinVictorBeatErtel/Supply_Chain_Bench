@@ -26,6 +26,7 @@ from human_app.ui_obs import (
     assert_observation_parity,
     format_observation_html,
     format_observation_markdown,
+    format_summary_html,
     observation_field_keys,
 )
 
@@ -77,10 +78,72 @@ def test_observation_renderer_keys_subset_of_hub_observation() -> None:
     html = format_observation_html(session.observation)
     assert "Inventory on hand" in md or "Inventory" in html
     assert "demand history chart" not in html.lower()
-    # FOW: do not surface other roles' private state labels.
+    assert "orders vs demand" not in html.lower()
+    assert "adversary" not in html.lower()
+    assert "beer distribution game" in html.lower()
+    assert "wholesale command" not in html.lower()
+    assert "recent history" not in html.lower()
+    assert "raw observation" not in html.lower()
     assert "retailer_a inventory" not in html.lower()
     assert "downstream" not in html.lower()
+    assert "Factory capacity" not in html
     assert session.episode.controlled_role == "wholesaler"
+
+
+def test_completed_debrief_includes_llm_comparison() -> None:
+    session = HumanSession(
+        prior_beer_game_experience="unsure",
+        rng=random.Random(1),
+    )
+    while session.status == "in_progress":
+        session.place_order(8)
+    html = format_summary_html(session.end_summary())
+    assert "DeepSeek V4 Flash" in html
+    assert "Adaptive base-stock" in html
+    assert "You" in html
+    assert "LLM eval cost" not in html
+    assert "Weekly orders" in html
+    assert "Cumulative cost" in html
+    assert "beer-chart-legend" in html
+    assert "You (yellow)" in html
+    assert "Own Telemetry" not in html
+
+
+def test_debrief_html_has_single_masthead() -> None:
+    from human_app.app import _debrief_station_html
+
+    session = HumanSession(
+        prior_beer_game_experience="unsure",
+        rng=__import__("random").Random(1),
+    )
+    while session.status == "in_progress":
+        session.place_order(8)
+    html = _debrief_station_html(session)
+    assert html.count('class="beer-brand"') == 1
+    assert html.count('<div class="beer-masthead">') == 1
+
+
+def test_demo_handlers_output_count_matches_gradio_outputs() -> None:
+    from human_app.app import (
+        _empty_state,
+        abandon_game,
+        place_order,
+        start_game,
+    )
+
+    state = _empty_state()
+    assert len(start_game(state)) == 11
+    state = start_game(state)[0]
+    assert len(place_order(8, state)) == 11
+    assert len(abandon_game(state)) == 11
+
+
+def test_demo_builds() -> None:
+    from human_app.app import build_demo
+
+    demo = build_demo()
+    assert demo is not None
+    assert demo.title == "Beer Distribution Game"
 
 
 def test_completed_session_reward_matches_grade_episode() -> None:
