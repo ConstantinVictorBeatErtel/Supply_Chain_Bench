@@ -12,7 +12,7 @@ import pytest
 
 from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_game.scenario import SPLIT_SIZES, master_seed_hex, scenario_for
-from human_app.logging import ALLOWED_RECORD_KEYS, SessionLogger, resolve_dataset_repo
+from human_app.session_log import ALLOWED_RECORD_KEYS, SessionLogger, resolve_dataset_repo
 from human_app.session import (
     EVAL_SEED_POOL,
     FIXED_ROLE,

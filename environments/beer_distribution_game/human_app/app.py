@@ -13,7 +13,7 @@ if str(_PKG_ROOT) not in sys.path:
 
 import gradio as gr
 
-from human_app.logging import SessionLogger
+from human_app.session_log import SessionLogger
 from human_app.session import FIXED_ROLE, FIXED_TIER, HumanSession, PriorExperience
 from human_app.ui_obs import format_observation_markdown
 
