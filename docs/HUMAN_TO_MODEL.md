@@ -23,18 +23,48 @@ Learning signal: if humans beat base-stock (or simply provide diverse competent
 orders), export those trajectories as supervised demos, then continue with GRPO
 on the programmatic wholesaler reward.
 
-## Pipeline
+## Where / which model
+
+| Step | Where | Default base model |
+|---|---|---|
+| Human play + logging | Your laptop (Gradio) | — |
+| Export / `--dry-run` | Laptop or Colab (CPU OK) | — |
+| SFT + GRPO | **Google Colab GPU** (T4+) | **`Qwen/Qwen3-0.6B`** |
+
+Use `--model-name Qwen/Qwen2.5-7B-Instruct` when you have more VRAM (training-gate target).
+
+## One command (preferred)
+
+After you have `human_sessions.jsonl` from the Gradio app:
+
+```bash
+# CPU check
+PYTHONPATH=environments/beer_distribution_game \
+  python3 scripts/run_human_to_model.py \
+    --sessions human_sessions.jsonl \
+    --dry-run --beat-base-stock
+
+# Full train on Colab GPU
+PYTHONPATH=environments/beer_distribution_game \
+  python3 scripts/run_human_to_model.py \
+    --sessions human_sessions.jsonl \
+    --beat-base-stock
+```
+
+That runs **export → SFT → GRPO** (skips GRPO under `--dry-run`).  
+Colab notebook: [`notebooks/colab_human_to_model.ipynb`](../notebooks/colab_human_to_model.ipynb).
+
+## Pipeline (what the one command does)
 
 ```text
 Human Gradio app (wholesaler)
-    → sessions.jsonl  (seed + actions + costs; anonymous UUID)
-    → scripts/export_human_sft.py  (BeerEpisode replay → chat JSONL)
-    → scripts/train_colab_sft_wholesaler.py  (LoRA SFT warm-start)
-    → scripts/train_colab_grpo_wholesaler.py --adapter <sft>  (RL)
-    → Hub / Colab eval vs base-stock and human baseline costs
+    → sessions.jsonl
+    → export (BeerEpisode replay → chat JSONL)
+    → SFT LoRA warm-start
+    → GRPO on programmatic wholesaler reward
 ```
 
-### 1. Collect
+### Collect (laptop)
 
 ```bash
 cd environments/beer_distribution_game
@@ -44,39 +74,8 @@ PYTHONPATH=. python3 human_app/app.py
 Optional: set `HF_TOKEN` / `HF_DATASET_REPO` so `CommitScheduler` publishes
 `sessions.jsonl`.
 
-### 2. Export SFT rows
-
-```bash
-PYTHONPATH=environments/beer_distribution_game \
-  python3 scripts/export_human_sft.py \
-    --input human_sessions.jsonl \
-    --output data/human_demos/wholesaler_sft.jsonl \
-    --beat-base-stock
-```
-
-Each completed session yields 36 chat examples (system + current observation →
-`{"quantity": N}`), using [`beer_distribution_game/prompts.py`](../environments/beer_distribution_game/beer_distribution_game/prompts.py)
-so labels match the Colab GRPO JSON action format.
-
-### 3. SFT warm-start
-
-```bash
-PYTHONPATH=environments/beer_distribution_game \
-  python3 scripts/train_colab_sft_wholesaler.py \
-    --data data/human_demos/wholesaler_sft.jsonl \
-    --output-dir outputs/beer-wholesaler-sft \
-    --dry-run   # validate dataset; drop --dry-run on GPU
-```
-
-### 4. GRPO continue
-
-```bash
-PYTHONPATH=environments/beer_distribution_game \
-  python3 scripts/train_colab_grpo_wholesaler.py \
-    --adapter outputs/beer-wholesaler-sft/adapter \
-    --updates 10
-```
-
+Underlying scripts remain available: `export_human_sft.py`,
+`train_colab_sft_wholesaler.py`, `train_colab_grpo_wholesaler.py`.  
 See also [`LLM_RL_RUNBOOK.md`](LLM_RL_RUNBOOK.md) for the Prime-RL two-GPU path.
 
 ## What is intentionally out of scope here

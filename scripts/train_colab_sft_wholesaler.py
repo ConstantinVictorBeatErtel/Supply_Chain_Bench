@@ -36,7 +36,11 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--data", type=Path, required=True)
     p.add_argument("--output-dir", type=Path, default=Path("outputs/beer-wholesaler-sft"))
-    p.add_argument("--model-name", default="Qwen/Qwen2.5-7B-Instruct")
+    p.add_argument(
+        "--model-name",
+        default="Qwen/Qwen3-0.6B",
+        help="Base model (default Qwen3-0.6B for Colab T4; use Qwen2.5-7B-Instruct when VRAM allows)",
+    )
     p.add_argument("--epochs", type=int, default=1)
     p.add_argument("--learning-rate", type=float, default=2e-5)
     p.add_argument("--batch-size", type=int, default=1)
