@@ -13,6 +13,11 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from beer_distribution_rl.agents.ippo.policy_agent import PolicyLoadError
+from beer_distribution_rl.agents.llm.openrouter import (
+    OpenRouterError,
+    model_catalog,
+    openrouter_api_key,
+)
 from beer_distribution_rl.web.runner import GameError, GameRunner
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -20,8 +25,11 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 class StartRequest(BaseModel):
     role: str
-    ai_mode: Literal["sterman", "ippo"] = "sterman"
+    ai_mode: Literal["llm", "sterman", "ippo"] = "llm"
     seed: int | None = None
+    model: str | None = None
+    retailer_a_model: str | None = None
+    retailer_b_model: str | None = None
 
 
 class OrderRequest(BaseModel):
@@ -92,6 +100,13 @@ def create_app(runner: GameRunner | None = None) -> FastAPI:
     async def index() -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html")
 
+    @app.get("/api/models")
+    async def models() -> dict[str, Any]:
+        return {
+            "models": model_catalog(),
+            "openrouter_configured": openrouter_api_key() is not None,
+        }
+
     @app.get("/api/state")
     async def state() -> dict[str, Any]:
         return episode.snapshot()
@@ -99,8 +114,17 @@ def create_app(runner: GameRunner | None = None) -> FastAPI:
     @app.post("/api/start")
     async def start_game(body: StartRequest) -> dict[str, Any]:
         try:
-            return episode.start(body.role, body.ai_mode, seed=body.seed)
+            return episode.start(
+                body.role,
+                body.ai_mode,
+                seed=body.seed,
+                model=body.model,
+                retailer_a_model=body.retailer_a_model,
+                retailer_b_model=body.retailer_b_model,
+            )
         except PolicyLoadError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        except OpenRouterError as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc
         except GameError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc

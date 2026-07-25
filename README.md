@@ -73,23 +73,19 @@ Compact results and replay actions are in
 
 ## Playable Y-topology game
 
-Play one role against Sterman heuristics or IPPO policies. Fog-of-war keeps
-other stations hidden; you place one order per week.
+Play one role against **OpenRouter LLMs** (default), Sterman, or IPPO. Fog-of-war
+keeps other stations hidden; you place one order per week. When you are not a
+retailer, Retailer A and Retailer B must use two different named LLM models.
 
 ```bash
-python -m pip install -e ".[web]"
-# IPPO opponents (bundled playable policies; optional override below)
-python -m pip install -e ".[web,marl]"
-python scripts/serve_game.py
-# open http://127.0.0.1:8000
+export OPENROUTER_API_KEY="sk-or-..."   # required for LLM mode
+# or put it in a local .env (gitignored)
+python3 -m pip install -e ".[web,marl]"
+python3 scripts/serve_game.py
+# open http://127.0.0.1:8000  (hard-refresh after updates)
 ```
 
-To use a trained run instead of the packaged policies:
-
-```bash
-python scripts/serve_game.py \
-  --ippo-checkpoint artifacts/runs/ippo/recurrent_baseline/regimeA_topoy_capinf_ratproportional_demar1_seed0/checkpoints
-```
+LLM episodes use a 24-week horizon for latency. Sterman/IPPO still use 52 weeks.
 
 ## Quick start
 

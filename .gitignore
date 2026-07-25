@@ -14,6 +14,7 @@ venv/
 *.log
 .env
 .env.*
+!.env.example
 .DS_Store
 artifacts/runs/**/checkpoints/
 artifacts/runs/**/*.pt

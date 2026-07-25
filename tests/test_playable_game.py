@@ -159,3 +159,26 @@ def test_ippo_path_or_clear_error(runner: GameRunner) -> None:
     assert snap2["frame"]["t"] == 1
     order_cap = snap2["frame"]["order_cap"]
     assert 0 <= snap2["frame"]["own_order"] <= order_cap
+
+
+def test_llm_requires_dual_retailer_models(runner: GameRunner) -> None:
+    with pytest.raises(GameError, match="different LLM models"):
+        runner.start(
+            "wholesaler",
+            "llm",
+            seed=1,
+            model="deepseek/deepseek-v4-flash",
+            retailer_a_model="deepseek/deepseek-v4-flash",
+            retailer_b_model="deepseek/deepseek-v4-flash",
+        )
+
+
+def test_llm_requires_api_key(monkeypatch: pytest.MonkeyPatch, runner: GameRunner) -> None:
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    with pytest.raises(Exception, match="OPENROUTER_API_KEY"):
+        runner.start(
+            "retailer_a",
+            "llm",
+            seed=1,
+            model="deepseek/deepseek-v4-flash",
+        )

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=3" />
+  <link rel="stylesheet" href="/static/styles.css?v=4" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -16,7 +16,7 @@
   <section id="screen-setup" class="screen setup-screen" aria-label="Game setup">
     <div class="setup-hero">
       <p class="brand">Beer Distribution Game</p>
-      <p class="tagline">Pick a seat in the Y chain. Place one order each week. Everyone else is fog.</p>
+      <p class="tagline">Pick a seat in the Y chain. Real LLMs via OpenRouter order for everyone else.</p>
     </div>
 
     <form id="setup-form" class="setup-form">
@@ -62,21 +62,48 @@
       </fieldset>
 
       <fieldset class="choice-block">
-        <legend>AI opponents (play every other role)</legend>
-        <div class="ai-grid" role="radiogroup" aria-label="Choose AI opponents">
+        <legend>Opponent type</legend>
+        <div class="ai-grid" role="radiogroup" aria-label="Choose opponent type">
           <label class="ai-option">
-            <input type="radio" name="ai_mode" value="sterman" checked />
+            <input type="radio" name="ai_mode" value="llm" checked />
+            <span class="ai-face">
+              <strong>OpenRouter LLM</strong>
+              <em>Real models place orders for the other seats (24 weeks)</em>
+            </span>
+          </label>
+          <label class="ai-option">
+            <input type="radio" name="ai_mode" value="sterman" />
             <span class="ai-face">
               <strong>Sterman</strong>
-              <em>Classic anchoring-and-adjustment heuristics on all other seats</em>
+              <em>Offline heuristic baseline</em>
             </span>
           </label>
           <label class="ai-option">
             <input type="radio" name="ai_mode" value="ippo" />
             <span class="ai-face">
-              <strong>IPPO policies</strong>
-              <em>Recurrent Y-topology policies on all other seats</em>
+              <strong>IPPO</strong>
+              <em>Trained recurrent policies</em>
             </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="choice-block model-block" id="model-block">
+        <legend>LLM models</legend>
+        <p class="model-note" id="openrouter-status">Checking OpenRouter…</p>
+        <label class="model-field" id="default-model-field">
+          <span>Model for AI seats</span>
+          <select id="model-select" name="model"></select>
+        </label>
+        <div class="dual-models" id="dual-models" hidden>
+          <p class="model-note">You are not a retailer — Retailer A and Retailer B each get their own named LLM.</p>
+          <label class="model-field">
+            <span>Retailer A model</span>
+            <select id="retailer-a-model" name="retailer_a_model"></select>
+          </label>
+          <label class="model-field">
+            <span>Retailer B model</span>
+            <select id="retailer-b-model" name="retailer_b_model"></select>
           </label>
         </div>
       </fieldset>
@@ -97,7 +124,8 @@
     <header class="play-top">
       <div class="play-brand">
         <p class="brand-mini">Beer Distribution Game</p>
-        <p class="you-are">You are <strong id="you-role">—</strong> · AI (<span id="ai-label">—</span>) plays the other roles</p>
+        <p class="you-are">You are <strong id="you-role">—</strong> · <span id="ai-label">—</span> plays the other roles</p>
+        <p class="model-line" id="model-line" hidden></p>
       </div>
       <div class="play-meters" aria-live="polite">
         <div class="meter">
@@ -222,10 +250,11 @@
       <h2 class="end-title">You vs AI</h2>
       <p class="end-sub">
         You played <strong id="end-role">—</strong>.
-        AI (<span id="end-ai">—</span>) ordered for
-        <span id="end-ai-roles">the other roles</span>,
-        then we re-ran the same seed with the AI also sitting in your seat.
+        Opponents (<span id="end-ai">—</span>) ordered for
+        <span id="end-ai-roles">the other roles</span>.
+        We re-ran the same seed with the comparison model in your seat, replaying the other seats’ recorded orders.
       </p>
+      <p class="end-models" id="end-models"></p>
 
       <div class="end-verdict" id="end-verdict">—</div>
 
@@ -243,7 +272,7 @@
           <dd id="end-system">—</dd>
         </div>
         <div>
-          <dt>All-AI system cost</dt>
+          <dt>AI-seat system cost</dt>
           <dd id="end-ai-system">—</dd>
         </div>
         <div>
@@ -270,12 +299,29 @@
           <canvas id="end-week-chart" width="720" height="200"></canvas>
         </section>
         <section class="end-chart-block">
-          <h3>Orders (your role)</h3>
+          <h3>Orders &amp; demand (your role)</h3>
+          <ul class="chart-legend compact">
+            <li><span class="swatch-line solid you"></span><strong>Your order</strong></li>
+            <li><span class="swatch-line solid ai"></span><strong>AI order</strong></li>
+            <li><span class="swatch-line dashed"></span><strong>Demand / incoming</strong></li>
+          </ul>
+          <canvas id="end-order-chart" width="720" height="200"></canvas>
+        </section>
+        <section class="end-chart-block">
+          <h3>Inventory (your role)</h3>
           <ul class="chart-legend compact">
             <li><span class="swatch-line solid you"></span><strong>You</strong></li>
             <li><span class="swatch-line solid ai"></span><strong>AI in your seat</strong></li>
           </ul>
-          <canvas id="end-order-chart" width="720" height="200"></canvas>
+          <canvas id="end-inv-chart" width="720" height="200"></canvas>
+        </section>
+        <section class="end-chart-block">
+          <h3>Backlog (your role)</h3>
+          <ul class="chart-legend compact">
+            <li><span class="swatch-line solid you"></span><strong>You</strong></li>
+            <li><span class="swatch-line solid ai"></span><strong>AI in your seat</strong></li>
+          </ul>
+          <canvas id="end-bl-chart" width="720" height="200"></canvas>
         </section>
       </div>
 
@@ -283,6 +329,6 @@
     </div>
   </section>
 
-  <script src="/static/app.js?v=3"></script>
+  <script src="/static/app.js?v=4"></script>
 </body>
 </html>

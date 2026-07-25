@@ -10,6 +10,7 @@
     factory: "#e8a54b",
   };
   const AI_LABELS = {
+    llm: "OpenRouter LLM",
     sterman: "Sterman",
     ippo: "IPPO",
   };
@@ -26,8 +27,15 @@
     setupError: document.getElementById("setup-error"),
     seed: document.getElementById("seed-input"),
     start: document.getElementById("btn-start"),
+    modelBlock: document.getElementById("model-block"),
+    modelSelect: document.getElementById("model-select"),
+    dualModels: document.getElementById("dual-models"),
+    retailerAModel: document.getElementById("retailer-a-model"),
+    retailerBModel: document.getElementById("retailer-b-model"),
+    openrouterStatus: document.getElementById("openrouter-status"),
     youRole: document.getElementById("you-role"),
     aiLabel: document.getElementById("ai-label"),
+    modelLine: document.getElementById("model-line"),
     week: document.getElementById("week"),
     horizon: document.getElementById("horizon"),
     weekCost: document.getElementById("week-cost"),
@@ -59,6 +67,7 @@
     endRole: document.getElementById("end-role"),
     endAi: document.getElementById("end-ai"),
     endAiRoles: document.getElementById("end-ai-roles"),
+    endModels: document.getElementById("end-models"),
     endOwn: document.getElementById("end-own"),
     endAiOwn: document.getElementById("end-ai-own"),
     endSystem: document.getElementById("end-system"),
@@ -68,11 +77,12 @@
     endCumChart: document.getElementById("end-cum-chart"),
     endWeekChart: document.getElementById("end-week-chart"),
     endOrderChart: document.getElementById("end-order-chart"),
+    endInvChart: document.getElementById("end-inv-chart"),
+    endBlChart: document.getElementById("end-bl-chart"),
     costBreakdown: document.getElementById("cost-breakdown"),
     costFormula: document.getElementById("cost-formula"),
     legendOrderSwatch: document.getElementById("legend-order-swatch"),
     legendOrderLabel: document.getElementById("legend-order-label"),
-    legendSignalSwatch: document.getElementById("legend-signal-swatch"),
     legendSignalLabel: document.getElementById("legend-signal-label"),
   };
 
@@ -82,6 +92,8 @@
   let history = [];
   let humanRole = null;
   let aiMode = null;
+  let modelMap = {};
+  let catalog = [];
   let phase = "setup";
   let awaiting = false;
   let orderCap = 128;
@@ -96,6 +108,16 @@
   function fmt(n, digits = 1) {
     if (n == null || Number.isNaN(n)) return "—";
     return Number(n).toFixed(digits);
+  }
+
+  function selectedRole() {
+    const el = els.setupForm.querySelector('input[name="role"]:checked');
+    return el ? el.value : "retailer_a";
+  }
+
+  function selectedAiMode() {
+    const el = els.setupForm.querySelector('input[name="ai_mode"]:checked');
+    return el ? el.value : "llm";
   }
 
   function showScreen(name) {
@@ -119,12 +141,58 @@
     el.textContent = message;
   }
 
+  function fillModelSelect(select, models, preferred) {
+    select.innerHTML = "";
+    models.forEach((m, idx) => {
+      const opt = document.createElement("option");
+      opt.value = m.id;
+      opt.textContent = m.label || m.id;
+      select.appendChild(opt);
+      if (m.id === preferred) select.selectedIndex = idx;
+    });
+    if (!preferred && models.length > 1 && select === els.retailerBModel) {
+      select.selectedIndex = Math.min(1, models.length - 1);
+    }
+  }
+
+  function updateSetupModelUI() {
+    const mode = selectedAiMode();
+    const role = selectedRole();
+    const isLlm = mode === "llm";
+    els.modelBlock.hidden = !isLlm;
+    const needsDual = isLlm && role !== "retailer_a" && role !== "retailer_b";
+    els.dualModels.hidden = !needsDual;
+  }
+
+  async function loadModels() {
+    try {
+      const res = await fetch("/api/models");
+      const data = await res.json();
+      catalog = data.models || [];
+      fillModelSelect(els.modelSelect, catalog, catalog[0]?.id);
+      fillModelSelect(els.retailerAModel, catalog, catalog[0]?.id);
+      fillModelSelect(els.retailerBModel, catalog, catalog[1]?.id || catalog[0]?.id);
+      if (data.openrouter_configured) {
+        els.openrouterStatus.textContent = "OpenRouter key detected — LLM opponents ready.";
+        els.openrouterStatus.style.color = "var(--good)";
+      } else {
+        els.openrouterStatus.textContent =
+          "OPENROUTER_API_KEY missing. Export it or put it in a local .env before using LLM mode.";
+        els.openrouterStatus.style.color = "var(--warn)";
+      }
+    } catch (err) {
+      els.openrouterStatus.textContent = "Could not load model catalog.";
+      els.openrouterStatus.style.color = "var(--warn)";
+    }
+    updateSetupModelUI();
+  }
+
   function makeNode(role) {
     const node = document.createElement("div");
     node.className = "node fogged";
     node.dataset.role = role;
     node.innerHTML = `
-      <h3 class="node-title">${prettyRole(role)} <span class="ai-badge">AI</span></h3>
+      <h3 class="node-title">${prettyRole(role)} <span class="ai-badge" data-k="badge">AI</span></h3>
       <div class="node-body">
         <div><span>Inv</span><strong data-k="inv">—</strong></div>
         <div><span>Backlog</span><strong data-k="bl">—</strong></div>
@@ -155,6 +223,13 @@
       wrap.appendChild(makeNode(role));
       els.trunk.appendChild(wrap);
     });
+  }
+
+  function formatModelMap(map) {
+    if (!map || !Object.keys(map).length) return "";
+    return Object.entries(map)
+      .map(([role, info]) => `${prettyRole(role)}: ${info.label || info.model}`)
+      .join(" · ");
   }
 
   function updateCostHelp(frame) {
@@ -191,6 +266,16 @@
       const yours = role === humanRole;
       node.classList.toggle("fogged", !yours);
       node.classList.toggle("yours", yours);
+      const badge = node.querySelector('[data-k="badge"]');
+      if (badge) {
+        if (yours) {
+          badge.textContent = "YOU";
+        } else if (modelMap[role]) {
+          badge.textContent = modelMap[role].label || modelMap[role].model || "AI";
+        } else {
+          badge.textContent = "AI";
+        }
+      }
       if (yours) {
         node.querySelector('[data-k="inv"]').textContent = els.inv.textContent;
         node.querySelector('[data-k="bl"]').textContent = els.bl.textContent;
@@ -210,6 +295,7 @@
 
   function applyFrame(frame, { flash = true } = {}) {
     if (!frame) return;
+    if (frame.models) modelMap = frame.models;
 
     const prevWeek = Number(els.week.textContent) || 0;
     const week = frame.t ?? 0;
@@ -255,6 +341,14 @@
     els.orderBtn.disabled = !awaiting;
     els.orderQty.disabled = !awaiting;
 
+    const line = formatModelMap(modelMap);
+    if (line) {
+      els.modelLine.hidden = false;
+      els.modelLine.textContent = `Models: ${line}`;
+    } else {
+      els.modelLine.hidden = true;
+    }
+
     updateCostHelp(frame);
     updateChartLegend();
     updateFog();
@@ -270,6 +364,7 @@
     if (msg.phase) phase = msg.phase;
     if (typeof msg.awaiting_order === "boolean") awaiting = msg.awaiting_order;
     if (msg.human_role) humanRole = msg.human_role;
+    if (msg.models) modelMap = msg.models;
     if (msg.ai_mode) {
       aiMode = msg.ai_mode;
       els.aiLabel.textContent = AI_LABELS[aiMode] || aiMode;
@@ -382,35 +477,30 @@
   function drawEndCharts(reveal) {
     const human = reveal.human_series || [];
     const ai = reveal.ai_series || [];
+    const demandPoints = human.map((p) => ({
+      t: p.t,
+      y: p.demand_or_incoming ?? 0,
+    }));
     drawLineChart(els.endCumChart, [
-      {
-        color: YOU_COLOR,
-        points: human.map((p) => ({ t: p.t, y: p.cumulative_own_cost })),
-      },
-      {
-        color: AI_COLOR,
-        points: ai.map((p) => ({ t: p.t, y: p.cumulative_own_cost })),
-      },
+      { color: YOU_COLOR, points: human.map((p) => ({ t: p.t, y: p.cumulative_own_cost })) },
+      { color: AI_COLOR, points: ai.map((p) => ({ t: p.t, y: p.cumulative_own_cost })) },
     ]);
     drawLineChart(els.endWeekChart, [
-      {
-        color: YOU_COLOR,
-        points: human.map((p) => ({ t: p.t, y: p.week_cost })),
-      },
-      {
-        color: AI_COLOR,
-        points: ai.map((p) => ({ t: p.t, y: p.week_cost })),
-      },
+      { color: YOU_COLOR, points: human.map((p) => ({ t: p.t, y: p.week_cost })) },
+      { color: AI_COLOR, points: ai.map((p) => ({ t: p.t, y: p.week_cost })) },
     ]);
     drawLineChart(els.endOrderChart, [
-      {
-        color: YOU_COLOR,
-        points: human.map((p) => ({ t: p.t, y: p.order })),
-      },
-      {
-        color: AI_COLOR,
-        points: ai.map((p) => ({ t: p.t, y: p.order })),
-      },
+      { color: YOU_COLOR, points: human.map((p) => ({ t: p.t, y: p.order })) },
+      { color: AI_COLOR, points: ai.map((p) => ({ t: p.t, y: p.order })) },
+      { color: DEMAND_COLOR, width: 2, dash: [6, 5], points: demandPoints },
+    ]);
+    drawLineChart(els.endInvChart, [
+      { color: YOU_COLOR, points: human.map((p) => ({ t: p.t, y: p.inventory ?? 0 })) },
+      { color: AI_COLOR, points: ai.map((p) => ({ t: p.t, y: p.inventory ?? 0 })) },
+    ]);
+    drawLineChart(els.endBlChart, [
+      { color: YOU_COLOR, points: human.map((p) => ({ t: p.t, y: p.backlog ?? 0 })) },
+      { color: AI_COLOR, points: ai.map((p) => ({ t: p.t, y: p.backlog ?? 0 })) },
     ]);
   }
 
@@ -421,6 +511,14 @@
     els.endAi.textContent = AI_LABELS[reveal.ai_mode] || reveal.ai_mode || "—";
     const aiRoles = (reveal.ai_roles || []).map(prettyRole).join(", ");
     els.endAiRoles.textContent = aiRoles || "the other roles";
+    const models = reveal.models || {};
+    const shadow = reveal.shadow_model;
+    const modelBits = formatModelMap(models);
+    els.endModels.textContent = [
+      modelBits ? `Opponent models: ${modelBits}` : "",
+      shadow ? `Comparison model in your seat: ${shadow.label || shadow.model}` : "",
+    ].filter(Boolean).join("\n");
+
     els.endOwn.textContent = fmt(reveal.cumulative_own_cost);
     els.endAiOwn.textContent = fmt(reveal.ai_own_cost);
     els.endSystem.textContent = fmt(reveal.cumulative_system_cost);
@@ -483,18 +581,33 @@
     else if (history.length) applyFrame(history[history.length - 1], { flash: false });
   }
 
+  els.setupForm.addEventListener("change", updateSetupModelUI);
+
   els.setupForm.addEventListener("submit", async (ev) => {
     ev.preventDefault();
     showError(els.setupError, "");
-    const fd = new FormData(els.setupForm);
-    const role = String(fd.get("role"));
-    const mode = String(fd.get("ai_mode"));
+    const role = selectedRole();
+    const mode = selectedAiMode();
     const seed = Number(els.seed.value || 0);
+    const body = { role, ai_mode: mode, seed };
+    if (mode === "llm") {
+      body.model = els.modelSelect.value;
+      if (role !== "retailer_a" && role !== "retailer_b") {
+        body.retailer_a_model = els.retailerAModel.value;
+        body.retailer_b_model = els.retailerBModel.value;
+        if (body.retailer_a_model === body.retailer_b_model) {
+          showError(els.setupError, "Pick two different models for Retailer A and Retailer B.");
+          return;
+        }
+      }
+    }
     els.start.disabled = true;
+    els.start.textContent = mode === "llm" ? "Starting (calling LLMs)…" : "Starting…";
     try {
-      const data = await postJson("/api/start", { role, ai_mode: mode, seed });
+      const data = await postJson("/api/start", body);
       humanRole = role;
       aiMode = mode;
+      modelMap = data.models || {};
       history = data.history || [];
       applyStatus(data);
       showScreen("play");
@@ -505,6 +618,7 @@
       showError(els.setupError, err.message || String(err));
     } finally {
       els.start.disabled = false;
+      els.start.textContent = "Start week 1";
     }
   });
 
@@ -514,6 +628,7 @@
     if (!awaiting) return;
     const quantity = Number(els.orderQty.value);
     els.orderBtn.disabled = true;
+    els.orderBtn.textContent = aiMode === "llm" ? "Waiting on LLMs…" : "Commit";
     try {
       const data = await postJson("/api/order", { quantity });
       if (Array.isArray(data.history)) history = data.history;
@@ -531,6 +646,8 @@
     } catch (err) {
       showError(els.orderError, err.message || String(err));
       els.orderBtn.disabled = !awaiting;
+    } finally {
+      els.orderBtn.textContent = "Commit";
     }
   });
 
@@ -541,6 +658,7 @@
       history = [];
       humanRole = null;
       aiMode = null;
+      modelMap = {};
       phase = "setup";
       lastReveal = null;
       applySnapshot(data);
@@ -608,5 +726,6 @@
   buildBoard();
   updateCostHelp(null);
   showScreen("setup");
+  loadModels();
   connect();
 })();
