@@ -1,0 +1,308 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg0: #141c28;
+  --bg1: #1c2838;
+  --bg2: #263548;
+  --ink: #eef3f8;
+  --muted: #8fa3bb;
+  --accent: #e8a54b;
+  --accent-dim: #c4842e;
+  --accent-soft: rgba(232, 165, 75, 0.16);
+  --good: #5ec4a0;
+  --role-b: #3dd6c6;
+  --warn: #e07a6a;
+  --line: #3a4d66;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sans: "DM Sans", system-ui, sans-serif;
+}
+
+/* Gradio shell */
+.gradio-container,
+.main,
+body,
+.wrap {
+  font-family: var(--sans) !important;
+  color: var(--ink) !important;
+  background:
+    radial-gradient(ellipse 100% 70% at 8% -5%, #2a3f55 0%, transparent 55%),
+    radial-gradient(ellipse 80% 55% at 100% 0%, #3a2a18 0%, transparent 48%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, #1a2a22 0%, transparent 50%),
+    var(--bg0) !important;
+}
+
+.gradio-container {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+}
+
+footer,
+.footer,
+.svelte-1lylcjs {
+  display: none !important;
+}
+
+/* Typography / panels */
+.beer-hero h1,
+.beer-brand {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.beer-tagline {
+  margin: 0.85rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 34rem;
+}
+
+.beer-notice {
+  margin: 1.25rem 0 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: rgba(28, 40, 56, 0.72);
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  max-width: 40rem;
+}
+
+.beer-kicker {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.beer-status {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.beer-status strong {
+  color: var(--role-b);
+  font-family: var(--mono);
+  font-weight: 500;
+}
+
+/* Meters */
+.beer-meters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.4rem;
+  margin: 0.35rem 0 1rem;
+}
+
+.beer-meter .label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+}
+
+.beer-meter .value {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.beer-meter .sub {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-left: 0.15rem;
+}
+
+/* Station panel */
+.beer-panel {
+  background: linear-gradient(180deg, rgba(38, 53, 72, 0.92), rgba(28, 40, 56, 0.95));
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1.1rem 1.15rem 1.25rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+.beer-panel h2 {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.beer-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem 1rem;
+  margin: 0;
+}
+
+.beer-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.beer-stats dt {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.beer-stats dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.beer-cost-box {
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+  background: var(--accent-soft);
+  border: 1px solid rgba(232, 165, 75, 0.28);
+  border-radius: 4px;
+}
+
+.beer-cost-box h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.beer-cost-box p {
+  margin: 0.2rem 0 0;
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.beer-history {
+  margin-top: 1rem;
+}
+
+.beer-history h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.beer-history ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.beer-history li {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(58, 77, 102, 0.65);
+  padding-top: 0.35rem;
+}
+
+.beer-summary {
+  margin-top: 0.5rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--line);
+  background: rgba(28, 40, 56, 0.85);
+  border-radius: 4px;
+}
+
+.beer-summary h2 {
+  margin: 0 0 0.6rem;
+  color: var(--good);
+}
+
+.beer-summary .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(58, 77, 102, 0.55);
+  font-size: 0.95rem;
+}
+
+.beer-summary .row span:last-child {
+  font-family: var(--mono);
+  color: var(--ink);
+}
+
+/* Gradio component restyle */
+label,
+.block label,
+span.svelte-1gfkn6j {
+  color: var(--muted) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+.gr-radio,
+fieldset {
+  border: none !important;
+}
+
+input[type="number"],
+.wrap input,
+textarea,
+select {
+  font-family: var(--mono) !important;
+  color: var(--ink) !important;
+  background: var(--bg1) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+}
+
+button.primary,
+.primary,
+button[variant="primary"] {
+  background: linear-gradient(180deg, #efb25a, var(--accent)) !important;
+  color: #1a1408 !important;
+  border: 1px solid var(--accent-dim) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 2px !important;
+  box-shadow: 0 6px 16px rgba(232, 165, 75, 0.22) !important;
+}
+
+button.secondary,
+button:not(.primary) {
+  background: var(--bg2) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+}
+
+.form,
+.block {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.prose,
+.markdown-body,
+.prose * {
+  color: var(--ink) !important;
+}

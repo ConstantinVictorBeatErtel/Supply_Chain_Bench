@@ -18,7 +18,7 @@ from beer_distribution_game.scenario import (
 )
 
 FIXED_TIER = 5
-FIXED_ROLE = "wholesaler"
+FIXED_ROLE = "retailer_b"
 FIXED_VARIANT = "headline"
 HUMAN_SPLITS: tuple[Split, ...] = ("development", "validation")
 PriorExperience = Literal["yes", "no", "unsure"]

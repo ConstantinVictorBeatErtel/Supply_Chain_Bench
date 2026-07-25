@@ -1,6 +1,6 @@
 # Human baseline Gradio app
 
-Anonymous human play on the **same Tier 5 Y wholesaler task** used for LLM evaluation (36 weeks, orders 0–128, Hub seeds from development + validation).
+Anonymous human play on the **Tier 5 Y** beer game as **Retailer B** (36 weeks, orders 0–128, Hub seeds from development + validation). Counterparties are the same scripted policies used in Hub eval; observations stay fog-of-war identical to the model prompt.
 
 ## Local run
 

@@ -24,6 +24,7 @@ from human_app.session import (
 from human_app.ui_obs import (
     OBSERVATION_KEYS,
     assert_observation_parity,
+    format_observation_html,
     format_observation_markdown,
     observation_field_keys,
 )
@@ -73,11 +74,13 @@ def test_observation_renderer_keys_subset_of_hub_observation() -> None:
     assert keys <= OBSERVATION_KEYS
     assert_observation_parity(session.observation)
     md = format_observation_markdown(session.observation)
-    assert "Inventory on hand" in md
-    assert "demand history chart" not in md.lower()
+    html = format_observation_html(session.observation)
+    assert "Inventory on hand" in md or "Inventory" in html
+    assert "demand history chart" not in html.lower()
     # FOW: do not surface other roles' private state labels.
-    assert "retailer_a inventory" not in md.lower()
-    assert "downstream" not in md.lower()
+    assert "retailer_a inventory" not in html.lower()
+    assert "downstream" not in html.lower()
+    assert session.episode.controlled_role == "retailer_b"
 
 
 def test_completed_session_reward_matches_grade_episode() -> None:

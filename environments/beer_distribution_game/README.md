@@ -13,8 +13,8 @@ remain separate metrics.
 
 ## Human baseline Gradio app
 
-Play the Tier 5 Y wholesaler task as a human (identical seeds, observations,
-horizon, and grading to LLM eval). See [`README_HUMAN.md`](README_HUMAN.md).
+Play Tier 5 Y as **Retailer B** (identical Hub seeds, FOW observations,
+horizon, and grading). See [`README_HUMAN.md`](README_HUMAN.md).
 
 ```bash
 python3 -m pip install -r requirements-space.txt

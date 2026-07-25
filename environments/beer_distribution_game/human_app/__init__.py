@@ -1,4 +1,4 @@
-"""Gradio human-play app for Hub-eval-parity beer game baselines."""
+"""Gradio human-play app for Hub-parity beer game baselines (Retailer B)."""
 
 from .session import EVAL_SEED_POOL, HumanSession, PriorExperience
 

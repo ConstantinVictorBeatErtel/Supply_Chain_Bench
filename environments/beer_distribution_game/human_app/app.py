@@ -1,9 +1,9 @@
-"""Gradio UI for anonymous human baselines (Tier 5 Y wholesaler)."""
+"""Gradio UI for anonymous human baselines (Tier 5 Y retailer B)."""
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
+import sys
 from typing import Any
 
 # Allow `python human_app/app.py` from the environment package root.
@@ -13,22 +13,16 @@ if str(_PKG_ROOT) not in sys.path:
 
 import gradio as gr
 
-from human_app.session_log import SessionLogger
 from human_app.session import FIXED_ROLE, FIXED_TIER, HumanSession, PriorExperience
-from human_app.ui_obs import format_observation_markdown
+from human_app.session_log import SessionLogger
+from human_app.ui_obs import format_observation_html, format_summary_html
+
+_THEME_CSS = (_PKG_ROOT / "human_app" / "theme.css").read_text(encoding="utf-8")
 
 DATA_NOTICE = (
-    "**Data collection notice.** Anonymous gameplay data from this app is collected "
-    "and published openly for research. Records contain a session UUID, task "
-    "settings, orders, costs, and a one-question experience self-report. "
-    "No names, emails, IP addresses, or free-text answers are collected."
-)
-
-TASK_BLURB = (
-    f"You play the **{FIXED_ROLE}** in the Tier {FIXED_TIER} Y-topology beer game "
-    "(36 weeks, orders 0–128). Other roles are scripted adaptive base-stock "
-    "policies — the same task used for LLM evaluation. You only see your local "
-    "observation each week."
+    "Anonymous gameplay data is collected and published openly for research. "
+    "Records include a session UUID, task settings, orders, costs, and a "
+    "yes/no/unsure experience answer — never names, emails, IP addresses, or free text."
 )
 
 _LOGGER = SessionLogger()
@@ -38,32 +32,28 @@ def _empty_state() -> dict[str, Any]:
     return {"session": None}
 
 
-def _obs_md(session: HumanSession | None) -> str:
+def _idle_station_html() -> str:
+    return """
+<div class="beer-panel">
+  <h2>Your station</h2>
+  <p style="margin:0;color:var(--muted);line-height:1.45">
+    Answer the question below, then start week 1. You only see your own local
+    observation — the same fog-of-war fields an evaluated model receives.
+  </p>
+</div>
+""".strip()
+
+
+def _obs_html(session: HumanSession | None) -> str:
     if session is None or session.observation is None:
-        return "_No active observation._"
-    return format_observation_markdown(session.observation)
+        return _idle_station_html()
+    return format_observation_html(session.observation)
 
 
-def _summary_md(session: HumanSession | None) -> str:
+def _summary_html(session: HumanSession | None) -> str:
     if session is None or session.status == "in_progress":
         return ""
-    s = session.end_summary()
-    lines = [
-        f"### Session {s['status']}",
-        f"- Weeks played: {s['weeks_played']}",
-        f"- Seed: `{s['seed']}` ({s['split']} #{s['seed_index']})",
-    ]
-    if s["status"] == "completed":
-        lines.extend(
-            [
-                f"- Final total cost: **{s['final_total_cost']}**",
-                f"- Same-seed base-stock cost: **{s['base_stock_cost']}**",
-                f"- Episode reward: **{s['episode_reward']}**",
-            ]
-        )
-    else:
-        lines.append("_Abandoned before the 36-week horizon; partial actions were logged._")
-    return "\n".join(lines)
+    return format_summary_html(session.end_summary())
 
 
 def start_game(experience: str, state: dict[str, Any]):
@@ -78,12 +68,16 @@ def start_game(experience: str, state: dict[str, Any]):
     state = {"session": session}
     return (
         state,
-        _obs_md(session),
+        _obs_html(session),
         "",
+        gr.update(interactive=True, value=4),
         gr.update(interactive=True),
         gr.update(interactive=True),
-        gr.update(interactive=True),
-        f"Session `{session.session_uuid}` · week 1/{session.episode.spec.horizon}",
+        (
+            f'You are <strong>Retailer B</strong> · session '
+            f'<strong>{session.session_uuid[:8]}</strong> · week '
+            f'<strong>1/{session.episode.spec.horizon}</strong>'
+        ),
     )
 
 
@@ -104,24 +98,29 @@ def place_order(quantity: float | int, state: dict[str, Any]):
 
     if session.status == "completed":
         _LOGGER.log_session(session)
+        reward = session.end_summary()["episode_reward"]
         return (
             state,
-            _obs_md(session),
-            _summary_md(session),
+            _idle_station_html(),
+            _summary_html(session),
             gr.update(interactive=False),
             gr.update(interactive=False),
             gr.update(interactive=False),
-            f"Completed · reward={session.end_summary()['episode_reward']}",
+            f"Completed · episode reward <strong>{reward}</strong>",
         )
+    week = session.observation["week"]
+    horizon = session.observation["horizon"]
     return (
         state,
-        _obs_md(session),
+        _obs_html(session),
         "",
         gr.update(interactive=True),
         gr.update(interactive=True),
         gr.update(interactive=True),
-        f"Week {session.observation['week']}/{session.observation['horizon']} · "
-        f"last order {qty}",
+        (
+            f'You are <strong>Retailer B</strong> · week '
+            f'<strong>{week}/{horizon}</strong> · last order <strong>{qty}</strong>'
+        ),
     )
 
 
@@ -130,10 +129,10 @@ def abandon_game(state: dict[str, Any]):
     if isinstance(session, HumanSession) and session.status == "in_progress":
         session.abandon()
         _LOGGER.log_session(session)
-    summary = _summary_md(session if isinstance(session, HumanSession) else None)
+    summary = _summary_html(session if isinstance(session, HumanSession) else None)
     return (
         state,
-        "_No active observation._",
+        _idle_station_html(),
         summary,
         gr.update(interactive=False),
         gr.update(interactive=False),
@@ -143,11 +142,25 @@ def abandon_game(state: dict[str, Any]):
 
 
 def build_demo() -> gr.Blocks:
-    with gr.Blocks(title="Beer Game Human Baseline") as demo:
+    with gr.Blocks(title="Beer Distribution Game") as demo:
         state = gr.State(_empty_state())
-        gr.Markdown("# Beer Distribution Game — Human Baseline")
-        gr.Markdown(DATA_NOTICE)
-        gr.Markdown(TASK_BLURB)
+
+        # Embed theme in-page so Gradio 5/6 and Spaces all pick it up.
+        gr.HTML(
+            f"""
+<style>{_THEME_CSS}</style>
+<div class="beer-hero">
+  <p class="beer-kicker">Human baseline · Tier {FIXED_TIER} Y topology</p>
+  <h1 class="beer-brand">Beer Distribution Game</h1>
+  <p class="beer-tagline">
+    Play as <strong style="color:var(--role-b)">Retailer B</strong> for 36 weeks
+    against scripted counterparties on the same seeded task used for model
+    evaluation. Orders are integers from 0–128.
+  </p>
+  <p class="beer-notice"><strong style="color:var(--accent)">Data notice.</strong> {DATA_NOTICE}</p>
+</div>
+"""
+        )
 
         with gr.Row():
             experience = gr.Radio(
@@ -155,23 +168,28 @@ def build_demo() -> gr.Blocks:
                 label="Have you played the beer game before?",
                 value=None,
             )
-            start_btn = gr.Button("Start game", variant="primary")
-
-        status = gr.Markdown("Answer the question, then start a game.")
-        observation = gr.Markdown("_Observation appears after you start._")
-        order = gr.Number(
-            label="Order quantity (0–128)",
-            value=0,
-            precision=0,
-            minimum=0,
-            maximum=128,
-            interactive=False,
-        )
         with gr.Row():
-            order_btn = gr.Button("Place order", interactive=False)
+            start_btn = gr.Button("Start week 1", variant="primary")
+
+        status = gr.HTML(
+            '<p class="beer-status">Answer the experience question, then start week 1.</p>'
+        )
+        observation = gr.HTML(_idle_station_html())
+
+        with gr.Row():
+            order = gr.Number(
+                label="Place this week’s order",
+                value=4,
+                precision=0,
+                minimum=0,
+                maximum=128,
+                interactive=False,
+            )
+        with gr.Row():
+            order_btn = gr.Button("Commit order", variant="primary", interactive=False)
             abandon_btn = gr.Button("Abandon session", interactive=False)
 
-        summary = gr.Markdown()
+        summary = gr.HTML()
 
         start_btn.click(
             fn=start_game,

@@ -73,8 +73,8 @@ Compact results and replay actions are in
 
 ## Human baseline (Hub-eval parity)
 
-For anonymous human baselines on the **same Tier 5 Y wholesaler task** as LLM
-evaluation (36 weeks, orders 0–128, development+validation seeds), see
+For anonymous human baselines on **Tier 5 Y as Retailer B** (36 weeks, orders
+0–128, development+validation seeds, Hub FOW observations), see
 [`environments/beer_distribution_game/README_HUMAN.md`](environments/beer_distribution_game/README_HUMAN.md).
 Sessions log to a Hugging Face Dataset via `CommitScheduler` when `HF_TOKEN` is set.
 
