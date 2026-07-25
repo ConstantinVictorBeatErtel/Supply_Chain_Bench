@@ -9,6 +9,7 @@ import verifiers.v1 as vf
 
 from .episode import BeerEpisode
 from .policies import adaptive_policy
+from .prompts import system_prompt as _system_prompt
 from .scenario import (
     SPLIT_SIZES,
     Role,
@@ -200,45 +201,6 @@ class BeerTasksetConfig(vf.TasksetConfig):
     seed_limit: int | None = None
     tier5_controls: bool = False
     task: BeerTaskConfig = BeerTaskConfig()
-
-
-def _public_demand(spec: ScenarioSpec) -> str:
-    if spec.tier == 1:
-        return "Customer demand is constant at 8 units per week."
-    if spec.tier == 2:
-        return "Demand is stationary, persistent, and stochastic with long-run mean 7.5."
-    if spec.tier in (3, 4):
-        return (
-            "Demand begins near mean 7.5 and may undergo one persistent change. "
-            "Its time, direction, and new mean are not disclosed."
-        )
-    return (
-        "Each retailer has persistent stochastic demand with long-run mean 7.5. "
-        "The factory's public capacity is 22 and shortages use the stated rationing rule."
-    )
-
-
-def _system_prompt(spec: ScenarioSpec, role: Role) -> str:
-    rival = (
-        " A scripted rival claimant may order aggressively; its state and policy parameters are private."
-        if spec.tier == 5
-        else ""
-    )
-    mechanism = (
-        f" Factory capacity is {spec.capacity}; allocation under shortage is {spec.rationing}."
-        if spec.tier == 5
-        else ""
-    )
-    return (
-        f"You control the {role} in a {spec.topology} beer-distribution supply chain for "
-        f"{spec.horizon} decision weeks. Minimize only your role's local holding and backlog "
-        f"cost. Holding costs {spec.holding_cost} per unit-week and backlog costs "
-        f"{spec.backlog_cost} per unit-week. Orders take {spec.order_delay} week and shipments "
-        f"take {spec.shipment_delay} weeks. {_public_demand(spec)}{mechanism}{rival} "
-        f"Place exactly one order each week by calling place_order with one integer quantity "
-        f"from 0 through {spec.order_cap}. Do not answer with a plain-text order or call any "
-        "other tool. There is no separate final answer."
-    )
 
 
 class BeerTaskset(vf.Taskset[BeerTask, BeerTasksetConfig]):

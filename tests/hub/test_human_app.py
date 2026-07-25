@@ -80,7 +80,7 @@ def test_observation_renderer_keys_subset_of_hub_observation() -> None:
     # FOW: do not surface other roles' private state labels.
     assert "retailer_a inventory" not in html.lower()
     assert "downstream" not in html.lower()
-    assert session.episode.controlled_role == "retailer_b"
+    assert session.episode.controlled_role == "wholesaler"
 
 
 def test_completed_session_reward_matches_grade_episode() -> None:

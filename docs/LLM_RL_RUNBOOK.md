@@ -5,6 +5,10 @@ Akash DeepSeek and Qwen runs were zero-shot baselines; they did not update model
 weights. This run trains one Qwen3-0.6B LoRA adapter with GRPO from the
 programmatic wholesaler reward.
 
+Human demos for the same wholesaler seat can warm-start the adapter via
+[`HUMAN_TO_MODEL.md`](HUMAN_TO_MODEL.md) (`export_human_sft.py` →
+`train_colab_sft_wholesaler.py` → this GRPO script with `--adapter`).
+
 ## Frozen experiment definition
 
 - Model: `Qwen/Qwen3-0.6B`

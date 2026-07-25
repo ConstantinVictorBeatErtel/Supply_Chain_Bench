@@ -73,9 +73,10 @@ Compact results and replay actions are in
 
 ## Human baseline (Hub-eval parity)
 
-For anonymous human baselines on **Tier 5 Y as Retailer B** (36 weeks, orders
+For anonymous human baselines on **Tier 5 Y as Wholesaler** (36 weeks, orders
 0–128, development+validation seeds, Hub FOW observations), see
-[`environments/beer_distribution_game/README_HUMAN.md`](environments/beer_distribution_game/README_HUMAN.md).
+[`environments/beer_distribution_game/README_HUMAN.md`](environments/beer_distribution_game/README_HUMAN.md)
+and the human→SFT→GRPO pipeline in [`docs/HUMAN_TO_MODEL.md`](docs/HUMAN_TO_MODEL.md).
 Sessions log to a Hugging Face Dataset via `CommitScheduler` when `HF_TOKEN` is set.
 
 ## Playable Y-topology game

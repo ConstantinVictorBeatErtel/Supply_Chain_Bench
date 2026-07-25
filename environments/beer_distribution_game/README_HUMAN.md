@@ -1,6 +1,8 @@
 # Human baseline Gradio app
 
-Anonymous human play on the **Tier 5 Y** beer game as **Retailer B** (36 weeks, orders 0–128, Hub seeds from development + validation). Counterparties are the same scripted policies used in Hub eval; observations stay fog-of-war identical to the model prompt.
+Anonymous human play on the **Tier 5 Y** beer game as the **Wholesaler** (36 weeks, orders 0–128, Hub seeds from development + validation). Retailers and upstream seats stay scripted — same task as LLM eval/training. Observations stay fog-of-war identical to the model prompt.
+
+Learning pipeline (export SFT → warm-start → GRPO): see [`docs/HUMAN_TO_MODEL.md`](../../docs/HUMAN_TO_MODEL.md).
 
 ## Local run
 

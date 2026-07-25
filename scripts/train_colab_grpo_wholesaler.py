@@ -37,14 +37,9 @@ except ModuleNotFoundError:  # Allows --dry-run with only the environment instal
     pad_sequence = None  # type: ignore[assignment]
 
 from beer_distribution_game.episode import BeerEpisode
-from beer_distribution_game.scenario import canonical_json, scenario_from_dict
+from beer_distribution_game.prompts import observation_user_message
+from beer_distribution_game.scenario import scenario_from_dict
 from beer_distribution_game.taskset import BeerTaskset, BeerTasksetConfig
-
-
-ACTION_INSTRUCTION = (
-    "Respond with exactly one JSON object of the form "
-    '{"quantity": <integer from 0 through 128>}. Do not include any other text.'
-)
 QUANTITY_RE = re.compile(r'"quantity"\s*:\s*(-?\d+)')
 
 
@@ -140,10 +135,12 @@ def load_tasks(split: str, seeds: list[int], tier5_controls: bool = False) -> li
 
 
 def prompt_text(task: Any, observation: dict[str, Any], tokenizer: Any) -> str:
-    user = "Current observation:\n" + canonical_json(observation) + "\n\n" + ACTION_INSTRUCTION
     messages = [
         {"role": "system", "content": task.data.system_prompt},
-        {"role": "user", "content": user},
+        {
+            "role": "user",
+            "content": observation_user_message(observation, action_format="json"),
+        },
     ]
     try:
         return tokenizer.apply_chat_template(

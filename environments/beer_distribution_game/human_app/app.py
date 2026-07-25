@@ -1,4 +1,4 @@
-"""Gradio UI for anonymous human baselines (Tier 5 Y retailer B)."""
+"""Gradio UI for anonymous human baselines (Tier 5 Y wholesaler)."""
 
 from __future__ import annotations
 
@@ -74,7 +74,7 @@ def start_game(experience: str, state: dict[str, Any]):
         gr.update(interactive=True),
         gr.update(interactive=True),
         (
-            f'You are <strong>Retailer B</strong> · session '
+            f'You are <strong>Wholesaler</strong> · session '
             f'<strong>{session.session_uuid[:8]}</strong> · week '
             f'<strong>1/{session.episode.spec.horizon}</strong>'
         ),
@@ -118,7 +118,7 @@ def place_order(quantity: float | int, state: dict[str, Any]):
         gr.update(interactive=True),
         gr.update(interactive=True),
         (
-            f'You are <strong>Retailer B</strong> · week '
+            f'You are <strong>Wholesaler</strong> · week '
             f'<strong>{week}/{horizon}</strong> · last order <strong>{qty}</strong>'
         ),
     )
@@ -153,9 +153,10 @@ def build_demo() -> gr.Blocks:
   <p class="beer-kicker">Human baseline · Tier {FIXED_TIER} Y topology</p>
   <h1 class="beer-brand">Beer Distribution Game</h1>
   <p class="beer-tagline">
-    Play as <strong style="color:var(--role-b)">Retailer B</strong> for 36 weeks
-    against scripted counterparties on the same seeded task used for model
-    evaluation. Orders are integers from 0–128.
+    Play as the <strong style="color:var(--accent)">Wholesaler</strong> in the
+    Y-topology chain for 36 weeks. Retailers and upstream seats are scripted —
+    the same seeded task used for LLM evaluation and training. Orders are
+    integers from 0–128.
   </p>
   <p class="beer-notice"><strong style="color:var(--accent)">Data notice.</strong> {DATA_NOTICE}</p>
 </div>
