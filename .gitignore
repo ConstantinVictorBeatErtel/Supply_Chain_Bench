@@ -39,4 +39,8 @@ artifacts/hub_llm/**/config.toml
 !artifacts/runs/ippo/**/comparison.json
 *.pt
 *.pth
+!beer_distribution_rl/web/assets/
+!beer_distribution_rl/web/assets/**/
+!beer_distribution_rl/web/assets/**/*.pt
+!beer_distribution_rl/web/assets/**/*.pth
 wandb/

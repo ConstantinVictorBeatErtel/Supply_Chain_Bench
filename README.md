@@ -71,6 +71,26 @@ main learning target, while the retailer remains a useful protocol/control task.
 Compact results and replay actions are in
 [`artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/`](artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/).
 
+## Playable Y-topology game
+
+Play one role against Sterman heuristics or IPPO policies. Fog-of-war keeps
+other stations hidden; you place one order per week.
+
+```bash
+python -m pip install -e ".[web]"
+# IPPO opponents (bundled playable policies; optional override below)
+python -m pip install -e ".[web,marl]"
+python scripts/serve_game.py
+# open http://127.0.0.1:8000
+```
+
+To use a trained run instead of the packaged policies:
+
+```bash
+python scripts/serve_game.py \
+  --ippo-checkpoint artifacts/runs/ippo/recurrent_baseline/regimeA_topoy_capinf_ratproportional_demar1_seed0/checkpoints
+```
+
 ## Quick start
 
 Core simulator and tests:

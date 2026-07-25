@@ -1,11 +1,11 @@
-"""Serialize BeerGameCore state into spectator JSON frames."""
+"""Serialize BeerGameCore state into spectator and fog-of-war player frames."""
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Mapping
+from typing import Any, Mapping
 
-from beer_distribution_rl.env.core import RoleState, StepInfo
+from beer_distribution_rl.env.core import BeerGameCore, RoleState, StepInfo
 from beer_distribution_rl.env.core_types import Y_ROLE_NAMES, Y_ROLES, Role
 
 
@@ -112,3 +112,68 @@ def frame_from_step(
         terminated=terminated,
         horizon=horizon,
     )
+
+
+def player_frame_from_core(
+    core: BeerGameCore,
+    *,
+    human_role: Role,
+    week_cost: float,
+    cumulative_own_cost: float,
+    last_order: int | None = None,
+    terminated: bool = False,
+) -> dict[str, Any]:
+    """Fog-of-war view: only the human role's local observation + own costs.
+
+    Topology silhouette roles are listed so the UI can render muted nodes, but
+    no rival inventories, orders, or costs are included.
+    """
+    name = Y_ROLE_NAMES[human_role]
+    obs = core.observe(human_role)
+    # At t=0 after reset, last_demand_or_order may still be the init sentinel.
+    demand_or_incoming = int(obs["last_demand_or_order"])
+    is_retailer = human_role in (Role.RETAILER, Role.RETAILER_B)
+    return {
+        "t": int(core.t),
+        "horizon": int(core.config.horizon),
+        "human_role": name,
+        "roles": [Y_ROLE_NAMES[r] for r in Y_ROLES],
+        "inventory": int(obs["inventory"]),
+        "backlog": int(obs["backlog"]),
+        "on_order": int(obs["on_order"]),
+        "ship_pipeline": list(obs["ship_pipeline"]),
+        "order_pipeline": list(obs["order_pipeline"]),
+        "last_demand_or_order": demand_or_incoming,
+        "last_shipment_received": int(obs["last_shipment_received"]),
+        "last_order_placed": int(obs["last_order_placed"]),
+        "inventory_position": int(obs["inventory_position"]),
+        "order_cap": int(obs["order_cap"]),
+        "week_cost": float(week_cost),
+        "cumulative_own_cost": float(cumulative_own_cost),
+        "own_order": int(last_order) if last_order is not None else int(obs["last_order_placed"]),
+        "is_retailer": is_retailer,
+        "customer_demand": demand_or_incoming if is_retailer else None,
+        "terminated": bool(terminated),
+        "awaiting_order": not terminated,
+    }
+
+
+def end_reveal(
+    *,
+    human_role: Role,
+    cumulative_own_cost: float,
+    cumulative_system_cost: float,
+    horizon: int,
+    ai_mode: str,
+    seed: int,
+) -> dict[str, Any]:
+    """End-of-episode summary without dumping every rival's private history."""
+    return {
+        "type": "reveal",
+        "human_role": Y_ROLE_NAMES[human_role],
+        "cumulative_own_cost": float(cumulative_own_cost),
+        "cumulative_system_cost": float(cumulative_system_cost),
+        "horizon": int(horizon),
+        "ai_mode": ai_mode,
+        "seed": int(seed),
+    }

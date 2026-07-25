@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Serve the playable Y-topology Beer Distribution Game.
 
-Kept for backward compatibility; prefer ``scripts/serve_game.py``.
-
 Usage:
   pip install -e ".[web]"
-  python scripts/serve_spectator.py
+  # Optional for IPPO opponents:
+  pip install -e ".[web,marl]"
+  python scripts/serve_game.py
   # open http://127.0.0.1:8000
 """
 
@@ -25,9 +25,13 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument(
+        "--ippo-checkpoint",
+        type=Path,
+        default=None,
+        help="Optional path to IPPO checkpoints/ directory",
+    )
     parser.add_argument("--reload", action="store_true", help="Dev auto-reload")
-    # Legacy spectator flags (ignored).
-    parser.add_argument("--speed-ms", type=int, default=500, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     try:
@@ -42,7 +46,7 @@ def main() -> None:
     from beer_distribution_rl.web.runner import GameRunner
     from beer_distribution_rl.web.server import create_app
 
-    runner = GameRunner(seed=args.seed)
+    runner = GameRunner(seed=args.seed, ippo_checkpoint_dir=args.ippo_checkpoint)
     app = create_app(runner)
 
     print(f"Beer Distribution Game → http://{args.host}:{args.port}")

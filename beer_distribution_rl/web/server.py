@@ -1,4 +1,4 @@
-"""FastAPI app: static UI, WebSocket stream, REST controls."""
+"""FastAPI app: static UI, WebSocket stream, playable game REST API."""
 
 from __future__ import annotations
 
@@ -7,20 +7,30 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Literal
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from beer_distribution_rl.web.runner import EpisodeRunner
+from beer_distribution_rl.agents.ippo.policy_agent import PolicyLoadError
+from beer_distribution_rl.web.runner import GameError, GameRunner
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
-class ControlRequest(BaseModel):
-    action: Literal["play", "pause", "step", "reset"]
+class StartRequest(BaseModel):
+    role: str
+    ai_mode: Literal["sterman", "ippo"] = "sterman"
     seed: int | None = None
-    speed_ms: int | None = Field(default=None, ge=50, le=5000)
+
+
+class OrderRequest(BaseModel):
+    quantity: int = Field(..., ge=0, le=10_000)
+
+
+class ControlRequest(BaseModel):
+    action: Literal["reset"]
+    seed: int | None = None
 
 
 class ConnectionManager:
@@ -62,9 +72,9 @@ class ConnectionManager:
         asyncio.run_coroutine_threadsafe(self.broadcast(message), loop)
 
 
-def create_app(runner: EpisodeRunner | None = None) -> FastAPI:
+def create_app(runner: GameRunner | None = None) -> FastAPI:
     manager = ConnectionManager()
-    episode = runner or EpisodeRunner()
+    episode = runner or GameRunner()
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -76,7 +86,7 @@ def create_app(runner: EpisodeRunner | None = None) -> FastAPI:
         episode.remove_listener(manager.broadcast_threadsafe)
         episode.shutdown()
 
-    app = FastAPI(title="Beer Game Spectator", lifespan=lifespan)
+    app = FastAPI(title="Beer Distribution Game", lifespan=lifespan)
 
     @app.get("/")
     async def index() -> FileResponse:
@@ -86,21 +96,27 @@ def create_app(runner: EpisodeRunner | None = None) -> FastAPI:
     async def state() -> dict[str, Any]:
         return episode.snapshot()
 
+    @app.post("/api/start")
+    async def start_game(body: StartRequest) -> dict[str, Any]:
+        try:
+            return episode.start(body.role, body.ai_mode, seed=body.seed)
+        except PolicyLoadError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        except GameError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/api/order")
+    async def place_order(body: OrderRequest) -> dict[str, Any]:
+        try:
+            return episode.submit_order(body.quantity)
+        except GameError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
     @app.post("/api/control")
     async def control(body: ControlRequest) -> dict[str, Any]:
-        if body.speed_ms is not None:
-            episode.set_speed(body.speed_ms)
-
-        if body.action == "play":
-            episode.play()
-        elif body.action == "pause":
-            episode.pause()
-        elif body.action == "step":
-            episode.step_once()
-        elif body.action == "reset":
-            episode.reset(seed=body.seed)
-
-        return episode.snapshot()
+        if body.action == "reset":
+            return episode.reset(seed=body.seed)
+        raise HTTPException(status_code=400, detail="Unsupported action")
 
     @app.websocket("/ws")
     async def websocket_endpoint(ws: WebSocket) -> None:
@@ -108,8 +124,6 @@ def create_app(runner: EpisodeRunner | None = None) -> FastAPI:
         try:
             await ws.send_json(episode.snapshot())
             while True:
-                # Keep the socket alive; control goes through REST.
-                # Clients may send pings as JSON `{"type":"ping"}`.
                 data = await ws.receive_json()
                 if isinstance(data, dict) and data.get("type") == "ping":
                     await ws.send_json({"type": "pong"})

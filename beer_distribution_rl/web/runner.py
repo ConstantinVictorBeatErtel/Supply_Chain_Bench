@@ -1,48 +1,73 @@
-"""Thread-safe Sterman-driven episode runner for the live spectator."""
+"""Turn-based human-vs-AI episode runner for the playable Y-topology game."""
 
 from __future__ import annotations
 
 import threading
-import time
 from collections.abc import Callable
-from typing import Any
+from pathlib import Path
+from typing import Any, Literal
 
 from beer_distribution_rl.agents.baselines import StermanAgent
+from beer_distribution_rl.agents.ippo.policy_agent import (
+    IPPOTeam,
+    PolicyLoadError,
+    default_ippo_checkpoint_dir,
+    load_ippo_team,
+)
 from beer_distribution_rl.env.core import BeerGameCore, y_topology_env_config
 from beer_distribution_rl.env.core_types import Y_ROLE_NAMES, Y_ROLES, Role
-from beer_distribution_rl.web.frames import SpectatorFrame, frame_from_step, initial_frame
+from beer_distribution_rl.web.frames import end_reveal, player_frame_from_core
 
 Listener = Callable[[dict[str, Any]], None]
 
 ROLE_ORDER: tuple[str, ...] = tuple(Y_ROLE_NAMES[r] for r in Y_ROLES)
+AiMode = Literal["sterman", "ippo"]
+
+_NAME_TO_ROLE: dict[str, Role] = {Y_ROLE_NAMES[r]: r for r in Y_ROLES}
 
 
-class EpisodeRunner:
-    """Runs Y-topology Beer Game episodes with Sterman agents.
+class GameError(RuntimeError):
+    """User-facing game control error."""
 
-    Thread-safe: play loop runs in a background thread; control methods
-    may be called from the FastAPI / WebSocket event loop.
+
+class GameRunner:
+    """Y-topology Beer Game: one human role, AI counterparties, fog-of-war.
+
+    Thread-safe for FastAPI / WebSocket callers. Turn-based: each week waits
+    for ``submit_order`` before advancing.
     """
 
-    def __init__(self, speed_ms: int = 500, seed: int = 0) -> None:
+    def __init__(
+        self,
+        seed: int = 0,
+        *,
+        ippo_checkpoint_dir: Path | str | None = None,
+    ) -> None:
         self._lock = threading.RLock()
         self._listeners: list[Listener] = []
-        self._speed_ms = max(50, int(speed_ms))
         self._seed = int(seed)
-        self._playing = False
-        self._stop = threading.Event()
-        self._thread: threading.Thread | None = None
-        self._wake = threading.Event()
+        self._ippo_checkpoint_dir = (
+            Path(ippo_checkpoint_dir)
+            if ippo_checkpoint_dir is not None
+            else default_ippo_checkpoint_dir()
+        )
 
-        # Y-topology: two retailers under one wholesaler, correlated demand.
         self._core = BeerGameCore(y_topology_env_config())
-        self._agents: dict[Role, StermanAgent] = {r: StermanAgent() for r in Y_ROLES}
-        self._cumulative_cost = 0.0
-        self._cumulative_local_costs: dict[Role, float] = {r: 0.0 for r in Y_ROLES}
-        self._last_frame: SpectatorFrame | None = None
-        self._history: list[dict[str, Any]] = []
+        self._human_role: Role | None = None
+        self._ai_mode: AiMode | None = None
+        self._phase: Literal["setup", "playing", "finished"] = "setup"
+        self._awaiting_order = False
 
-        self.reset(seed=self._seed)
+        self._sterman: dict[Role, StermanAgent] = {r: StermanAgent() for r in Y_ROLES}
+        self._ippo_team: IPPOTeam | None = None
+
+        self._cumulative_system_cost = 0.0
+        self._cumulative_own_cost = 0.0
+        self._last_week_cost = 0.0
+        self._last_own_order: int | None = None
+        self._last_frame: dict[str, Any] | None = None
+        self._history: list[dict[str, Any]] = []
+        self._reveal: dict[str, Any] | None = None
 
     # --- listeners ---------------------------------------------------------
 
@@ -64,168 +89,231 @@ class EpisodeRunner:
             except Exception:
                 pass
 
+    # --- status / snapshots ------------------------------------------------
+
     def _status_payload(self) -> dict[str, Any]:
+        demand = self._core.config.demand
         return {
             "type": "status",
-            "playing": self._playing,
-            "speed_ms": self._speed_ms,
+            "phase": self._phase,
+            "awaiting_order": self._awaiting_order,
             "seed": self._seed,
             "roles": list(ROLE_ORDER),
             "horizon": self._core.config.horizon,
+            "order_cap": self._core.config.order_cap,
             "topology": self._core.topology.name,
-            "demand_model": getattr(
-                self._core.config.demand,
-                "name",
-                type(self._core.config.demand).__name__,
+            "demand_model": getattr(demand, "name", type(demand).__name__),
+            "human_role": (
+                Y_ROLE_NAMES[self._human_role] if self._human_role is not None else None
             ),
+            "ai_mode": self._ai_mode,
         }
 
     def _emit_status(self) -> None:
         self._emit(self._status_payload())
 
-    def _emit_frame(self, frame: SpectatorFrame) -> None:
-        payload = {"type": "frame", **frame.to_dict()}
-        self._emit(payload)
-
-    # --- public state ------------------------------------------------------
-
-    @property
-    def last_frame(self) -> SpectatorFrame | None:
-        with self._lock:
-            return self._last_frame
-
-    @property
-    def history(self) -> list[dict[str, Any]]:
-        with self._lock:
-            return list(self._history)
+    def _build_player_frame(self, *, terminated: bool) -> dict[str, Any]:
+        assert self._human_role is not None
+        frame = player_frame_from_core(
+            self._core,
+            human_role=self._human_role,
+            week_cost=self._last_week_cost,
+            cumulative_own_cost=self._cumulative_own_cost,
+            last_order=self._last_own_order,
+            terminated=terminated,
+        )
+        frame["awaiting_order"] = bool(self._awaiting_order and not terminated)
+        return frame
 
     def snapshot(self) -> dict[str, Any]:
-        """Full sync payload for a newly connected client."""
+        """Filtered sync payload for a newly connected client."""
         with self._lock:
             status = self._status_payload()
-            frame = self._last_frame.to_dict() if self._last_frame else None
-            history = list(self._history)
-        out: dict[str, Any] = {**status, "type": "snapshot", "history": history}
-        if frame is not None:
-            out["frame"] = frame
-        return out
+            out: dict[str, Any] = {
+                **status,
+                "type": "snapshot",
+                "history": list(self._history),
+            }
+            if self._last_frame is not None:
+                out["frame"] = dict(self._last_frame)
+            if self._reveal is not None:
+                out["reveal"] = dict(self._reveal)
+            return out
 
-    # --- controls ----------------------------------------------------------
+    # --- game control ------------------------------------------------------
 
-    def set_speed(self, speed_ms: int) -> None:
+    def start(
+        self,
+        role: str | Role,
+        ai_mode: str,
+        seed: int | None = None,
+    ) -> dict[str, Any]:
+        """Begin an episode as ``role`` against Sterman or IPPO opponents."""
         with self._lock:
-            self._speed_ms = max(50, int(speed_ms))
-        self._emit_status()
-        self._wake.set()
-
-    def play(self) -> None:
-        with self._lock:
-            if self._core._terminated:
-                return
-            self._playing = True
-            self._ensure_thread()
-        self._emit_status()
-        self._wake.set()
-
-    def pause(self) -> None:
-        with self._lock:
-            self._playing = False
-        self._emit_status()
-
-    def step_once(self) -> SpectatorFrame | None:
-        with self._lock:
-            was_playing = self._playing
-            self._playing = False
-            frame = self._advance()
-        if was_playing:
-            self._emit_status()
-        return frame
-
-    def reset(self, seed: int | None = None) -> SpectatorFrame:
-        with self._lock:
-            self._playing = False
+            human = self._parse_role(role)
+            mode = self._parse_ai_mode(ai_mode)
             if seed is not None:
                 self._seed = int(seed)
-            for agent in self._agents.values():
-                agent.reset()
-            states = self._core.reset(seed=self._seed)
-            self._cumulative_cost = 0.0
-            self._cumulative_local_costs = {r: 0.0 for r in Y_ROLES}
+
+            self._human_role = human
+            self._ai_mode = mode
+            self._phase = "playing"
+            self._awaiting_order = True
+            self._cumulative_system_cost = 0.0
+            self._cumulative_own_cost = 0.0
+            self._last_week_cost = 0.0
+            self._last_own_order = None
             self._history = []
-            frame = initial_frame(states, horizon=self._core.config.horizon)
+            self._reveal = None
+
+            if mode == "sterman":
+                self._ippo_team = None
+                for agent in self._sterman.values():
+                    agent.reset()
+            else:
+                try:
+                    self._ippo_team = load_ippo_team(
+                        self._core.config,
+                        checkpoint_dir=self._ippo_checkpoint_dir,
+                    )
+                    self._ippo_team.reset()
+                except PolicyLoadError:
+                    self._human_role = None
+                    self._ai_mode = None
+                    self._phase = "setup"
+                    self._awaiting_order = False
+                    raise
+
+            self._core.reset(seed=self._seed)
+            frame = self._build_player_frame(terminated=False)
             self._last_frame = frame
-            self._history.append(frame.to_dict())
+            self._history.append(dict(frame))
+
         self._emit_status()
-        self._emit_frame(frame)
-        self._wake.set()
-        return frame
+        self._emit({"type": "frame", **frame})
+        return self.snapshot()
+
+    def submit_order(self, quantity: int | float) -> dict[str, Any]:
+        """Accept the human order, fill AI orders, and advance one week."""
+        with self._lock:
+            if self._phase != "playing" or self._human_role is None or self._ai_mode is None:
+                raise GameError("No active game. Call start first.")
+            if not self._awaiting_order:
+                raise GameError("Not awaiting an order.")
+            if self._core._terminated:
+                raise GameError("Episode already finished.")
+
+            order_cap = int(self._core.config.order_cap)
+            try:
+                qty = int(quantity)
+            except (TypeError, ValueError) as exc:
+                raise GameError("Order quantity must be an integer.") from exc
+            if qty < 0 or qty > order_cap:
+                raise GameError(f"Order must be between 0 and {order_cap}.")
+
+            human = self._human_role
+            orders: dict[Role, int] = {human: qty}
+            for role in Y_ROLES:
+                if role == human:
+                    continue
+                orders[role] = self._ai_order(role)
+
+            _states, _rewards, terminated, info = self._core.step(orders)
+            own_cost = float(info.local_costs[human])
+            self._last_week_cost = own_cost
+            self._cumulative_own_cost += own_cost
+            self._cumulative_system_cost += float(info.system_cost)
+            self._last_own_order = qty
+
+            if terminated:
+                self._phase = "finished"
+                self._awaiting_order = False
+                frame = self._build_player_frame(terminated=True)
+                self._last_frame = frame
+                self._history.append(dict(frame))
+                reveal = end_reveal(
+                    human_role=human,
+                    cumulative_own_cost=self._cumulative_own_cost,
+                    cumulative_system_cost=self._cumulative_system_cost,
+                    horizon=self._core.config.horizon,
+                    ai_mode=self._ai_mode,
+                    seed=self._seed,
+                )
+                self._reveal = reveal
+            else:
+                self._awaiting_order = True
+                frame = self._build_player_frame(terminated=False)
+                self._last_frame = frame
+                self._history.append(dict(frame))
+                reveal = None
+
+        self._emit({"type": "frame", **frame})
+        if reveal is not None:
+            self._emit(reveal)
+            self._emit_status()
+        return self.snapshot()
+
+    def reset(self, seed: int | None = None) -> dict[str, Any]:
+        """Return to setup; clears the active episode."""
+        with self._lock:
+            if seed is not None:
+                self._seed = int(seed)
+            self._human_role = None
+            self._ai_mode = None
+            self._phase = "setup"
+            self._awaiting_order = False
+            self._cumulative_system_cost = 0.0
+            self._cumulative_own_cost = 0.0
+            self._last_week_cost = 0.0
+            self._last_own_order = None
+            self._last_frame = None
+            self._history = []
+            self._reveal = None
+            self._ippo_team = None
+            for agent in self._sterman.values():
+                agent.reset()
+        self._emit_status()
+        return self.snapshot()
 
     def shutdown(self) -> None:
-        self._stop.set()
-        self._playing = False
-        self._wake.set()
-        if self._thread is not None and self._thread.is_alive():
-            self._thread.join(timeout=2.0)
-        self._thread = None
+        with self._lock:
+            self._phase = "setup"
+            self._awaiting_order = False
+            self._ippo_team = None
 
     # --- internals ---------------------------------------------------------
 
-    def _ensure_thread(self) -> None:
-        if self._thread is not None and self._thread.is_alive():
-            return
-        self._stop.clear()
-        self._thread = threading.Thread(target=self._loop, name="spectator-runner", daemon=True)
-        self._thread.start()
+    def _ai_order(self, role: Role) -> int:
+        state = self._core.states[role]
+        if self._ai_mode == "ippo":
+            assert self._ippo_team is not None
+            return int(self._ippo_team.order(role, state, self._core))
+        return int(self._sterman[role].order(state))
 
-    def _advance(self) -> SpectatorFrame | None:
-        """Take one env step. Caller must hold ``_lock``."""
-        if self._core._terminated:
-            self._playing = False
-            return None
+    @staticmethod
+    def _parse_role(role: str | Role) -> Role:
+        if isinstance(role, Role):
+            if role not in Y_ROLES:
+                raise GameError(f"Unsupported role: {role}")
+            return role
+        key = str(role).strip().lower().replace(" ", "_")
+        if key == "retailer":
+            key = "retailer_a"
+        if key not in _NAME_TO_ROLE:
+            raise GameError(
+                f"Unknown role '{role}'. Choose one of: {', '.join(ROLE_ORDER)}"
+            )
+        return _NAME_TO_ROLE[key]
 
-        orders = {r: self._agents[r].order(self._core.states[r]) for r in Y_ROLES}
-        states, _rewards, terminated, info = self._core.step(orders)
-        self._cumulative_cost += float(info.system_cost)
-        for role in Y_ROLES:
-            self._cumulative_local_costs[role] += float(info.local_costs[role])
-        frame = frame_from_step(
-            states,
-            info,
-            t=self._core.t,
-            cumulative_cost=self._cumulative_cost,
-            cumulative_local_costs=self._cumulative_local_costs,
-            terminated=terminated,
-            horizon=self._core.config.horizon,
-        )
-        self._last_frame = frame
-        self._history.append(frame.to_dict())
-        if terminated:
-            self._playing = False
-        self._emit_frame(frame)
-        if terminated:
-            self._emit_status()
-        return frame
+    @staticmethod
+    def _parse_ai_mode(ai_mode: str) -> AiMode:
+        mode = str(ai_mode).strip().lower()
+        if mode in ("sterman", "heuristic"):
+            return "sterman"
+        if mode in ("ippo", "trained", "rl", "ai"):
+            return "ippo"
+        raise GameError("ai_mode must be 'sterman' or 'ippo'")
 
-    def _loop(self) -> None:
-        while not self._stop.is_set():
-            with self._lock:
-                playing = self._playing and not self._core._terminated
-                speed = self._speed_ms
-            if not playing:
-                self._wake.wait(timeout=0.5)
-                self._wake.clear()
-                continue
-            with self._lock:
-                if self._playing and not self._core._terminated:
-                    self._advance()
-            # Sleep outside the lock so controls stay responsive.
-            deadline = time.monotonic() + speed / 1000.0
-            while time.monotonic() < deadline and not self._stop.is_set():
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    break
-                if self._wake.wait(timeout=min(0.05, remaining)):
-                    self._wake.clear()
-                    with self._lock:
-                        if not self._playing:
-                            break
+
+# Backward-compatible alias for older imports / serve scripts.
+EpisodeRunner = GameRunner

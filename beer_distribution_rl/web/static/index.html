@@ -3,95 +3,212 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Beer Game Spectator</title>
+  <title>Beer Distribution Game</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
-  <div class="page">
-    <header class="top">
-      <div class="brand">
-        <p class="eyebrow">Beer Distribution Game</p>
-        <h1>Live Spectator</h1>
-        <div class="scenario">
-          <span id="topology-label">Y topology</span>
-          <span id="demand-model">Correlated Y demand</span>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- SETUP -->
+  <section id="screen-setup" class="screen setup-screen" aria-label="Game setup">
+    <div class="setup-hero">
+      <p class="brand">Beer Distribution Game</p>
+      <p class="tagline">Pick a seat in the Y chain. Place one order each week. Everyone else is fog.</p>
+    </div>
+
+    <form id="setup-form" class="setup-form">
+      <fieldset class="choice-block">
+        <legend>Your role</legend>
+        <div class="role-grid" role="radiogroup" aria-label="Choose your role">
+          <label class="role-option">
+            <input type="radio" name="role" value="retailer_a" checked />
+            <span class="role-face" data-role="retailer_a">
+              <strong>Retailer A</strong>
+              <em>Sees customer demand A</em>
+            </span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="retailer_b" />
+            <span class="role-face" data-role="retailer_b">
+              <strong>Retailer B</strong>
+              <em>Sees customer demand B</em>
+            </span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="wholesaler" />
+            <span class="role-face" data-role="wholesaler">
+              <strong>Wholesaler</strong>
+              <em>Serves both retailers</em>
+            </span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="distributor" />
+            <span class="role-face" data-role="distributor">
+              <strong>Distributor</strong>
+              <em>Midstream, delayed info</em>
+            </span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="factory" />
+            <span class="role-face" data-role="factory">
+              <strong>Factory</strong>
+              <em>Produces to order</em>
+            </span>
+          </label>
         </div>
+      </fieldset>
+
+      <fieldset class="choice-block">
+        <legend>Opponents</legend>
+        <div class="ai-grid" role="radiogroup" aria-label="Choose AI opponents">
+          <label class="ai-option">
+            <input type="radio" name="ai_mode" value="sterman" checked />
+            <span class="ai-face">
+              <strong>Sterman</strong>
+              <em>Classic anchoring-and-adjustment heuristics</em>
+            </span>
+          </label>
+          <label class="ai-option">
+            <input type="radio" name="ai_mode" value="ippo" />
+            <span class="ai-face">
+              <strong>IPPO policies</strong>
+              <em>Recurrent Y-topology policies (packaged or trained checkpoint)</em>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="setup-actions">
+        <label class="seed-field">
+          <span>Seed</span>
+          <input type="number" id="seed-input" name="seed" value="0" min="0" step="1" />
+        </label>
+        <button type="submit" class="primary start-btn" id="btn-start">Start week 1</button>
       </div>
-      <div class="meters" aria-live="polite">
+      <p class="setup-error" id="setup-error" hidden></p>
+    </form>
+  </section>
+
+  <!-- PLAY -->
+  <section id="screen-play" class="screen play-screen" hidden aria-label="Play">
+    <header class="play-top">
+      <div class="play-brand">
+        <p class="brand-mini">Beer Distribution Game</p>
+        <p class="you-are">You are <strong id="you-role">—</strong> · vs <span id="ai-label">—</span></p>
+      </div>
+      <div class="play-meters" aria-live="polite">
         <div class="meter">
           <span class="label">Week</span>
-          <span class="value" id="week">0</span>
+          <span class="value week-tick" id="week">0</span>
           <span class="sub" id="horizon">/ 52</span>
         </div>
         <div class="meter">
-          <span class="label">Total demand</span>
-          <span class="value" id="demand">—</span>
-          <span class="demand-change" id="demand-change"></span>
-        </div>
-        <div class="meter">
-          <span class="label">Week cost</span>
+          <span class="label">Your week cost</span>
           <span class="value" id="week-cost">0.0</span>
         </div>
         <div class="meter">
-          <span class="label">Cumulative cost</span>
-          <span class="value" id="cum-cost">0.0</span>
+          <span class="label">Your total</span>
+          <span class="value" id="own-cost">0.0</span>
         </div>
       </div>
     </header>
 
-    <section class="board y-board" aria-label="Y supply chain">
-      <div class="y-customers">
-        <div class="demand-card" id="demand-a-card">
-          <span class="customer-label">Customers A</span>
-          <span class="flow-qty" id="demand-a">—</span>
-          <span class="flow-name">demand</span>
+    <div class="play-layout">
+      <aside class="player-panel" aria-label="Your station">
+        <h2 class="panel-title" id="panel-title">Your station</h2>
+        <dl class="local-stats">
+          <div><dt>Inventory</dt><dd id="inv">0</dd></div>
+          <div><dt>Backlog</dt><dd id="bl">0</dd></div>
+          <div><dt id="demand-label">Incoming</dt><dd id="demand-or-incoming">0</dd></div>
+          <div><dt>Received</dt><dd id="received">0</dd></div>
+          <div><dt>On order</dt><dd id="on-order">0</dd></div>
+          <div><dt>Last order</dt><dd id="last-order">0</dd></div>
+        </dl>
+        <div class="pipelines" aria-label="Pipelines">
+          <div>
+            <span class="pipe-label">Ship pipeline</span>
+            <span class="pipe-vals" id="ship-pipe">—</span>
+          </div>
+          <div>
+            <span class="pipe-label">Order pipeline</span>
+            <span class="pipe-vals" id="order-pipe">—</span>
+          </div>
         </div>
-        <div class="demand-card" id="demand-b-card">
-          <span class="customer-label">Customers B</span>
-          <span class="flow-qty" id="demand-b">—</span>
-          <span class="flow-name">demand</span>
-        </div>
+
+        <form id="order-form" class="order-form">
+          <label for="order-qty">Place this week’s order</label>
+          <div class="order-row">
+            <input type="number" id="order-qty" name="quantity" min="0" max="128" value="4" required />
+            <button type="submit" class="primary" id="btn-order">Commit</button>
+          </div>
+          <p class="order-hint">Orders ship with delay. You only see your own numbers.</p>
+          <p class="order-error" id="order-error" hidden></p>
+        </form>
+      </aside>
+
+      <div class="board-wrap">
+        <section class="board y-board" aria-label="Y supply chain silhouette">
+          <div class="y-customers">
+            <div class="demand-slot" id="demand-a-slot" data-side="a">
+              <span class="customer-label">Customers A</span>
+              <span class="flow-qty" id="demand-a">—</span>
+            </div>
+            <div class="demand-slot" id="demand-b-slot" data-side="b">
+              <span class="customer-label">Customers B</span>
+              <span class="flow-qty" id="demand-b">—</span>
+            </div>
+          </div>
+          <div class="y-retailers" id="retailers"></div>
+          <div class="y-fork">
+            <div class="fork-line"></div>
+            <div class="fork-line"></div>
+          </div>
+          <div class="y-trunk" id="trunk"></div>
+        </section>
+
+        <section class="chart-panel" aria-label="Your order history">
+          <div class="chart-head">
+            <h2>Your orders</h2>
+            <p class="chart-note">Solid: your order · Dashed: demand / incoming you observe</p>
+          </div>
+          <canvas id="order-chart" width="640" height="180"></canvas>
+        </section>
       </div>
+    </div>
 
-      <div class="y-retailers" id="retailers"></div>
-
-      <div class="y-fork">
-        <div class="fork-edge" data-edge="retailer_a"></div>
-        <div class="fork-edge" data-edge="retailer_b"></div>
-      </div>
-
-      <div class="y-trunk" id="trunk"></div>
-    </section>
-
-    <section class="chart-panel" aria-label="Order history">
-      <div class="chart-head">
-        <div>
-          <h2>Orders and customer demand</h2>
-          <p class="chart-note">Solid lines are player orders; dashed lines are each retailer’s customer demand.</p>
-        </div>
-        <ul class="legend" id="legend"></ul>
-      </div>
-      <canvas id="order-chart" width="960" height="220"></canvas>
-    </section>
-
-    <footer class="controls">
-      <div class="btn-row">
-        <button type="button" id="btn-play" class="primary">Play</button>
-        <button type="button" id="btn-pause">Pause</button>
-        <button type="button" id="btn-step">Step</button>
-        <button type="button" id="btn-reset">Restart</button>
-      </div>
-      <label class="speed">
-        <span>Speed</span>
-        <input type="range" id="speed" min="100" max="2000" step="50" value="500" />
-        <span class="speed-val" id="speed-val">500 ms</span>
-      </label>
+    <footer class="play-footer">
+      <button type="button" id="btn-restart" class="ghost">Back to setup</button>
       <p class="status-line" id="conn-status">Connecting…</p>
     </footer>
-  </div>
+  </section>
+
+  <!-- END -->
+  <section id="screen-end" class="screen end-screen" hidden aria-label="Episode result">
+    <div class="end-panel">
+      <p class="brand-mini">Beer Distribution Game</p>
+      <h2 class="end-title">Episode complete</h2>
+      <p class="end-sub">You played <strong id="end-role">—</strong> against <span id="end-ai">—</span>.</p>
+      <dl class="end-scores">
+        <div>
+          <dt>Your total cost</dt>
+          <dd id="end-own">—</dd>
+        </div>
+        <div>
+          <dt>System cost</dt>
+          <dd id="end-system">—</dd>
+        </div>
+        <div>
+          <dt>Weeks</dt>
+          <dd id="end-weeks">—</dd>
+        </div>
+      </dl>
+      <button type="button" class="primary" id="btn-again">Play again</button>
+    </div>
+  </section>
+
   <script src="/static/app.js"></script>
 </body>
 </html>

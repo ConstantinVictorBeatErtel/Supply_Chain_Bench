@@ -38,7 +38,7 @@ all = [
 include = ["beer_distribution_rl*"]
 
 [tool.setuptools.package-data]
-beer_distribution_rl = ["web/static/*"]
+beer_distribution_rl = ["web/static/*", "web/assets/**/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

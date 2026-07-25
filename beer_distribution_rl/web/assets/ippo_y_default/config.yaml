@@ -1,0 +1,9 @@
+regime: A
+horizon: 52
+hidden: 256
+order_cap: 128
+action_mode: relative
+action_delta_max: 8
+topology: y
+recurrent: true
+gru_hidden: 128
