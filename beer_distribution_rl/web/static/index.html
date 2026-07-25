@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=4" />
+  <link rel="stylesheet" href="/static/styles.css?v=5" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -68,7 +68,7 @@
             <input type="radio" name="ai_mode" value="llm" checked />
             <span class="ai-face">
               <strong>OpenRouter LLM</strong>
-              <em>Real models place orders for the other seats (24 weeks)</em>
+              <em>Real models on retailer seats; parallel calls (16 weeks)</em>
             </span>
           </label>
           <label class="ai-option">
@@ -91,12 +91,26 @@
       <fieldset class="choice-block model-block" id="model-block">
         <legend>LLM models</legend>
         <p class="model-note" id="openrouter-status">Checking OpenRouter…</p>
+        <label class="model-field">
+          <span>Speed</span>
+          <select id="llm-scope" name="llm_scope">
+            <option value="retailers" selected>Fast — LLMs only on retailers (Sterman elsewhere)</option>
+            <option value="all">Full — LLM on every AI seat (slower)</option>
+          </select>
+        </label>
+        <label class="model-field">
+          <span>End-screen comparison</span>
+          <select id="compare-mode" name="compare_mode">
+            <option value="sterman" selected>Fast — Sterman baseline in your seat</option>
+            <option value="llm">Slow — re-run your seat with an LLM</option>
+          </select>
+        </label>
         <label class="model-field" id="default-model-field">
           <span>Model for AI seats</span>
           <select id="model-select" name="model"></select>
         </label>
         <div class="dual-models" id="dual-models" hidden>
-          <p class="model-note">You are not a retailer — Retailer A and Retailer B each get their own named LLM.</p>
+          <p class="model-note">You are not a retailer — Retailer A and Retailer B each get their own named LLM (called in parallel).</p>
           <label class="model-field">
             <span>Retailer A model</span>
             <select id="retailer-a-model" name="retailer_a_model"></select>
@@ -329,6 +343,6 @@
     </div>
   </section>
 
-  <script src="/static/app.js?v=4"></script>
+  <script src="/static/app.js?v=5"></script>
 </body>
 </html>

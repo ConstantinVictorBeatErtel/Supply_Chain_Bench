@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import threading
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Literal
 
@@ -28,7 +29,10 @@ Listener = Callable[[dict[str, Any]], None]
 
 ROLE_ORDER: tuple[str, ...] = tuple(Y_ROLE_NAMES[r] for r in Y_ROLES)
 AiMode = Literal["sterman", "ippo", "llm"]
-LLM_HORIZON = 24
+LlmScope = Literal["retailers", "all"]
+CompareMode = Literal["sterman", "llm"]
+LLM_HORIZON = 16
+_RETAILER_ROLES = (Role.RETAILER, Role.RETAILER_B)
 
 _NAME_TO_ROLE: dict[str, Role] = {Y_ROLE_NAMES[r]: r for r in Y_ROLES}
 _LABELS = {m["id"]: m["label"] for m in model_catalog()}
@@ -67,6 +71,8 @@ class GameRunner:
         self._llm_agents: dict[Role, LLMRoleAgent] = {}
         self._model_map: dict[str, dict[str, str]] = {}
         self._default_model: str | None = None
+        self._llm_scope: LlmScope = "retailers"
+        self._compare_mode: CompareMode = "sterman"
 
         self._cumulative_system_cost = 0.0
         self._cumulative_own_cost = 0.0
@@ -123,6 +129,8 @@ class GameRunner:
             "models": self._model_map,
             "model_catalog": model_catalog(),
             "default_model": self._default_model,
+            "llm_scope": self._llm_scope,
+            "compare_mode": self._compare_mode,
         }
 
     def _emit_status(self) -> None:
@@ -168,18 +176,28 @@ class GameRunner:
         model: str | None = None,
         retailer_a_model: str | None = None,
         retailer_b_model: str | None = None,
+        llm_scope: str = "retailers",
+        compare_mode: str = "sterman",
     ) -> dict[str, Any]:
         """Begin an episode. LLM mode uses OpenRouter; dual retailer models when
         the human is not a retailer.
+
+        ``llm_scope="retailers"`` (default) only calls LLMs for retailer seats;
+        other AI seats use Sterman. ``compare_mode="sterman"`` (default) uses a
+        fast Sterman shadow for the end-screen You-vs-AI charts.
         """
         with self._lock:
             human = self._parse_role(role)
             mode = self._parse_ai_mode(ai_mode)
+            scope = self._parse_llm_scope(llm_scope)
+            compare = self._parse_compare_mode(compare_mode)
             if seed is not None:
                 self._seed = int(seed)
 
             self._human_role = human
             self._ai_mode = mode
+            self._llm_scope = scope
+            self._compare_mode = compare
             self._phase = "playing"
             self._awaiting_order = True
             self._cumulative_system_cost = 0.0
@@ -210,11 +228,14 @@ class GameRunner:
                     )
                     self._ippo_team.reset()
                 else:
+                    for agent in self._sterman.values():
+                        agent.reset()
                     self._setup_llm_agents(
                         human,
                         model=model,
                         retailer_a_model=retailer_a_model,
                         retailer_b_model=retailer_b_model,
+                        llm_scope=scope,
                     )
             except (PolicyLoadError, OpenRouterError, GameError):
                 self._human_role = None
@@ -251,19 +272,8 @@ class GameRunner:
                 raise GameError(f"Order must be between 0 and {order_cap}.")
 
             human = self._human_role
-            orders: dict[Role, int] = {human: qty}
-            ai_orders: dict[str, int] = {}
-            ai_models: dict[str, dict[str, str]] = {}
             try:
-                for role in Y_ROLES:
-                    if role == human:
-                        continue
-                    ai_qty = self._ai_order(role)
-                    orders[role] = ai_qty
-                    name = Y_ROLE_NAMES[role]
-                    ai_orders[name] = ai_qty
-                    if name in self._model_map:
-                        ai_models[name] = dict(self._model_map[name])
+                orders, ai_orders, ai_models = self._collect_ai_orders(human, qty)
             except OpenRouterError as exc:
                 raise GameError(str(exc)) from exc
 
@@ -321,6 +331,8 @@ class GameRunner:
                 )
                 reveal["models"] = dict(self._model_map)
                 reveal["shadow_model"] = shadow.get("shadow_model")
+                reveal["llm_scope"] = self._llm_scope
+                reveal["compare_mode"] = self._compare_mode
                 self._reveal = reveal
             else:
                 self._awaiting_order = True
@@ -355,6 +367,8 @@ class GameRunner:
             self._llm_agents = {}
             self._model_map = {}
             self._default_model = None
+            self._llm_scope = "retailers"
+            self._compare_mode = "sterman"
             self._core = BeerGameCore(y_topology_env_config())
             for agent in self._sterman.values():
                 agent.reset()
@@ -370,6 +384,30 @@ class GameRunner:
 
     # --- internals ---------------------------------------------------------
 
+    def _collect_ai_orders(
+        self, human: Role, human_qty: int
+    ) -> tuple[dict[Role, int], dict[str, int], dict[str, dict[str, str]]]:
+        """Fill non-human orders; LLM seats are queried in parallel."""
+        roles = [r for r in Y_ROLES if r != human]
+        orders: dict[Role, int] = {human: human_qty}
+        ai_orders: dict[str, int] = {}
+        ai_models: dict[str, dict[str, str]] = {}
+
+        def _one(role: Role) -> tuple[Role, int]:
+            return role, self._ai_order(role)
+
+        # Parallelize OpenRouter latency across AI seats (Sterman seats are instant).
+        with ThreadPoolExecutor(max_workers=max(1, len(roles))) as pool:
+            futures = [pool.submit(_one, role) for role in roles]
+            for fut in as_completed(futures):
+                role, ai_qty = fut.result()
+                orders[role] = ai_qty
+                name = Y_ROLE_NAMES[role]
+                ai_orders[name] = ai_qty
+                if name in self._model_map:
+                    ai_models[name] = dict(self._model_map[name])
+        return orders, ai_orders, ai_models
+
     def _setup_llm_agents(
         self,
         human: Role,
@@ -377,6 +415,7 @@ class GameRunner:
         model: str | None,
         retailer_a_model: str | None,
         retailer_b_model: str | None,
+        llm_scope: LlmScope,
     ) -> None:
         catalog_ids = {m["id"] for m in model_catalog()}
         default = (model or "deepseek/deepseek-v4-flash").strip()
@@ -384,7 +423,7 @@ class GameRunner:
             raise GameError(f"Unknown model: {default}")
         self._default_model = default
 
-        human_is_retailer = human in (Role.RETAILER, Role.RETAILER_B)
+        human_is_retailer = human in _RETAILER_ROLES
         ra = (retailer_a_model or default).strip()
         rb = (retailer_b_model or default).strip()
         if not human_is_retailer:
@@ -400,18 +439,25 @@ class GameRunner:
 
         api_key = require_openrouter_api_key()
 
-        assignment: dict[Role, str] = {}
+        llm_roles: list[Role] = []
         for role in Y_ROLES:
             if role == human:
                 continue
-            if role == Role.RETAILER:
-                assignment[role] = ra if not human_is_retailer else default
-            elif role == Role.RETAILER_B:
-                assignment[role] = rb if not human_is_retailer else default
-            else:
-                assignment[role] = default
+            if llm_scope == "retailers" and role not in _RETAILER_ROLES:
+                self._model_map[Y_ROLE_NAMES[role]] = {
+                    "model": "sterman",
+                    "label": "Sterman",
+                }
+                continue
+            llm_roles.append(role)
 
-        for role, mid in assignment.items():
+        for role in llm_roles:
+            if role == Role.RETAILER:
+                mid = ra if not human_is_retailer else default
+            elif role == Role.RETAILER_B:
+                mid = rb if not human_is_retailer else default
+            else:
+                mid = default
             label = _LABELS.get(mid, mid)
             agent = LLMRoleAgent(
                 role,
@@ -459,7 +505,8 @@ class GameRunner:
                 checkpoint_dir=self._ippo_checkpoint_dir,
             )
             ippo.reset()
-        elif self._ai_mode == "llm":
+        elif self._ai_mode == "llm" and self._compare_mode == "llm":
+            # Optional slow path: LLM in the human seat for end-screen comparison.
             mid = self._default_model or "deepseek/deepseek-v4-flash"
             label = _LABELS.get(mid, mid)
             shadow_llm = LLMRoleAgent(
@@ -470,6 +517,9 @@ class GameRunner:
                 order_cap=int(core.config.order_cap),
             )
             shadow_model_info = {"model": mid, "label": label}
+        elif self._ai_mode == "llm":
+            # Default fast path: Sterman baseline in your seat (no extra API calls).
+            shadow_model_info = {"model": "sterman", "label": "Sterman"}
 
         series: list[dict[str, Any]] = []
         own_cost = 0.0
@@ -480,8 +530,7 @@ class GameRunner:
             orders: dict[Role, int] = {}
             for role in Y_ROLES:
                 if role == human:
-                    if self._ai_mode == "llm":
-                        assert shadow_llm is not None
+                    if shadow_llm is not None:
                         orders[role] = shadow_llm.order(core)
                     elif self._ai_mode == "ippo":
                         assert ippo is not None
@@ -524,8 +573,11 @@ class GameRunner:
 
     def _ai_order(self, role: Role) -> int:
         if self._ai_mode == "llm":
-            agent = self._llm_agents[role]
-            return int(agent.order(self._core))
+            agent = self._llm_agents.get(role)
+            if agent is not None:
+                return int(agent.order(self._core))
+            # Hybrid fast mode: non-LLM seats use Sterman.
+            return int(self._sterman[role].order(self._core.states[role]))
         state = self._core.states[role]
         if self._ai_mode == "ippo":
             assert self._ippo_team is not None
@@ -557,6 +609,24 @@ class GameRunner:
         if mode in ("llm", "openrouter", "ai"):
             return "llm"
         raise GameError("ai_mode must be 'llm', 'sterman', or 'ippo'")
+
+    @staticmethod
+    def _parse_llm_scope(llm_scope: str) -> LlmScope:
+        scope = str(llm_scope).strip().lower()
+        if scope in ("retailers", "fast", "hybrid"):
+            return "retailers"
+        if scope in ("all", "full"):
+            return "all"
+        raise GameError("llm_scope must be 'retailers' or 'all'")
+
+    @staticmethod
+    def _parse_compare_mode(compare_mode: str) -> CompareMode:
+        mode = str(compare_mode).strip().lower()
+        if mode in ("sterman", "heuristic", "fast"):
+            return "sterman"
+        if mode in ("llm", "openrouter", "model"):
+            return "llm"
+        raise GameError("compare_mode must be 'sterman' or 'llm'")
 
 
 EpisodeRunner = GameRunner

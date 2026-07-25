@@ -182,3 +182,49 @@ def test_llm_requires_api_key(monkeypatch: pytest.MonkeyPatch, runner: GameRunne
             seed=1,
             model="deepseek/deepseek-v4-flash",
         )
+
+
+def test_llm_retailers_scope_marks_upstream_sterman(
+    monkeypatch: pytest.MonkeyPatch, runner: GameRunner
+) -> None:
+    monkeypatch.setenv("OPENROUTER_API_KEY", "sk-test-not-used-for-setup")
+    # Avoid real HTTP: patch LLM order path after setup by not submitting.
+    # Setup still constructs OpenRouter agents (no network until order()).
+    from beer_distribution_rl.agents.llm import role_agent as role_agent_mod
+
+    class FakeDecoder:
+        def __init__(self, *a, **k):
+            pass
+
+        def sample_order(self, prompt, last_demand_or_order, *, stats_key="default"):
+            from beer_distribution_rl.agents.llm.decode import DecodeResult
+
+            return DecodeResult(
+                order=int(last_demand_or_order),
+                delta=0,
+                raw='{"delta":0}',
+                parse_ok=True,
+                n_attempts=1,
+                used_fallback=False,
+                constrained=True,
+            )
+
+    monkeypatch.setattr(role_agent_mod, "OpenRouterOrderDecoder", FakeDecoder)
+    snap = runner.start(
+        "wholesaler",
+        "llm",
+        seed=2,
+        model="deepseek/deepseek-v4-flash",
+        retailer_a_model="deepseek/deepseek-v4-flash",
+        retailer_b_model="qwen/qwen3.5-9b",
+        llm_scope="retailers",
+        compare_mode="sterman",
+    )
+    assert snap["models"]["retailer_a"]["model"] == "deepseek/deepseek-v4-flash"
+    assert snap["models"]["retailer_b"]["model"] == "qwen/qwen3.5-9b"
+    assert snap["models"]["distributor"]["label"] == "Sterman"
+    assert snap["models"]["factory"]["label"] == "Sterman"
+    assert snap["llm_scope"] == "retailers"
+    assert snap["horizon"] == 16
+    snap2 = runner.submit_order(4)
+    assert snap2["frame"]["t"] == 1

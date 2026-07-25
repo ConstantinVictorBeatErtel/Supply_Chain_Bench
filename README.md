@@ -85,7 +85,10 @@ python3 scripts/serve_game.py
 # open http://127.0.0.1:8000  (hard-refresh after updates)
 ```
 
-LLM episodes use a 24-week horizon for latency. Sterman/IPPO still use 52 weeks.
+LLM episodes default to a **fast** setup: 16 weeks, LLMs only on retailer
+seats (Sterman elsewhere), parallel OpenRouter calls, and a Sterman end-screen
+baseline. Use “Full — LLM on every AI seat” / “re-run your seat with an LLM”
+if you want the slower paths. Sterman/IPPO games still use 52 weeks.
 
 ## Quick start
 

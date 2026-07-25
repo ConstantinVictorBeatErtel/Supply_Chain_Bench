@@ -30,6 +30,8 @@ class StartRequest(BaseModel):
     model: str | None = None
     retailer_a_model: str | None = None
     retailer_b_model: str | None = None
+    llm_scope: Literal["retailers", "all"] = "retailers"
+    compare_mode: Literal["sterman", "llm"] = "sterman"
 
 
 class OrderRequest(BaseModel):
@@ -121,6 +123,8 @@ def create_app(runner: GameRunner | None = None) -> FastAPI:
                 model=body.model,
                 retailer_a_model=body.retailer_a_model,
                 retailer_b_model=body.retailer_b_model,
+                llm_scope=body.llm_scope,
+                compare_mode=body.compare_mode,
             )
         except PolicyLoadError as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc

@@ -29,6 +29,8 @@
     start: document.getElementById("btn-start"),
     modelBlock: document.getElementById("model-block"),
     modelSelect: document.getElementById("model-select"),
+    llmScope: document.getElementById("llm-scope"),
+    compareMode: document.getElementById("compare-mode"),
     dualModels: document.getElementById("dual-models"),
     retailerAModel: document.getElementById("retailer-a-model"),
     retailerBModel: document.getElementById("retailer-b-model"),
@@ -592,6 +594,8 @@
     const body = { role, ai_mode: mode, seed };
     if (mode === "llm") {
       body.model = els.modelSelect.value;
+      body.llm_scope = els.llmScope.value || "retailers";
+      body.compare_mode = els.compareMode.value || "sterman";
       if (role !== "retailer_a" && role !== "retailer_b") {
         body.retailer_a_model = els.retailerAModel.value;
         body.retailer_b_model = els.retailerBModel.value;

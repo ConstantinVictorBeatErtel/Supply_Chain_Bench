@@ -29,26 +29,27 @@ def _ssl_context() -> ssl.SSLContext:
         return ssl.create_default_context()
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+# Prefer flash/lite models first — lower latency for turn-based play.
 DEFAULT_OPENROUTER_MODELS: tuple[dict[str, str], ...] = (
     {
-        "id": "deepseek/deepseek-v4-flash",
-        "label": "DeepSeek V4 Flash",
-    },
-    {
-        "id": "qwen/qwen3.5-9b",
-        "label": "Qwen3.5 9B",
-    },
-    {
         "id": "google/gemini-3.5-flash-lite",
-        "label": "Gemini 3.5 Flash Lite",
+        "label": "Gemini 3.5 Flash Lite (fast)",
+    },
+    {
+        "id": "deepseek/deepseek-v4-flash",
+        "label": "DeepSeek V4 Flash (fast)",
+    },
+    {
+        "id": "qwen/qwen3.6-flash",
+        "label": "Qwen3.6 Flash (fast)",
     },
     {
         "id": "mistralai/ministral-8b-2512",
         "label": "Ministral 8B",
     },
     {
-        "id": "qwen/qwen3.6-flash",
-        "label": "Qwen3.6 Flash",
+        "id": "qwen/qwen3.5-9b",
+        "label": "Qwen3.5 9B",
     },
     {
         "id": "mistralai/mistral-small-2603",
@@ -90,9 +91,9 @@ class OpenRouterOrderDecoder:
     api_key: str | None = None
     delta_max: int = DEFAULT_DELTA_MAX
     order_cap: int = DEFAULT_ORDER_CAP
-    max_parse_retries: int = 3
+    max_parse_retries: int = 2
     temperature: float = 0.0
-    timeout_s: float = 90.0
+    timeout_s: float = 45.0
     site_url: str = "https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL"
     site_name: str = "Beer Distribution Game"
 
