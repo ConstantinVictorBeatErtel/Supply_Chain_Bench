@@ -13,6 +13,10 @@
     sterman: "Sterman",
     ippo: "IPPO",
   };
+  const YOU_COLOR = "#5ec4a0";
+  const AI_COLOR = "#e8a54b";
+  const COST_COLOR = "#e8a54b";
+  const DEMAND_COLOR = "rgba(238, 243, 248, 0.9)";
 
   const els = {
     setup: document.getElementById("screen-setup"),
@@ -54,9 +58,16 @@
     conn: document.getElementById("conn-status"),
     endRole: document.getElementById("end-role"),
     endAi: document.getElementById("end-ai"),
+    endAiRoles: document.getElementById("end-ai-roles"),
     endOwn: document.getElementById("end-own"),
+    endAiOwn: document.getElementById("end-ai-own"),
     endSystem: document.getElementById("end-system"),
+    endAiSystem: document.getElementById("end-ai-system"),
     endWeeks: document.getElementById("end-weeks"),
+    endVerdict: document.getElementById("end-verdict"),
+    endCumChart: document.getElementById("end-cum-chart"),
+    endWeekChart: document.getElementById("end-week-chart"),
+    endOrderChart: document.getElementById("end-order-chart"),
     costBreakdown: document.getElementById("cost-breakdown"),
     costFormula: document.getElementById("cost-formula"),
     legendOrderSwatch: document.getElementById("legend-order-swatch"),
@@ -76,6 +87,7 @@
   let orderCap = 128;
   let reconnectTimer = null;
   let ws = null;
+  let lastReveal = null;
 
   function prettyRole(role) {
     return String(role || "—").replace(/_/g, " ");
@@ -112,7 +124,7 @@
     node.className = "node fogged";
     node.dataset.role = role;
     node.innerHTML = `
-      <h3 class="node-title">${prettyRole(role)}</h3>
+      <h3 class="node-title">${prettyRole(role)} <span class="ai-badge">AI</span></h3>
       <div class="node-body">
         <div><span>Inv</span><strong data-k="inv">—</strong></div>
         <div><span>Backlog</span><strong data-k="bl">—</strong></div>
@@ -146,31 +158,30 @@
   }
 
   function updateCostHelp(frame) {
-    if (!frame) return;
-    const h = frame.holding_cost ?? 0.5;
-    const b = frame.backlog_cost ?? 1.0;
-    const inv = frame.inventory ?? 0;
-    const bl = frame.backlog ?? 0;
-    const week = frame.week_cost ?? 0;
+    const h = frame?.holding_cost ?? 0.5;
+    const b = frame?.backlog_cost ?? 1.0;
+    const inv = frame?.inventory ?? 0;
+    const bl = frame?.backlog ?? 0;
+    const week = frame?.week_cost ?? 0;
     els.costFormula.textContent =
-      "Week cost = holding rate × inventory + backlog rate × backlog";
-    if (frame.t > 0) {
+      `Week cost = (${h} × inventory) + (${b} × backlog)`;
+    if (frame && frame.t > 0) {
       els.costBreakdown.textContent =
-        `This week: ${h} × ${inv} + ${b} × ${bl} = ${fmt(week)}`;
+        `This week: (${h} × ${inv}) + (${b} × ${bl}) = ${fmt(week)}`;
     } else {
       els.costBreakdown.textContent =
-        `Rates for your role: ${h} per unit inventory, ${b} per unit backlog`;
+        `Your rates: ${h} per unit in inventory, ${b} per unit in backlog`;
     }
   }
 
   function updateChartLegend() {
-    const color = COLORS[humanRole] || "#e8a54b";
-    els.legendOrderSwatch.style.borderTopColor = color;
-    els.legendOrderLabel.textContent = "Your order (solid)";
+    const color = COLORS[humanRole] || YOU_COLOR;
+    els.legendOrderSwatch.style.background = color;
+    els.legendOrderLabel.textContent = "Your order";
     const isRetailer = humanRole === "retailer_a" || humanRole === "retailer_b";
     els.legendSignalLabel.textContent = isRetailer
-      ? "Customer demand you see (dashed)"
-      : "Incoming orders you see (dashed)";
+      ? "Customer demand"
+      : "Incoming orders";
   }
 
   function updateFog() {
@@ -252,7 +263,7 @@
       void nodes[humanRole].offsetWidth;
       nodes[humanRole].classList.add("flash");
     }
-    drawChart();
+    drawPlayChart();
   }
 
   function applyStatus(msg) {
@@ -277,22 +288,11 @@
     els.orderQty.disabled = !awaiting;
   }
 
-  function applyReveal(reveal) {
-    if (!reveal) return;
-    els.endRole.textContent = prettyRole(reveal.human_role);
-    els.endAi.textContent = AI_LABELS[reveal.ai_mode] || reveal.ai_mode || "—";
-    els.endOwn.textContent = fmt(reveal.cumulative_own_cost);
-    els.endSystem.textContent = fmt(reveal.cumulative_system_cost);
-    els.endWeeks.textContent = String(reveal.horizon ?? "—");
-    showScreen("end");
-  }
-
-  function drawChart() {
-    const canvas = els.canvas;
+  function drawLineChart(canvas, seriesList, { height = 200 } = {}) {
     const ctx = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
     const cssW = canvas.clientWidth || 640;
-    const cssH = 180;
+    const cssH = height;
     canvas.width = Math.floor(cssW * dpr);
     canvas.height = Math.floor(cssH * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -301,20 +301,19 @@
     ctx.fillStyle = "rgba(20, 28, 40, 0.45)";
     ctx.fillRect(0, 0, cssW, cssH);
 
-    const pad = { l: 34, r: 10, t: 14, b: 24 };
+    const pad = { l: 36, r: 12, t: 14, b: 26 };
     const plotW = cssW - pad.l - pad.r;
     const plotH = cssH - pad.t - pad.b;
-    const frames = history.filter((f) => f.t > 0);
 
     let maxY = 1;
-    for (const f of frames) {
-      maxY = Math.max(
-        maxY,
-        f.own_order ?? f.last_order_placed ?? 0,
-        f.last_demand_or_order ?? 0,
-      );
+    let maxT = 1;
+    for (const series of seriesList) {
+      for (const pt of series.points) {
+        maxY = Math.max(maxY, pt.y ?? 0);
+        maxT = Math.max(maxT, pt.t ?? 1);
+      }
     }
-    maxY = Math.ceil(maxY * 1.1) || 1;
+    maxY = Math.ceil(maxY * 1.12) || 1;
 
     ctx.strokeStyle = "rgba(143, 163, 187, 0.2)";
     ctx.lineWidth = 1;
@@ -329,34 +328,128 @@
       ctx.stroke();
       ctx.fillText(String(val), 4, y + 4);
     }
+    ctx.fillText("week", pad.l + plotW - 28, cssH - 8);
 
-    if (frames.length < 1) return;
-    const horizon = frames[frames.length - 1].horizon || 52;
-    const maxT = Math.max(horizon, ...frames.map((f) => f.t));
-    const color = COLORS[humanRole] || "#e8a54b";
-
-    ctx.beginPath();
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2.2;
-    frames.forEach((f, idx) => {
-      const x = pad.l + ((f.t - 1) / Math.max(1, maxT - 1)) * plotW;
-      const y = pad.t + plotH - ((f.own_order ?? f.last_order_placed ?? 0) / maxY) * plotH;
-      if (idx === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.strokeStyle = "rgba(238, 243, 248, 0.75)";
-    ctx.setLineDash([6, 5]);
-    frames.forEach((f, idx) => {
-      const x = pad.l + ((f.t - 1) / Math.max(1, maxT - 1)) * plotW;
-      const y = pad.t + plotH - ((f.last_demand_or_order ?? 0) / maxY) * plotH;
-      if (idx === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
+    for (const series of seriesList) {
+      if (!series.points.length) continue;
+      ctx.beginPath();
+      ctx.strokeStyle = series.color;
+      ctx.lineWidth = series.width || 2.2;
+      ctx.setLineDash(series.dash || []);
+      series.points.forEach((pt, idx) => {
+        const x = pad.l + ((pt.t - 1) / Math.max(1, maxT - 1)) * plotW;
+        const y = pad.t + plotH - ((pt.y ?? 0) / maxY) * plotH;
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
     ctx.setLineDash([]);
+  }
+
+  function drawPlayChart() {
+    const frames = history.filter((f) => f.t > 0);
+    const orderColor = COLORS[humanRole] || YOU_COLOR;
+    drawLineChart(els.canvas, [
+      {
+        color: orderColor,
+        width: 2.4,
+        points: frames.map((f) => ({
+          t: f.t,
+          y: f.own_order ?? f.last_order_placed ?? 0,
+        })),
+      },
+      {
+        color: DEMAND_COLOR,
+        width: 2,
+        dash: [6, 5],
+        points: frames.map((f) => ({
+          t: f.t,
+          y: f.last_demand_or_order ?? 0,
+        })),
+      },
+      {
+        color: COST_COLOR,
+        width: 2,
+        points: frames.map((f) => ({
+          t: f.t,
+          y: f.week_cost ?? 0,
+        })),
+      },
+    ], { height: 220 });
+  }
+
+  function drawEndCharts(reveal) {
+    const human = reveal.human_series || [];
+    const ai = reveal.ai_series || [];
+    drawLineChart(els.endCumChart, [
+      {
+        color: YOU_COLOR,
+        points: human.map((p) => ({ t: p.t, y: p.cumulative_own_cost })),
+      },
+      {
+        color: AI_COLOR,
+        points: ai.map((p) => ({ t: p.t, y: p.cumulative_own_cost })),
+      },
+    ]);
+    drawLineChart(els.endWeekChart, [
+      {
+        color: YOU_COLOR,
+        points: human.map((p) => ({ t: p.t, y: p.week_cost })),
+      },
+      {
+        color: AI_COLOR,
+        points: ai.map((p) => ({ t: p.t, y: p.week_cost })),
+      },
+    ]);
+    drawLineChart(els.endOrderChart, [
+      {
+        color: YOU_COLOR,
+        points: human.map((p) => ({ t: p.t, y: p.order })),
+      },
+      {
+        color: AI_COLOR,
+        points: ai.map((p) => ({ t: p.t, y: p.order })),
+      },
+    ]);
+  }
+
+  function applyReveal(reveal) {
+    if (!reveal) return;
+    lastReveal = reveal;
+    els.endRole.textContent = prettyRole(reveal.human_role);
+    els.endAi.textContent = AI_LABELS[reveal.ai_mode] || reveal.ai_mode || "—";
+    const aiRoles = (reveal.ai_roles || []).map(prettyRole).join(", ");
+    els.endAiRoles.textContent = aiRoles || "the other roles";
+    els.endOwn.textContent = fmt(reveal.cumulative_own_cost);
+    els.endAiOwn.textContent = fmt(reveal.ai_own_cost);
+    els.endSystem.textContent = fmt(reveal.cumulative_system_cost);
+    els.endAiSystem.textContent = fmt(reveal.ai_system_cost);
+    els.endWeeks.textContent = String(reveal.horizon ?? "—");
+
+    const you = Number(reveal.cumulative_own_cost);
+    const ai = Number(reveal.ai_own_cost);
+    let verdict;
+    let cls = "tie";
+    if (Number.isFinite(you) && Number.isFinite(ai)) {
+      const delta = you - ai;
+      if (Math.abs(delta) < 1e-6) {
+        verdict = "Tie — same cost as the AI in your seat.";
+      } else if (delta < 0) {
+        verdict = `You beat the AI by ${fmt(Math.abs(delta))} (lower cost wins).`;
+        cls = "win";
+      } else {
+        verdict = `AI beat you by ${fmt(delta)} in your seat (lower cost wins).`;
+        cls = "lose";
+      }
+    } else {
+      verdict = "Comparison unavailable.";
+    }
+    els.endVerdict.textContent = verdict;
+    els.endVerdict.className = `end-verdict ${cls}`;
+
+    showScreen("end");
+    requestAnimationFrame(() => drawEndCharts(reveal));
   }
 
   async function postJson(url, body) {
@@ -382,13 +475,7 @@
     }
     if (data.reveal || data.phase === "finished") {
       if (data.frame) applyFrame(data.frame, { flash: false });
-      applyReveal(data.reveal || {
-        human_role: data.human_role,
-        ai_mode: data.ai_mode,
-        cumulative_own_cost: data.frame?.cumulative_own_cost,
-        cumulative_system_cost: null,
-        horizon: data.horizon,
-      });
+      applyReveal(data.reveal || lastReveal);
       return;
     }
     showScreen("play");
@@ -411,6 +498,7 @@
       history = data.history || [];
       applyStatus(data);
       showScreen("play");
+      updateCostHelp(data.frame);
       if (data.frame) applyFrame(data.frame, { flash: false });
       els.orderQty.focus();
     } catch (err) {
@@ -454,6 +542,7 @@
       humanRole = null;
       aiMode = null;
       phase = "setup";
+      lastReveal = null;
       applySnapshot(data);
       showScreen("setup");
     } catch (err) {
@@ -512,8 +601,12 @@
     };
   }
 
-  window.addEventListener("resize", () => drawChart());
+  window.addEventListener("resize", () => {
+    drawPlayChart();
+    if (lastReveal) drawEndCharts(lastReveal);
+  });
   buildBoard();
+  updateCostHelp(null);
   showScreen("setup");
   connect();
 })();

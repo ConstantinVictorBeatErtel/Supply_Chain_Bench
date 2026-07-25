@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/styles.css?v=3" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -62,20 +62,20 @@
       </fieldset>
 
       <fieldset class="choice-block">
-        <legend>Opponents</legend>
+        <legend>AI opponents (play every other role)</legend>
         <div class="ai-grid" role="radiogroup" aria-label="Choose AI opponents">
           <label class="ai-option">
             <input type="radio" name="ai_mode" value="sterman" checked />
             <span class="ai-face">
               <strong>Sterman</strong>
-              <em>Classic anchoring-and-adjustment heuristics</em>
+              <em>Classic anchoring-and-adjustment heuristics on all other seats</em>
             </span>
           </label>
           <label class="ai-option">
             <input type="radio" name="ai_mode" value="ippo" />
             <span class="ai-face">
               <strong>IPPO policies</strong>
-              <em>Recurrent Y-topology policies (packaged or trained checkpoint)</em>
+              <em>Recurrent Y-topology policies on all other seats</em>
             </span>
           </label>
         </div>
@@ -97,7 +97,7 @@
     <header class="play-top">
       <div class="play-brand">
         <p class="brand-mini">Beer Distribution Game</p>
-        <p class="you-are">You are <strong id="you-role">—</strong> · vs <span id="ai-label">—</span></p>
+        <p class="you-are">You are <strong id="you-role">—</strong> · AI (<span id="ai-label">—</span>) plays the other roles</p>
       </div>
       <div class="play-meters" aria-live="polite">
         <div class="meter">
@@ -114,13 +114,14 @@
           <span class="value" id="own-cost">0.0</span>
         </div>
       </div>
-      <details class="cost-help" id="cost-help">
-        <summary>How costs are calculated</summary>
-        <p class="cost-formula" id="cost-formula">Week cost = holding rate × inventory + backlog rate × backlog</p>
-        <p class="cost-breakdown" id="cost-breakdown">—</p>
-        <p class="cost-note">Rates are per role. Lower inventory and backlog each week keeps your total down.</p>
-      </details>
     </header>
+
+    <div class="cost-box" id="cost-help" aria-label="Cost calculation">
+      <h3>How your cost is calculated</h3>
+      <p class="cost-formula" id="cost-formula">Week cost = (0.5 × inventory) + (1.0 × backlog)</p>
+      <p class="cost-breakdown" id="cost-breakdown">Rates update for your role once the game starts.</p>
+      <p class="cost-note">Holding charges leftover stock. Backlog charges unmet demand. Your total is the sum of week costs.</p>
+    </div>
 
     <div class="play-layout">
       <aside class="player-panel" aria-label="Your station">
@@ -150,7 +151,7 @@
             <input type="number" id="order-qty" name="quantity" min="0" max="128" value="4" required />
             <button type="submit" class="primary" id="btn-order">Commit</button>
           </div>
-          <p class="order-hint">Orders ship with delay. You only see your own numbers.</p>
+          <p class="order-hint">Orders ship with delay. Fogged stations are ordered by the AI each week.</p>
           <p class="order-error" id="order-error" hidden></p>
         </form>
       </aside>
@@ -177,22 +178,33 @@
 
         <section class="chart-panel" aria-label="Your order history">
           <div class="chart-head">
-            <div>
-              <h2>Your orders</h2>
-              <p class="chart-note">History for your role only — other stations stay hidden.</p>
-            </div>
-            <ul class="chart-legend" id="chart-legend" aria-label="Chart legend">
-              <li>
-                <span class="legend-line solid" id="legend-order-swatch"></span>
-                <span id="legend-order-label">Your order</span>
-              </li>
-              <li>
-                <span class="legend-line dashed" id="legend-signal-swatch"></span>
-                <span id="legend-signal-label">Customer demand</span>
-              </li>
-            </ul>
+            <h2>Your week-by-week chart</h2>
+            <p class="chart-note">Only your numbers — AI stations stay hidden until the end.</p>
           </div>
-          <canvas id="order-chart" width="640" height="180"></canvas>
+          <ul class="chart-legend" id="chart-legend" aria-label="Chart legend">
+            <li>
+              <span class="swatch-line solid" id="legend-order-swatch"></span>
+              <div>
+                <strong id="legend-order-label">Your order</strong>
+                <em>Solid line — quantity you committed</em>
+              </div>
+            </li>
+            <li>
+              <span class="swatch-line dashed" id="legend-signal-swatch"></span>
+              <div>
+                <strong id="legend-signal-label">Customer demand</strong>
+                <em>Dashed line — demand / incoming you observe</em>
+              </div>
+            </li>
+            <li>
+              <span class="swatch-line cost" id="legend-cost-swatch"></span>
+              <div>
+                <strong>Your week cost</strong>
+                <em>Amber line — holding + backlog cost that week</em>
+              </div>
+            </li>
+          </ul>
+          <canvas id="order-chart" width="640" height="220"></canvas>
         </section>
       </div>
     </div>
@@ -207,26 +219,70 @@
   <section id="screen-end" class="screen end-screen" hidden aria-label="Episode result">
     <div class="end-panel">
       <p class="brand-mini">Beer Distribution Game</p>
-      <h2 class="end-title">Episode complete</h2>
-      <p class="end-sub">You played <strong id="end-role">—</strong> against <span id="end-ai">—</span>.</p>
+      <h2 class="end-title">You vs AI</h2>
+      <p class="end-sub">
+        You played <strong id="end-role">—</strong>.
+        AI (<span id="end-ai">—</span>) ordered for
+        <span id="end-ai-roles">the other roles</span>,
+        then we re-ran the same seed with the AI also sitting in your seat.
+      </p>
+
+      <div class="end-verdict" id="end-verdict">—</div>
+
       <dl class="end-scores">
         <div>
           <dt>Your total cost</dt>
           <dd id="end-own">—</dd>
         </div>
         <div>
-          <dt>System cost</dt>
+          <dt>AI in your seat</dt>
+          <dd id="end-ai-own">—</dd>
+        </div>
+        <div>
+          <dt>Your system cost</dt>
           <dd id="end-system">—</dd>
+        </div>
+        <div>
+          <dt>All-AI system cost</dt>
+          <dd id="end-ai-system">—</dd>
         </div>
         <div>
           <dt>Weeks</dt>
           <dd id="end-weeks">—</dd>
         </div>
       </dl>
+
+      <div class="end-charts">
+        <section class="end-chart-block">
+          <h3>Cumulative cost (your role)</h3>
+          <ul class="chart-legend compact">
+            <li><span class="swatch-line solid you"></span><strong>You</strong></li>
+            <li><span class="swatch-line solid ai"></span><strong>AI in your seat</strong></li>
+          </ul>
+          <canvas id="end-cum-chart" width="720" height="200"></canvas>
+        </section>
+        <section class="end-chart-block">
+          <h3>Weekly cost (your role)</h3>
+          <ul class="chart-legend compact">
+            <li><span class="swatch-line solid you"></span><strong>You</strong></li>
+            <li><span class="swatch-line solid ai"></span><strong>AI in your seat</strong></li>
+          </ul>
+          <canvas id="end-week-chart" width="720" height="200"></canvas>
+        </section>
+        <section class="end-chart-block">
+          <h3>Orders (your role)</h3>
+          <ul class="chart-legend compact">
+            <li><span class="swatch-line solid you"></span><strong>You</strong></li>
+            <li><span class="swatch-line solid ai"></span><strong>AI in your seat</strong></li>
+          </ul>
+          <canvas id="end-order-chart" width="720" height="200"></canvas>
+        </section>
+      </div>
+
       <button type="button" class="primary" id="btn-again">Play again</button>
     </div>
   </section>
 
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=3"></script>
 </body>
 </html>

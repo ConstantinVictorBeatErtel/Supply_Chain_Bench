@@ -122,6 +122,7 @@ def player_frame_from_core(
     cumulative_own_cost: float,
     last_order: int | None = None,
     terminated: bool = False,
+    ai_roles: list[str] | None = None,
 ) -> dict[str, Any]:
     """Fog-of-war view: only the human role's local observation + own costs.
 
@@ -130,14 +131,17 @@ def player_frame_from_core(
     """
     name = Y_ROLE_NAMES[human_role]
     obs = core.observe(human_role)
-    # At t=0 after reset, last_demand_or_order may still be the init sentinel.
     demand_or_incoming = int(obs["last_demand_or_order"])
     is_retailer = human_role in (Role.RETAILER, Role.RETAILER_B)
+    controlled = ai_roles or [
+        Y_ROLE_NAMES[r] for r in Y_ROLES if r != human_role
+    ]
     return {
         "t": int(core.t),
         "horizon": int(core.config.horizon),
         "human_role": name,
         "roles": [Y_ROLE_NAMES[r] for r in Y_ROLES],
+        "ai_roles": controlled,
         "inventory": int(obs["inventory"]),
         "backlog": int(obs["backlog"]),
         "on_order": int(obs["on_order"]),
@@ -168,14 +172,33 @@ def end_reveal(
     horizon: int,
     ai_mode: str,
     seed: int,
+    ai_roles: list[str],
+    human_series: list[dict[str, Any]],
+    ai_series: list[dict[str, Any]],
+    ai_own_cost: float,
+    ai_system_cost: float,
 ) -> dict[str, Any]:
-    """End-of-episode summary without dumping every rival's private history."""
+    """End-of-episode summary with same-seed AI shadow comparison."""
+    human = float(cumulative_own_cost)
+    ai = float(ai_own_cost)
+    # Hub-style score in [0, 1]: 0.5 ties; higher means human beat AI (lower cost).
+    if human + ai > 0:
+        score = ai / (human + ai)
+    else:
+        score = 0.5
     return {
         "type": "reveal",
         "human_role": Y_ROLE_NAMES[human_role],
-        "cumulative_own_cost": float(cumulative_own_cost),
+        "cumulative_own_cost": human,
         "cumulative_system_cost": float(cumulative_system_cost),
         "horizon": int(horizon),
         "ai_mode": ai_mode,
         "seed": int(seed),
+        "ai_roles": list(ai_roles),
+        "ai_own_cost": ai,
+        "ai_system_cost": float(ai_system_cost),
+        "score": float(score),
+        "human_won": human < ai,
+        "human_series": human_series,
+        "ai_series": ai_series,
     }

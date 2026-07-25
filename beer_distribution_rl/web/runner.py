@@ -34,7 +34,9 @@ class GameRunner:
     """Y-topology Beer Game: one human role, AI counterparties, fog-of-war.
 
     Thread-safe for FastAPI / WebSocket callers. Turn-based: each week waits
-    for ``submit_order`` before advancing.
+    for ``submit_order`` before advancing. Non-human roles are always ordered
+    by the selected AI (Sterman or IPPO). At episode end a same-seed shadow
+    run lets the AI play the human seat for comparison charts.
     """
 
     def __init__(
@@ -68,6 +70,7 @@ class GameRunner:
         self._last_frame: dict[str, Any] | None = None
         self._history: list[dict[str, Any]] = []
         self._reveal: dict[str, Any] | None = None
+        self._human_series: list[dict[str, Any]] = []
 
     # --- listeners ---------------------------------------------------------
 
@@ -91,6 +94,10 @@ class GameRunner:
 
     # --- status / snapshots ------------------------------------------------
 
+    def _ai_role_names(self) -> list[str]:
+        assert self._human_role is not None
+        return [Y_ROLE_NAMES[r] for r in Y_ROLES if r != self._human_role]
+
     def _status_payload(self) -> dict[str, Any]:
         demand = self._core.config.demand
         return {
@@ -99,6 +106,7 @@ class GameRunner:
             "awaiting_order": self._awaiting_order,
             "seed": self._seed,
             "roles": list(ROLE_ORDER),
+            "ai_roles": self._ai_role_names() if self._human_role is not None else [],
             "horizon": self._core.config.horizon,
             "order_cap": self._core.config.order_cap,
             "topology": self._core.topology.name,
@@ -121,6 +129,7 @@ class GameRunner:
             cumulative_own_cost=self._cumulative_own_cost,
             last_order=self._last_own_order,
             terminated=terminated,
+            ai_roles=self._ai_role_names(),
         )
         frame["awaiting_order"] = bool(self._awaiting_order and not terminated)
         return frame
@@ -164,6 +173,7 @@ class GameRunner:
             self._last_week_cost = 0.0
             self._last_own_order = None
             self._history = []
+            self._human_series = []
             self._reveal = None
 
             if mode == "sterman":
@@ -194,7 +204,7 @@ class GameRunner:
         return self.snapshot()
 
     def submit_order(self, quantity: int | float) -> dict[str, Any]:
-        """Accept the human order, fill AI orders, and advance one week."""
+        """Accept the human order, fill AI orders for every other role, step."""
         with self._lock:
             if self._phase != "playing" or self._human_role is None or self._ai_mode is None:
                 raise GameError("No active game. Call start first.")
@@ -213,10 +223,17 @@ class GameRunner:
 
             human = self._human_role
             orders: dict[Role, int] = {human: qty}
+            ai_orders: dict[str, int] = {}
             for role in Y_ROLES:
                 if role == human:
                     continue
-                orders[role] = self._ai_order(role)
+                ai_qty = self._ai_order(role, self._core, self._sterman, self._ippo_team)
+                orders[role] = ai_qty
+                ai_orders[Y_ROLE_NAMES[role]] = ai_qty
+
+            # Every non-human seat must have placed an AI order.
+            assert len(ai_orders) == len(Y_ROLES) - 1
+            assert set(orders) == set(Y_ROLES)
 
             _states, _rewards, terminated, info = self._core.step(orders)
             own_cost = float(info.local_costs[human])
@@ -225,12 +242,28 @@ class GameRunner:
             self._cumulative_system_cost += float(info.system_cost)
             self._last_own_order = qty
 
+            self._human_series.append(
+                {
+                    "t": int(self._core.t),
+                    "order": qty,
+                    "week_cost": own_cost,
+                    "cumulative_own_cost": float(self._cumulative_own_cost),
+                    "demand_or_incoming": int(
+                        self._core.states[human].last_demand_or_order
+                    ),
+                    "inventory": int(self._core.states[human].inventory),
+                    "backlog": int(self._core.states[human].backlog),
+                    "ai_orders": ai_orders,
+                }
+            )
+
             if terminated:
                 self._phase = "finished"
                 self._awaiting_order = False
                 frame = self._build_player_frame(terminated=True)
                 self._last_frame = frame
                 self._history.append(dict(frame))
+                shadow = self._run_shadow_ai_episode()
                 reveal = end_reveal(
                     human_role=human,
                     cumulative_own_cost=self._cumulative_own_cost,
@@ -238,6 +271,11 @@ class GameRunner:
                     horizon=self._core.config.horizon,
                     ai_mode=self._ai_mode,
                     seed=self._seed,
+                    ai_roles=self._ai_role_names(),
+                    human_series=list(self._human_series),
+                    ai_series=shadow["series"],
+                    ai_own_cost=shadow["own_cost"],
+                    ai_system_cost=shadow["system_cost"],
                 )
                 self._reveal = reveal
             else:
@@ -268,6 +306,7 @@ class GameRunner:
             self._last_own_order = None
             self._last_frame = None
             self._history = []
+            self._human_series = []
             self._reveal = None
             self._ippo_team = None
             for agent in self._sterman.values():
@@ -283,12 +322,74 @@ class GameRunner:
 
     # --- internals ---------------------------------------------------------
 
-    def _ai_order(self, role: Role) -> int:
-        state = self._core.states[role]
+    def _shadow_env(self) -> BeerGameCore:
+        """Fresh Y env matching the live episode's key config (new demand state)."""
+        cfg = self._core.config
+        return BeerGameCore(
+            y_topology_env_config(
+                horizon=cfg.horizon,
+                order_cap=cfg.order_cap,
+                ship_delay=cfg.ship_delay,
+                order_delay=cfg.order_delay,
+                capacity=cfg.capacity,
+                regime=cfg.regime,
+                signaling_enabled=cfg.signaling_enabled,
+            )
+        )
+
+    def _run_shadow_ai_episode(self) -> dict[str, Any]:
+        """Same seed; AI plays every role including the human seat."""
+        assert self._human_role is not None
+        assert self._ai_mode is not None
+        human = self._human_role
+        core = self._shadow_env()
+        core.reset(seed=self._seed)
+
+        sterman = {r: StermanAgent() for r in Y_ROLES}
+        ippo: IPPOTeam | None = None
         if self._ai_mode == "ippo":
-            assert self._ippo_team is not None
-            return int(self._ippo_team.order(role, state, self._core))
-        return int(self._sterman[role].order(state))
+            ippo = load_ippo_team(
+                core.config,
+                checkpoint_dir=self._ippo_checkpoint_dir,
+            )
+            ippo.reset()
+
+        series: list[dict[str, Any]] = []
+        own_cost = 0.0
+        system_cost = 0.0
+        while not core._terminated:
+            orders = {
+                r: self._ai_order(r, core, sterman, ippo) for r in Y_ROLES
+            }
+            _states, _rewards, _term, info = core.step(orders)
+            week = float(info.local_costs[human])
+            own_cost += week
+            system_cost += float(info.system_cost)
+            series.append(
+                {
+                    "t": int(core.t),
+                    "order": int(info.orders_placed[human]),
+                    "week_cost": week,
+                    "cumulative_own_cost": own_cost,
+                    "demand_or_incoming": int(core.states[human].last_demand_or_order),
+                    "inventory": int(core.states[human].inventory),
+                    "backlog": int(core.states[human].backlog),
+                }
+            )
+        return {"series": series, "own_cost": own_cost, "system_cost": system_cost}
+
+    def _ai_order(
+        self,
+        role: Role,
+        core: BeerGameCore,
+        sterman: dict[Role, StermanAgent],
+        ippo_team: IPPOTeam | None,
+    ) -> int:
+        state = core.states[role]
+        if self._ai_mode == "ippo":
+            assert ippo_team is not None
+            return int(ippo_team.order(role, state, core))
+        return int(sterman[role].order(state))
 
     @staticmethod
     def _parse_role(role: str | Role) -> Role:
@@ -310,7 +411,8 @@ class GameRunner:
         mode = str(ai_mode).strip().lower()
         if mode in ("sterman", "heuristic"):
             return "sterman"
-        if mode in ("ippo", "trained", "rl", "ai"):
+        if mode in ("ippo", "trained", "rl", "ai", "llm"):
+            # "llm" accepted as alias — playable opponents are Sterman/IPPO agents.
             return "ippo"
         raise GameError("ai_mode must be 'sterman' or 'ippo'")
 

@@ -40,7 +40,12 @@ def test_api_start_order_reset_fog() -> None:
     finished = step2.json()
     assert finished["phase"] == "finished"
     assert "reveal" in finished
-    assert finished["reveal"]["cumulative_system_cost"] >= 0
+    reveal = finished["reveal"]
+    assert reveal["cumulative_system_cost"] >= 0
+    assert len(reveal["human_series"]) == 2
+    assert len(reveal["ai_series"]) == 2
+    assert "ai_own_cost" in reveal
+    assert "wholesaler" not in reveal["ai_roles"]
 
     bad = client.post("/api/order", json={"quantity": 1})
     assert bad.status_code == 400

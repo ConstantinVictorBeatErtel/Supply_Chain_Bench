@@ -120,6 +120,19 @@ def test_full_episode_ends_with_reveal(runner: GameRunner) -> None:
     assert reveal["horizon"] == 3
     assert reveal["cumulative_own_cost"] >= 0
     assert reveal["cumulative_system_cost"] >= reveal["cumulative_own_cost"]
+    assert set(reveal["ai_roles"]) == {
+        "retailer_a",
+        "wholesaler",
+        "distributor",
+        "factory",
+    }
+    assert len(reveal["human_series"]) == 3
+    assert len(reveal["ai_series"]) == 3
+    assert "ai_own_cost" in reveal
+    # AI placed orders for every non-human role each week.
+    for row in reveal["human_series"]:
+        assert set(row["ai_orders"]) == set(reveal["ai_roles"])
+        assert all(isinstance(v, int) and v >= 0 for v in row["ai_orders"].values())
 
 
 def test_submit_before_start_errors(runner: GameRunner) -> None:
