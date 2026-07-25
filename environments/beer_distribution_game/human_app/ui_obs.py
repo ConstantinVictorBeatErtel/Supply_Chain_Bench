@@ -103,11 +103,11 @@ def format_meters_html(observation: dict[str, Any]) -> str:
     <span class="sub">/ {observation["horizon"]}</span>
   </div>
   <div class="beer-meter">
-    <span class="label">Your week cost</span>
+    <span class="label">Week cost</span>
     <span class="value">{week_cost:g}</span>
   </div>
   <div class="beer-meter">
-    <span class="label">Your total</span>
+    <span class="label">Total cost</span>
     <span class="value">{total:g}</span>
   </div>
 </div>
@@ -153,11 +153,16 @@ def format_observation_html(observation: dict[str, Any]) -> str:
     raw = escape(
         json.dumps(observation, indent=2, sort_keys=True, ensure_ascii=True)
     )
+    weeks_left = observation.get("weeks_remaining", "")
+    mode = escape(str(observation.get("observation_mode", "fow")))
 
     return f"""
 {format_meters_html(observation)}
 <section class="beer-panel" aria-label="Your station">
-  <h2>Your station · {escape(role)}</h2>
+  <div class="beer-panel-head">
+    <h2 class="beer-panel-title">Station · {escape(role)}</h2>
+    <span class="beer-panel-chip">{mode} · {weeks_left} left</span>
+  </div>
   <dl class="beer-stats">
     <div><dt>Inventory</dt><dd>{state["inventory_on_hand"]}</dd></div>
     <div><dt>Backlog</dt><dd>{state["backlog"]}</dd></div>
@@ -170,17 +175,17 @@ def format_observation_html(observation: dict[str, Any]) -> str:
     {pipeline_row}
   </dl>
   <div class="beer-cost-box">
-    <h3>How your cost is calculated</h3>
+    <h3>Cost model</h3>
     <p>Week cost = ({costs["holding_per_unit"]} × inventory) + ({costs["backlog_per_unit"]} × backlog)</p>
     <p>Orders must be integers in [{constraints["minimum_order"]}, {constraints["maximum_order"]}]. Factory capacity: {constraints["factory_capacity"]}.</p>
   </div>
   <div class="beer-history">
-    <h3>Recent history (own role only)</h3>
+    <h3>Own-role history</h3>
     <ul>{history_html}</ul>
   </div>
-  <details style="margin-top:0.9rem;color:var(--muted);font-size:0.8rem">
+  <details class="beer-raw">
     <summary>Raw observation JSON (same fields the LLM receives)</summary>
-    <pre style="white-space:pre-wrap;font-family:var(--mono);font-size:0.72rem;color:var(--muted)">{raw}</pre>
+    <pre>{raw}</pre>
   </details>
 </section>
 """.strip()
@@ -201,6 +206,7 @@ def format_summary_html(summary: dict[str, Any]) -> str:
         return ""
     status = str(summary["status"])
     title = "Session complete" if status == "completed" else "Session abandoned"
+    klass = "beer-summary" if status == "completed" else "beer-summary abandoned"
     rows = [
         ("Weeks played", summary.get("weeks_played")),
         ("Seed", f"{summary.get('seed')} ({summary.get('split')} #{summary.get('seed_index')})"),
@@ -225,4 +231,4 @@ def format_summary_html(summary: dict[str, Any]) -> str:
         f"<span>{escape(str(v))}</span></div>"
         for k, v in rows
     )
-    return f'<section class="beer-summary"><h2>{escape(title)}</h2>{body}</section>'
+    return f'<section class="{klass}"><h2>{escape(title)}</h2>{body}</section>'
