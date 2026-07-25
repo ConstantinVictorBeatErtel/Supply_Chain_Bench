@@ -114,6 +114,12 @@
           <span class="value" id="own-cost">0.0</span>
         </div>
       </div>
+      <details class="cost-help" id="cost-help">
+        <summary>How costs are calculated</summary>
+        <p class="cost-formula" id="cost-formula">Week cost = holding rate × inventory + backlog rate × backlog</p>
+        <p class="cost-breakdown" id="cost-breakdown">—</p>
+        <p class="cost-note">Rates are per role. Lower inventory and backlog each week keeps your total down.</p>
+      </details>
     </header>
 
     <div class="play-layout">
@@ -171,8 +177,20 @@
 
         <section class="chart-panel" aria-label="Your order history">
           <div class="chart-head">
-            <h2>Your orders</h2>
-            <p class="chart-note">Solid: your order · Dashed: demand / incoming you observe</p>
+            <div>
+              <h2>Your orders</h2>
+              <p class="chart-note">History for your role only — other stations stay hidden.</p>
+            </div>
+            <ul class="chart-legend" id="chart-legend" aria-label="Chart legend">
+              <li>
+                <span class="legend-line solid" id="legend-order-swatch"></span>
+                <span id="legend-order-label">Your order</span>
+              </li>
+              <li>
+                <span class="legend-line dashed" id="legend-signal-swatch"></span>
+                <span id="legend-signal-label">Customer demand</span>
+              </li>
+            </ul>
           </div>
           <canvas id="order-chart" width="640" height="180"></canvas>
         </section>

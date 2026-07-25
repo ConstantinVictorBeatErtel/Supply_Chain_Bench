@@ -57,6 +57,12 @@
     endOwn: document.getElementById("end-own"),
     endSystem: document.getElementById("end-system"),
     endWeeks: document.getElementById("end-weeks"),
+    costBreakdown: document.getElementById("cost-breakdown"),
+    costFormula: document.getElementById("cost-formula"),
+    legendOrderSwatch: document.getElementById("legend-order-swatch"),
+    legendOrderLabel: document.getElementById("legend-order-label"),
+    legendSignalSwatch: document.getElementById("legend-signal-swatch"),
+    legendSignalLabel: document.getElementById("legend-signal-label"),
   };
 
   /** @type {Record<string, HTMLElement>} */
@@ -139,6 +145,34 @@
     });
   }
 
+  function updateCostHelp(frame) {
+    if (!frame) return;
+    const h = frame.holding_cost ?? 0.5;
+    const b = frame.backlog_cost ?? 1.0;
+    const inv = frame.inventory ?? 0;
+    const bl = frame.backlog ?? 0;
+    const week = frame.week_cost ?? 0;
+    els.costFormula.textContent =
+      "Week cost = holding rate × inventory + backlog rate × backlog";
+    if (frame.t > 0) {
+      els.costBreakdown.textContent =
+        `This week: ${h} × ${inv} + ${b} × ${bl} = ${fmt(week)}`;
+    } else {
+      els.costBreakdown.textContent =
+        `Rates for your role: ${h} per unit inventory, ${b} per unit backlog`;
+    }
+  }
+
+  function updateChartLegend() {
+    const color = COLORS[humanRole] || "#e8a54b";
+    els.legendOrderSwatch.style.borderTopColor = color;
+    els.legendOrderLabel.textContent = "Your order (solid)";
+    const isRetailer = humanRole === "retailer_a" || humanRole === "retailer_b";
+    els.legendSignalLabel.textContent = isRetailer
+      ? "Customer demand you see (dashed)"
+      : "Incoming orders you see (dashed)";
+  }
+
   function updateFog() {
     for (const role of ROLES) {
       const node = nodes[role];
@@ -210,6 +244,8 @@
     els.orderBtn.disabled = !awaiting;
     els.orderQty.disabled = !awaiting;
 
+    updateCostHelp(frame);
+    updateChartLegend();
     updateFog();
     if (flash && humanRole && nodes[humanRole] && week > 0) {
       nodes[humanRole].classList.remove("flash");
@@ -235,6 +271,7 @@
     if (humanRole) {
       els.youRole.textContent = prettyRole(humanRole);
       els.panelTitle.textContent = `Your station · ${prettyRole(humanRole)}`;
+      updateChartLegend();
     }
     els.orderBtn.disabled = !awaiting;
     els.orderQty.disabled = !awaiting;

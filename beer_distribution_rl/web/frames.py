@@ -148,6 +148,8 @@ def player_frame_from_core(
         "last_order_placed": int(obs["last_order_placed"]),
         "inventory_position": int(obs["inventory_position"]),
         "order_cap": int(obs["order_cap"]),
+        "holding_cost": float(obs["holding_cost"]),
+        "backlog_cost": float(obs["backlog_cost"]),
         "week_cost": float(week_cost),
         "cumulative_own_cost": float(cumulative_own_cost),
         "own_order": int(last_order) if last_order is not None else int(obs["last_order_placed"]),

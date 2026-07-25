@@ -584,6 +584,63 @@ body {
   padding: 0.9rem 1rem 0.7rem;
 }
 
+.cost-help {
+  flex-basis: 100%;
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.cost-help summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  list-style: none;
+}
+
+.cost-help summary::-webkit-details-marker {
+  display: none;
+}
+
+.cost-help summary::before {
+  content: "▸ ";
+  font-size: 0.75rem;
+}
+
+.cost-help[open] summary::before {
+  content: "▾ ";
+}
+
+.cost-formula {
+  margin: 0.55rem 0 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
+.cost-breakdown {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.cost-note {
+  margin: 0.45rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.chart-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.65rem 1rem;
+  margin-bottom: 0.55rem;
+}
+
 .chart-head h2 {
   margin: 0;
   font-size: 0.72rem;
@@ -594,9 +651,43 @@ body {
 }
 
 .chart-note {
-  margin: 0.25rem 0 0.55rem;
+  margin: 0.25rem 0 0;
   color: var(--muted);
   font-size: 0.72rem;
+}
+
+.chart-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+}
+
+.chart-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.legend-line {
+  display: inline-block;
+  width: 22px;
+  height: 0;
+  border-top-width: 2px;
+  border-top-style: solid;
+}
+
+.legend-line.solid {
+  border-top-color: var(--role-retailer);
+}
+
+.legend-line.dashed {
+  border-top-color: rgba(238, 243, 248, 0.85);
+  border-top-style: dashed;
 }
 
 #order-chart {
