@@ -11,6 +11,16 @@ the simulator trace. The primary result is controlled-role cost normalized again
 a same-seed adaptive base-stock reference; service, bullwhip, and system externality
 remain separate metrics.
 
+## Human baseline Gradio app
+
+Play the Tier 5 Y wholesaler task as a human (identical seeds, observations,
+horizon, and grading to LLM eval). See [`README_HUMAN.md`](README_HUMAN.md).
+
+```bash
+python3 -m pip install -r requirements-space.txt
+PYTHONPATH=. python3 human_app/app.py
+```
+
 ## Local validation
 
 From this directory with `uv` installed:

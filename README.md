@@ -71,6 +71,13 @@ main learning target, while the retailer remains a useful protocol/control task.
 Compact results and replay actions are in
 [`artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/`](artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/).
 
+## Human baseline (Hub-eval parity)
+
+For anonymous human baselines on the **same Tier 5 Y wholesaler task** as LLM
+evaluation (36 weeks, orders 0–128, development+validation seeds), see
+[`environments/beer_distribution_game/README_HUMAN.md`](environments/beer_distribution_game/README_HUMAN.md).
+Sessions log to a Hugging Face Dataset via `CommitScheduler` when `HF_TOKEN` is set.
+
 ## Playable Y-topology game
 
 Play one role against **OpenRouter LLMs** (default), Sterman, or IPPO. Fog-of-war

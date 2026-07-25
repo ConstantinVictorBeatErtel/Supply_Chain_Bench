@@ -1,0 +1,7 @@
+# Hugging Face Space / local Gradio human baseline app.
+gradio>=4.44.0
+huggingface_hub>=0.26.0
+
+# Install the Hub beer-game package from this directory (no Verifiers required
+# for the human app path — only episode/core/scenario/grading/policies).
+# On Spaces, set the app root to this folder and keep human_app/ + beer_distribution_game/.
