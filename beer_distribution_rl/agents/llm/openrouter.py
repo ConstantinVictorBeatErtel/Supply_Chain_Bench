@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import ssl
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -16,6 +17,16 @@ from beer_distribution_rl.agents.llm.grammar import (
     map_delta_to_order,
 )
 from beer_distribution_rl.agents.llm.parser import parse_delta_json
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """Prefer certifi's CA bundle (fixes macOS Python CERTIFICATE_VERIFY_FAILED)."""
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_OPENROUTER_MODELS: tuple[dict[str, str], ...] = (
@@ -129,7 +140,9 @@ class OpenRouterOrderDecoder:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
+            with urllib.request.urlopen(
+                req, timeout=self.timeout_s, context=_ssl_context()
+            ) as resp:
                 data = json.loads(resp.read().decode())
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode(errors="replace")[:400]
@@ -137,7 +150,14 @@ class OpenRouterOrderDecoder:
                 f"OpenRouter HTTP {exc.code} for model {self.model}: {detail}"
             ) from exc
         except urllib.error.URLError as exc:
-            raise OpenRouterError(f"OpenRouter network error: {exc}") from exc
+            hint = ""
+            reason = str(getattr(exc, "reason", exc))
+            if "CERTIFICATE_VERIFY_FAILED" in reason or "SSL" in reason:
+                hint = (
+                    " Fix: pip3 install -U certifi  "
+                    "(or run macOS Python's Install Certificates.command)."
+                )
+            raise OpenRouterError(f"OpenRouter network error: {exc}.{hint}") from exc
 
         choices = data.get("choices") or []
         if not choices:

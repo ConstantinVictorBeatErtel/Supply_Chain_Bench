@@ -29,6 +29,7 @@ marl = [
 web = [
     "fastapi>=0.110",
     "uvicorn[standard]>=0.27",
+    "certifi>=2024.0.0",
 ]
 all = [
     "beer_distribution_rl[dev,wrappers,marl,web]",
