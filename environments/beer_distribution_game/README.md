@@ -1,3 +1,15 @@
+---
+title: Beer Game Human Baseline
+emoji: 🍺
+colorFrom: yellow
+colorTo: blue
+sdk: gradio
+sdk_version: 5.50.0
+app_file: human_app/app.py
+python_version: "3.12"
+short_description: Play Tier 5 Y as wholesaler; human baseline
+---
+
 # Beer Distribution Game
 
 A native Verifiers v1 environment for delayed supply-chain control. One model

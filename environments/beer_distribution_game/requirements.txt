@@ -1,0 +1,3 @@
+# Hugging Face Space deps for the Gradio human baseline.
+# gradio and huggingface_hub are preinstalled on Spaces — do not pin them here.
+# Human path uses beer_distribution_game episode/core/scenario only (no Verifiers).
