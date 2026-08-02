@@ -47,3 +47,4 @@ artifacts/hub_llm/**/config.toml
 !beer_distribution_rl/web/assets/**/*.pt
 !beer_distribution_rl/web/assets/**/*.pth
 wandb/
+unsloth_compiled_cache/
