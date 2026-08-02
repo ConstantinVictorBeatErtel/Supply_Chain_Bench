@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Teacher-free RL continuation for the exact public Tier-5 Y game.
+"""Teacher-free Qwen LoRA RL for the exact public Tier-5 Y game.
 
 The implementation reuses the native trajectory PPO/GRPO pilot, but replaces
 its public development/validation tasks with the separately frozen experiment
@@ -31,8 +31,8 @@ from beer_distribution_game.prompts import system_prompt
 from beer_distribution_game.scenario import scenario_for
 
 SPLITS = ROOT / "experiments" / "live_y_qwen_rl" / "splits.json"
-ADAPTER = "/workspace/outputs/beer-wholesaler-qwen35-4b-lora/adapter"
 INTEGER_RE = re.compile(r"\s*(\d{1,3})\s*")
+LORA_TARGETS = ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj")
 
 
 @dataclass
@@ -43,7 +43,10 @@ class LocalTask:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", choices=("train", "eval"), default="train")
-    parser.add_argument("--adapter", default=ADAPTER)
+    parser.add_argument(
+        "--adapter",
+        help="Adapter to evaluate. Training always creates a fresh, teacher-free live-Y adapter.",
+    )
     parser.add_argument("--output-dir", default="/workspace/outputs/beer-wholesaler-qwen35-4b-live-y-rl")
     parser.add_argument("--updates", type=int, default=6)
     parser.add_argument("--group-size", type=int, default=4)
@@ -135,7 +138,7 @@ def configure_pilot(args: argparse.Namespace) -> None:
 
     def load_policy(pilot_args: Any) -> tuple[Any, Any]:
         import torch
-        from peft import PeftModel
+        from peft import LoraConfig, PeftModel, TaskType, get_peft_model
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         if not torch.cuda.is_available():
@@ -147,12 +150,27 @@ def configure_pilot(args: argparse.Namespace) -> None:
         model = AutoModelForCausalLM.from_pretrained(
             "Qwen/Qwen3.5-4B", trust_remote_code=True, device_map="auto", torch_dtype=torch.bfloat16
         )
-        model = PeftModel.from_pretrained(model, args.adapter, is_trainable=args.mode == "train")
         if args.mode == "train":
+            model = get_peft_model(
+                model,
+                LoraConfig(
+                    task_type=TaskType.CAUSAL_LM,
+                    r=16,
+                    lora_alpha=16,
+                    lora_dropout=0.0,
+                    target_modules=list(LORA_TARGETS),
+                    bias="none",
+                ),
+            )
             model.gradient_checkpointing_enable()
             model.enable_input_require_grads()
             model.print_trainable_parameters()
-        model.config.use_cache = True
+            model.config.use_cache = False
+        else:
+            if not args.adapter:
+                raise ValueError("--adapter is required for evaluation")
+            model = PeftModel.from_pretrained(model, args.adapter, is_trainable=False)
+            model.config.use_cache = True
         return model, tokenizer
 
     def pilot_args() -> Any:
@@ -193,6 +211,23 @@ def main() -> None:
     load_seed_split()
     configure_pilot(args)
     pilot.main()
+    (Path(args.output_dir) / "live_y_rl_config.json").write_text(
+        json.dumps(
+            {
+                "environment": "v0.2.0 Tier-5 Y headline, wholesaler, 36 weeks",
+                "model": "Qwen/Qwen3.5-4B",
+                "precision": "bf16",
+                "quantization": "none",
+                "lora": {"rank": 16, "alpha": 16, "targets": list(LORA_TARGETS)},
+                "training_reward": "group-relative negative terminal local wholesaler cost; protocol failures = -100000",
+                "teacher": "none; fresh LoRA initialized from the base model",
+                "split_file": str(SPLITS.relative_to(ROOT)),
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    )
 
 
 if __name__ == "__main__":
