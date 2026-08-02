@@ -17,3 +17,11 @@ The LoRA adapter uses bf16 (not 4-bit), rank 16, alpha 16, and targets `q_proj`,
 ## Independent robustness replication
 
 `eval/robustness_seeds.json` is a separately frozen set of 100 sequences, derived from `random.Random(20260805)` and created after training. It is never used for data generation, training, or base-stock tuning. The same policies, 20-week horizon, and score formula are used; the resulting replication is recorded in `results/robustness.json`.
+
+| Policy | Mean total cost | Benchmark score | Bullwhip | Format failures |
+| --- | ---: | ---: | ---: | ---: |
+| Naive (last observed order) | 1717.55 ± 58.60 | 50.00 | 1.889 | 0.0% |
+| Tuned base stock | 1612.23 ± 43.58 | 51.58 | 1.889 | 0.0% |
+| Qwen3.5-4B, untuned | 20468.56 ± 6.61 | 7.74 | 1.889 | 0.0% |
+| GPT-5.6 Terra, zero-shot | 1913.81 ± 78.61 | 47.30 | 1.889 | 0.0% |
+| Qwen3.5-4B, LoRA | 1619.47 ± 41.38 | 51.47 | 1.889 | 0.0% |

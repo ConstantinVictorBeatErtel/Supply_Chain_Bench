@@ -1,0 +1,58 @@
+{
+  "protocol": {
+    "base_stock_level_tuned_on_train_seeds_only": 64,
+    "benchmark_score": "100 * naive_mean_cost / (naive_mean_cost + policy_mean_cost)",
+    "controlled_role": "wholesaler",
+    "horizon_weeks": 20,
+    "large_model": "openai/gpt-5.6-terra",
+    "name": "independent post-training robustness replication",
+    "qwen_lora_adapter": "/workspace/outputs/beer-wholesaler-qwen35-4b-lora/adapter",
+    "qwen_model": "Qwen/Qwen3.5-4B",
+    "seed_count": 100,
+    "seed_file": "eval/robustness_seeds.json",
+    "seed_rule": "fixed before evaluation; never used for training or base-stock tuning",
+    "topology": "serial"
+  },
+  "results": {
+    "base_stock": {
+      "benchmark_score_0_to_100": 51.58148586393096,
+      "bullwhip_ratio": 1.8887557040997052,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1612.23,
+      "order_format_failure_rate": 0.0,
+      "stderr": 43.57893999526733
+    },
+    "large_model": {
+      "benchmark_score_0_to_100": 47.29770664434262,
+      "bullwhip_ratio": 1.8887557040997052,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1913.81,
+      "order_format_failure_rate": 0.0,
+      "stderr": 78.61294865325684
+    },
+    "naive": {
+      "benchmark_score_0_to_100": 50.0,
+      "bullwhip_ratio": 1.8887557040997052,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1717.55,
+      "order_format_failure_rate": 0.0,
+      "stderr": 58.60356950379268
+    },
+    "qwen_base": {
+      "benchmark_score_0_to_100": 7.741555414626538,
+      "bullwhip_ratio": 1.8887557040997052,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 20468.56,
+      "order_format_failure_rate": 0.0,
+      "stderr": 6.610617722018621
+    },
+    "qwen_lora": {
+      "benchmark_score_0_to_100": 51.469651769620455,
+      "bullwhip_ratio": 1.8887557040997052,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1619.465,
+      "order_format_failure_rate": 0.0,
+      "stderr": 41.376282826705875
+    }
+  }
+}

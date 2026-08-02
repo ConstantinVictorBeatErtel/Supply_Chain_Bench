@@ -88,6 +88,8 @@ The published 0–100 score is intentionally anchored to the naive wholesaler:
 
 The naive policy orders last period's observed downstream order. It always scores **50**. A policy with zero cost approaches **100**; a worse policy remains above zero rather than being clipped. Base-stock's target level is tuned only on separate training seeds. The 100 benchmark seeds in [`eval/held_out_seeds.json`](eval/held_out_seeds.json) are fixed and never used for training, generation, or tuning. Full results and the exact configuration are in [results/README.md](results/README.md).
 
+An independent 100-seed replication, frozen separately after training, preserved the ordering: Qwen3.5-4B LoRA **51.47**, GPT-5.6 Terra **47.30**, and untuned Qwen3.5-4B **7.74**. See [`results/robustness.json`](results/robustness.json).
+
 ![Wholesaler LoRA benchmark](docs/assets/wholesaler-lora-benchmark.svg)
 
 ## Run it locally
