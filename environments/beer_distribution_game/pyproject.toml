@@ -1,6 +1,6 @@
 [project]
 name = "beer-distribution-game"
-version = "0.2.1"
+version = "0.2.2"
 description = "A reproducible Beer Distribution Game for evaluating tool-using LLM supply-chain control."
 readme = "README.md"
 requires-python = ">=3.11"

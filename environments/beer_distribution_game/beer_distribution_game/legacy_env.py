@@ -36,6 +36,7 @@ class BeerGameEnv(vf.MultiTurnEnv):
 
     def __init__(self, max_turns: int = 38, **kwargs: Any) -> None:
         spec = scenario_for(5, "development", 0)
+        self._spec = spec
         preview = BeerEpisode(spec, _ROLE, include_reference=False)
         initial_observation = preview.start()
         prompt = "Current observation:\n" + json.dumps(
@@ -60,14 +61,10 @@ class BeerGameEnv(vf.MultiTurnEnv):
         )
 
     async def setup_state(self, state: vf.State) -> vf.State:
-        spec = state["task"]["scenario"]
-        # ScenarioSpec is reconstructed through its canonical JSON form by the
-        # episode constructor's existing helper path in the v1 taskset.
-        from .scenario import scenario_from_dict
-
-        episode = BeerEpisode(
-            scenario_from_dict(spec), state["task"]["controlled_role"], include_reference=False
-        )
+        # The legacy Hub worker retains the standardized prompt payload but can
+        # drop custom dataset columns.  This adapter serves one immutable
+        # scenario, so keep its canonical spec on the environment instance.
+        episode = BeerEpisode(self._spec, _ROLE, include_reference=False)
         episode.start()
         state["beer_episode"] = episode
         state["beer_outcome"] = None
