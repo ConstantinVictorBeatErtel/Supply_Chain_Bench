@@ -1,100 +1,88 @@
-# Beer Distribution Game for RL and LLM Agents
+# Beer Distribution Game
 
-A deterministic multi-agent supply-chain environment for studying delayed
-control, the bullwhip effect, and strategic ordering under scarcity.
+**[▶ Play the live wholesaler game](https://beer-distribution-game.pages.dev/)**
 
-The repository contains two related research artifacts:
+This repository studies a simple question: what happens when a wholesaler has to
+make replenishment decisions with delayed shipments, incomplete information, and
+competing retailers?
 
-- a classical multi-agent RL simulator with Gymnasium, PettingZoo, IPPO, and
-  recurrent-policy experiments;
-- a publication-oriented [Verifiers](https://github.com/PrimeIntellect/verifiers)
-  environment where one LLM controls one supply-chain role through a strict tool.
+The environment is deterministic and replayable, so the same seed and orders
+always produce the same trajectory. It supports both classical multi-agent RL
+experiments and tool-using LLM evaluations.
 
 ```mermaid
 flowchart LR
-    F["Factory"] --> D["Distributor"] --> W["Wholesaler"]
-    W --> RA["Retailer A"] --> CA["Customer A"]
-    W --> RB["Retailer B"] --> CB["Customer B"]
+    F[Factory] --> D[Distributor] --> W[Wholesaler]
+    W --> RA[Retailer A] --> CA[Customer A]
+    W --> RB[Retailer B] --> CB[Customer B]
+
+    classDef focus fill:#f6c453,stroke:#8a5a00,stroke-width:3px,color:#241700;
+    class W focus;
 ```
 
-Goods move downstream; orders move upstream. Delays and local information can
-amplify small demand changes into unstable ordering.
+The wholesaler is the focus: it sits between the factory and two retailers, sees
+only its local state, and must decide how much to order before the consequences
+of earlier decisions arrive.
 
-## What the LLM environment tests
+## The fixed evaluation condition
 
-Every week the model receives a seeded local observation and must call:
+The public human game and the headline LLM comparison use the same Tier 5 setup:
 
-```text
-place_order(quantity: integer from 0 through 128)
-```
+- Y-shaped supply chain, controlled role: **wholesaler**
+- 36 decision weeks, followed by deterministic settlement
+- integer orders from 0 through 128
+- one-week order delay and two-week shipment delay
+- factory capacity of 22 with proportional allocation under shortage
+- local observations only; no private retailer state or future demand
+- comparison against the recorded DeepSeek V4 Flash trace and adaptive base-stock
+  policy for the same seed
 
-The model never sees future demand or another role's private state. Scripted,
-deterministic counterparties control the remaining roles. Episodes contain 36
-decision weeks followed by deterministic settlement.
+Every action is `place_order(quantity)`. The player or model minimizes local
+holding and backlog cost, not a system-wide score.
 
-| Tier | Change | Capability |
-|---:|---|---|
-| 1 | Constant demand | Protocol use and stable delayed control |
-| 2 | Persistent AR(1) demand | Filtering without overreaction |
-| 3 | Hidden demand shift | Online change detection |
-| 4 | Hidden shipment timing | Bounded-memory belief tracking |
-| 5 | Y topology, scarcity, aggressive retailers | Bullwhip control under competing claims |
+## Live game and anonymous baseline
 
-The primary reward compares controlled-role total cost with a same-seed adaptive
-base-stock policy. Fill rate, bullwhip, order volatility, system cost, and protocol
-compliance are reported separately. The reward is trace-derived and does not use
-an LLM judge.
+The browser game is a dependency-free static app. It uses eight opaque development
+and validation seeds, shows only the observation available to the model, and
+reveals comparisons after week 36. Optional telemetry is fail-soft and stores an
+anonymous session UUID plus replay-verified actions, weekly state, and scores.
 
-## Reproducibility
+- [Play on Cloudflare Pages](https://beer-distribution-game.pages.dev/)
+- [Open the Hugging Face Static Space](https://constantinertel-beer-distribution-game.static.hf.space/)
+- [Deployment and operations guide](DEPLOY.md)
 
-- Scenario seeds use stable SHA-256 derivation and explicit split membership.
-- A recorded action sequence exactly reproduces transitions and grading.
-- Invalid actions cannot partially mutate simulator state.
-- Test seeds are opt-in and are not used for calibration.
-- Environment v0.2.0 corrected a base-stock lead-time off-by-one found by a
-  one-unit impulse test. Results produced by v1 are not comparable.
+## What is in the repo
 
-## Current evidence
-
-These are development results, not held-out benchmark claims.
-
-| Evaluation | Result |
+| Path | Purpose |
 |---|---|
-| Classical RL | Independent policies rediscover shortage gaming under proportional rationing |
-| Steady retailer, DeepSeek V4 Flash | Cost 69 vs. base-stock 69; reward 0.500 |
-| Tier 5 Y wholesaler, 3 development seeds | Model cost 1,111.8 ± 213.2 vs. base-stock 850.7 ± 326.1; reward 0.423 ± 0.060 |
+| [`static_web/`](static_web/) | JS simulator, browser UI, D1 Worker, and parity tests |
+| `beer_distribution_rl/` | Classical simulator, RL agents, and wrappers |
+| `environments/beer_distribution_game/` | Frozen Verifiers Hub environment |
+| [`artifacts/hub_llm/`](artifacts/hub_llm/) | Recorded LLM traces and compact results |
+| `tests/` | Python simulator, Hub, calibration, and regression tests |
+| `docs/` | Frozen environment, reward, and difficulty specifications |
 
-DeepSeek used the required tool on all 108 wholesaler decisions but lost to
-base-stock on every seed. That negative result is retained: the wholesaler is the
-main learning target, while the retailer remains a useful protocol/control task.
+## Current wholesaler result
 
-Compact results and replay actions are in
+These are development results, not held-out benchmark claims. Across three Tier 5
+development seeds, the recorded DeepSeek wholesaler run had average local cost
+**1,111.8 ± 213.2**, compared with **850.7 ± 326.1** for the paired adaptive
+base-stock policy. The negative result is useful: it gives the project a clear
+wholesaler learning target rather than hiding an inconvenient comparison.
+
+The replayable source data is in
 [`artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/`](artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/).
 
-## Human baseline (Hub-eval parity)
+## Run it locally
 
-For anonymous human baselines on **Tier 5 Y as Wholesaler** (36 weeks, orders
-0–128, development+validation seeds, Hub FOW observations), see
-[`environments/beer_distribution_game/README_HUMAN.md`](environments/beer_distribution_game/README_HUMAN.md)
-and the human→SFT→GRPO pipeline in [`docs/HUMAN_TO_MODEL.md`](docs/HUMAN_TO_MODEL.md).
-Sessions log to a Hugging Face Dataset via `CommitScheduler` when `HF_TOKEN` is set.
+Run the Python environment and its tests:
 
-## Static human-baseline app
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest -q
+```
 
-The frozen Hub environment is also available as a zero-backend browser game for
-anonymous human-baseline collection. It locks the player to the Tier 5 strategic
-Y-topology wholesaler condition: 36 decisions, orders 0–128, local observations
-only, and the same-seed DeepSeek V4 Flash and adaptive base-stock comparisons at
-the end of the episode.
-
-- [Cloudflare Pages deployment](https://beer-distribution-game.pages.dev/)
-- [Hugging Face Static Space](https://constantinertel-beer-distribution-game.static.hf.space/)
-
-The simulator, vanilla UI, replay-validating D1 Worker, and integration tests are
-under [`static_web/`](static_web/). The build emits both
-`dist/cloudflare-pages/` and `dist/huggingface-space/`; telemetry is optional and
-fail-soft, and stores only an anonymous session UUID plus replay-verified game
-data. No credentials are included in the static bundle.
+Run the static app checks and builds:
 
 ```bash
 npm ci
@@ -103,93 +91,25 @@ npm run check:worker
 npm run build
 ```
 
-See [`DEPLOY.md`](DEPLOY.md) for Cloudflare D1/Worker/Pages and Hugging Face
-deployment commands. The GitHub Actions workflow in
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs the Python suite,
-JS parity and UI tests, Worker/D1 tests, dry-run validation, and both builds.
+The build writes `dist/cloudflare-pages/` and `dist/huggingface-space/`.
+GitHub Actions runs the Python suite, JS parity and UI tests, local Worker/D1
+tests, Worker dry-run validation, and both static builds on every push and pull
+request.
 
-## Playable Y-topology game
+## Reproducibility
 
-Play one role against **OpenRouter LLMs** (default), Sterman, or IPPO. Fog-of-war
-keeps other stations hidden; you place one order per week. When you are not a
-retailer, Retailer A and Retailer B must use two different named LLM models.
+- Seeds use stable SHA-256 derivation; no runtime hash randomization is involved.
+- The JS port matches the frozen Python environment week by week and at final
+  grading.
+- Invalid actions do not mutate state or consume randomness.
+- Recorded traces replay to their published costs and rewards.
+- Normative source-of-truth files are not changed by the web app.
 
-```bash
-export OPENROUTER_API_KEY="sk-or-..."   # required for LLM mode
-# or put it in a local .env (gitignored)
-python3 -m pip install -e ".[web,marl]"
-python3 scripts/serve_game.py
-# open http://127.0.0.1:8000  (hard-refresh after updates)
-```
-
-LLM episodes default to a **fast** setup: 16 weeks, LLMs only on retailer
-seats (Sterman elsewhere), parallel OpenRouter calls, and a Sterman end-screen
-baseline. Use “Full — LLM on every AI seat” / “re-run your seat with an LLM”
-if you want the slower paths. Sterman/IPPO games still use 52 weeks.
-
-## Quick start
-
-Core simulator and tests:
-
-```bash
-python -m pip install -e ".[dev]"
-python -m pytest -q
-```
-
-Verifiers package validation:
-
-```bash
-cd environments/beer_distribution_game
-uv sync
-uv run validate beer-distribution-game --runtime.type subprocess
-uv run eval @ eval.toml --dry-run True
-```
-
-Regenerate deterministic heuristic and random baselines:
-
-```bash
-PYTHONPATH=environments/beer_distribution_game \
-  python scripts/eval_hub_baselines.py
-```
-
-Akash configurations read `AKASH_API_KEY` from the process environment and keep
-result upload disabled. Start with the one-seed wholesaler smoke configuration;
-use the three-seed development configuration only after the smoke is clean.
-
-The first one-GPU RL pilot is documented in
-[`notebooks/colab_llm_grpo_wholesaler.ipynb`](notebooks/colab_llm_grpo_wholesaler.ipynb)
-and uses the native deterministic simulator/grader with a local JSON action
-serializer. A selected adapter still requires a separate native Verifiers
-tool-call evaluation before publication.
-
-## Repository map
-
-```text
-beer_distribution_rl/             classical simulator, agents, and wrappers
-environments/beer_distribution_game/  native Verifiers environment
-static_web/                       dependency-free simulator, UI, Worker, and tests
-tests/                             simulator and integration tests
-tests/hub/                         Hub environment and calibration tests
-scripts/                           evaluation and training entry points
-experiments/                       classical RL configurations
-artifacts/                         compact results; large run data is ignored
-docs/                              environment, reward, and difficulty contracts
-```
-
-Normative LLM-environment documentation:
+See the frozen specifications for the exact contract:
 
 - [`docs/ENVIRONMENT_SPEC.md`](docs/ENVIRONMENT_SPEC.md)
 - [`docs/REWARD_SPEC.md`](docs/REWARD_SPEC.md)
 - [`docs/DIFFICULTY_LADDER.md`](docs/DIFFICULTY_LADDER.md)
-- [`DECISIONS.md`](DECISIONS.md) for the design audit trail
-
-## Next evaluation gate
-
-1. Run a second tool-capable model on the same three wholesaler development seeds.
-2. Measure repeated-generation variance on one fixed seed.
-3. Freeze the prompt and environment version.
-4. Evaluate validation seeds and both Tier 5 mechanism controls.
-5. Only then launch a small LoRA/GRPO wholesaler training cell and compare it
-   honestly with base-stock.
+- [`DECISIONS.md`](DECISIONS.md)
 
 MIT licensed. No API keys are stored in the repository.
