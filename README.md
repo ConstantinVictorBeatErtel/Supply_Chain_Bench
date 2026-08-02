@@ -14,7 +14,7 @@ experiments and tool-using LLM evaluations.
 flowchart LR
     F[Factory] --> D[Distributor]
     D --> H[Wholesaler · human]
-    D --> L[Wholesaler · DeepSeek]
+    D --> L[Wholesaler · recorded LLM]
     H --> RA[Retailer A] --> CA[Customer A]
     L --> RB[Retailer B] --> CB[Customer B]
 
@@ -23,7 +23,7 @@ flowchart LR
 ```
 
 The two highlighted boxes are alternative wholesaler runs on the same seed: the
-human game and the recorded DeepSeek comparison. In the underlying frozen Y
+human game and the recorded LLM comparison. In the underlying frozen Y
 topology there is one wholesaler seat; the second box makes the comparison
 explicit rather than implying that both agents play simultaneously.
 
@@ -37,7 +37,7 @@ The public human game and the headline LLM comparison use the same Tier 5 setup:
 - one-week order delay and two-week shipment delay
 - factory capacity of 22 with proportional allocation under shortage
 - local observations only; no private retailer state or future demand
-- comparison against the recorded DeepSeek V4 Flash trace and adaptive base-stock
+- comparison against the recorded LLM trace and adaptive base-stock
   policy for the same seed
 
 Every action is `place_order(quantity)`. The player or model minimizes local
@@ -68,13 +68,13 @@ anonymous session UUID plus replay-verified actions, weekly state, and scores.
 ## Current wholesaler result
 
 These are development results, not held-out benchmark claims. Across three Tier 5
-development seeds, the recorded DeepSeek wholesaler run had average local cost
+development seeds, the recorded LLM wholesaler run had average local cost
 **1,111.8 ± 213.2**, compared with **850.7 ± 326.1** for the paired adaptive
 base-stock policy. The negative result is useful: it gives the project a clear
 wholesaler learning target rather than hiding an inconvenient comparison.
 
-The replayable source data is in
-[`artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/`](artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/).
+The replayable source data is in the frozen [`artifacts/hub_llm/`](artifacts/hub_llm/)
+collection.
 
 ## Frozen wholesaler LoRA benchmark
 

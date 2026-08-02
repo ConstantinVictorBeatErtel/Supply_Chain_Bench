@@ -21,7 +21,7 @@ describe("static build", () => {
     for (const output of [PAGES, SPACE]) {
       for (const file of [
         "index.html", "app.js", "styles.css", "telemetry.js", "config.js",
-        "sim/index.js", "data/deepseek-v4-flash.json",
+        "sim/index.js", "data/llm-comparison.json",
       ]) {
         expect(existsSync(resolve(output, file)), `${output}/${file}`).toBe(true);
       }
@@ -35,9 +35,9 @@ describe("static build", () => {
     }
   });
 
-  test("generates exactly the immutable eight-seed DeepSeek catalog", () => {
+  test("generates exactly the immutable eight-seed LLM catalog", () => {
     const catalog = JSON.parse(readFileSync(
-      resolve(PAGES, "data/deepseek-v4-flash.json"), "utf8",
+      resolve(PAGES, "data/llm-comparison.json"), "utf8",
     ));
     expect(catalog.environment_version).toBe("0.2.0");
     expect(catalog.scenario_id).toBe("t5-strategic-y-v2");

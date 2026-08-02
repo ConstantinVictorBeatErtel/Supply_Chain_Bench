@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { replayActions, scenarioFor } from "../src/sim/index.js";
 import { artifactRows } from "./helpers.js";
 
-describe("DeepSeek trace integrity", () => {
+describe("LLM trace integrity", () => {
   test("the eight headline traces replay to their published totals", () => {
     const rows = artifactRows();
     expect(rows).toHaveLength(8);

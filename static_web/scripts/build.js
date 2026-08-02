@@ -41,13 +41,13 @@ function traceCatalog() {
     const order = { development: 0, validation: 1 };
     return order[left.split] - order[right.split] || left.seed_index - right.seed_index;
   });
-  if (seeds.length !== 8) throw new Error(`expected 8 headline DeepSeek traces, found ${seeds.length}`);
+  if (seeds.length !== 8) throw new Error(`expected 8 headline LLM traces, found ${seeds.length}`);
   return {
     schema_version: "1.0.0",
     environment_version: "0.2.0",
     scenario_id: "t5-strategic-y-v2",
     controlled_role: "wholesaler",
-    model: "DeepSeek V4 Flash",
+    model: "LLM",
     seeds,
   };
 }
@@ -69,7 +69,7 @@ function buildTarget(target) {
   cpSync(resolve(STATIC, "src/sim"), resolve(target, "sim"), { recursive: true });
   mkdirSync(resolve(target, "data"), { recursive: true });
   writeFileSync(
-    resolve(target, "data/deepseek-v4-flash.json"),
+    resolve(target, "data/llm-comparison.json"),
     `${JSON.stringify(traceCatalog(), null, 2)}\n`,
   );
   writeRuntimeConfig(target);

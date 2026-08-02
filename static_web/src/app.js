@@ -290,14 +290,14 @@ function sendCurrentRecord(status) {
 function debriefHtml() {
   const humanGrade = active.episode.outcome.grade;
   const trace = active.trace;
-  const deepSeekReplay = replayActions(
+  const llmReplay = replayActions(
     scenarioFor(TIER, active.seed.split, active.seed.seed_index),
     ROLE,
     trace.actions,
   ).episode;
-  const deepSeekCost = deepSeekReplay.outcome.grade.primary.local_total_cost;
-  if (deepSeekCost !== trace.local_total_cost) {
-    throw new Error("recorded DeepSeek trace integrity failure");
+  const llmCost = llmReplay.outcome.grade.primary.local_total_cost;
+  if (llmCost !== trace.local_total_cost) {
+    throw new Error("recorded LLM trace integrity failure");
   }
   const humanCost = humanGrade.primary.local_total_cost;
   const baseCost = humanGrade.primary.paired_base_stock_local_total_cost;
@@ -317,8 +317,8 @@ function debriefHtml() {
             <span class="score-note">Local total cost</span>
           </article>
           <article class="score-card">
-            <span class="score-label">DeepSeek V4 Flash</span>
-            <strong id="deepseek-final-cost" class="score-value">${formatCost(deepSeekCost)}</strong>
+            <span class="score-label">Recorded LLM</span>
+            <strong id="llm-final-cost" class="score-value">${formatCost(llmCost)}</strong>
             <span class="score-note">Recorded evaluation trace</span>
           </article>
           <article class="score-card">
@@ -420,7 +420,7 @@ function renderGame() {
 }
 
 async function loadCatalog() {
-  const response = await fetch("./data/deepseek-v4-flash.json", { cache: "no-cache" });
+  const response = await fetch("./data/llm-comparison.json", { cache: "no-cache" });
   if (!response.ok) throw new Error(`trace catalog returned ${response.status}`);
   const payload = await response.json();
   if (!Array.isArray(payload.seeds) || payload.seeds.length !== 8) {
