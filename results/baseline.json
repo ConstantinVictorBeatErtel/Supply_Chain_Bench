@@ -1,0 +1,56 @@
+{
+  "protocol": {
+    "base_stock_level_tuned_on_train_seeds_only": 64,
+    "benchmark_score": "100 * naive_mean_cost / (naive_mean_cost + policy_mean_cost); naive scores 50, zero cost approaches 100",
+    "controlled_role": "wholesaler",
+    "held_out_seed_count": 100,
+    "held_out_seed_file": "eval/held_out_seeds.json",
+    "horizon_weeks": 20,
+    "large_model": "openai/gpt-5.6-terra",
+    "qwen_lora_adapter": "/workspace/outputs/beer-wholesaler-qwen35-4b-lora/adapter",
+    "qwen_model": "Qwen/Qwen3.5-4B",
+    "topology": "serial"
+  },
+  "results": {
+    "base_stock": {
+      "benchmark_score_0_to_100": 51.577201757561944,
+      "bullwhip_ratio": 1.820560730022917,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1624.965,
+      "order_format_failure_rate": 0.0,
+      "stderr": 43.38925194787252
+    },
+    "large_model": {
+      "benchmark_score_0_to_100": 46.98648489068602,
+      "bullwhip_ratio": 1.820560730022917,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1952.835,
+      "order_format_failure_rate": 0.0,
+      "stderr": 78.46466587360558
+    },
+    "naive": {
+      "benchmark_score_0_to_100": 50.0,
+      "bullwhip_ratio": 1.820560730022917,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1730.82,
+      "order_format_failure_rate": 0.0,
+      "stderr": 58.1167227276802
+    },
+    "qwen_base": {
+      "benchmark_score_0_to_100": 7.802398033104361,
+      "bullwhip_ratio": 1.820560730022917,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 20452.36,
+      "order_format_failure_rate": 0.0,
+      "stderr": 13.184726930900931
+    },
+    "qwen_lora": {
+      "benchmark_score_0_to_100": 51.465553000016364,
+      "bullwhip_ratio": 1.820560730022917,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1632.245,
+      "order_format_failure_rate": 0.0,
+      "stderr": 40.98626124518539
+    }
+  }
+}

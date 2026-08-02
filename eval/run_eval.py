@@ -175,7 +175,8 @@ class OpenRouterPolicy:
 class LocalQwenPolicy:
     name = "qwen_base"
 
-    def __init__(self, model_name: str) -> None:
+    def __init__(self, model_name: str, name: str = "qwen_base") -> None:
+        self.name = name
         import torch
         from unsloth import FastLanguageModel
 
@@ -294,6 +295,7 @@ def score_against_naive(policy_cost: float, naive_cost: float) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--qwen-model", default="Qwen/Qwen3.5-4B")
+    parser.add_argument("--qwen-name", default="qwen_base")
     parser.add_argument("--large-model", default="openai/gpt-5.6-terra")
     parser.add_argument("--skip-qwen", action="store_true")
     parser.add_argument("--skip-large", action="store_true")
@@ -303,7 +305,7 @@ def main() -> None:
     level = tune_base_stock()
     policies: list[BatchPolicy] = [NaivePolicy(), BaseStockPolicy(level)]
     if not args.skip_qwen:
-        policies.append(LocalQwenPolicy(args.qwen_model))
+        policies.append(LocalQwenPolicy(args.qwen_model, args.qwen_name))
     if not args.skip_large:
         policies.append(OpenRouterPolicy(args.large_model))
 

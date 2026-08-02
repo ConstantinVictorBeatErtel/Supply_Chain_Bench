@@ -76,6 +76,10 @@ wholesaler learning target rather than hiding an inconvenient comparison.
 The replayable source data is in
 [`artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/`](artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/).
 
+## Frozen wholesaler LoRA benchmark
+
+On the fixed 100-seed wholesaler split, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**. The protocol and full result table are in [results/README.md](results/README.md).
+
 ## Run it locally
 
 Run the Python environment and its tests:
