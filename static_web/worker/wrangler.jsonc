@@ -1,0 +1,18 @@
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "beer-game-anonymous-logger",
+	"main": "src/index.js",
+	"compatibility_date": "2026-07-25",
+	"workers_dev": true,
+	"vars": {
+		"ALLOWED_ORIGINS": "http://127.0.0.1:4173"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "beer-game-human-sessions",
+			"database_id": "4b39f96a-ca51-4405-bf7a-0065b5397e35",
+			"migrations_dir": "migrations"
+		}
+	]
+}

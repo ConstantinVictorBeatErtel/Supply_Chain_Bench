@@ -1,0 +1,6 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "beer-distribution-game",
+  "compatibility_date": "2026-07-25",
+  "pages_build_output_dir": "../dist/cloudflare-pages"
+}

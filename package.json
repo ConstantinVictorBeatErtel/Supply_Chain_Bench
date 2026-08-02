@@ -1,0 +1,22 @@
+{
+  "name": "beer-distribution-static-web",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node static_web/scripts/build.js",
+    "dev": "npm run build && wrangler pages dev --config static_web/wrangler.pages.jsonc",
+    "test": "npm run build && vitest run --config static_web/vitest.config.js",
+    "test:worker": "vitest run --config static_web/worker/vitest.config.js",
+    "test:all": "npm run test && npm run test:worker",
+    "check:worker": "wrangler deploy --dry-run --config static_web/worker/wrangler.jsonc --outdir .wrangler/dry-run",
+    "check:config": "node static_web/scripts/validate-config.js",
+    "deploy:worker": "wrangler deploy --config static_web/worker/wrangler.jsonc",
+    "deploy:pages": "wrangler pages deploy dist/cloudflare-pages --project-name beer-distribution-game"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.18.8",
+    "vitest": "^4.1.0",
+    "wrangler": "^4.114.0"
+  }
+}

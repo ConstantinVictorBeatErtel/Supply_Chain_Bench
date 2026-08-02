@@ -79,6 +79,35 @@ For anonymous human baselines on **Tier 5 Y as Wholesaler** (36 weeks, orders
 and the human→SFT→GRPO pipeline in [`docs/HUMAN_TO_MODEL.md`](docs/HUMAN_TO_MODEL.md).
 Sessions log to a Hugging Face Dataset via `CommitScheduler` when `HF_TOKEN` is set.
 
+## Static human-baseline app
+
+The frozen Hub environment is also available as a zero-backend browser game for
+anonymous human-baseline collection. It locks the player to the Tier 5 strategic
+Y-topology wholesaler condition: 36 decisions, orders 0–128, local observations
+only, and the same-seed DeepSeek V4 Flash and adaptive base-stock comparisons at
+the end of the episode.
+
+- [Cloudflare Pages deployment](https://beer-distribution-game.pages.dev/)
+- [Hugging Face Static Space](https://constantinertel-beer-distribution-game.static.hf.space/)
+
+The simulator, vanilla UI, replay-validating D1 Worker, and integration tests are
+under [`static_web/`](static_web/). The build emits both
+`dist/cloudflare-pages/` and `dist/huggingface-space/`; telemetry is optional and
+fail-soft, and stores only an anonymous session UUID plus replay-verified game
+data. No credentials are included in the static bundle.
+
+```bash
+npm ci
+npm run test:all
+npm run check:worker
+npm run build
+```
+
+See [`DEPLOY.md`](DEPLOY.md) for Cloudflare D1/Worker/Pages and Hugging Face
+deployment commands. The GitHub Actions workflow in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs the Python suite,
+JS parity and UI tests, Worker/D1 tests, dry-run validation, and both builds.
+
 ## Playable Y-topology game
 
 Play one role against **OpenRouter LLMs** (default), Sterman, or IPPO. Fog-of-war
@@ -138,6 +167,7 @@ tool-call evaluation before publication.
 ```text
 beer_distribution_rl/             classical simulator, agents, and wrappers
 environments/beer_distribution_game/  native Verifiers environment
+static_web/                       dependency-free simulator, UI, Worker, and tests
 tests/                             simulator and integration tests
 tests/hub/                         Hub environment and calibration tests
 scripts/                           evaluation and training entry points

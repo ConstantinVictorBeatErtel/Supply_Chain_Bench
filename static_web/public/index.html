@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Play the Tier 5 Beer Distribution Game under the same conditions as the recorded LLM evaluation.">
+    <meta name="theme-color" content="#09100e">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'">
+    <title>Beer Distribution Game — Human Baseline</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./config.js" defer></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to game</a>
+    <header class="site-header">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">BG</span>
+        <div>
+          <p class="eyebrow">Environment v0.2.0 · Human baseline</p>
+          <p class="brand-name">Beer Distribution Game</p>
+        </div>
+      </div>
+      <div id="header-status" class="header-status">Briefing</div>
+    </header>
+
+    <main id="main" class="shell" tabindex="-1">
+      <div id="app" aria-live="polite">
+        <section class="loading-card">
+          <p class="eyebrow">Preparing deterministic scenario</p>
+          <h1>Loading game…</h1>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>Anonymous research telemetry only: session UUID, game choices, state outcomes, and cost. No names, email addresses, IP addresses, or free text are stored by the application.</p>
+    </footer>
+  </body>
+</html>
