@@ -12,17 +12,20 @@ experiments and tool-using LLM evaluations.
 
 ```mermaid
 flowchart LR
-    F[Factory] --> D[Distributor] --> W[Wholesaler]
-    W --> RA[Retailer A] --> CA[Customer A]
-    W --> RB[Retailer B] --> CB[Customer B]
+    F[Factory] --> D[Distributor]
+    D --> H[Wholesaler · human]
+    D --> L[Wholesaler · DeepSeek]
+    H --> RA[Retailer A] --> CA[Customer A]
+    L --> RB[Retailer B] --> CB[Customer B]
 
     classDef focus fill:#f6c453,stroke:#8a5a00,stroke-width:3px,color:#241700;
-    class W focus;
+    class H,L focus;
 ```
 
-The wholesaler is the focus: it sits between the factory and two retailers, sees
-only its local state, and must decide how much to order before the consequences
-of earlier decisions arrive.
+The two highlighted boxes are alternative wholesaler runs on the same seed: the
+human game and the recorded DeepSeek comparison. In the underlying frozen Y
+topology there is one wholesaler seat; the second box makes the comparison
+explicit rather than implying that both agents play simultaneously.
 
 ## The fixed evaluation condition
 
