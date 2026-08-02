@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "derivation": "SHA-256('beer-live-y-rl-v1|<split>|<index>')[:16]",
+  "environment": "v0.2.0 Tier-5 Y headline, wholesaler, 36 weeks",
+  "rule": "These experiment-only seeds are never used by the public human game, the normative development/validation/test splits, or any previous benchmark.",
+  "train": [
+    "c01c2dcd33ef76ba", "5ef97c6d6f44bad4", "9a753c91ba00ba12", "911c128344d16b26",
+    "14723a91c77235fe", "86cba9412b525b35", "1544d12094b8585c", "f8faed3fe931c201",
+    "04ab3497d0d7391a", "97c2079e2c1006b5", "d310bceb9e5b6f2f", "0da5d5139c9011b0",
+    "646e493371954784", "f8fab0ce44c734d1", "3483772edad85e9d", "f3094fa0f61a5fa0"
+  ],
+  "eval": [
+    "fa8b86d551c26fea", "56fd12cd0deea9b2", "748b85f34466f5f2", "de16c6b7cff3e675",
+    "ac7f9a9cb6c3077d", "60625336e832d312", "291c0117a39c2b45", "60e5e3484ef9cef6",
+    "4c578d667459af5d", "851c83881571cd27"
+  ]
+}

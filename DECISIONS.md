@@ -243,3 +243,12 @@ Logged defaults for the v1 research codebase. Change only with a dated note.
 | Y wholesaler development evaluation | Three seeds; model cost 1,111.8 ± 213.2, paired base-stock 850.7 ± 326.1, reward 0.423 ± 0.060; 108/108 protocol-clean actions | Model lost to base-stock on every seed, supporting the wholesaler as the more informative learning target without claiming held-out generalization |
 | Reproducibility boundary | Environment/action replay is exact; separate temperature-0 seed-0 model runs scored 0.451 and 0.449 | Provider generation is not byte-deterministic, so report action traces and distinguish seed variance from repeat-generation variance |
 | Recorded corrected-pass usage | 187,974 input + 7,920 output tokens across five successful rollouts; about $0.029 at observed prices | Excludes provider-side billing for failed/retried calls and is not an account statement |
+
+## Teacher-free Qwen3.5-4B live-game RL split (2026-08-02)
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Environment | Exact v0.2.0 Tier-5 Y `headline`, wholesaler, 36-week scenario | Matches the public browser game without changing its parameters or counterparties. |
+| Experiment seeds | 16 train + 10 evaluation master seeds, frozen in `experiments/live_y_qwen_rl/splits.json` | Existing development and validation seeds are the eight public browser-game seeds; normative test seeds remain test-only. The experiment split is SHA-256-derived and does not alter the normative split contract. |
+| Training signal | Group-relative negative terminal local wholesaler cost | No demonstrations, action labels, base-stock reward, or system-cost reward enter optimization. |
+| Reference policy | Paired adaptive base-stock only during evaluation reporting | Retains an interpretable comparison without acting as a teacher. |
