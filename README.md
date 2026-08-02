@@ -78,7 +78,16 @@ collection.
 
 ## Frozen wholesaler LoRA benchmark
 
-On the fixed 100-seed wholesaler split, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**. The protocol and full result table are in [results/README.md](results/README.md).
+On a fixed, held-out set of 100 demand sequences, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**.
+
+Each policy controls the **wholesaler only** for 20 weeks in the native serial Beer Game. The retailer, distributor, and factory follow fixed base-stock policies. For each of the same 100 seeds we sum holding plus backlog cost across the supply chain, then take the mean cost. The table reports the mean and its standard error; invalid model outputs count as an order of zero and as a format failure.
+
+The published 0–100 score is intentionally anchored to the naive wholesaler:
+
+`score = 100 × naive_mean_cost / (naive_mean_cost + policy_mean_cost)`
+
+The naive policy orders last period's observed downstream order. It always scores **50**. A policy with zero cost approaches **100**; a worse policy remains above zero rather than being clipped. Base-stock's target level is tuned only on separate training seeds. The 100 benchmark seeds in [`eval/held_out_seeds.json`](eval/held_out_seeds.json) are fixed and never used for training, generation, or tuning. Full results and the exact configuration are in [results/README.md](results/README.md).
+
 ![Wholesaler LoRA benchmark](docs/assets/wholesaler-lora-benchmark.svg)
 
 ## Run it locally

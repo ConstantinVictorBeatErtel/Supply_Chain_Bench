@@ -36,12 +36,17 @@ class BatchPolicy(Protocol):
     def orders(self, observations: list[dict[str, Any]]) -> list[int]: ...
 
 
-def read_held_out_seeds() -> list[int]:
-    payload = json.loads(HELD_OUT_PATH.read_text())
+def read_eval_seeds(path: Path = HELD_OUT_PATH) -> list[int]:
+    """Read a frozen 100-seed evaluation split without sampling at runtime."""
+    payload = json.loads(path.read_text())
     seeds = [int(seed) for seed in payload["seeds"]]
     if len(seeds) != 100 or len(set(seeds)) != 100:
-        raise ValueError("frozen held-out split must contain exactly 100 unique seeds")
+        raise ValueError(f"evaluation split {path} must contain exactly 100 unique seeds")
     return seeds
+
+
+def read_held_out_seeds() -> list[int]:
+    return read_eval_seeds(HELD_OUT_PATH)
 
 
 def training_seeds(n: int = 100) -> list[int]:
@@ -175,7 +180,9 @@ class OpenRouterPolicy:
 class LocalQwenPolicy:
     name = "qwen_base"
 
-    def __init__(self, model_name: str, name: str = "qwen_base") -> None:
+    def __init__(
+        self, model_name: str, name: str = "qwen_base", adapter_path: str | None = None
+    ) -> None:
         self.name = name
         import torch
         from unsloth import FastLanguageModel
@@ -188,6 +195,10 @@ class LocalQwenPolicy:
             load_in_16bit=True,
             full_finetuning=False,
         )
+        if adapter_path:
+            from peft import PeftModel
+
+            self.model = PeftModel.from_pretrained(self.model, adapter_path)
         FastLanguageModel.for_inference(self.model)
         self.failures = 0
         self.calls = 0
@@ -296,16 +307,28 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--qwen-model", default="Qwen/Qwen3.5-4B")
     parser.add_argument("--qwen-name", default="qwen_base")
+    parser.add_argument("--qwen-adapter", default=None)
     parser.add_argument("--large-model", default="openai/gpt-5.6-terra")
+    parser.add_argument("--seed-file", default=str(HELD_OUT_PATH.relative_to(ROOT)))
+    parser.add_argument("--result-file", default=str(RESULT_PATH.relative_to(ROOT)))
     parser.add_argument("--skip-qwen", action="store_true")
     parser.add_argument("--skip-large", action="store_true")
     args = parser.parse_args()
 
-    seeds = read_held_out_seeds()
+    seed_path = Path(args.seed_file)
+    if not seed_path.is_absolute():
+        seed_path = ROOT / seed_path
+    result_path = Path(args.result_file)
+    if not result_path.is_absolute():
+        result_path = ROOT / result_path
+    seeds = read_eval_seeds(seed_path)
+    overlap = set(seeds).intersection(training_seeds())
+    if overlap:
+        raise AssertionError(f"training seed appears in evaluation split: {sorted(overlap)!r}")
     level = tune_base_stock()
     policies: list[BatchPolicy] = [NaivePolicy(), BaseStockPolicy(level)]
     if not args.skip_qwen:
-        policies.append(LocalQwenPolicy(args.qwen_model, args.qwen_name))
+        policies.append(LocalQwenPolicy(args.qwen_model, args.qwen_name, args.qwen_adapter))
     if not args.skip_large:
         policies.append(OpenRouterPolicy(args.large_model))
 
@@ -322,7 +345,7 @@ def main() -> None:
             "controlled_role": "wholesaler",
             "topology": "serial",
             "horizon_weeks": HORIZON,
-            "held_out_seed_file": str(HELD_OUT_PATH.relative_to(ROOT)),
+            "held_out_seed_file": str(seed_path.relative_to(ROOT)),
             "held_out_seed_count": len(seeds),
             "benchmark_score": "100 * naive_mean_cost / (naive_mean_cost + policy_mean_cost); naive scores 50, zero cost approaches 100",
             "large_model": args.large_model,
@@ -331,8 +354,8 @@ def main() -> None:
         },
         "results": results,
     }
-    RESULT_PATH.parent.mkdir(exist_ok=True)
-    RESULT_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    result_path.parent.mkdir(exist_ok=True)
+    result_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(json.dumps(payload, indent=2, sort_keys=True))
 
 

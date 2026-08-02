@@ -1,58 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
   <title id="title">Wholesaler LoRA benchmark</title>
-  <desc id="desc">A leaderboard-style comparison: Qwen3.5-4B LoRA scores 51.47, GPT-5.6 Terra scores 46.99, and untuned Qwen3.5-4B scores 7.80 on 100 frozen Beer Distribution Game seeds.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#0a1020"/>
-      <stop offset="1" stop-color="#14102b"/>
-    </linearGradient>
-    <linearGradient id="lora" x1="0" x2="1">
-      <stop offset="0" stop-color="#3cf0c5"/>
-      <stop offset="1" stop-color="#8cf2f4"/>
-    </linearGradient>
-    <linearGradient id="terra" x1="0" x2="1">
-      <stop offset="0" stop-color="#7896ff"/>
-      <stop offset="1" stop-color="#b69cff"/>
-    </linearGradient>
-    <linearGradient id="base" x1="0" x2="1">
-      <stop offset="0" stop-color="#41506c"/>
-      <stop offset="1" stop-color="#71809d"/>
-    </linearGradient>
-    <filter id="glow" x="-10%" y="-30%" width="120%" height="160%">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <rect width="1200" height="640" fill="url(#bg)"/>
-  <circle cx="1068" cy="-40" r="310" fill="#432e91" opacity="0.20"/>
-  <circle cx="80" cy="670" r="270" fill="#0fae9d" opacity="0.10"/>
-  <g opacity="0.18" stroke="#b6c6ff" stroke-width="1">
-    <path d="M72 184H1128M72 294H1128M72 404H1128M72 514H1128"/>
-    <path d="M462 158V544M638 158V544M814 158V544M990 158V544" stroke-dasharray="4 9"/>
+  <desc id="desc">A simple light leaderboard: Qwen3.5-4B LoRA scores 51.47, GPT-5.6 Terra scores 46.99, and untuned Qwen3.5-4B scores 7.80 on 100 frozen Beer Distribution Game seeds.</desc>
+  <rect width="1200" height="620" fill="#faf9f6"/>
+  <rect x="56" y="46" width="1088" height="528" rx="8" fill="#fff" stroke="#e5e2db"/>
+  <text x="96" y="113" fill="#20201e" font-family="Georgia, serif" font-size="42">Wholesaler leaderboard</text>
+  <text x="96" y="151" fill="#6a6964" font-family="Arial, sans-serif" font-size="18">Beer Distribution Game · 100 frozen seeds · score out of 100</text>
+  <line x1="96" y1="188" x2="1104" y2="188" stroke="#e5e2db"/>
+  <text x="109" y="225" fill="#898780" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">RANK</text>
+  <text x="214" y="225" fill="#898780" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">MODEL</text>
+  <text x="970" y="225" fill="#898780" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">SCORE</text>
+  <g font-family="Arial, sans-serif">
+    <text x="112" y="298" fill="#242320" font-size="22" font-weight="700">1</text>
+    <text x="214" y="284" fill="#242320" font-size="21" font-weight="700">Qwen3.5-4B LoRA</text>
+    <text x="214" y="310" fill="#77756f" font-size="15">bf16 · rank 16</text>
+    <rect x="540" y="270" width="385" height="26" rx="5" fill="#eeeDE9"/>
+    <rect x="540" y="270" width="198" height="26" rx="5" fill="#873cff"/>
+    <text x="970" y="292" fill="#242320" font-size="24" font-weight="700">51.47</text>
+    <line x1="96" y1="337" x2="1104" y2="337" stroke="#eceae5"/>
+    <text x="112" y="390" fill="#242320" font-size="22">2</text>
+    <text x="214" y="376" fill="#242320" font-size="21" font-weight="700">GPT-5.6 Terra</text>
+    <text x="214" y="402" fill="#77756f" font-size="15">zero-shot</text>
+    <rect x="540" y="362" width="385" height="26" rx="5" fill="#eeeDE9"/>
+    <rect x="540" y="362" width="181" height="26" rx="5" fill="#9a50ff"/>
+    <text x="970" y="384" fill="#242320" font-size="24" font-weight="700">46.99</text>
+    <line x1="96" y1="429" x2="1104" y2="429" stroke="#eceae5"/>
+    <text x="112" y="482" fill="#242320" font-size="22">3</text>
+    <text x="214" y="468" fill="#242320" font-size="21" font-weight="700">Qwen3.5-4B</text>
+    <text x="214" y="494" fill="#77756f" font-size="15">untuned</text>
+    <rect x="540" y="454" width="385" height="26" rx="5" fill="#eeeDE9"/>
+    <rect x="540" y="454" width="30" height="26" rx="5" fill="#b47aff"/>
+    <text x="970" y="476" fill="#242320" font-size="24" font-weight="700">7.80</text>
   </g>
-  <text x="72" y="80" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="3">BEER DISTRIBUTION GAME</text>
-  <text x="72" y="130" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">Wholesaler benchmark</text>
-  <text x="72" y="160" fill="#aab7d5" font-family="Arial, Helvetica, sans-serif" font-size="18">100 frozen held-out seeds · 20 weeks · score 0–100</text>
-  <g font-family="Arial, Helvetica, sans-serif">
-    <text x="72" y="219" fill="#8795b5" font-size="14" font-weight="700" letter-spacing="2">MODEL</text>
-    <text x="1086" y="219" fill="#8795b5" font-size="14" font-weight="700" text-anchor="end" letter-spacing="2">SCORE</text>
-    <text x="72" y="263" fill="#ffffff" font-size="24" font-weight="700">Qwen3.5-4B LoRA</text>
-    <text x="72" y="287" fill="#9eb0cf" font-size="16">bf16 · r=16 · α=16</text>
-    <rect x="462" y="244" width="528" height="30" rx="15" fill="#263047"/>
-    <rect x="462" y="244" width="272" height="30" rx="15" fill="url(#lora)" filter="url(#glow)"/>
-    <text x="1086" y="267" fill="#8cf2f4" font-size="32" font-weight="700" text-anchor="end">51.47</text>
-    <text x="72" y="373" fill="#ffffff" font-size="24" font-weight="700">GPT-5.6 Terra</text>
-    <text x="72" y="397" fill="#9eb0cf" font-size="16">zero-shot · API</text>
-    <rect x="462" y="354" width="528" height="30" rx="15" fill="#263047"/>
-    <rect x="462" y="354" width="248" height="30" rx="15" fill="url(#terra)"/>
-    <text x="1086" y="377" fill="#b9abff" font-size="32" font-weight="700" text-anchor="end">46.99</text>
-    <text x="72" y="483" fill="#ffffff" font-size="24" font-weight="700">Qwen3.5-4B</text>
-    <text x="72" y="507" fill="#9eb0cf" font-size="16">untuned · local</text>
-    <rect x="462" y="464" width="528" height="30" rx="15" fill="#263047"/>
-    <rect x="462" y="464" width="41" height="30" rx="15" fill="url(#base)"/>
-    <text x="1086" y="487" fill="#b7c4dd" font-size="32" font-weight="700" text-anchor="end">7.80</text>
-  </g>
-  <rect x="72" y="566" width="1056" height="1" fill="#53617e" opacity="0.55"/>
-  <text x="72" y="607" fill="#aab7d5" font-family="Arial, Helvetica, sans-serif" font-size="16">Score = 100 × naive cost / (naive cost + policy cost) · Higher is better</text>
-  <text x="1128" y="607" fill="#8cf2f4" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="end">Qwen LoRA +43.67 over untuned</text>
+  <text x="96" y="539" fill="#6a6964" font-family="Arial, sans-serif" font-size="15">Score = 100 × naive cost ÷ (naive cost + policy cost)</text>
 </svg>
