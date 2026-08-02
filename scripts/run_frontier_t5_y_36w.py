@@ -481,7 +481,7 @@ def main() -> None:
         policy: [run_policy(make_spec(seed, index), policy) for index, seed in enumerate(seeds)]
         for policy in ("naive", "oracle")
     }
-    payload: dict[str, Any] = {
+    fresh_payload: dict[str, Any] = {
         "protocol": {
             "environment_version": ENVIRONMENT_VERSION,
             "scenario_id": "t5-strategic-y-v2",
@@ -502,6 +502,14 @@ def main() -> None:
         },
         "models": {},
     }
+    if RESULTS_PATH.is_file():
+        existing = json.loads(RESULTS_PATH.read_text())
+        if existing.get("split", {}).get("ids") == seeds:
+            payload = existing
+        else:
+            payload = fresh_payload
+    else:
+        payload = fresh_payload
     for policy, rows in baseline_rows.items():
         (OUTPUT_ROOT / "episodes").mkdir(exist_ok=True)
         (OUTPUT_ROOT / "episodes" / f"{policy}.jsonl").write_text(
@@ -511,6 +519,9 @@ def main() -> None:
     requested = [key for key, _ in MODELS if not args.only or key in args.only]
     for key in requested:
         model_id = dict(MODELS)[key]
+        if payload["models"].get(key, {}).get("status") == "complete":
+            print(f"{key}: already complete; preserving recorded results", flush=True)
+            continue
         if not available[key]:
             payload["models"][key] = {
                 "status": "skipped_unavailable",
