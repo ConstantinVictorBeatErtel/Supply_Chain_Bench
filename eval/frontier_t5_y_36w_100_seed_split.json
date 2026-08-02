@@ -1,0 +1,28 @@
+{
+  "split_id": "frontier-t5-y-36w-20260802-v1",
+  "created_at": "2026-08-02",
+  "generation": "sha256(beer-agent-v1|frontier-t5-y-36w|20260802|index)[:16]",
+  "seed_count": 100,
+  "seeds": [
+    "74349bf360048606", "97e1acaa38c1f0f8", "9711f0dd4ffce753", "49ae4cce222a5844", "616a8c6b4132a07e",
+    "0c355589ecbe26f9", "31afb4259b5a5880", "2dc7856c14781f15", "b5d4f9d43fccc946", "1389b3d9bcdc6d2f",
+    "1535c3afa80fa9d2", "d3ef63e6f88cd5aa", "86bb965f3b4fd727", "19cca4182745d5ec", "0e6cbac173136b79",
+    "b65b8cd4f91741c2", "ea8d2c3257e597bb", "0fd2c29d467460cb", "b00d1386b0da7ee4", "1afc061cb59c9513",
+    "fb8e9591522b367d", "ecf0282fa1794fc0", "459f6c3af73ff294", "a1d4b1e15f754813", "99fcbd6018bee059",
+    "c471f030d809e6dd", "2b04abb8be9e50ef", "22b97e0496d45fda", "c032f127bd5bd39b", "c4b158dd3c31fc41",
+    "b8f541b446415886", "3ca6506a64a2965c", "c59a32db3e3d1313", "4a12cc28855c2b21", "ee757014b053c4b0",
+    "4bdf959aa29525f9", "3fb7b296dfd3965e", "f603800a2b86b44c", "ce38c6fadd1581fd", "b072b6f57c29c4da",
+    "c4add3f8efbdd5ae", "1fba50b3edec3e78", "8522213719f4f4fe", "85f2fc1669bdb5d3", "85e2a53369cc260c",
+    "e651a1753ccb08aa", "3aac3144a40f539c", "73533d0505c3dcca", "c6d6a1afdefb6687", "a6c345545f448b6c",
+    "ce50270aef38ae58", "23a85dff750e89cb", "90afa9f6b09fdf45", "c0321979c87a110e", "f019d0c44a80e9a8",
+    "592f6b6e94687c2d", "71fca1742d4ba371", "4f0e3ec363036ccd", "8ee78d433464736a", "2d90cd37a8c05089",
+    "db32fc8a31d8052a", "55d24bd8ae143fbb", "ac6ce18437d0c108", "e72db3f5a22ac322", "03af34ee77f334fa",
+    "65294106acd9416d", "327cf294bbcaf825", "f883eb0b83cad3cd", "64850a21b068813c", "3231690bd248e819",
+    "9100887e5c33f0ce", "c7ae328cd9ca4757", "6d1560546d2272ee", "cb42dc6da52f4898", "0a65ca7f8e716b82",
+    "2195a850b5e90b5c", "2ab9e5e1d81f0115", "1e2ea1334a3c13e6", "8458c60617b352dc", "ddcd55c4f5efd074",
+    "18896df089df47b0", "a57d2aff95a659ed", "f7c7ab7ef4daed39", "44ba55c86e449fa6", "d51b2eba7f7a5561",
+    "3ccd47ec6eb28162", "794d06ca4023954b", "57751db5a88b534d", "9668348b86d927b9", "ed91030d643beb53",
+    "31cd2e33eed109f0", "99e0afeb33cf0c10", "7a9b92406412735f", "df920e366250ecac", "c389c4275025ff9b",
+    "028c8704aeffd162", "bf99519df03722c7", "af7766b022519fd6", "1143a3ad577a7135", "5fcb28e56a54d9ff"
+  ]
+}
