@@ -429,6 +429,8 @@ def write_report(payload: dict[str, Any]) -> None:
         )
     lines += [
         "",
+        "Skipped models were not assigned cost, raw, score, or format-failure metrics. Their raw request errors and any partial valid calls remain in `results.json` and the per-model JSONL logs.",
+        "",
         "Raw request/response JSONL is stored under `raw/`; per-episode actions and grades are under `episodes/`; the aggregate JSON is `results.json`.",
         "",
     ]

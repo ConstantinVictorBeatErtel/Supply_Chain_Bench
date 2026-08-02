@@ -40,18 +40,22 @@
         "completed_clean_episodes": 0,
         "completed_episodes": 0,
         "episodes": 100,
-        "format_failure_rate": 0.5850144092219021,
-        "format_failures": 203,
+        "format_failure_rate": null,
+        "format_failures": null,
         "mean_local_wholesaler_cost": null,
-        "protocol_failed_episodes": 100,
-        "responses": 347,
+        "protocol_failed_episodes": null,
+        "responses": null,
         "stderr": null
       },
       "model_id": "anthropic/claude-opus-5",
       "raw": null,
+      "request_error_counts": {
+        "402": 203
+      },
       "score": null,
-      "skip_reason": "OpenRouter HTTP 402 insufficient credits",
-      "status": "skipped_insufficient_credits"
+      "skip_reason": "OpenRouter HTTP 402 insufficient credits before 100-episode completion",
+      "status": "skipped_unscored",
+      "valid_tool_calls_before_skip": 144
     },
     "gpt_5_6_sol": {
       "attempted_metrics": {
@@ -69,18 +73,22 @@
         "completed_clean_episodes": 0,
         "completed_episodes": 0,
         "episodes": 100,
-        "format_failure_rate": 1.0,
-        "format_failures": 200,
+        "format_failure_rate": null,
+        "format_failures": null,
         "mean_local_wholesaler_cost": null,
-        "protocol_failed_episodes": 100,
-        "responses": 200,
+        "protocol_failed_episodes": null,
+        "responses": null,
         "stderr": null
       },
       "model_id": "openai/gpt-5.6-sol",
       "raw": null,
+      "request_error_counts": {
+        "402": 200
+      },
       "score": null,
       "skip_reason": "OpenRouter HTTP 402 insufficient credits",
-      "status": "skipped_insufficient_credits"
+      "status": "skipped_unscored",
+      "valid_tool_calls_before_skip": 0
     },
     "grok_4_5": {
       "attempted_metrics": {
@@ -98,18 +106,22 @@
         "completed_clean_episodes": 0,
         "completed_episodes": 0,
         "episodes": 100,
-        "format_failure_rate": 1.0,
-        "format_failures": 200,
+        "format_failure_rate": null,
+        "format_failures": null,
         "mean_local_wholesaler_cost": null,
-        "protocol_failed_episodes": 100,
-        "responses": 200,
+        "protocol_failed_episodes": null,
+        "responses": null,
         "stderr": null
       },
       "model_id": "x-ai/grok-4.5",
       "raw": null,
+      "request_error_counts": {
+        "402": 200
+      },
       "score": null,
       "skip_reason": "OpenRouter HTTP 402 insufficient credits",
-      "status": "skipped_insufficient_credits"
+      "status": "skipped_unscored",
+      "valid_tool_calls_before_skip": 0
     },
     "kimi_k3": {
       "metrics": {
@@ -144,18 +156,23 @@
         "completed_clean_episodes": 0,
         "completed_episodes": 0,
         "episodes": 100,
-        "format_failure_rate": 1.0,
-        "format_failures": 200,
+        "format_failure_rate": null,
+        "format_failures": null,
         "mean_local_wholesaler_cost": null,
-        "protocol_failed_episodes": 100,
-        "responses": 200,
+        "protocol_failed_episodes": null,
+        "responses": null,
         "stderr": null
       },
       "model_id": "meta/muse-spark-1.1",
       "raw": null,
+      "request_error_counts": {
+        "400": 1,
+        "402": 199
+      },
       "score": null,
-      "skip_reason": "OpenRouter HTTP 402 insufficient credits",
-      "status": "skipped_insufficient_credits"
+      "skip_reason": "reasoning mandatory (HTTP 400); subsequent requests also hit HTTP 402 insufficient credits",
+      "status": "skipped_unscored",
+      "valid_tool_calls_before_skip": 0
     }
   },
   "protocol": {
