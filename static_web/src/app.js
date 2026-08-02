@@ -6,7 +6,6 @@ import {
 const ROLE = "wholesaler";
 const TIER = 5;
 const VARIANT = "headline";
-const OPAQUE_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 let catalog = null;
 let active = null;
@@ -53,9 +52,6 @@ function progressHtml(week) {
 }
 
 function briefingHtml() {
-  const options = catalog.seeds.map((row, index) => (
-    `<option value="${escapeHtml(row.id)}">Scenario ${OPAQUE_LABELS[index]}</option>`
-  )).join("");
   return `
     <section class="briefing" aria-labelledby="briefing-title">
       <div class="briefing-hero">
@@ -88,11 +84,8 @@ function briefingHtml() {
         </section>
         <form id="start-form" class="start-form">
           <p class="eyebrow">Session setup</p>
-          <h2>Choose a scenario</h2>
-          <label class="field">
-            <span class="field-label">Seed scenario</span>
-            <select id="seed-select" name="seed" required>${options}</select>
-          </label>
+          <h2>Ready when you are?</h2>
+          <p class="setup-copy">An approved evaluation seed will be assigned automatically. You will see the same local information available to the model, one week at a time.</p>
           <fieldset>
             <legend>Played the Beer Game before?</legend>
             <div class="radio-row">
@@ -101,7 +94,7 @@ function briefingHtml() {
               <label><input type="radio" name="experience" value="unsure"><span>Unsure</span></label>
             </div>
           </fieldset>
-          <p class="notice"><strong>Data collection notice.</strong> Completed or abandoned play is logged under a random session UUID with actions, local game states, and costs. The application does not collect names, emails, IP addresses, or free text.</p>
+          <p class="notice">Anonymous telemetry is optional. No names or contact details are collected.</p>
           <button class="primary-button" type="submit">Begin 36-week game</button>
         </form>
       </div>
@@ -141,6 +134,68 @@ function metricCard(label, value, warning = false) {
   `;
 }
 
+function chartPolyline(values, maxValue, width, height, padding) {
+  const usableWidth = width - padding.left - padding.right;
+  const usableHeight = height - padding.top - padding.bottom;
+  if (!values.length) return "";
+  return values.map((value, index) => {
+    const x = values.length === 1
+      ? padding.left + usableWidth / 2
+      : padding.left + (index / (values.length - 1)) * usableWidth;
+    const y = padding.top + usableHeight - (value / maxValue) * usableHeight;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+}
+
+function trajectoryCharts(history) {
+  if (!history.length) {
+    return '<section class="charts-panel" aria-label="Local trajectory"><p class="empty-history">Your trajectory will appear here after the first decision.</p></section>';
+  }
+  const width = 640;
+  const height = 190;
+  const padding = { top: 18, right: 18, bottom: 28, left: 38 };
+  const inventory = history.map((row) => row.inventory);
+  const backlog = history.map((row) => row.backlog);
+  const cumulative = [];
+  history.reduce((total, row) => {
+    const next = total + Number(row.local_cost);
+    cumulative.push(next);
+    return next;
+  }, 0);
+  const stateMax = Math.max(1, ...inventory, ...backlog);
+  const costMax = Math.max(1, ...cumulative);
+  const chart = (title, maxValue, series, labels, colors, valueLabel) => `
+    <div class="chart-card">
+      <div class="chart-heading">
+        <h3>${title}</h3>
+        <span>${valueLabel(maxValue)}</span>
+      </div>
+      <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${title}">
+        <line class="chart-axis" x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" />
+        <line class="chart-gridline" x1="${padding.left}" y1="${padding.top}" x2="${width - padding.right}" y2="${padding.top}" />
+        ${series.map((values, index) => `<polyline class="chart-line" style="stroke:${colors[index]}" points="${chartPolyline(values, maxValue, width, height, padding)}" />`).join("")}
+        <text class="chart-label" x="${padding.left}" y="${height - 8}">W1</text>
+        <text class="chart-label" text-anchor="end" x="${width - padding.right}" y="${height - 8}">W${history.at(-1).week}</text>
+        <text class="chart-label" x="8" y="${padding.top + 4}">${valueLabel(maxValue)}</text>
+        <text class="chart-label" x="8" y="${height - padding.bottom + 4}">0</text>
+      </svg>
+      <div class="chart-legend">${labels.map((label, index) => `<span><i style="background:${colors[index]}"></i>${label}</span>`).join("")}</div>
+    </div>
+  `;
+  return `
+    <section class="charts-panel" aria-labelledby="trajectory-title">
+      <div class="charts-heading">
+        <div><p class="eyebrow">Your local trajectory</p><h2 id="trajectory-title">How the game is going</h2></div>
+        <span class="chart-note">Observed weeks only</span>
+      </div>
+      <div class="charts-grid">
+        ${chart("Inventory and backlog", stateMax, [inventory, backlog], ["Inventory", "Backlog"], ["#65d6a1", "#ff8c7d"], (value) => String(Math.round(value)))}
+        ${chart("Cumulative local cost", costMax, [cumulative], ["Cost"], ["#f4b860"], (value) => formatCost(value))}
+      </div>
+    </section>
+  `;
+}
+
 function gameHtml(observation) {
   const state = observation.state;
   const costs = observation.costs;
@@ -148,7 +203,7 @@ function gameHtml(observation) {
     <section class="game-panel" aria-labelledby="week-title">
       <div class="game-topbar">
         <div>
-          <p class="eyebrow">Wholesaler · Scenario ${OPAQUE_LABELS[active.catalogIndex]}</p>
+          <p class="eyebrow">Wholesaler · Tier 5 strategic</p>
           <p id="week-title" class="week-number">Week ${observation.week} / ${observation.horizon}</p>
         </div>
         <div class="progress-track" aria-label="${observation.week - 1} of 36 decisions complete">${progressHtml(observation.week)}</div>
@@ -166,6 +221,7 @@ function gameHtml(observation) {
             ${metricCard("Last order placed", state.last_order_placed)}
             ${metricCard("Current local cost", formatCost(costs.current_inventory_backlog_cost))}
           </div>
+          ${trajectoryCharts(active.weekly)}
           <section class="history-panel" aria-labelledby="history-title">
             <h2 id="history-title" class="panel-title">Recent history · previous 8 records</h2>
             ${historyHtml(observation.recent_history)}
@@ -248,7 +304,7 @@ function debriefHtml() {
   return `
     <section class="debrief" aria-labelledby="debrief-title">
       <div class="debrief-head">
-        <p class="eyebrow">36 decisions complete · Scenario ${OPAQUE_LABELS[active.catalogIndex]}</p>
+        <p class="eyebrow">36 decisions complete · Tier 5 wholesaler</p>
         <h1 id="debrief-title">Your final comparison</h1>
         <p class="lede">Totals include the 36 operational weeks, the three-week deterministic settlement, and terminal inventory-position exposure.</p>
       </div>
@@ -290,11 +346,11 @@ function bindBriefing() {
   document.querySelector("#start-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const seedId = String(form.get("seed"));
     const experience = form.get("experience");
     if (!["yes", "no", "unsure"].includes(experience)) return;
-    const catalogIndex = catalog.seeds.findIndex((row) => row.id === seedId);
-    if (catalogIndex < 0) return;
+    const random = new Uint32Array(1);
+    globalThis.crypto?.getRandomValues?.(random);
+    const catalogIndex = random[0] % catalog.seeds.length;
     const seed = catalog.seeds[catalogIndex];
     const spec = scenarioFor(TIER, seed.split, seed.seed_index);
     const episode = new BeerEpisode(spec, ROLE);

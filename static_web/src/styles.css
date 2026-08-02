@@ -262,6 +262,12 @@ dd {
   content: "—";
 }
 
+.setup-copy {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .field {
   display: grid;
   gap: 0.55rem;
@@ -462,6 +468,106 @@ fieldset {
 
 .metric-card.warn .metric-value {
   color: var(--red);
+}
+
+.charts-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: rgba(9, 19, 15, 0.65);
+}
+
+.charts-heading,
+.chart-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.charts-heading h2 {
+  margin-top: 0.15rem;
+  font-size: 1.15rem;
+}
+
+.chart-note,
+.chart-heading span {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+}
+
+.chart-card {
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: var(--surface-2);
+}
+
+.chart-heading h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.chart-card svg {
+  display: block;
+  width: 100%;
+  margin-top: 0.45rem;
+  overflow: visible;
+}
+
+.chart-axis,
+.chart-gridline {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.chart-gridline {
+  stroke-dasharray: 3 5;
+  opacity: 0.7;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-label {
+  fill: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chart-legend i {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
 }
 
 .detail-panel,
@@ -673,7 +779,8 @@ tbody tr:last-child td {
   }
 
   .state-grid,
-  .score-grid {
+  .score-grid,
+  .charts-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -708,7 +815,8 @@ tbody tr:last-child td {
   }
 
   .state-grid,
-  .score-grid {
+  .score-grid,
+  .charts-grid {
     grid-template-columns: 1fr 1fr;
   }
 

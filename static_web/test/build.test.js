@@ -80,4 +80,12 @@ describe("static build", () => {
     expect(allText).not.toMatch(/(?:OPENROUTER_API_KEY|AKASH_API_KEY|HF_TOKEN|CLOUDFLARE_API_TOKEN)/);
     expect(allText).not.toMatch(/\b(?:sk|hf)_[A-Za-z0-9_-]{16,}\b/);
   });
+
+  test("keeps the public UI seed-opaque and local-only", () => {
+    const app = readFileSync(resolve(PAGES, "app.js"), "utf8");
+    expect(app).not.toContain("seed-select");
+    expect(app).not.toContain("Data collection notice.");
+    expect(app).toContain("trajectoryCharts");
+    expect(app).toContain("Observed weeks only");
+  });
 });
