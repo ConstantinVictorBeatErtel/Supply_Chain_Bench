@@ -413,7 +413,8 @@ def write_report(payload: dict[str, Any]) -> None:
         if not row:
             continue
         if row.get("status") != "complete":
-            lines.append(f"| {key} (skipped) | `{model_id}` | — | — | — | — |")
+            reason = row.get("skip_reason", "unavailable")
+            lines.append(f"| {key} (skipped: {reason}) | `{model_id}` | — | — | — | — |")
             continue
         metrics = row["metrics"]
         if metrics["mean_local_wholesaler_cost"] is None:
