@@ -76,6 +76,17 @@ wholesaler learning target rather than hiding an inconvenient comparison.
 The replayable source data is in the frozen [`artifacts/hub_llm/`](artifacts/hub_llm/)
 collection.
 
+## Frontier OpenRouter benchmark
+
+On a separate frozen 100-seed split, the native Tier-5 Y-topology evaluation
+gave Kimi K3 a score of **24.176** (mean local wholesaler cost **1,346.410 ±
+57.561**) between the naive baseline at **10.000** and the adaptive base-stock
+oracle at **100.000**. The model was evaluated zero-shot with reasoning disabled;
+the exact versioned ID was `moonshotai/kimi-k3`. Full raw JSON, episode traces,
+and the scoring table are in [`artifacts/frontier_t5_y_36w_20260802/`](artifacts/frontier_t5_y_36w_20260802/).
+
+![Frontier Tier-5 Y wholesaler benchmark](docs/assets/frontier-t5-y-wholesaler-benchmark.svg)
+
 ## Frozen wholesaler LoRA benchmark
 
 On a fixed, held-out set of 100 demand sequences, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**.
