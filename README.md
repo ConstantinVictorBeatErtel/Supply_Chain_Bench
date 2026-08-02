@@ -79,6 +79,7 @@ The replayable source data is in
 ## Frozen wholesaler LoRA benchmark
 
 On the fixed 100-seed wholesaler split, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**. The protocol and full result table are in [results/README.md](results/README.md).
+![Wholesaler LoRA benchmark](docs/assets/wholesaler-lora-benchmark.svg)
 
 ## Run it locally
 
