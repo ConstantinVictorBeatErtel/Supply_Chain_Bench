@@ -15,4 +15,21 @@ except ModuleNotFoundError as exc:
         raise
     __all__: list[str] = []
 else:
-    __all__ = ["BeerTaskset", "BeerHarness"]
+    import verifiers.v1 as vf
+
+    def load_taskset(config: BeerTasksetConfig) -> BeerTaskset:
+        """Prime package loader for the Beer Game taskset."""
+        return BeerTaskset(config=config)
+
+
+    def load_harness(config: BeerHarnessConfig) -> BeerHarness:
+        """Prime package loader for the Beer Game harness."""
+        return BeerHarness(config=config)
+
+
+    def load_environment(config: vf.EnvConfig) -> vf.Environment:
+        """Prime Environments Hub entry point for the composed v1 environment."""
+        return vf.Environment(config)
+
+
+    __all__ = ["BeerTaskset", "BeerHarness", "load_taskset", "load_harness", "load_environment"]
