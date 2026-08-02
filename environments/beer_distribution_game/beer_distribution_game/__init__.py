@@ -5,7 +5,7 @@ non-Hub baselines do not acquire a framework dependency. The Hub package itself
 declares Verifiers 0.2.0, so its native exports are always present when installed.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 try:
     from .harness import BeerHarness, BeerHarnessConfig
@@ -27,9 +27,16 @@ else:
         return BeerHarness(config=config)
 
 
-    def load_environment(config: vf.EnvConfig) -> vf.Environment:
-        """Prime Environments Hub entry point for the composed v1 environment."""
-        return vf.Environment(config)
+    def load_environment(**kwargs: object):
+        """Prime Environments Hub entry point.
+
+        Verifiers 0.2 loads published packages through its legacy multi-turn
+        interface.  The adapter retains the native weekly ``place_order`` tool
+        protocol while the v1 taskset/harness remain available to direct users.
+        """
+        from .legacy_env import BeerGameEnv
+
+        return BeerGameEnv(**kwargs)
 
 
     __all__ = ["BeerTaskset", "BeerHarness", "load_taskset", "load_harness", "load_environment"]
