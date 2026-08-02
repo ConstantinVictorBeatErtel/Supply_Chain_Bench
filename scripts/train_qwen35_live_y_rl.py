@@ -50,6 +50,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="/workspace/outputs/beer-wholesaler-qwen35-4b-live-y-rl")
     parser.add_argument("--updates", type=int, default=6)
     parser.add_argument("--group-size", type=int, default=4)
+    parser.add_argument("--train-minibatch", type=int, default=4)
     parser.add_argument("--learning-rate", type=float, default=5e-6)
     parser.add_argument("--seed", type=int, default=20260806)
     parser.add_argument("--dry-run", action="store_true")
@@ -192,7 +193,7 @@ def configure_pilot(args: argparse.Namespace) -> None:
             seed=args.seed,
             max_new_tokens=8,
             prompt_max_tokens=2048,
-            train_minibatch=2,
+            train_minibatch=args.train_minibatch,
             inference_minibatch=4,
             learning_rate=args.learning_rate,
             temperature=0.7,
