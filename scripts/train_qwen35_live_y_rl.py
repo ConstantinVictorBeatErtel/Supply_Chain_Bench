@@ -134,6 +134,9 @@ def configure_pilot(args: argparse.Namespace) -> None:
     def episode_summary(run: Any) -> dict[str, Any]:
         row = original_summary(run)
         row["reward"] = -float(row["local_total_cost"]) if row["local_total_cost"] is not None and row["protocol_clean"] else -100_000.0
+        # The native grade does not expose this convenience field; every
+        # accepted action advances exactly one 36-week decision boundary.
+        row["completed_weeks"] = len(run.actions)
         return row
 
     def load_policy(pilot_args: Any) -> tuple[Any, Any]:
