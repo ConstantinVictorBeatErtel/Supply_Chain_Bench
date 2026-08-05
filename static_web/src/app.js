@@ -38,6 +38,24 @@ function formatCost(value) {
   });
 }
 
+function evaluationScore(cost, referenceCost) {
+  const denominator = Number(cost) + Number(referenceCost);
+  if (!Number.isFinite(denominator) || denominator <= 0) return null;
+  return 100 * Number(referenceCost) / denominator;
+}
+
+function formatScore(value) {
+  return value === null ? "—" : `${value.toFixed(1)} / 100`;
+}
+
+function scenarioForTrace(trace) {
+  const split = trace.seed_set === "live_y_research_eval" ? "test" : trace.split;
+  const spec = scenarioFor(TIER, split, trace.seed_index);
+  if (trace.seed_set === "live_y_research_eval") spec.split = "research_eval";
+  spec.master_seed_hex = trace.master_seed_hex;
+  return spec;
+}
+
 function setHeader(text) {
   const element = document.querySelector("#header-status");
   if (element) element.textContent = text;
@@ -56,9 +74,9 @@ function briefingHtml() {
     <section class="briefing" aria-labelledby="briefing-title">
       <div class="briefing-hero">
         <div>
-          <p class="eyebrow">Matched human evaluation</p>
-          <h1 id="briefing-title">Can you control the delay?</h1>
-          <p class="lede">You control one local role in the same deterministic environment used for the recorded LLM evaluation. Make one replenishment decision per week and minimize only your own holding and backlog cost.</p>
+          <p class="eyebrow">Wholesaler operations console</p>
+          <h1 id="briefing-title">Keep the flow moving.</h1>
+          <p class="lede">You control one local role on the same deterministic condition used by the recorded comparison policy. Make one replenishment decision per week and minimize only your own holding and backlog cost.</p>
         </div>
         <aside class="condition-card" aria-label="Fixed game condition">
           <dl>
@@ -66,6 +84,7 @@ function briefingHtml() {
             <div><dt>Role</dt><dd>Wholesaler</dd></div>
             <div><dt>Topology</dt><dd>Y supply chain</dd></div>
             <div><dt>Horizon</dt><dd>36 weeks</dd></div>
+            <div><dt>Opponent</dt><dd>Recorded policy</dd></div>
           </dl>
         </aside>
       </div>
@@ -83,7 +102,7 @@ function briefingHtml() {
           </ul>
         </section>
         <form id="start-form" class="start-form">
-          <p class="eyebrow">Session setup</p>
+          <p class="eyebrow">Start a run</p>
           <h2>Ready when you are?</h2>
           <p class="setup-copy">An approved evaluation seed will be assigned automatically. You will see the same local information available to the model, one week at a time.</p>
           <fieldset>
@@ -264,7 +283,7 @@ function recordFor(status) {
     env_version: "0.2.0",
     tier: TIER,
     role: ROLE,
-    split: active.seed.split,
+    split: active.episode.spec.split,
     seed_index: active.seed.seed_index,
     seed: active.episode.spec.master_seed_hex,
     scenario_id: active.episode.spec.scenario_id,
@@ -291,7 +310,7 @@ function debriefHtml() {
   const humanGrade = active.episode.outcome.grade;
   const trace = active.trace;
   const llmReplay = replayActions(
-    scenarioFor(TIER, active.seed.split, active.seed.seed_index),
+    scenarioForTrace(active.seed),
     ROLE,
     trace.actions,
   ).episode;
@@ -301,6 +320,9 @@ function debriefHtml() {
   }
   const humanCost = humanGrade.primary.local_total_cost;
   const baseCost = humanGrade.primary.paired_base_stock_local_total_cost;
+  const humanScore = evaluationScore(humanCost, baseCost);
+  const llmReferenceCost = trace.paired_base_stock_local_total_cost;
+  const llmScore = evaluationScore(llmCost, llmReferenceCost);
   return `
     <section class="debrief" aria-labelledby="debrief-title">
       <div class="debrief-head">
@@ -314,25 +336,25 @@ function debriefHtml() {
           <article class="score-card you">
             <span class="score-label">You</span>
             <strong id="human-final-cost" class="score-value">${formatCost(humanCost)}</strong>
-            <span class="score-note">Local total cost</span>
+            <span class="score-note">Local total cost · eval ${formatScore(humanScore)}</span>
           </article>
           <article class="score-card">
-            <span class="score-label">Recorded LLM</span>
+            <span class="score-label">${escapeHtml(catalog.model)}</span>
             <strong id="llm-final-cost" class="score-value">${formatCost(llmCost)}</strong>
-            <span class="score-note">Recorded evaluation trace</span>
+            <span class="score-note">Recorded same-seed trace · eval ${formatScore(llmScore)}</span>
           </article>
           <article class="score-card">
             <span class="score-label">Adaptive base-stock</span>
             <strong id="base-final-cost" class="score-value">${formatCost(baseCost)}</strong>
-            <span class="score-note">Paired reference policy</span>
+            <span class="score-note">Paired reference policy · eval 50.0 / 100</span>
           </article>
         </div>
         <div class="reward-panel">
           <div>
-            <p class="score-label">Evaluation reward</p>
-            <p class="score-note">Base-stock cost ÷ (base-stock cost + your cost)</p>
+            <p class="score-label">Native reward and 0–100 evaluation score</p>
+            <p class="score-note">Reference cost ÷ (reference cost + policy cost); matching reference = 50</p>
           </div>
-          <strong id="human-reward" class="reward-value">${humanGrade.episode_reward.toFixed(6)}</strong>
+          <strong id="human-reward" class="reward-value">${humanGrade.episode_reward.toFixed(6)} · ${formatScore(humanScore)}</strong>
         </div>
         <div class="debrief-actions">
           <button id="new-game-button" class="primary-button" type="button">Play another scenario</button>
@@ -352,7 +374,7 @@ function bindBriefing() {
     globalThis.crypto?.getRandomValues?.(random);
     const catalogIndex = random[0] % catalog.seeds.length;
     const seed = catalog.seeds[catalogIndex];
-    const spec = scenarioFor(TIER, seed.split, seed.seed_index);
+    const spec = scenarioForTrace(seed);
     const episode = new BeerEpisode(spec, ROLE);
     active = {
       seed, catalogIndex, experience, episode,
@@ -423,8 +445,8 @@ async function loadCatalog() {
   const response = await fetch("./data/llm-comparison.json", { cache: "no-cache" });
   if (!response.ok) throw new Error(`trace catalog returned ${response.status}`);
   const payload = await response.json();
-  if (!Array.isArray(payload.seeds) || payload.seeds.length !== 8) {
-    throw new Error("trace catalog must contain exactly eight headline seeds");
+  if (!Array.isArray(payload.seeds) || ![8, 10].includes(payload.seeds.length)) {
+    throw new Error("trace catalog must contain replayable model traces");
   }
   return payload;
 }

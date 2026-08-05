@@ -11,17 +11,12 @@ export function artifactRows() {
     ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
     ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
   ];
-  const rows = [];
-  for (const [split, relative] of files) {
+  return files.flatMap(([split, relative]) => {
     const payload = JSON.parse(readFileSync(resolve(ROOT, relative), "utf8"));
-    for (const row of payload.episodes) {
-      if (row.scenario_id === "t5-strategic-y-v2") rows.push({ ...row, split });
-    }
-  }
-  return rows.sort((left, right) => {
-    const splitOrder = { development: 0, validation: 1 };
-    return splitOrder[left.split] - splitOrder[right.split] || left.seed_index - right.seed_index;
-  });
+    return payload.episodes
+      .filter((row) => row.scenario_id === "t5-strategic-y-v2")
+      .map((row) => ({ ...row, split }));
+  }).sort((left, right) => ({ development: 0, validation: 1 })[left.split] - ({ development: 0, validation: 1 })[right.split] || left.seed_index - right.seed_index);
 }
 
 export function pythonOracle(cases) {

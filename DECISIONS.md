@@ -252,3 +252,12 @@ Logged defaults for the v1 research codebase. Change only with a dated note.
 | Experiment seeds | 16 train + 10 evaluation master seeds, frozen in `experiments/live_y_qwen_rl/splits.json` | Existing development and validation seeds are the eight public browser-game seeds; normative test seeds remain test-only. The experiment split is SHA-256-derived and does not alter the normative split contract. |
 | Training signal | Group-relative negative terminal local wholesaler cost | No demonstrations, action labels, base-stock reward, or system-cost reward enter optimization. |
 | Reference policy | Paired adaptive base-stock only during evaluation reporting | Retains an interpretable comparison without acting as a teacher. |
+
+## Canonical serial leaderboard refresh (2026-08-04)
+
+| Decision / finding | Result | Rationale |
+|---|---|---|
+| Public leaderboard scope | One 100-seed, 20-week serial wholesaler condition | Prevents incomparable live-Y, robustness, and serial experiments from being presented as one ranking. |
+| Claude policy | `anthropic/claude-opus-5`, zero-shot | Provides a current frontier reference on exactly the Qwen held-out split. |
+| Claude result | Mean total cost 1,754.48 ± 61.14; score 49.66; 0.0% format failures | Same frozen seeds and score formula as Qwen; result is recorded in `results/baseline.json`. |
+| Cost controls | Compact state tuple, strict JSON, reasoning disabled, 16-token cap, same-week deduplication, response cache, checkpoint resume | A warm rerun completed 1,512 requests with 1,500 cache hits for $0.02, without GPU infrastructure or changing the decision condition. |

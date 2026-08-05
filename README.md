@@ -65,66 +65,48 @@ anonymous session UUID plus replay-verified actions, weekly state, and scores.
 | `tests/` | Python simulator, Hub, calibration, and regression tests |
 | `docs/` | Frozen environment, reward, and difficulty specifications |
 
-## Current wholesaler result
+## Benchmark
 
-These are development results, not held-out benchmark claims. Across three Tier 5
-development seeds, the recorded LLM wholesaler run had average local cost
-**1,111.8 ± 213.2**, compared with **850.7 ± 326.1** for the paired adaptive
-base-stock policy. The negative result is useful: it gives the project a clear
-wholesaler learning target rather than hiding an inconvenient comparison.
+One evaluation condition, one leaderboard. Each policy controls the
+**wholesaler** for 20 weeks in the native serial Beer Game; the retailer,
+distributor, and factory use fixed base-stock policies. We run every policy on
+the same 100 frozen demand sequences in
+[`eval/held_out_seeds.json`](eval/held_out_seeds.json), sum supply-chain holding
+and backlog cost within each episode, then report the mean and standard error.
+An invalid model answer is recorded as order zero and a format failure.
 
-The replayable source data is in the frozen [`artifacts/hub_llm/`](artifacts/hub_llm/)
-collection.
+| Model | Mean total cost | Score / 100 | Bullwhip | Format failures |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen3.5-4B (untuned) | 20,452.36 ± 13.18 | 7.80 | 1.821 | 0.0% |
+| Qwen3.5-4B + LoRA | 1,632.25 ± 40.99 | 51.47 | 1.821 | 0.0% |
+| Claude Opus 5 (zero-shot) | 1,754.48 ± 61.14 | 49.66 | 1.821 | 0.0% |
 
-## Teacher-free Qwen LoRA — live Tier-5 Y game
+![Wholesaler benchmark](docs/assets/wholesaler-lora-benchmark.svg)
 
-We also trained `Qwen/Qwen3.5-4B` specifically for the public-style Tier-5
-Y-topology wholesaler task. This is a **development research result**, not a
-replacement for either frozen 100-seed benchmark below: it used 16 dedicated
-train-only seeds and 10 separate research evaluation seeds.
+### How the score works
 
-The bf16, rank-16 LoRA was trained without a teacher, demonstrations, or
-base-stock actions. It used group-relative negative terminal local wholesaler
-cost, with protocol failures penalized, on one cloud-hosted 48 GB NVIDIA A40.
-On the 10 evaluation seeds, mean local wholesaler cost fell from **1,579.69 ±
-232.46** for the untuned base model to **1,096.31 ± 134.66** after LoRA — a
-**30.60% reduction**. Under the same non-clipping naive-anchored score used by
-the serial LoRA benchmark, this is **44.85 → 53.96**; all evaluated episodes
-were protocol-clean.
-
-![Teacher-free Qwen LoRA live-game result](docs/assets/live-y-qwen35-4b-rl.svg)
-
-The compact result, exact split, and Runpod artifact paths are in
-[`artifacts/live_y_qwen35_4b_rl/`](artifacts/live_y_qwen35_4b_rl/). The full
-method and reproduction command are in
-[`docs/LIVE_Y_QWEN35_4B_RL.md`](docs/LIVE_Y_QWEN35_4B_RL.md).
-
-## Frontier OpenRouter benchmark
-
-On a separate frozen 100-seed split, the native Tier-5 Y-topology evaluation
-gave Kimi K3 a score of **24.176** (mean local wholesaler cost **1,346.410 ±
-57.561**) between the naive baseline at **10.000** and the adaptive base-stock
-oracle at **100.000**. The model was evaluated zero-shot with reasoning disabled;
-the exact versioned ID was `moonshotai/kimi-k3`. Full raw JSON, episode traces,
-and the scoring table are in [`artifacts/frontier_t5_y_36w_20260802/`](artifacts/frontier_t5_y_36w_20260802/).
-
-![Frontier Tier-5 Y wholesaler benchmark](docs/assets/frontier-t5-y-wholesaler-benchmark.svg)
-
-## Frozen wholesaler LoRA benchmark
-
-On a fixed, held-out set of 100 demand sequences, bf16 rank-16 LoRA raises Qwen3.5-4B from **7.80** (untuned) to **51.47**, ahead of GPT-5.6 Terra at **46.99**.
-
-Each policy controls the **wholesaler only** for 20 weeks in the native serial Beer Game. The retailer, distributor, and factory follow fixed base-stock policies. For each of the same 100 seeds we sum holding plus backlog cost across the supply chain, then take the mean cost. The table reports the mean and its standard error; invalid model outputs count as an order of zero and as a format failure.
-
-The published 0–100 score is intentionally anchored to the naive wholesaler:
+The 0–100 score is deliberately anchored to a simple, non-model policy that
+orders what it observed last period:
 
 `score = 100 × naive_mean_cost / (naive_mean_cost + policy_mean_cost)`
 
-The naive policy orders last period's observed downstream order. It always scores **50**. A policy with zero cost approaches **100**; a worse policy remains above zero rather than being clipped. Base-stock's target level is tuned only on separate training seeds. The 100 benchmark seeds in [`eval/held_out_seeds.json`](eval/held_out_seeds.json) are fixed and never used for training, generation, or tuning. Full results and the exact configuration are in [results/README.md](results/README.md).
+The naive policy's mean cost is 1,730.82, so it scores exactly 50. A policy
+with zero cost approaches 100; a policy worse than naive remains above zero
+rather than being clipped. This makes the score stable and easy to compare
+without claiming a theoretical "perfect" Beer Game solution. The base-stock
+level is tuned only on training seeds; the held-out sequences are never used
+for training, synthetic data generation, or calibration.
 
-An independent 100-seed replication, frozen separately after training, preserved the ordering: Qwen3.5-4B LoRA **51.47**, GPT-5.6 Terra **47.30**, and untuned Qwen3.5-4B **7.74**. See [`results/robustness.json`](results/robustness.json).
+Qwen uses a bf16 rank-16 LoRA adapter with alpha 16 on
+`q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, and `down_proj`.
+Claude Opus 5 is a zero-shot OpenRouter policy. To keep the frontier run small,
+we send only a compact state tuple, require a one-field JSON order, disable
+reasoning, cap output at 16 tokens, deduplicate identical same-week states, and
+cache deterministic API responses for restart-safe reruns. Full protocol and
+raw metrics live in [results/README.md](results/README.md).
 
-![Wholesaler LoRA benchmark](docs/assets/wholesaler-lora-benchmark.svg)
+Earlier live-Y and robustness experiments remain in the repository as
+supplementary artifacts, but are intentionally not mixed into this leaderboard.
 
 ## Run it locally
 

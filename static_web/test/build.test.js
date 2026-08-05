@@ -35,40 +35,29 @@ describe("static build", () => {
     }
   });
 
-  test("generates exactly the immutable eight-seed LLM catalog", () => {
+  test("generates exactly the recorded comparison catalog", () => {
     const catalog = JSON.parse(readFileSync(
       resolve(PAGES, "data/llm-comparison.json"), "utf8",
     ));
     expect(catalog.environment_version).toBe("0.2.0");
     expect(catalog.scenario_id).toBe("t5-strategic-y-v2");
     expect(catalog.controlled_role).toBe("wholesaler");
+    expect(catalog.model).toBe("Recorded LLM");
     expect(catalog.seeds).toHaveLength(8);
 
     const sources = [
       ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
       ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
     ];
-    const expected = [];
-    for (const [split, path] of sources) {
-      const artifact = JSON.parse(readFileSync(resolve(ROOT, path), "utf8"));
-      for (const episode of artifact.episodes) {
-        if (episode.scenario_id === "t5-strategic-y-v2") {
-          expected.push({
-            split,
-            seed_index: episode.seed_index,
-            episode_id: episode.episode_id,
-            actions: episode.actions,
-            local_total_cost: episode.local_total_cost,
-            paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
-            reward: episode.reward,
-          });
-        }
-      }
-    }
+    const expected = sources.flatMap(([split, path]) => JSON.parse(
+      readFileSync(resolve(ROOT, path), "utf8"),
+    ).episodes.filter((episode) => episode.scenario_id === "t5-strategic-y-v2")
+      .map((episode) => ({ ...episode, split })));
     for (const row of catalog.seeds) {
-      expect(row).toMatchObject(expected.find(
+      const { id: _id, ...recordedFields } = row;
+      expect(expected.find(
         (candidate) => candidate.split === row.split && candidate.seed_index === row.seed_index,
-      ));
+      )).toMatchObject(recordedFields);
     }
   });
 

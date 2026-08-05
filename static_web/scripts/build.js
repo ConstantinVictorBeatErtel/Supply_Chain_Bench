@@ -16,38 +16,57 @@ function loadJson(relative) {
 }
 
 function traceCatalog() {
+  const trainedPath = "artifacts/live_y_qwen35_4b_rl/eval_held_out.json";
+  if (existsSync(resolve(ROOT, trainedPath))) {
+    const artifact = loadJson(trainedPath);
+    const seeds = artifact.episodes.map((episode) => ({
+      id: episode.id,
+      split: episode.split,
+      seed_set: episode.seed_set,
+      seed_index: episode.seed_index,
+      master_seed_hex: episode.master_seed_hex,
+      episode_id: episode.episode_id,
+      actions: episode.actions,
+      local_total_cost: episode.local_total_cost,
+      paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
+      reward: episode.reward,
+    })).sort((left, right) => left.seed_index - right.seed_index);
+    if (seeds.length !== 10) throw new Error(`expected 10 trained-Qwen traces, found ${seeds.length}`);
+    return {
+      schema_version: "1.1.0",
+      environment_version: "0.2.0",
+      scenario_id: "t5-strategic-y-v2",
+      controlled_role: "wholesaler",
+      model: artifact.model,
+      evaluation_summary: artifact.summary,
+      seeds,
+    };
+  }
   const sources = [
     ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
     ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
   ];
-  const seeds = [];
-  for (const [split, path] of sources) {
-    for (const episode of loadJson(path).episodes) {
-      if (episode.scenario_id !== "t5-strategic-y-v2") continue;
-      seeds.push({
-        id: `${split}-${episode.seed_index}`,
-        split,
-        seed_index: episode.seed_index,
-        master_seed_hex: episode.master_seed_hex,
-        episode_id: episode.episode_id,
-        actions: episode.actions,
-        local_total_cost: episode.local_total_cost,
-        paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
-        reward: episode.reward,
-      });
-    }
-  }
-  seeds.sort((left, right) => {
-    const order = { development: 0, validation: 1 };
-    return order[left.split] - order[right.split] || left.seed_index - right.seed_index;
-  });
-  if (seeds.length !== 8) throw new Error(`expected 8 headline LLM traces, found ${seeds.length}`);
+  const seeds = sources.flatMap(([split, path]) => loadJson(path).episodes
+    .filter((episode) => episode.scenario_id === "t5-strategic-y-v2")
+    .map((episode) => ({
+      id: `${split}-${episode.seed_index}`,
+      split,
+      seed_index: episode.seed_index,
+      master_seed_hex: episode.master_seed_hex,
+      episode_id: episode.episode_id,
+      actions: episode.actions,
+      local_total_cost: episode.local_total_cost,
+      paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
+      reward: episode.reward,
+    })));
+  seeds.sort((left, right) => ({ development: 0, validation: 1 })[left.split] - ({ development: 0, validation: 1 })[right.split] || left.seed_index - right.seed_index);
+  if (seeds.length !== 8) throw new Error(`expected 8 recorded fallback traces, found ${seeds.length}`);
   return {
     schema_version: "1.0.0",
     environment_version: "0.2.0",
     scenario_id: "t5-strategic-y-v2",
     controlled_role: "wholesaler",
-    model: "LLM",
+    model: "Recorded LLM",
     seeds,
   };
 }

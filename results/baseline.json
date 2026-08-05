@@ -7,11 +7,25 @@
     "held_out_seed_file": "eval/held_out_seeds.json",
     "horizon_weeks": 20,
     "large_model": "openai/gpt-5.6-terra",
+    "claude_opus_5": "anthropic/claude-opus-5",
     "qwen_lora_adapter": "/workspace/outputs/beer-wholesaler-qwen35-4b-lora/adapter",
     "qwen_model": "Qwen/Qwen3.5-4B",
     "topology": "serial"
   },
   "results": {
+    "claude_opus_5": {
+      "api_requests": 1512,
+      "api_usage_cost_usd": 0.022425000000000004,
+      "benchmark_score_0_to_100": 49.66064565553275,
+      "bullwhip_ratio": 1.820560730022917,
+      "completion_tokens": 93,
+      "episodes": 100,
+      "mean_total_supply_chain_cost": 1754.475,
+      "order_format_failure_rate": 0.0,
+      "prompt_tokens": 4020,
+      "response_cache_hits": 1500,
+      "stderr": 61.136118362506
+    },
     "base_stock": {
       "benchmark_score_0_to_100": 51.577201757561944,
       "bullwhip_ratio": 1.820560730022917,
