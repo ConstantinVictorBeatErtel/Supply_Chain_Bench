@@ -1,40 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
-  <title id="title">Beer Distribution Game wholesaler benchmark</title>
-  <desc id="desc">Minimal operational leaderboard on 100 frozen seeds. Qwen3.5-4B LoRA scores 51.47, Claude Opus 5 scores 49.66, and untuned Qwen3.5-4B scores 7.80.</desc>
-  <rect width="1200" height="640" fill="#f4f5f2"/>
-  <g stroke="#d8dcd6" stroke-width="1">
-    <path d="M56 55H1144M56 125H1144M56 195H1144M56 265H1144M56 335H1144M56 405H1144M56 475H1144M56 545H1144"/>
-    <path d="M56 55V575M164 55V575M272 55V575M380 55V575M488 55V575M596 55V575M704 55V575M812 55V575M920 55V575M1028 55V575M1136 55V575"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Beer Distribution Game model benchmark</title>
+  <desc id="desc">The Qwen3.5-4B LoRA model scores 51.47, Claude Opus 5 scores 49.66, and untuned Qwen3.5-4B scores 7.80 on the 100 frozen-seed wholesaler benchmark.</desc>
+  <rect width="1200" height="650" fill="#f7f5ef"/>
+  <rect x="48" y="44" width="1104" height="562" fill="none" stroke="#111417" stroke-width="2"/>
+  <rect x="48" y="44" width="9" height="562" fill="#f05c3d"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#111417">
+    <text x="92" y="94" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2.1">BDG / CONTROL LAB / 2026.08</text>
+    <text x="92" y="159" font-family="Georgia, serif" font-size="53">Who controls the delay?</text>
+    <text x="92" y="195" fill="#596260" font-size="18">Serial wholesaler · 100 frozen demand sequences · 20 weeks</text>
   </g>
-  <rect x="56" y="55" width="1088" height="520" fill="#f8f9f7" fill-opacity=".78" stroke="#151a1f" stroke-width="2"/>
-  <rect x="56" y="55" width="10" height="520" fill="#e34f2a"/>
-  <text x="96" y="111" fill="#151a1f" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="2.8">BDG / CONTROL BENCHMARK / V0.2.0</text>
-  <text x="96" y="163" fill="#151a1f" font-family="Georgia, serif" font-size="46">Wholesaler control</text>
-  <text x="96" y="197" fill="#4c545b" font-family="Arial, Helvetica, sans-serif" font-size="17">100 frozen demand sequences · 20 weeks · score out of 100</text>
-  <line x1="96" y1="231" x2="1104" y2="231" stroke="#151a1f" stroke-width="2"/>
-  <g fill="#4c545b" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.8">
-    <text x="96" y="259">MODEL</text><text x="696" y="259">0</text><text x="886" y="259">50</text><text x="1071" y="259">100</text>
+  <line x1="92" y1="235" x2="1108" y2="235" stroke="#111417" stroke-width="2"/>
+  <g font-family="Menlo, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="1.4" fill="#596260">
+    <text x="92" y="267">RANK</text>
+    <text x="185" y="267">POLICY</text>
+    <text x="674" y="267">0</text>
+    <text x="874" y="267">50 / NAIVE</text>
+    <text x="1055" y="267">100</text>
   </g>
   <g font-family="Arial, Helvetica, sans-serif">
-    <text x="96" y="316" fill="#151a1f" font-size="22" font-weight="700">Qwen3.5-4B + LoRA</text>
-    <text x="96" y="340" fill="#4c545b" font-size="14">bf16 · rank 16</text>
-    <rect x="696" y="302" width="380" height="22" fill="#dce1dd"/>
-    <rect x="696" y="302" width="196" height="22" fill="#151a1f"/>
-    <rect x="887" y="296" width="2" height="34" fill="#e34f2a"/>
-    <text x="1095" y="320" fill="#151a1f" font-size="24" font-weight="700">51.47</text>
-    <line x1="96" y1="366" x2="1104" y2="366" stroke="#cbd1cb"/>
-    <text x="96" y="421" fill="#151a1f" font-size="22" font-weight="700">Claude Opus 5</text>
-    <text x="96" y="445" fill="#4c545b" font-size="14">zero-shot · compact JSON policy</text>
-    <rect x="696" y="407" width="380" height="22" fill="#dce1dd"/>
-    <rect x="696" y="407" width="189" height="22" fill="#4b7b8d"/>
-    <rect x="887" y="401" width="2" height="34" fill="#e34f2a"/>
-    <text x="1095" y="425" fill="#151a1f" font-size="24" font-weight="700">49.66</text>
-    <line x1="96" y1="471" x2="1104" y2="471" stroke="#cbd1cb"/>
-    <text x="96" y="526" fill="#151a1f" font-size="22" font-weight="700">Qwen3.5-4B</text>
-    <text x="96" y="550" fill="#4c545b" font-size="14">untuned</text>
-    <rect x="696" y="512" width="380" height="22" fill="#dce1dd"/>
-    <rect x="696" y="512" width="30" height="22" fill="#a8b0ad"/>
-    <text x="1095" y="530" fill="#151a1f" font-size="24" font-weight="700">7.80</text>
+    <text x="96" y="333" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">01</text>
+    <text x="185" y="323" fill="#111417" font-size="23" font-weight="700">Qwen3.5-4B + LoRA</text>
+    <text x="185" y="347" fill="#596260" font-size="14">bf16 · rank 16 · teacher-free adapter</text>
+    <rect x="674" y="306" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="306" width="190" height="24" fill="#111417"/>
+    <rect x="858" y="298" width="2" height="40" fill="#f05c3d"/>
+    <text x="1064" y="327" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="24" font-weight="700">51.47</text>
+    <line x1="92" y1="374" x2="1108" y2="374" stroke="#c8c8c1"/>
+    <text x="96" y="439" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">02</text>
+    <text x="185" y="429" fill="#111417" font-size="23" font-weight="700">Claude Opus 5</text>
+    <text x="185" y="453" fill="#596260" font-size="14">zero-shot · compact JSON policy</text>
+    <rect x="674" y="412" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="412" width="184" height="24" fill="#537f98"/>
+    <rect x="858" y="404" width="2" height="40" fill="#f05c3d"/>
+    <text x="1064" y="433" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="24" font-weight="700">49.66</text>
+    <line x1="92" y1="480" x2="1108" y2="480" stroke="#c8c8c1"/>
+    <text x="96" y="545" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">03</text>
+    <text x="185" y="535" fill="#111417" font-size="23" font-weight="700">Qwen3.5-4B</text>
+    <text x="185" y="559" fill="#596260" font-size="14">untuned</text>
+    <rect x="674" y="518" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="518" width="29" height="24" fill="#9ba3a0"/>
+    <text x="1064" y="539" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="24" font-weight="700">7.80</text>
   </g>
-  <text x="96" y="607" fill="#4c545b" font-family="Arial, Helvetica, sans-serif" font-size="14">Score = 100 × naive mean cost ÷ (naive mean cost + policy mean cost). Naive marks 50.</text>
+  <text x="92" y="588" fill="#596260" font-family="Arial, Helvetica, sans-serif" font-size="14">Score = 100 × naive mean cost ÷ (naive mean cost + policy mean cost). Higher is better.</text>
 </svg>

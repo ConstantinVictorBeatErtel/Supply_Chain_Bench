@@ -74,9 +74,9 @@ function briefingHtml() {
     <section class="briefing" aria-labelledby="briefing-title">
       <div class="briefing-hero">
         <div>
-          <p class="eyebrow">Wholesaler operations console</p>
-          <h1 id="briefing-title">Keep the flow moving.</h1>
-          <p class="lede">You control one local role on the same deterministic condition used by the recorded comparison policy. Make one replenishment decision per week and minimize only your own holding and backlog cost.</p>
+          <p class="eyebrow">Scenario 05 / delayed control</p>
+          <h1 id="briefing-title">Keep the system in motion.</h1>
+          <p class="lede">A deterministic control environment for people and models. You own the wholesaler seat: make one replenishment decision per week and minimize local holding and backlog cost.</p>
         </div>
         <aside class="condition-card" aria-label="Fixed game condition">
           <dl>
@@ -90,8 +90,8 @@ function briefingHtml() {
       </div>
       <div class="briefing-grid">
         <section class="rules" aria-labelledby="rules-title">
-          <p class="eyebrow">Task contract</p>
-          <h2 id="rules-title">What is disclosed</h2>
+          <p class="eyebrow">Signal briefing</p>
+          <h2 id="rules-title">What you know</h2>
           <ul class="rules-list">
             <li>Holding cost is 0.5 per ending-inventory unit each week; backlog cost is 1.0 per ending-backlog unit.</li>
             <li>Orders take 1 week and shipments take 2 weeks.</li>
@@ -102,8 +102,8 @@ function briefingHtml() {
           </ul>
         </section>
         <form id="start-form" class="start-form">
-          <p class="eyebrow">Start a run</p>
-          <h2>Ready when you are?</h2>
+          <p class="eyebrow">Operator entry</p>
+          <h2>Set your baseline.</h2>
           <p class="setup-copy">An approved evaluation seed will be assigned automatically. You will see the same local information available to the model, one week at a time.</p>
           <fieldset>
             <legend>Played the Beer Game before?</legend>
@@ -114,7 +114,7 @@ function briefingHtml() {
             </div>
           </fieldset>
           <p class="notice">Anonymous telemetry is optional. No names or contact details are collected.</p>
-          <button class="primary-button" type="submit">Begin 36-week game</button>
+          <button class="primary-button" type="submit">Enter the simulation <span aria-hidden="true">→</span></button>
         </form>
       </div>
     </section>

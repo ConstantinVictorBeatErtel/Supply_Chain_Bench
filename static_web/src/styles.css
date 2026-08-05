@@ -1,19 +1,19 @@
 :root {
   color-scheme: dark;
-  --bg: #090d14;
-  --surface: #101723;
-  --surface-2: #151f2d;
-  --surface-3: #1c2a3b;
-  --line: #2a3a4d;
-  --line-strong: #46617b;
-  --text: #f4f7fb;
-  --muted: #a5b3c4;
-  --accent: #9ce6c6;
-  --accent-strong: #c6f4dc;
-  --green: #72ddb4;
-  --red: #ff9b8d;
-  --blue: #93cbff;
-  --shadow: 0 24px 75px rgba(0, 0, 0, 0.32);
+  --bg: #0a0b0c;
+  --surface: #101214;
+  --surface-2: #16191b;
+  --surface-3: #202428;
+  --line: #30363b;
+  --line-strong: #69737a;
+  --text: #f3f4ee;
+  --muted: #aab1ae;
+  --accent: #d9ff69;
+  --accent-strong: #edffae;
+  --green: #8fdea5;
+  --red: #ff7658;
+  --blue: #86c8ff;
+  --shadow: none;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -31,12 +31,11 @@ body {
   margin: 0;
   color: var(--text);
   background:
-    linear-gradient(rgba(105, 141, 176, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(105, 141, 176, 0.045) 1px, transparent 1px),
-    radial-gradient(circle at 15% -10%, rgba(91, 178, 209, 0.16), transparent 34rem),
-    radial-gradient(circle at 90% 0%, rgba(111, 222, 180, 0.1), transparent 28rem),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(217, 255, 105, 0.045), transparent 22rem),
     var(--bg);
-  background-size: 32px 32px, 32px 32px, auto, auto, auto;
+  background-size: 40px 40px, 40px 40px, auto, auto;
 }
 
 button,
@@ -73,8 +72,8 @@ input[type="text"] {
   gap: 1rem;
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 1.4rem 0 1rem;
-  border-bottom: 1px solid var(--line-strong);
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--line);
 }
 
 .brand-lockup {
@@ -85,16 +84,17 @@ input[type="text"] {
 
 .brand-mark {
   display: grid;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3.2rem;
+  height: 2.15rem;
   place-items: center;
-  border: 1px solid var(--line-strong);
-  border-radius: 0.38rem;
-  color: #07100d;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  color: #0a0b0c;
   background: var(--accent);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 800;
-  letter-spacing: -0.05em;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
 }
 
 .eyebrow {
@@ -117,9 +117,9 @@ input[type="text"] {
 .header-status {
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--line);
-  border-radius: 0.4rem;
+  border-radius: 0;
   color: var(--muted);
-  background: rgba(12, 23, 19, 0.85);
+  background: rgba(217, 255, 105, 0.06);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.76rem;
 }
@@ -136,8 +136,8 @@ input[type="text"] {
 .game-panel,
 .debrief {
   border: 1px solid var(--line);
-  border-radius: 0.75rem;
-  background: rgba(16, 23, 35, 0.94);
+  border-radius: 0;
+  background: rgba(16, 18, 20, 0.97);
   box-shadow: var(--shadow);
 }
 
@@ -176,7 +176,7 @@ h2 {
   gap: 2rem;
   padding: clamp(1.5rem, 5vw, 4rem);
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(125deg, rgba(147, 203, 255, 0.1), transparent 55%), var(--surface);
+  background: linear-gradient(90deg, rgba(217, 255, 105, 0.08), transparent 45%), var(--surface);
 }
 
 .lede {
@@ -191,8 +191,8 @@ h2 {
   align-self: end;
   padding: 1.25rem;
   border: 1px solid var(--line-strong);
-  border-radius: 0.5rem;
-  background: rgba(21, 31, 45, 0.78);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .condition-card dl,
@@ -289,17 +289,17 @@ select,
 input[type="text"] {
   width: 100%;
   border: 1px solid var(--line-strong);
-  border-radius: 0.4rem;
+  border-radius: 0;
   outline: 0;
   color: var(--text);
-  background: #0c121c;
+  background: #0d0f10;
   padding: 0.75rem 0.9rem;
 }
 
 select:focus,
 input[type="text"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(244, 184, 96, 0.16);
+  box-shadow: 0 0 0 3px rgba(217, 255, 105, 0.16);
 }
 
 fieldset {
@@ -321,7 +321,7 @@ fieldset {
   justify-content: center;
   min-height: 46px;
   border: 1px solid var(--line);
-  border-radius: 0.55rem;
+  border-radius: 0;
   color: var(--muted);
   background: var(--surface-2);
   cursor: pointer;
@@ -330,7 +330,7 @@ fieldset {
 .radio-row label:has(input:checked) {
   border-color: var(--accent);
   color: var(--text);
-  background: rgba(244, 184, 96, 0.11);
+  background: rgba(217, 255, 105, 0.1);
 }
 
 .radio-row input {
@@ -354,7 +354,7 @@ fieldset {
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  border-radius: 0.4rem;
+  border-radius: 0;
   padding: 0.75rem 1.1rem;
   font-weight: 800;
   cursor: pointer;
@@ -362,8 +362,8 @@ fieldset {
 
 .primary-button {
   border: 1px solid var(--accent);
-  color: #07100d;
-  background: linear-gradient(135deg, var(--accent), #7cd9e5);
+  color: #0a0b0c;
+  background: var(--accent);
 }
 
 .primary-button:hover {
@@ -378,7 +378,7 @@ fieldset {
 
 .primary-button:focus-visible,
 .secondary-button:focus-visible {
-  outline: 3px solid rgba(244, 184, 96, 0.35);
+  outline: 3px solid rgba(217, 255, 105, 0.35);
   outline-offset: 2px;
 }
 
@@ -391,7 +391,7 @@ fieldset {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.35rem 1.5rem;
+  padding: 1.1rem 1.5rem;
   border-bottom: 1px solid var(--line);
 }
 
@@ -442,9 +442,9 @@ fieldset {
   min-height: 7.3rem;
   padding: 1rem;
   border: 1px solid var(--line);
-  border-radius: 0.45rem;
+  border-radius: 0;
   background: var(--surface-2);
-  box-shadow: inset 0 2px 0 rgba(147, 203, 255, 0.08);
+  box-shadow: inset 0 2px 0 rgba(217, 255, 105, 0.1);
 }
 
 .metric-label {
@@ -477,8 +477,8 @@ fieldset {
   margin-top: 1rem;
   padding: 1rem;
   border: 1px solid var(--line);
-  border-radius: 0.45rem;
-  background: rgba(12, 18, 28, 0.68);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.018);
 }
 
 .charts-heading,
@@ -511,7 +511,7 @@ fieldset {
   min-width: 0;
   padding: 0.75rem;
   border: 1px solid var(--line);
-  border-radius: 0.4rem;
+  border-radius: 0;
   background: var(--surface-2);
 }
 
@@ -578,8 +578,8 @@ fieldset {
   margin-top: 1rem;
   padding: 1rem;
   border: 1px solid var(--line);
-  border-radius: 0.45rem;
-  background: rgba(12, 18, 28, 0.68);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.018);
 }
 
 .panel-title {
@@ -632,7 +632,7 @@ tbody tr:last-child td {
 
 .decision-column {
   padding: 1.5rem;
-  background: linear-gradient(180deg, rgba(21, 31, 45, 0.94), rgba(16, 23, 35, 0.94));
+  background: linear-gradient(180deg, rgba(217, 255, 105, 0.055), rgba(16, 18, 20, 0.97));
 }
 
 .decision-column .field {
@@ -677,7 +677,7 @@ tbody tr:last-child td {
 .debrief-head {
   padding: clamp(1.5rem, 5vw, 3.5rem);
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(125deg, rgba(244, 184, 96, 0.09), transparent 55%);
+  background: linear-gradient(90deg, rgba(217, 255, 105, 0.085), transparent 55%);
 }
 
 .debrief-head h1 {
@@ -698,13 +698,13 @@ tbody tr:last-child td {
 .score-card {
   padding: 1.2rem;
   border: 1px solid var(--line);
-  border-radius: 0.75rem;
+  border-radius: 0;
   background: var(--surface-2);
 }
 
 .score-card.you {
   border-color: var(--accent);
-  background: rgba(244, 184, 96, 0.08);
+  background: rgba(217, 255, 105, 0.08);
 }
 
 .score-label {
@@ -737,7 +737,7 @@ tbody tr:last-child td {
   margin-top: 1rem;
   padding: 1.1rem 1.2rem;
   border: 1px solid var(--line);
-  border-radius: 0.75rem;
+  border-radius: 0;
 }
 
 .reward-value {
