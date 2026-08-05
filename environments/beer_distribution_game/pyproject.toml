@@ -1,11 +1,12 @@
 [project]
 name = "beer-distribution-game"
-version = "0.2.0"
-description = "Reproducible delayed supply-chain control tasks for LLM agents."
+version = "0.2.2"
+description = "A reproducible Beer Distribution Game for evaluating tool-using LLM supply-chain control."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "Consti Ertel" }]
+tags = ["llm-agents", "supply-chain", "control", "reinforcement-learning", "beer-game"]
 dependencies = ["verifiers==0.2.0"]
 
 [project.optional-dependencies]

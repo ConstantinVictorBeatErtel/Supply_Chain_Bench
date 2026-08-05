@@ -1,20 +1,10 @@
----
-title: Beer Game Human Baseline
-emoji: 🍺
-colorFrom: yellow
-colorTo: blue
-sdk: gradio
-sdk_version: 5.50.0
-app_file: human_app/app.py
-python_version: "3.12"
-short_description: Play Tier 5 Y as wholesaler; human baseline
----
-
 # Beer Distribution Game
 
-A native Verifiers v1 environment for delayed supply-chain control. One model
-controls one role through a strict `place_order(quantity)` tool while deterministic
-scripted policies control the other roles.
+A public Verifiers environment for evaluating tool-using LLMs on delayed
+supply-chain control. One model controls one role through a strict
+`place_order(quantity)` tool while deterministic scripted policies control the
+other roles. The simulator is deterministic and replayable: the same scenario
+seed and action trace always produce the same outcome.
 
 The environment provides five tiers: steady demand, persistent stochastic demand,
 a hidden regime shift, partial pipeline observability, and strategic scarcity in a
