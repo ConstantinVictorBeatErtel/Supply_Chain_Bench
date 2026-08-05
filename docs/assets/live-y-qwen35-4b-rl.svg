@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">Tier-5 live Y teacher-free Qwen LoRA result</title>
+  <desc id="desc">On a 10-seed development research evaluation, teacher-free Qwen3.5-4B LoRA reduces local wholesaler cost from 1579.69 to 1096.31 and raises the score from 44.85 to 53.96.</desc>
+  <rect width="1200" height="600" fill="#fbfaf7"/>
+  <rect x="64" y="56" width="1072" height="488" rx="12" fill="#ffffff" stroke="#dfddd7"/>
+  <text x="104" y="122" fill="#20201e" font-family="Georgia, serif" font-size="34">Teacher-free Qwen LoRA, live Tier-5 Y game</text>
+  <text x="104" y="156" fill="#6a6964" font-family="Arial, sans-serif" font-size="17">36 weeks · wholesaler · 10 disjoint research evaluation seeds · lower cost is better</text>
+  <text x="104" y="220" fill="#6a6964" font-family="Arial, sans-serif" font-size="16">MEAN LOCAL WHOLESALER COST</text>
+  <line x1="104" y1="450" x2="1060" y2="450" stroke="#d9d7d1" stroke-width="2"/>
+  <rect x="222" y="286" width="192" height="164" rx="5" fill="#c9c5bd"/>
+  <rect x="624" y="336" width="192" height="114" rx="5" fill="#6558d9"/>
+  <text x="222" y="270" fill="#242320" font-family="Arial, sans-serif" font-size="24" font-weight="700">1,579.69</text>
+  <text x="624" y="320" fill="#242320" font-family="Arial, sans-serif" font-size="24" font-weight="700">1,096.31</text>
+  <text x="222" y="486" fill="#242320" font-family="Arial, sans-serif" font-size="19" font-weight="700">Base Qwen3.5-4B</text>
+  <text x="624" y="486" fill="#242320" font-family="Arial, sans-serif" font-size="19" font-weight="700">Teacher-free LoRA</text>
+  <text x="104" y="525" fill="#6558d9" font-family="Arial, sans-serif" font-size="18" font-weight="700">30.60% lower local cost · score 44.85 → 53.96 · 100% protocol-clean</text>
+</svg>

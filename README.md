@@ -76,6 +76,29 @@ wholesaler learning target rather than hiding an inconvenient comparison.
 The replayable source data is in the frozen [`artifacts/hub_llm/`](artifacts/hub_llm/)
 collection.
 
+## Teacher-free Qwen LoRA — live Tier-5 Y game
+
+We also trained `Qwen/Qwen3.5-4B` specifically for the public-style Tier-5
+Y-topology wholesaler task. This is a **development research result**, not a
+replacement for either frozen 100-seed benchmark below: it used 16 dedicated
+train-only seeds and 10 separate research evaluation seeds.
+
+The bf16, rank-16 LoRA was trained without a teacher, demonstrations, or
+base-stock actions. It used group-relative negative terminal local wholesaler
+cost, with protocol failures penalized, on one cloud-hosted 48 GB NVIDIA A40.
+On the 10 evaluation seeds, mean local wholesaler cost fell from **1,579.69 ±
+232.46** for the untuned base model to **1,096.31 ± 134.66** after LoRA — a
+**30.60% reduction**. Under the same non-clipping naive-anchored score used by
+the serial LoRA benchmark, this is **44.85 → 53.96**; all evaluated episodes
+were protocol-clean.
+
+![Teacher-free Qwen LoRA live-game result](docs/assets/live-y-qwen35-4b-rl.svg)
+
+The compact result, exact split, and Runpod artifact paths are in
+[`artifacts/live_y_qwen35_4b_rl/`](artifacts/live_y_qwen35_4b_rl/). The full
+method and reproduction command are in
+[`docs/LIVE_Y_QWEN35_4B_RL.md`](docs/LIVE_Y_QWEN35_4B_RL.md).
+
 ## Frontier OpenRouter benchmark
 
 On a separate frozen 100-seed split, the native Tier-5 Y-topology evaluation

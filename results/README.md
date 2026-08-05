@@ -14,6 +14,28 @@ The 0–100 benchmark score is `100 * naive_cost / (naive_cost + policy_cost)`: 
 
 The LoRA adapter uses bf16 (not 4-bit), rank 16, alpha 16, and targets `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, and `down_proj`. It is evaluated locally with batched `generate()`; GPT-5.6 Terra is the only API policy.
 
+## Tier-5 live-game LoRA research evaluation
+
+This is a separate development-only result for the native 36-week Tier-5 Y
+wholesaler task, not an update to the frozen 100-seed serial benchmark above.
+It uses 16 dedicated train-only seeds and 10 disjoint research evaluation seeds
+from `experiments/live_y_qwen_rl/splits.json`. Costs are controlled-role local
+holding plus backlog cost, including native settlement.
+
+| Policy | Mean local cost ± stderr | Score | Protocol-clean |
+| --- | ---: | ---: | ---: |
+| Naive (last incoming order) | 1284.80 ± 72.67 | 50.00 | 100% |
+| Adaptive base-stock | 601.60 ± 72.54 | 68.11 | 100% |
+| Qwen3.5-4B, base | 1579.69 ± 232.46 | 44.85 | 100% |
+| Qwen3.5-4B, teacher-free LoRA | **1096.31 ± 134.66** | **53.96** | **100%** |
+
+The score is again `100 * naive_mean_cost / (naive_mean_cost + policy_mean_cost)`.
+The LoRA run used bf16 rank-16 adapters, six group-relative RL updates, no
+teacher or demonstrations, and a cloud-hosted NVIDIA A40. Full provenance,
+training settings, and the result record are in
+[`artifacts/live_y_qwen35_4b_rl/RESULTS.md`](../artifacts/live_y_qwen35_4b_rl/RESULTS.md)
+and [`docs/LIVE_Y_QWEN35_4B_RL.md`](../docs/LIVE_Y_QWEN35_4B_RL.md).
+
 ## Independent robustness replication
 
 `eval/robustness_seeds.json` is a separately frozen set of 100 sequences, derived from `random.Random(20260805)` and created after training. It is never used for data generation, training, or base-stock tuning. The same policies, 20-week horizon, and score formula are used; the resulting replication is recorded in `results/robustness.json`.

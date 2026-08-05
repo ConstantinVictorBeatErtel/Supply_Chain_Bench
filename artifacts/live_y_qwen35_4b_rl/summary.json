@@ -1,0 +1,57 @@
+{
+  "artifact_version": "1.0",
+  "scope": "development-only research evaluation; not a held-out public benchmark claim",
+  "source_revision_on_runpod": "221462a2309a583144962a514a65159700fdef34",
+  "environment": {
+    "version": "0.2.0",
+    "scenario": "Tier-5 Y headline",
+    "controlled_role": "wholesaler",
+    "operational_weeks": 36,
+    "settlement_weeks": 3,
+    "counterparties": "scripted policies; aggressive retailer claimants"
+  },
+  "split": {
+    "path": "experiments/live_y_qwen_rl/splits.json",
+    "train_seed_count": 16,
+    "evaluation_seed_count": 10,
+    "derivation": "SHA-256('beer-live-y-rl-v1|<split>|<index>')[:16]",
+    "disjoint_from_training": true
+  },
+  "model": {
+    "base": "Qwen/Qwen3.5-4B",
+    "precision": "bf16",
+    "quantization": "none",
+    "lora": {
+      "rank": 16,
+      "alpha": 16,
+      "targets": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+    }
+  },
+  "training": {
+    "teacher": "none",
+    "reward": "group-relative negative terminal local wholesaler cost; protocol failures receive -100000",
+    "updates": 6,
+    "group_size": 4,
+    "learning_rate": 5e-6,
+    "seed": 20260806,
+    "compute": "one cloud-hosted NVIDIA A40 (48 GB VRAM); persistent /workspace volume"
+  },
+  "evaluation": {
+    "cost_unit": "local wholesaler holding + backlog cost including native settlement",
+    "score_formula": "100 * naive_mean_cost / (naive_mean_cost + policy_mean_cost)",
+    "scores_are_computed_from_mean_costs": true,
+    "rows": [
+      {"policy": "Naive", "mean_local_cost": 1284.8, "stderr": 72.67382227765678, "score_0_to_100": 50.0, "protocol_clean_rate": 1.0},
+      {"policy": "Adaptive base-stock", "mean_local_cost": 601.6, "stderr": 72.53580724947736, "score_0_to_100": 68.10856658184902, "protocol_clean_rate": 1.0},
+      {"policy": "Qwen3.5-4B, base (pre-training)", "mean_local_cost": 1579.6875, "stderr": 232.45946754807466, "score_0_to_100": 44.852700526708524, "protocol_clean_rate": 1.0},
+      {"policy": "Qwen3.5-4B, teacher-free LoRA (post-training)", "mean_local_cost": 1096.3125, "stderr": 134.6643460013985, "score_0_to_100": 53.95797132642829, "protocol_clean_rate": 1.0}
+    ],
+    "post_training_cost_reduction_vs_base_percent": 30.59940652818991
+  },
+  "runpod_paths": {
+    "adapter": "/workspace/outputs/beer-wholesaler-qwen35-4b-live-y-rl/adapter",
+    "pre_evaluation": "/workspace/outputs/beer-wholesaler-qwen35-4b-live-y-rl/eval_pre_development.json",
+    "post_evaluation": "/workspace/outputs/beer-wholesaler-qwen35-4b-live-y-rl/eval_post_development.json",
+    "training_log": "/workspace/live_y_rl_full.log"
+  }
+}
