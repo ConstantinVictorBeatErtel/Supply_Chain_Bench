@@ -57,7 +57,7 @@ function scenarioForTrace(trace) {
 
 function setHeader(week = "—", cost = "—") {
   const header = document.querySelector("#header-status");
-  if (header) header.innerHTML = `<span><b>SEAT</b>${escapeHtml(ROLE_LABEL[selectedRole])}</span><span><b>WEEK</b>${week}</span><span><b>COST</b>${cost}</span>`;
+  if (header) header.innerHTML = `<span><b>SEAT</b>${escapeHtml(ROLE_LABEL[selectedRole].toUpperCase())}</span><span><b>WEEK</b>${week}</span><span><b>COST</b>${cost}</span>`;
 }
 
 function lineChart(values, max, width = 720, height = 190) {
@@ -96,8 +96,8 @@ function briefingHtml() {
   return `<section class="briefing" aria-labelledby="briefing-title">
     <div class="hero">
       <h1 id="briefing-title">You hold one seat in a five-node supply chain.</h1>
-      <p>Every week you see your own inventory, backlog, and the order that arrived from downstream. Place one order upstream; it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
-      <p>A sealed reference episode plays the same seat on the same seed. Its orders remain hidden until week 36.</p>
+      <p>Every week you see your own inventory, your own backlog, and the order that arrived from downstream. Nothing else. You place one order upstream and it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
+      <p>A language model plays the same seat, on the same seed, against the same counterparties, in a separate sealed episode. Neither of you sees the other until week 36.</p>
     </div>
     <p class="section-label">Choose your seat</p>
     ${chainHtml({ briefing: true })}
