@@ -1,6 +1,6 @@
 # Beer Distribution Game
 
-**[▶ Play the live wholesaler game](https://beer-distribution-game.pages.dev/)**
+**[▶ Play the redesigned Beer Distribution Game](https://beer-distribution-game.pages.dev/)**
 
 This repository studies a simple question: what happens when a wholesaler has to
 make replenishment decisions with delayed shipments, incomplete information, and
