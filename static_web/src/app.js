@@ -81,9 +81,15 @@ function chainHtml({ briefing = false } = {}) {
     const detail = briefing
       ? `<p>${escapeHtml(ROLE_NOTE[node])}</p>`
       : `<dl><div><dt>INV</dt><dd>${visible ? n0(state.inventory) : "——"}</dd></div><div><dt>BL</dt><dd class="${visible && state.backlog > 0 ? "danger" : ""}">${visible ? n0(state.backlog) : "——"}</dd></div></dl>`;
-    return `<button class="chain-card chain-${node} ${isYou ? "selected" : ""}" data-role="${node}" type="button" ${briefing ? "" : "disabled"}>
+    const playerCard = `<button class="chain-card ${isYou ? "selected" : ""}" data-role="${node}" type="button" ${briefing ? "" : "disabled"}>
       <span class="chain-tag">${isYou ? "YOU" : briefing ? "AVAILABLE" : "SEALED"}</span>
       <strong>${ROLE_LABEL[node]}</strong>${detail}</button>`;
+    if (!isYou) return playerCard;
+    const modelDetail = briefing
+      ? "<p>The same seat, same seed, played in a sealed parallel episode.</p>"
+      : "<dl><div><dt>INV</dt><dd>——</dd></div><div><dt>BL</dt><dd>——</dd></div></dl>";
+    return `<div class="chain-pair chain-${node}">${playerCard}
+      <div class="chain-card companion"><span class="chain-tag">RECORDED MODEL</span><strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
   });
   return `<div class="chain" aria-label="Five-node Y supply chain">
     <div class="retailers">${cards[0]}${cards[1]}</div>
