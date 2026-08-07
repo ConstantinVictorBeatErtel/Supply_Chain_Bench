@@ -74,7 +74,7 @@ describe("static build", () => {
     const app = readFileSync(resolve(PAGES, "app.js"), "utf8");
     expect(app).not.toContain("seed-select");
     expect(app).not.toContain("Data collection notice.");
-    expect(app).toContain("trajectoryCharts");
-    expect(app).toContain("Observed weeks only");
+    expect(app).toContain("graphHtml");
+    expect(app).toContain("Orders out vs demand in");
   });
 });

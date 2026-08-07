@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A deterministic supply-chain control environment for people and AI agents.">
-    <meta name="theme-color" content="#0a0b0c">
+    <meta name="theme-color" content="#0b0a09">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'">
-    <title>BDG Control Lab</title>
+    <title>Beer Distribution Game</title>
     <link rel="stylesheet" href="./styles.css">
     <script src="./config.js" defer></script>
     <script type="module" src="./app.js"></script>
@@ -17,24 +17,21 @@
       <div class="brand-lockup">
         <span class="brand-mark" aria-hidden="true">BDG</span>
         <div>
-          <p class="eyebrow">Control lab / v0.2</p>
           <p class="brand-name">Beer Distribution Game</p>
         </div>
       </div>
-      <div id="header-status" class="header-status">Briefing</div>
+      <div id="header-status" class="header-status"><span><b>SEAT</b>Wholesaler</span><span><b>WEEK</b>—</span><span><b>COST</b>—</span></div>
     </header>
 
     <main id="main" class="shell" tabindex="-1">
       <div id="app" aria-live="polite">
         <section class="loading-card">
-          <p class="eyebrow">Preparing deterministic scenario</p>
+          <p class="section-label">Preparing deterministic scenario</p>
           <h1>Loading game…</h1>
         </section>
       </div>
     </main>
 
-    <footer class="site-footer">
-      <p>Anonymous telemetry is optional. No names or contact details are collected.</p>
-    </footer>
+    <footer class="site-footer"></footer>
   </body>
 </html>
