@@ -54,11 +54,7 @@ button { color: inherit; }
   font: 500 13px/1 "IBM Plex Mono", monospace;
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
 }
-.brand-lockup::after {
-  content: "Tier 5 · Y network";
-  font: 400 11px/1 "IBM Plex Mono", monospace;
-  letter-spacing: .14em; color: var(--faint); text-transform: uppercase;
-}
+.brand-lockup::after { content: none; }
 .header-status {
   display: flex; gap: 28px;
   font: 400 12px/1 "IBM Plex Mono", monospace; letter-spacing: .08em;
@@ -439,7 +435,7 @@ h1 {
 @media (max-width: 800px) {
   .site-header { height: auto; min-height: 64px; padding: 0 16px; }
   .shell { width: 100%; padding: 0 16px 80px; }
-  .brand-lockup::after, .header-status b, .header-status span:first-child { display: none; }
+  .header-status b, .header-status span:first-child { display: none; }
   .header-status { gap: 12px; font-size: 10px; }
   .hero { padding: 56px 0 36px; }
   .chain-board { padding: 18px 12px 12px; }

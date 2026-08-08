@@ -5,6 +5,8 @@ import {
 
 const TIER = 5;
 const VARIANT = "headline";
+/** Public play capacity: research Tier 5 stays at 22; the order slider goes to 128. */
+const PUBLIC_FACTORY_CAPACITY = 200;
 const ROLES = ["retailer_a", "retailer_b", "wholesaler", "distributor", "factory"];
 const ROLE_LABEL = {
   retailer_a: "Retailer A", retailer_b: "Retailer B", wholesaler: "Wholesaler",
@@ -15,8 +17,12 @@ const ROLE_NOTE = {
   retailer_b: "Competes with A for the same wholesaler inventory.",
   wholesaler: "Rations one pool between two retailers. The hard seat.",
   distributor: "Buffers the factory against wholesaler swings.",
-  factory: "Produces to order, capped at 22 units a week.",
+  factory: `Produces to order, capped at ${PUBLIC_FACTORY_CAPACITY} units a week.`,
 };
+
+function publicScenario(spec) {
+  return { ...spec, capacity: PUBLIC_FACTORY_CAPACITY };
+}
 
 let catalog = null;
 let active = null;
@@ -263,7 +269,7 @@ function gameHtml() {
       <div class="graphs">
         ${graphHtml("Inventory and backlog", [{ text: "On hand", className: "blue" }, { text: "Backlog", className: "red" }], [{ values: inventory, className: "blue" }, { values: backlog, className: "red" }], stateMax)}
         ${graphHtml("Orders out vs demand in", [{ text: "You ordered", className: "light" }, { text: "Demand on you", className: "muted" }], [{ values: incoming, className: "muted" }, { values: orders, className: "light" }], orderMax)}
-        <div class="scorecard">${statHtml("Cost through prior week", n1(costs.cumulative_local_cost_through_previous_week))}${statHtml("Weeks remaining", observation.weeks_remaining)}${statHtml("Holding / backlog", "0.5 / 1.0")}${statHtml("Factory capacity", "22")}</div>
+        <div class="scorecard">${statHtml("Cost through prior week", n1(costs.cumulative_local_cost_through_previous_week))}${statHtml("Weeks remaining", observation.weeks_remaining)}${statHtml("Holding / backlog", "0.5 / 1.0")}${statHtml("Factory capacity", String(PUBLIC_FACTORY_CAPACITY))}</div>
       </div>
     </div>
   </section>`;
@@ -282,7 +288,7 @@ function debriefHtml() {
   const baseCost = grade.primary.paired_base_stock_local_total_cost;
   let modelCost = null;
   if (active.role === "wholesaler" && active.trace) {
-    const replay = replayActions(scenarioForTrace(active.seed), active.role, active.trace.actions).episode;
+    const replay = replayActions(publicScenario(scenarioForTrace(active.seed)), active.role, active.trace.actions).episode;
     modelCost = replay.outcome.grade.primary.local_total_cost;
   }
   const lead = modelCost === null ? "Your 36-week episode is complete." : humanCost <= modelCost ? "You beat the recorded model." : "The recorded model finished lower.";
@@ -341,7 +347,9 @@ function bindBriefing() {
     globalThis.crypto?.getRandomValues?.(random);
     const catalogIndex = random[0] % catalog.seeds.length;
     const seed = catalog.seeds[catalogIndex];
-    const spec = selectedRole === "wholesaler" ? scenarioForTrace(seed) : scenarioFor(TIER, "development", catalogIndex % 3);
+    const spec = publicScenario(
+      selectedRole === "wholesaler" ? scenarioForTrace(seed) : scenarioFor(TIER, "development", catalogIndex % 3),
+    );
     const episode = new BeerEpisode(spec, selectedRole);
     active = { seed, episode, role: selectedRole, observation: episode.start(), order: 8, actions: [], weekly: [], sessionUuid: createSessionUuid(), timestamp: new Date().toISOString(), trace: selectedRole === "wholesaler" ? seed : null };
     logSent = false;
