@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Mapping
 from typing import Callable
 
 THINK_RE = re.compile(r"^<think>(?P<thought>.*?)</think>(?P<body>.*)\Z", re.DOTALL)
@@ -17,8 +18,14 @@ def _token_count(text: str, tokenizer: Callable[[str], object] | None) -> int:
         # deliberately conservative for CPU validation and does not bless text
         # that could exceed the real token budget.
         return len(text.split())
-    value = tokenizer(text)
-    return len(value["input_ids"] if isinstance(value, dict) else value)
+    try:
+        value = tokenizer(text, add_special_tokens=False)
+    except TypeError:
+        value = tokenizer(text)
+    ids = value["input_ids"] if isinstance(value, Mapping) else value
+    if ids and isinstance(ids[0], (list, tuple)):
+        ids = ids[0]
+    return len(ids)
 
 
 def parse_completion(

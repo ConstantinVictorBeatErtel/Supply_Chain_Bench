@@ -8,16 +8,18 @@ group-relative PPO/GRPO-style trainer is extended with per-turn return-to-go
 advantages. SFT is optional, self-generated format-normalization scaffolding
 only; it is not policy supervision and is not the headline method.
 
-The CPU implementation and regression tests are complete. The historical
-adapter recovery and the new GPU smoke/full run are blocked because Runpod
-rejected two bounded starts of stopped pod `s7bbri3e3zilb5` for insufficient
-account balance. No GPU pod started and no new Runpod spend accrued. Therefore
-this report does not claim a recovered adapter, a trained endpoint, or model
-evaluation numbers.
+The research smoke and fixed two-update GPU run completed on one A40. The
+historical adapter was not recovered: the old pod had no network volume
+attached, and the volume was in a placement with no available A40. It remains
+explicitly unavailable and is not conflated with the new endpoint.
 
-The prescribed smoke was attempted once locally and stopped before model load
-with `CUDA is not available`; see `smoke_result.json`. It did not generate a
-trajectory or adapter and incurred no spend.
+The base model produced 100% protocol-clean development output in the smoke,
+so the optional SFT scaffold was skipped as unnecessary. The A40 smoke had
+144 valid actions, finite nonzero loss, and a saved/reloaded adapter. The full
+run had 2,304 valid actions across 64 trajectories.
+The full job wrote the adapter and both update metrics before its shell ended;
+the optional final development JSON was not emitted. The verified adapter was
+then evaluated separately on all 16 fixed research seeds below.
 
 ## Frozen research design
 
@@ -51,9 +53,10 @@ return-to-go values. System/team cost is reporting-only.
 
 ## Evaluation and reporting
 
-The evaluation runner evaluates untrained base, recovered historical RL,
-format-scaffold diagnostic, final per-turn GRPO, naive base-stock, and adaptive
-base-stock under identical prompts, parsers, decoding, scenarios, and seeds.
+The evaluation runner evaluated the untrained base, final per-turn GRPO, naive
+base-stock, and adaptive base-stock under identical prompts, parsers, decoding,
+scenarios, and seeds. Recovered historical RL is unavailable, and format SFT
+was skipped by the predeclared 95% protocol gate.
 It records paired per-seed local/team costs, stderr, the exact score formula,
 protocol/format failure rates, bullwhip ratio, normalized order volatility,
 weekly costs, return-to-go, advantages, hashes, GPU time, and exact API cost.
@@ -61,9 +64,32 @@ The fixed score formula is:
 
 `100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)`
 
-The current artifact directory contains protocol metadata and is intentionally
-not populated with invented model results. CPU reference rows, when generated,
-are labeled reference-only and cannot select a checkpoint.
+The model artifacts and fixed research results are in `runpod_final/` and
+`evaluations/`; the CPU reference rows remain labeled reference-only.
+
+Overall fixed evaluation across 16 seeds:
+
+| Model | Local cost ± stderr | System cost ± stderr | Score |
+|---|---:|---:|---:|
+| Untrained base | 1538.47 ± 312.27 | 20478.78 ± 5412.61 | 82.89 |
+| Final per-turn GRPO | 1120.72 ± 240.84 | 4680.13 ± 559.29 | 86.93 |
+
+Per-bucket local cost ± stderr / exact score:
+
+| Bucket | Base | Final GRPO |
+|---|---:|---:|
+| In-distribution | 916.88 ± 97.58 / 87.25 | 652.50 ± 26.19 / 90.58 |
+| Canonical held-out step | 1146.00 ± 160.74 / 84.30 | 784.25 ± 90.76 / 88.69 |
+| Shifted mean / doubled variance | 3196.75 ± 820.94 / 77.37 | 2446.75 ± 598.78 / 81.71 |
+| Burst-and-collapse | 894.25 ± 76.33 / 87.84 | 599.38 ± 71.45 / 91.51 |
+
+Both model evaluations had 0% protocol and format failure. Scores use
+`100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)`
+with the naive reference mean computed over the same bucket seeds.
+
+Runpod billing was $0.4520515278 total: $0.3905525552 for the A40 run and
+$0.0614989726 for the bounded recovery-pod inventory. Both pods were stopped
+after transfer; no pods remained running.
 
 The generated CPU reference-only rows (`cpu_reference_results.json`) are:
 

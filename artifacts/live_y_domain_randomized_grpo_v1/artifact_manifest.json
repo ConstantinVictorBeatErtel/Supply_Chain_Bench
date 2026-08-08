@@ -1,0 +1,181 @@
+{
+  "gpu": "NVIDIA A40",
+  "gpu_rate_usd_per_hour": 0.44,
+  "historical_adapter_recovered": false,
+  "historical_network_volume": "sqplkjdfcd",
+  "historical_recovery_pod": "s7bbri3e3zilb5",
+  "new_run_artifacts": [
+    {
+      "bytes": 5229,
+      "path": "REPORT.md",
+      "sha256": "630fb0e302d5fe67406eee5d3009059df2f1f2bed60ef692238748dc7e8dd99a"
+    },
+    {
+      "bytes": 5320,
+      "path": "aggregate_results.json",
+      "sha256": "6c2d55d9a2269f33b77ebb8bf237ca7cae88217b260455a4068a2b5c7e8c0986"
+    },
+    {
+      "bytes": 163952,
+      "path": "cpu_reference_results.json",
+      "sha256": "8d8b93e3ae02200b41902c4f565f552a4bec22de857a78b44b9de73be3e19a1c"
+    },
+    {
+      "bytes": 102785,
+      "path": "evaluations/final_per_turn_grpo.json",
+      "sha256": "883c2a69164ed04be9129932849f08331e6af1b610700bca6b72db4f17b5fbc3"
+    },
+    {
+      "bytes": 102523,
+      "path": "evaluations/untrained_base.json",
+      "sha256": "137af5ec81f840cac480412665ffa46c982a9cfe94e57543eb85b1eb6ba08459"
+    },
+    {
+      "bytes": 2692,
+      "path": "live_y_domain_randomized_grpo_v1_eval_base.log",
+      "sha256": "a9bfff209ac0adbeb1d48cee58a90971c1355e7340b603ddef59f8fd451f0023"
+    },
+    {
+      "bytes": 2777,
+      "path": "live_y_domain_randomized_grpo_v1_eval_final.log",
+      "sha256": "a0e639b8fc4619dd3dab59d178fcc35344661300fc2e679ba8a36306563d8528"
+    },
+    {
+      "bytes": 3313,
+      "path": "live_y_domain_randomized_grpo_v1_full.log",
+      "sha256": "86bca2e48248ecedd3c0abb31b0454827961c53cf632e9695b1945657512521d"
+    },
+    {
+      "bytes": 4810,
+      "path": "live_y_domain_randomized_grpo_v1_smoke.log",
+      "sha256": "21dd38c9b76ec7d781105747cff409ca5090c24305a1c2f65c1615b66fb27741"
+    },
+    {
+      "bytes": 499,
+      "path": "runpod_cost.json",
+      "sha256": "fa17de4252e48d4115e660859d28351bb15f5d11d80696f5af21ba76cecd9c2e"
+    },
+    {
+      "bytes": 5184,
+      "path": "runpod_final/adapter/README.md",
+      "sha256": "7ca7236d36dfb58dae5ae922c1642238fd05f0f6b8742e7dc3221af529f8a28a"
+    },
+    {
+      "bytes": 1147,
+      "path": "runpod_final/adapter/adapter_config.json",
+      "sha256": "977809ff8ed1cb52d76c3781a0920b225fe87ad5887b40370a2ddc5f2c135346"
+    },
+    {
+      "bytes": 84968408,
+      "path": "runpod_final/adapter/adapter_model.safetensors",
+      "sha256": "13cae56bad3520c83bcd7f3e155f5fd8864f492c368dcfeb9ec6c4136c6a961d"
+    },
+    {
+      "bytes": 7756,
+      "path": "runpod_final/adapter/chat_template.jinja",
+      "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+    },
+    {
+      "bytes": 19989591,
+      "path": "runpod_final/adapter/tokenizer.json",
+      "sha256": "eb9c15d2180cbe8adfc461b6410afe49c231038bc7940f7986033ff89e114089"
+    },
+    {
+      "bytes": 1125,
+      "path": "runpod_final/adapter/tokenizer_config.json",
+      "sha256": "9cf04fffe3d8c3b85e439fb35c7acad0761ab51c422a8c4256d9f887c3a0be7d"
+    },
+    {
+      "bytes": 18114,
+      "path": "runpod_final/eval_pre_development.json",
+      "sha256": "71f0197defd9034a859dc03fe6d22839ca39b3434ceff017afa0016c13e28735"
+    },
+    {
+      "bytes": 983,
+      "path": "runpod_final/research_protocol.json",
+      "sha256": "35eb2c305d714dee3dcbd8753954e8438775acdd73528e78f830c3fcabcfac12"
+    },
+    {
+      "bytes": 161998,
+      "path": "runpod_final/rollouts.jsonl",
+      "sha256": "032c073a88075db656b1e15320a711d49776b00b639f1c2a28f6ceed7e6ae935"
+    },
+    {
+      "bytes": 431,
+      "path": "runpod_final/run_config.json",
+      "sha256": "df0a474559ea9e63759f31c9d5878f6176256d770ee39041aa2b97065e2d567c"
+    },
+    {
+      "bytes": 1642,
+      "path": "runpod_final/training_metrics.json",
+      "sha256": "046fe8f756c7d2d9848ac9242e9f609c7b5b665cc4d432517be70e39bddd0e21"
+    },
+    {
+      "bytes": 5184,
+      "path": "runpod_smoke/adapter/README.md",
+      "sha256": "7ca7236d36dfb58dae5ae922c1642238fd05f0f6b8742e7dc3221af529f8a28a"
+    },
+    {
+      "bytes": 1147,
+      "path": "runpod_smoke/adapter/adapter_config.json",
+      "sha256": "98ea0993057d1445f90519ea37a908f700c400147b745a7cd60f4defea19b034"
+    },
+    {
+      "bytes": 84968408,
+      "path": "runpod_smoke/adapter/adapter_model.safetensors",
+      "sha256": "4f717f74285fd42138b07b5357662f6e954a3d13221623275238ce9a66eed19b"
+    },
+    {
+      "bytes": 7756,
+      "path": "runpod_smoke/adapter/chat_template.jinja",
+      "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+    },
+    {
+      "bytes": 19989591,
+      "path": "runpod_smoke/adapter/tokenizer.json",
+      "sha256": "eb9c15d2180cbe8adfc461b6410afe49c231038bc7940f7986033ff89e114089"
+    },
+    {
+      "bytes": 1125,
+      "path": "runpod_smoke/adapter/tokenizer_config.json",
+      "sha256": "9cf04fffe3d8c3b85e439fb35c7acad0761ab51c422a8c4256d9f887c3a0be7d"
+    },
+    {
+      "bytes": 18122,
+      "path": "runpod_smoke/eval_post_development.json",
+      "sha256": "d3b03c303f169f7dd4864b0f03e48b2a80d374f2455954238ece6c273f3a9260"
+    },
+    {
+      "bytes": 18114,
+      "path": "runpod_smoke/eval_pre_development.json",
+      "sha256": "71f0197defd9034a859dc03fe6d22839ca39b3434ceff017afa0016c13e28735"
+    },
+    {
+      "bytes": 582,
+      "path": "runpod_smoke/research_protocol.json",
+      "sha256": "63b7b17bf8184cb47259c7327b8d8de3c4597e5e5f7576c64e752fa9adb521df"
+    },
+    {
+      "bytes": 9993,
+      "path": "runpod_smoke/rollouts.jsonl",
+      "sha256": "c113ce0dd9aae2a0a3b1378c37ba1acbefd5c9af7aba2c9e100459239bbd6615"
+    },
+    {
+      "bytes": 320,
+      "path": "runpod_smoke/run_config.json",
+      "sha256": "fb0f06896124d5a96e1f23666818c82696556e5b413c63aef7bea8cad308fb77"
+    },
+    {
+      "bytes": 791,
+      "path": "runpod_smoke/training_metrics.json",
+      "sha256": "53a70a71293cc21ca868f549dd2435aa89c9fbffc21d896a7b0541433c82d98a"
+    },
+    {
+      "bytes": 566,
+      "path": "smoke_result.json",
+      "sha256": "63f3055097d7501be37ba6a4dc70a341fb16ed3a2ebc8f6c664f054b731b2bcb"
+    }
+  ],
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "runpod_pod_id": "i5en88trid9ocv"
+}

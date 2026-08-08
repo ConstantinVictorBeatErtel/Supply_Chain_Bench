@@ -1,0 +1,18 @@
+{
+  "decoding": {
+    "max_completion_tokens": 192,
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "demand_process": "episode_randomized_y_poisson_v1",
+  "group_size": 4,
+  "method": "critic-free multi-turn group-relative PPO/GRPO-style update",
+  "per_turn_normalization": "none; same-timestep mean baseline only",
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "reward": "negative local wholesaler return-to-go; no system/team cost",
+  "scheduled_training_indices": [
+    0
+  ],
+  "sft": "optional self-generated format-normalization scaffolding only",
+  "updates": 1
+}
