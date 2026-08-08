@@ -52,6 +52,8 @@ class ActionRecord:
     valid: bool
     advantage: float = 0.0
     old_logprob: float = 0.0
+    return_to_go: float | None = None
+    group_baseline: float | None = None
 
 
 @dataclass
