@@ -8,17 +8,20 @@ fog-of-war. Public play and the live-Y research board use **factory capacity
 against a hindsight-perfect cost reference.
 
 ```mermaid
-flowchart LR
-  F[Factory] --> D[Distributor] --> W[Wholesaler]
-  W --> RA[Retailer A] --> CA[Customer A]
-  W --> RB[Retailer B] --> CB[Customer B]
+flowchart TB
+  F[Factory] --> D[Distributor] --> W["Wholesaler (controlled)"]
+  W --> RA[Retailer A]
+  W --> RB[Retailer B]
+  RA --> CA[Customer A]
+  RB --> CB[Customer B]
   style W fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
   style RA fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
   style RB fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-Controlled seat: **wholesaler**. The Y fork is the two highlighted retailers
-(aggressive scripted rivals under proportional rationing).
+Y topology is **one wholesaler → two retailers** (not two wholesaler seats). Both
+retailer fork nodes are highlighted; the wholesaler is the locked controlled seat.
+Scripted aggressive rivals share proportional rationing from that single pool.
 
 ## Benchmark (capacity 400)
 
