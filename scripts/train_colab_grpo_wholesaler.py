@@ -84,6 +84,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--max-new-tokens", type=int, default=32)
     p.add_argument("--prompt-max-tokens", type=int, default=4096)
     p.add_argument(
+        "--kv-cache-min-prefix-tokens",
+        type=int,
+        default=64,
+        help="Minimum invariant token prefix eligible for reusable KV caching.",
+    )
+    p.add_argument("--disable-prefix-kv-cache", action="store_true")
+    p.add_argument(
         "--train-minibatch",
         type=int,
         default=2,
@@ -253,6 +260,21 @@ def generate_batch(
     args: argparse.Namespace,
     sample: bool,
 ) -> list[tuple[list[int], list[int], str]]:
+    prefix_cache = getattr(args, "_prefix_kv_cache", None)
+    if prefix_cache is not None:
+        cached = prefix_cache.generate(
+            tokenizer,
+            prompts,
+            prompt_max_tokens=args.prompt_max_tokens,
+            max_new_tokens=args.max_new_tokens,
+            sample=sample,
+            temperature=args.temperature,
+            top_p=args.top_p,
+            pad_token_id=tokenizer.pad_token_id,
+            eos_token_id=tokenizer.eos_token_id,
+        )
+        if cached is not None:
+            return cached
     encoded = tokenizer(
         prompts,
         return_tensors="pt",
@@ -264,7 +286,7 @@ def generate_batch(
     device = model_device(model)
     encoded = {key: value.to(device) for key, value in encoded.items()}
     model.eval()
-    with torch.no_grad():
+    with torch.inference_mode():
         generated = model.generate(
             **encoded,
             do_sample=sample,
@@ -444,8 +466,8 @@ def sequence_logprobs(model: Any, records: list[ActionRecord], minibatch: int) -
         mask = torch.zeros_like(ids, dtype=torch.long)
         for row, seq in enumerate(sequences):
             mask[row, : len(seq)] = 1
-        with torch.no_grad():
-            logits = model(input_ids=ids, attention_mask=mask).logits.float()
+        with torch.inference_mode():
+            logits = model(input_ids=ids, attention_mask=mask, use_cache=False).logits.float()
         for row, (prompt_len, completion_len) in enumerate(zip(lengths, completion_lengths)):
             values.append(
                 completion_mean_logprob(logits[row], ids[row], prompt_len, completion_len)
@@ -484,7 +506,7 @@ def train_update(model: Any, optimizer: Any, records: list[ActionRecord], args: 
         mask = torch.zeros_like(ids, dtype=torch.long)
         for row, seq in enumerate(sequences):
             mask[row, : len(seq)] = 1
-        logits = model(input_ids=ids, attention_mask=mask).logits.float()
+        logits = model(input_ids=ids, attention_mask=mask, use_cache=False).logits.float()
         current: list[torch.Tensor] = []
         for row, (prompt_len, completion_len) in enumerate(zip(lengths, completion_lengths)):
             current.append(completion_mean_logprob(logits[row], ids[row], prompt_len, completion_len))
@@ -570,6 +592,14 @@ def main() -> None:
             "updates": args.updates,
             "reward": "native BeerEpisode grade.episode_reward",
             "action_serializer": "strict JSON quantity converted to place_order",
+            "efficiency": {
+                "prompt_max_tokens": getattr(args, "prompt_max_tokens", 4096),
+                "generation_token_cap": getattr(args, "max_new_tokens", 32),
+                "prefix_kv_cache": not getattr(args, "disable_prefix_kv_cache", False),
+                "kv_cache_min_prefix_tokens": getattr(args, "kv_cache_min_prefix_tokens", 64),
+                "training_forward_use_cache": False,
+                "inference_mode": True,
+            },
         },
     )
     if args.dry_run:
@@ -590,6 +620,15 @@ def main() -> None:
     print("Loading policy model and LoRA adapter...", flush=True)
     model, tokenizer = load_policy(args)
     print("Policy loaded.", flush=True)
+    if not getattr(args, "disable_prefix_kv_cache", False):
+        from beer_distribution_rl.agents.llm.prefix_kv_cache import PrefixKVCache
+
+        args._prefix_kv_cache = PrefixKVCache(
+            model,
+            min_prefix_tokens=getattr(args, "kv_cache_min_prefix_tokens", 64),
+        )
+    else:
+        args._prefix_kv_cache = None
     if args.eval_only:
         print(f"Running {args.eval_split} evaluation...", flush=True)
         result = evaluate(model, tokenizer, eval_tasks, args)
@@ -621,10 +660,21 @@ def main() -> None:
             **aggregate(episode_rows),
             "valid_actions": sum(int(record.valid) for record in records),
             "total_actions": len(records),
+            "efficiency": {
+                "prompt_tokens": sum(len(record.prompt_ids) for record in records),
+                "completion_tokens": sum(len(record.completion_ids) for record in records),
+                "generation_token_cap": getattr(args, "max_new_tokens", 32),
+                "prefix_kv_cache": (
+                    args._prefix_kv_cache.snapshot() if args._prefix_kv_cache is not None else {"enabled": False}
+                ),
+            },
         }
         update_rows.append(row)
         print(json.dumps(row, sort_keys=True))
         save_json(output_dir / "training_metrics.json", update_rows)
+        if args._prefix_kv_cache is not None:
+            # Optimizer steps change the LoRA weights; cached KVs are then stale.
+            args._prefix_kv_cache.clear()
         with (output_dir / "rollouts.jsonl").open("a") as handle:
             for episode in episode_rows:
                 handle.write(json.dumps({"update": update, **episode}) + "\n")

@@ -1,0 +1,3973 @@
+{
+  "definition": "Minimum wholesaler local_total_cost found by order-up-to / tuned-adaptive grids, model warm starts, and coordinate descent on each fixed CRN seed. Feasible upper bound on the true hindsight optimum.",
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "reference": "hindsight_search_perfect",
+  "rows": [
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "burst_and_collapse",
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 14,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 9
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 14,
+            "week": 14
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 15
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 17
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 18
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 20
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 25
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 29
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 30
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 8.587098666932434,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 3825.0,
+      "seed": "3385fc1772a83c0f",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 53.5,
+      "adaptive_local_cost": 296.5,
+      "bucket": "burst_and_collapse",
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 9,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 5
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 9
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 7,
+            "week": 11
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 13,
+            "week": 12
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 14
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 15
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 7,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 18
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 24
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 26
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 31
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 8.902213166002184,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        41,
+        15,
+        15,
+        16,
+        15,
+        18,
+        16,
+        16,
+        16,
+        15,
+        12,
+        21,
+        31,
+        15,
+        15,
+        16,
+        15,
+        16,
+        15,
+        16,
+        16,
+        15,
+        16,
+        16,
+        16,
+        15,
+        16,
+        17,
+        16,
+        24,
+        16,
+        15,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 243.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 3600.5,
+      "seed": "6004dde3fcee7f67",
+      "top_heuristic_local_cost": 290.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 30.5,
+      "adaptive_local_cost": 235.0,
+      "bucket": "burst_and_collapse",
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 13,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 9
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 24
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 28
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 8.517289333045483,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        24,
+        25,
+        17,
+        17,
+        16,
+        16,
+        17,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 204.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 3790.0,
+      "seed": "b7c3c42c06605a25",
+      "top_heuristic_local_cost": 235.0,
+      "top_heuristic_method": "adaptive"
+    },
+    {
+      "adaptive_gap": 55.0,
+      "adaptive_local_cost": 343.0,
+      "bucket": "burst_and_collapse",
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 11,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 10
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 15,
+            "week": 12
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 12,
+            "week": 14
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 16
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 19
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 20
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 25
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 32
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 34
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 8.959178209071979,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        31,
+        21,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        18,
+        55,
+        6,
+        11,
+        12,
+        14,
+        15,
+        16,
+        15,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 288.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 3473.0,
+      "seed": "f0cd8b5418cd1e55",
+      "top_heuristic_local_cost": 332.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "canonical_held_out_step",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 6.8459929171949625,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 1485.0,
+      "seed": "0fa94b60e8eb54e2",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "canonical_held_out_step",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 6.864336125086993,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 1485.0,
+      "seed": "2b5eae5b998e4f1d",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "canonical_held_out_step",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 6.887258500093594,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 1485.0,
+      "seed": "6ad00ac691773fce",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "canonical_held_out_step",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 6.7127428750973195,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 1485.0,
+      "seed": "722ad6103d9490ad",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 44.5,
+      "adaptive_local_cost": 287.0,
+      "bucket": "in_distribution",
+      "demand": {
+        "demand_seed": "1e594a5f4f13c914",
+        "lambda": 6.967595256762656,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 3
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 2,
+            "retailer_b": 9,
+            "week": 9
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 12,
+            "week": 13
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 14
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 17
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 18
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 12,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 3,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 25
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 27
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 28
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 2,
+            "week": 29
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 30
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 5,
+            "week": 31
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 32
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 33
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 9.46139758406207,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        20,
+        19,
+        16,
+        16,
+        16,
+        16,
+        18,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 242.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 1819.0,
+      "seed": "1e594a5f4f13c914",
+      "top_heuristic_local_cost": 273.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 30.5,
+      "adaptive_local_cost": 215.0,
+      "bucket": "in_distribution",
+      "demand": {
+        "demand_seed": "1ef97b9065013134",
+        "lambda": 4.195066463922865,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 4
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 7
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 8
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 11
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 12
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 13
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 14
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 18
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 22
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 24
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 25
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 33
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 34
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 8.486865125130862,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        24,
+        22,
+        17,
+        17,
+        17,
+        16,
+        16,
+        17,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 184.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 4165.5,
+      "seed": "1ef97b9065013134",
+      "top_heuristic_local_cost": 215.0,
+      "top_heuristic_method": "adaptive"
+    },
+    {
+      "adaptive_gap": 30.5,
+      "adaptive_local_cost": 215.0,
+      "bucket": "in_distribution",
+      "demand": {
+        "demand_seed": "60014380abcd0c62",
+        "lambda": 2.3949633454999293,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 3
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 9
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 10
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 13
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 16
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 17
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 18
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 19
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 22
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 24
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 25
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 27
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 28
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 30
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 31
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 32
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 33
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 34
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 35
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 7.7600118750706315,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        24,
+        22,
+        17,
+        17,
+        17,
+        16,
+        16,
+        17,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 184.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 5486.5,
+      "seed": "60014380abcd0c62",
+      "top_heuristic_local_cost": 215.0,
+      "top_heuristic_method": "adaptive"
+    },
+    {
+      "adaptive_gap": 31.5,
+      "adaptive_local_cost": 196.0,
+      "bucket": "in_distribution",
+      "demand": {
+        "demand_seed": "ba0eef18cf04ad40",
+        "lambda": 2.186076986281477,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 3
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 0,
+            "week": 6
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 13
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 17
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 18
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 24
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 25
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 27
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 29
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 30
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 33
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 34
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 7.832427208079025,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 164.5,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 5461.0,
+      "seed": "ba0eef18cf04ad40",
+      "top_heuristic_local_cost": 195.0,
+      "top_heuristic_method": "constant_s_48"
+    },
+    {
+      "adaptive_gap": 64.0,
+      "adaptive_local_cost": 1510.0,
+      "bucket": "shifted_mean_doubled_variance",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 14,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 5
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 12,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 9
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 11
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 10,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 14
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 17
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 18
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 19
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 20
+          },
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 21
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 16,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 21,
+            "week": 24
+          },
+          {
+            "retailer_a": 14,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 19,
+            "retailer_b": 5,
+            "week": 26
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 11,
+            "week": 27
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 20,
+            "week": 28
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 14,
+            "week": 29
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 31
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 13,
+            "week": 32
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 33
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 12,
+            "week": 35
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 12.820252832956612,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        42,
+        29,
+        32,
+        26,
+        16,
+        16,
+        16,
+        21,
+        23,
+        16,
+        16,
+        16,
+        17,
+        20,
+        16,
+        16,
+        26,
+        17,
+        17,
+        21,
+        21,
+        21,
+        19,
+        21,
+        31,
+        20,
+        33,
+        18,
+        25,
+        23,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0
+      ],
+      "perfect_local_cost": 1446.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 4175.0,
+      "seed": "98155973e5223d05",
+      "top_heuristic_local_cost": 1481.5,
+      "top_heuristic_method": "constant_s_56"
+    },
+    {
+      "adaptive_gap": 20.0,
+      "adaptive_local_cost": 3754.0,
+      "bucket": "shifted_mean_doubled_variance",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 15,
+            "week": 1
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 3
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 13,
+            "week": 4
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 19,
+            "retailer_b": 15,
+            "week": 10
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 13
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 14
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 34,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 21,
+            "retailer_b": 6,
+            "week": 20
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 33,
+            "week": 21
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 15,
+            "week": 24
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 23,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 20,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 9,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 32
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 11,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 13.05388249992393,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        17,
+        29,
+        24,
+        21,
+        33,
+        32,
+        17,
+        25,
+        20,
+        32,
+        33,
+        16,
+        16,
+        20,
+        28,
+        16,
+        53,
+        16,
+        16,
+        16,
+        16,
+        30,
+        18,
+        16,
+        19,
+        39,
+        16,
+        16,
+        29,
+        16,
+        16,
+        24,
+        16,
+        25,
+        27,
+        20
+      ],
+      "perfect_local_cost": 3734.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 10846.0,
+      "seed": "a01e69edae32256e",
+      "top_heuristic_local_cost": 3737.5,
+      "top_heuristic_method": "constant_s_33"
+    },
+    {
+      "adaptive_gap": 23.5,
+      "adaptive_local_cost": 3026.5,
+      "bucket": "shifted_mean_doubled_variance",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 1
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 2
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 9,
+            "week": 3
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 4
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 17,
+            "week": 9
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 19,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 16,
+            "week": 15
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 17
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 3,
+            "week": 18
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 12,
+            "week": 19
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 32,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 12,
+            "week": 24
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 17,
+            "week": 26
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 19,
+            "week": 31
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 32
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 33
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 10,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 13.08121950016357,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        17,
+        45,
+        29,
+        33,
+        22,
+        22,
+        16,
+        16,
+        16,
+        35,
+        17,
+        16,
+        33,
+        21,
+        18,
+        34,
+        16,
+        16,
+        19,
+        23,
+        44,
+        16,
+        18,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        18,
+        16,
+        20,
+        16,
+        9,
+        22,
+        29
+      ],
+      "perfect_local_cost": 3003.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 8524.5,
+      "seed": "ba32f821074ddb20",
+      "top_heuristic_local_cost": 3010.5,
+      "top_heuristic_method": "constant_s_33"
+    },
+    {
+      "adaptive_gap": 462.5,
+      "adaptive_local_cost": 1479.5,
+      "bucket": "shifted_mean_doubled_variance",
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 14,
+            "week": 6
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 7
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 14,
+            "week": 9
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 13
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 16
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 14,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 19
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 24
+          },
+          {
+            "retailer_a": 22,
+            "retailer_b": 16,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 21,
+            "week": 26
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 10,
+            "week": 27
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 18,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 29
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 32
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 10,
+            "week": 35
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 36
+          }
+        ]
+      },
+      "elapsed_s": 12.51380570908077,
+      "note": "Feasible hindsight minimum under fixed CRN demand and scripted counterparties. True optimum is \u2264 this value.",
+      "perfect_actions": [
+        87,
+        34,
+        16,
+        17,
+        16,
+        16,
+        18,
+        21,
+        28,
+        28,
+        21,
+        28,
+        16,
+        16,
+        19,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        17,
+        33,
+        25,
+        14,
+        18,
+        17,
+        16,
+        16,
+        16,
+        4,
+        4,
+        0
+      ],
+      "perfect_local_cost": 1017.0,
+      "perfect_method": "coordinate_descent",
+      "perfect_system_cost": 5948.0,
+      "seed": "d9e921eb4abf1311",
+      "top_heuristic_local_cost": 1102.0,
+      "top_heuristic_method": "constant_s_95"
+    }
+  ],
+  "summary": {
+    "adaptive_mean_local_cost": 783.59375,
+    "adaptive_over_perfect": 1.087003641408011,
+    "n": 16,
+    "perfect_mean_local_cost": 720.875
+  }
+}

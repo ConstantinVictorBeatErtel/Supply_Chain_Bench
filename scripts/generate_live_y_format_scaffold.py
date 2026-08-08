@@ -19,6 +19,7 @@ for path in (ROOT, ROOT / "environments" / "beer_distribution_game"):
 from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment import make_tasks
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.protocol import permissive_intended_quantity, serialize_completion
+from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.prompting import research_observation_user_message
 from beer_distribution_game.prompts import sft_chat_example
 
 
@@ -48,7 +49,7 @@ def main() -> None:
         while not episode.done and len(rows) < args.target:
             episode.research_observations.append(observation)
             prompt = tokenizer.apply_chat_template(
-                [{"role": "system", "content": task.system_prompt}, {"role": "user", "content": json.dumps(observation, sort_keys=True)}],
+                [{"role": "system", "content": task.system_prompt}, {"role": "user", "content": research_observation_user_message(observation)}],
                 tokenize=False,
                 add_generation_prompt=True,
             )

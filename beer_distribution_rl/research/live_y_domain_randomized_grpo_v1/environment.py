@@ -8,10 +8,10 @@ from types import SimpleNamespace
 from typing import Any
 
 from beer_distribution_game.episode import BeerEpisode
-from beer_distribution_game.prompts import system_prompt
 from beer_distribution_game.scenario import ScenarioSpec, scenario_for
 
 from . import DEMAND_PROCESS_ID, PROTOCOL_ID
+from .prompting import research_system_prompt
 
 EVAL_PROCESSES = {
     "in_distribution": DEMAND_PROCESS_ID,
@@ -55,7 +55,10 @@ class ResearchTask:
 
     @property
     def system_prompt(self) -> str:
-        return system_prompt(ScenarioSpec(**{**self.scenario, "roles": tuple(self.scenario["roles"])}), self.controlled_role)
+        return research_system_prompt(
+            ScenarioSpec(**{**self.scenario, "roles": tuple(self.scenario["roles"])}),
+            self.controlled_role,
+        )
 
 
 def tasks_for(bucket: str, count: int = 4) -> list[ResearchTask]:

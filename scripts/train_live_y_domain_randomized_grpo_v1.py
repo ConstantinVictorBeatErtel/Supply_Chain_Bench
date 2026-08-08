@@ -33,6 +33,9 @@ from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment 
     research_spec,
 )
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.protocol import parse_completion
+from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.prompting import (
+    research_observation_user_message,
+)
 
 LORA_TARGETS = ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj")
 
@@ -45,6 +48,9 @@ def args() -> argparse.Namespace:
     p.add_argument("--learning-rate", type=float, default=5e-6)
     p.add_argument("--seed", type=int, default=20260808)
     p.add_argument("--adapter", help="format-scaffold adapter; omit for base cold start")
+    p.add_argument("--generation-token-cap", type=int, default=32)
+    p.add_argument("--kv-cache-min-prefix-tokens", type=int, default=64)
+    p.add_argument("--disable-prefix-kv-cache", action="store_true")
     p.add_argument("--smoke", action="store_true", help="one training seed, one group, one update")
     p.add_argument("--dry-run", action="store_true")
     return p.parse_args()
@@ -99,7 +105,26 @@ def configure(requested_args: argparse.Namespace) -> None:
         return pilot.EpisodeRun(group_id, task.data.name, episode, episode.start())
 
     def extract_quantity(text: str) -> int | None:
-        return parse_completion(text)
+        return parse_completion(text, tokenizer=getattr(pilot, "_research_tokenizer", None))
+
+    def prompt_text(task: Any, observation: dict[str, Any], tokenizer: Any) -> str:
+        messages = [
+            {"role": "system", "content": task.data.system_prompt},
+            {"role": "user", "content": research_observation_user_message(observation)},
+        ]
+        try:
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+        except TypeError:
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
 
     def assign_advantages(runs: list[Any]) -> None:
         diagnostics = assign_group_advantages(runs)
@@ -140,6 +165,7 @@ def configure(requested_args: argparse.Namespace) -> None:
         if tokenizer.pad_token_id is None:
             tokenizer.pad_token = tokenizer.eos_token
         tokenizer.padding_side = "left"
+        pilot._research_tokenizer = tokenizer
         model = AutoModelForCausalLM.from_pretrained(
             "Qwen/Qwen3.5-4B", trust_remote_code=True, device_map="auto", torch_dtype=torch.bfloat16
         )
@@ -176,7 +202,7 @@ def configure(requested_args: argparse.Namespace) -> None:
             adapter=requested_args.adapter,
             dry_run=requested_args.dry_run,
             seed=requested_args.seed,
-            max_new_tokens=192,
+            max_new_tokens=requested_args.generation_token_cap,
             prompt_max_tokens=2048,
             train_minibatch=4,
             inference_minibatch=4,
@@ -184,12 +210,15 @@ def configure(requested_args: argparse.Namespace) -> None:
             temperature=0.7,
             top_p=0.95,
             no_4bit=True,
+            kv_cache_min_prefix_tokens=requested_args.kv_cache_min_prefix_tokens,
+            disable_prefix_kv_cache=requested_args.disable_prefix_kv_cache,
         )
 
     pilot.load_tasks = load_tasks
     pilot.development_tasks_for_training = development_tasks_for_training
     pilot.start_episode = start_episode
     pilot.extract_quantity = extract_quantity
+    pilot.prompt_text = prompt_text
     pilot.assign_advantages = assign_advantages
     pilot.episode_summary = episode_summary
     pilot.rollout_batch = rollout_batch
@@ -213,7 +242,21 @@ def main() -> None:
                 "updates": 1 if requested.smoke else requested.updates,
                 "group_size": requested.group_size,
                 "scheduled_training_indices": [0] if requested.smoke else list(range(16)),
-                "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
+                "decoding": {
+                    "temperature": 0.7,
+                    "top_p": 0.95,
+                    "generation_token_cap": requested.generation_token_cap,
+                    "protocol_max_completion_tokens": 192,
+                },
+                "efficiency": {
+                    "prefix_kv_cache": not requested.disable_prefix_kv_cache,
+                    "kv_cache_min_prefix_tokens": requested.kv_cache_min_prefix_tokens,
+                    "rolling_history_window": 8,
+                    "bf16": True,
+                    "lora": True,
+                    "gradient_checkpointing": True,
+                    "training_forward_use_cache": False,
+                },
                 "reward": "negative local wholesaler return-to-go; no system/team cost",
                 "per_turn_normalization": "none; same-timestep mean baseline only",
             },

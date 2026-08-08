@@ -67,42 +67,61 @@ anonymous session UUID plus replay-verified actions, weekly state, and scores.
 
 ## Benchmark
 
-One evaluation condition, one leaderboard. Each policy controls the
-**wholesaler** for 20 weeks in the native serial Beer Game; the retailer,
-distributor, and factory use fixed base-stock policies. We run every policy on
-the same 100 frozen demand sequences in
-[`eval/held_out_seeds.json`](eval/held_out_seeds.json), sum supply-chain holding
-and backlog cost within each episode, then report the mean and standard error.
-An invalid model answer is recorded as order zero and a format failure.
+One evaluation condition for the live Tier-5 Y research board: each policy
+controls the **wholesaler** for 36 weeks under the research prompt (no demand
+law, no factory capacity). We use the same 16 fixed seeds in
+[`experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json`](experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json).
+Demand traces are CRN-determined by seed and were stored on every evaluation
+row; hindsight search then finds a feasible minimum local cost for each seed.
 
-| Model | Mean total cost | Score / 100 | Bullwhip | Format failures |
-| --- | ---: | ---: | ---: | ---: |
-| Qwen3.5-4B (untuned) | 20,452.36 ± 13.18 | 7.80 | 1.821 | 0.0% |
-| Qwen3.5-4B + LoRA | 1,632.25 ± 40.99 | 51.47 | 1.821 | 0.0% |
-| Claude Opus 5 (zero-shot) | 1,754.48 ± 61.14 | 49.66 | 1.821 | 0.0% |
+Score is the percentage of that **hindsight-perfect** local cost:
 
-![Wholesaler benchmark](docs/assets/wholesaler-lora-benchmark.svg)
+`score = 100 × hindsight_perfect_mean_cost / policy_mean_cost`
+
+Thus **100%** means matching the best open-loop wholesaler sequence found for
+the fixed demand/counterparties. Adaptive base-stock is **not** perfect: its
+mean local cost is 783.59 versus a hindsight-perfect mean of **720.88**
+(~1.09×). Protocol-failed episodes are excluded from a model's mean.
+
+| Model | Mean local cost | Score / 100 | Clean episodes |
+| --- | ---: | ---: | ---: |
+| GPT-5.6 Luna | 1,577.56 ± 412.22 | 45.70 | 16/16 |
+| Qwen3.5-4B + GRPO LoRA | 1,706.81 ± 277.24 | 42.24 | 16/16 |
+| Qwen3.5-4B (untuned) | 1,934.84 ± 299.83 | 37.26 | 16/16 |
+| DeepSeek V4 Flash | 1,831.42 ± 407.82 | 33.06 | 12/16 |
+| Laguna S 2.1 (free) | 1,132.88 ± 179.72 | 16.68 | 4/16 |
+
+![Live-Y research benchmark](docs/assets/live-y-domain-randomized-benchmark.svg)
+
+Hindsight perfect costs, rescored leaderboard, and per-seed action sequences
+live in
+[`artifacts/live_y_domain_randomized_grpo_v1/evaluations/`](artifacts/live_y_domain_randomized_grpo_v1/evaluations/).
+
+A separate frozen **serial** 100-seed board (naive-anchored score, 20 weeks)
+remains in [`docs/assets/wholesaler-lora-benchmark.svg`](docs/assets/wholesaler-lora-benchmark.svg)
+and [`eval/held_out_seeds.json`](eval/held_out_seeds.json); it is not mixed into
+the live-Y dashboard above.
 
 ## Teacher-free Qwen LoRA — live Tier-5 Y research run
 
-The repository also contains a separate development research run for
-`Qwen/Qwen3.5-4B`, using 16 train-only seeds and 16 fixed research evaluation
-seeds. It used bf16 rank-16 LoRA, per-turn return-to-go group-relative
-advantages, and no teacher demonstrations or base-stock actions. Mean local
-wholesaler cost was **1,538.47 ± 312.27** for the untuned base and
-**1,120.72 ± 240.84** after LoRA; all evaluated episodes were protocol-clean.
+The repository contains a teacher-free development research run for
+`Qwen/Qwen3.5-4B`: 16 train-only seeds, 16 fixed research evaluation seeds,
+bf16 rank-16 LoRA, and per-turn return-to-go group-relative advantages with no
+teacher demonstrations. Under the **research prompt** (factory capacity
+withheld), mean local wholesaler cost is **1,934.84 ± 299.83** for the untuned
+base and **1,706.81 ± 277.24** after GRPO; both are 100% protocol-clean.
 
-For this research arm, adaptive base-stock is the operational optimal-cost
-reference. Its score is the percentage of that reference cost achieved by the
-policy:
+Scoring uses **hindsight-perfect** local cost on the stored/CRN demand traces,
+not adaptive base-stock:
 
-`optimal_cost_percentage = 100 × optimal_reference_mean_cost / policy_mean_cost`
+`score = 100 × hindsight_perfect_mean_cost / policy_mean_cost`
 
-Thus **100%** means matching the reference cost; lower percentages mean higher
-cost. On the fixed 16-seed evaluation, the base scored **50.93%** of optimal
-cost and the final LoRA scored **69.92%**. This is separate from the
-naive-anchored score used by the frozen benchmark above; the adaptive reference
-is operational and is not a formal proof of global optimality.
+Hindsight perfect mean local cost across the 16 seeds is **720.88**; adaptive
+base-stock averages **783.59** (~1.09× perfect), so adaptive is a strong
+heuristic rather than the optimum. On this board the untuned base scores
+**37.26%** of perfect and the final LoRA **42.24%**. GPT-5.6 Luna leads the
+published comparison at **45.70%**. See the Benchmark section above for the
+full five-model dashboard.
 
 The complete experiment bundle, including both LoRA adapter weight files,
 tokenizers, rollouts, logs, evaluations, configs, billing, and checksums, is in
@@ -117,28 +136,27 @@ hf download Qwen/Qwen3.5-4B --local-dir local_checkpoints/qwen35-4b-base
 
 ### How the score works
 
-The 0–100 score is deliberately anchored to a simple, non-model policy that
-orders what it observed last period:
+The live-Y dashboard score is anchored to a **hindsight-perfect** wholesaler
+cost computed on each fixed seed after demand and scripted counterparties are
+frozen:
 
-`score = 100 × naive_mean_cost / (naive_mean_cost + policy_mean_cost)`
+`score = 100 × hindsight_perfect_mean_cost / policy_mean_cost`
 
-The naive policy's mean cost is 1,730.82, so it scores exactly 50. A policy
-with zero cost approaches 100; a policy worse than naive remains above zero
-rather than being clipped. This makes the score stable and easy to compare
-without claiming a theoretical "perfect" Beer Game solution. The base-stock
-level is tuned only on training seeds; the held-out sequences are never used
-for training, synthetic data generation, or calibration.
+Perfect costs are produced by
+[`scripts/compute_live_y_hindsight_perfect.py`](scripts/compute_live_y_hindsight_perfect.py)
+(order-up-to / tuned-adaptive grids, model warm starts, coordinate descent).
+The reported perfect value is a feasible upper bound on the true optimum.
+Adaptive base-stock remains available as a reporting heuristic only.
 
 Qwen uses a bf16 rank-16 LoRA adapter with alpha 16 on
 `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, and `down_proj`.
-Claude Opus 5 is a zero-shot OpenRouter policy. To keep the frontier run small,
-we send only a compact state tuple, require a one-field JSON order, disable
-reasoning, cap output at 16 tokens, deduplicate identical same-week states, and
-cache deterministic API responses for restart-safe reruns. Full protocol and
-raw metrics live in [results/README.md](results/README.md).
+The OpenRouter comparison models are zero-shot under the same research prompt
+and parser. Full protocol artifacts live in
+[`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/).
 
-Earlier live-Y and robustness experiments remain in the repository as
-supplementary artifacts, but are intentionally not mixed into this leaderboard.
+Earlier serial / frontier experiments remain in the repository as
+supplementary artifacts, but are intentionally not mixed into this live-Y
+dashboard.
 
 ## Run it locally
 

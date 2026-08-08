@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
+  <title id="title">Live-Y domain-randomized wholesaler benchmark</title>
+  <desc id="desc">On the fixed 16-seed live-Y research evaluation with research prompts, GPT-5.6 Luna scores 45.70, Qwen3.5-4B GRPO LoRA 42.24, untuned Qwen 37.26, DeepSeek V4 Flash 33.06, and Laguna S 2.1 16.68 as a percentage of hindsight-perfect local cost.</desc>
+  <rect width="1200" height="780" fill="#f7f5ef"/>
+  <rect x="48" y="44" width="1104" height="692" fill="none" stroke="#111417" stroke-width="2"/>
+  <rect x="48" y="44" width="9" height="692" fill="#f05c3d"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#111417">
+    <text x="92" y="94" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2.1">BDG / LIVE-Y RESEARCH / 2026.08</text>
+    <text x="92" y="152" font-family="Georgia, serif" font-size="46">Who closes the hindsight gap?</text>
+    <text x="92" y="188" fill="#596260" font-size="17">Tier-5 Y wholesaler · 36 weeks · 16 fixed research seeds · research prompt</text>
+  </g>
+  <line x1="92" y1="220" x2="1108" y2="220" stroke="#111417" stroke-width="2"/>
+  <g font-family="Menlo, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="1.4" fill="#596260">
+    <text x="92" y="252">RANK</text>
+    <text x="185" y="252">POLICY</text>
+    <text x="674" y="252">0</text>
+    <text x="820" y="252">PERFECT</text>
+    <text x="1048" y="252">100</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="96" y="312" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">01</text>
+    <text x="185" y="302" fill="#111417" font-size="22" font-weight="700">GPT-5.6 Luna</text>
+    <text x="185" y="326" fill="#596260" font-size="14">openai/gpt-5.6-luna · zero-shot · 16/16 clean</text>
+    <rect x="674" y="285" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="285" width="169" height="24" fill="#2d8f83"/>
+    <text x="1060" y="306" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">45.70</text>
+    <line x1="92" y1="350" x2="1108" y2="350" stroke="#c8c8c1"/>
+
+    <text x="96" y="408" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">02</text>
+    <text x="185" y="398" fill="#111417" font-size="22" font-weight="700">Qwen3.5-4B + GRPO LoRA</text>
+    <text x="185" y="422" fill="#596260" font-size="14">teacher-free adapter · research prompt · 16/16 clean</text>
+    <rect x="674" y="381" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="381" width="156" height="24" fill="#111417"/>
+    <text x="1060" y="402" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">42.24</text>
+    <line x1="92" y1="446" x2="1108" y2="446" stroke="#c8c8c1"/>
+
+    <text x="96" y="504" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">03</text>
+    <text x="185" y="494" fill="#111417" font-size="22" font-weight="700">Qwen3.5-4B</text>
+    <text x="185" y="518" fill="#596260" font-size="14">untuned base · research prompt · 16/16 clean</text>
+    <rect x="674" y="477" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="477" width="138" height="24" fill="#9ba3a0"/>
+    <text x="1060" y="498" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">37.26</text>
+    <line x1="92" y1="542" x2="1108" y2="542" stroke="#c8c8c1"/>
+
+    <text x="96" y="600" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">04</text>
+    <text x="185" y="590" fill="#111417" font-size="22" font-weight="700">DeepSeek V4 Flash</text>
+    <text x="185" y="614" fill="#596260" font-size="14">deepseek-v4-flash-0731 · zero-shot · 12/16 clean</text>
+    <rect x="674" y="573" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="573" width="122" height="24" fill="#537f98"/>
+    <text x="1060" y="594" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">33.06</text>
+    <line x1="92" y1="638" x2="1108" y2="638" stroke="#c8c8c1"/>
+
+    <text x="96" y="696" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">05</text>
+    <text x="185" y="686" fill="#111417" font-size="22" font-weight="700">Laguna S 2.1</text>
+    <text x="185" y="710" fill="#596260" font-size="14">poolside free tier · zero-shot · 4/16 clean</text>
+    <rect x="674" y="669" width="370" height="24" fill="#dfdfd7"/>
+    <rect x="674" y="669" width="62" height="24" fill="#873cff"/>
+    <text x="1060" y="690" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">16.68</text>
+  </g>
+  <text x="92" y="748" fill="#596260" font-family="Arial, Helvetica, sans-serif" font-size="14">Score = 100 × hindsight-perfect mean local cost ÷ policy mean local cost. Perfect mean = 720.88; adaptive base-stock = 783.59 (~1.09× perfect).</text>
+</svg>

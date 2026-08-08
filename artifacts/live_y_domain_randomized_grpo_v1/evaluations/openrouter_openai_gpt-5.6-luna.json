@@ -1,0 +1,4736 @@
+{
+  "cache": {
+    "openrouter_cache_headers": true,
+    "session_id_per_episode": true,
+    "system_cache_control": {
+      "ttl": "1h",
+      "type": "ephemeral"
+    }
+  },
+  "client_totals": {
+    "cached_tokens": 0,
+    "completion_tokens": 5148,
+    "prompt_tokens": 401882,
+    "spent_usd": 0.043277000000000045
+  },
+  "decoding": {
+    "max_completion_tokens": 192,
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "evaluation_kind": "fixed research evaluation",
+  "model": "openai_gpt-5.6-luna",
+  "model_id": "openai/gpt-5.6-luna",
+  "prompt": "research_observation_user_message",
+  "rows": [
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        47
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 14,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 9
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 14,
+            "week": 14
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 15
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 17
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 18
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 20
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 25
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 29
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 30
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 752.5,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.154296875,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 25235,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":47}"
+      ],
+      "score": 26.046511627906977,
+      "seed": "3385fc1772a83c0f",
+      "system_total_cost": 5855.0,
+      "usage_cost_usd": 0.0027178999999999997
+    },
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        32,
+        40,
+        48,
+        48,
+        40,
+        32,
+        24,
+        24,
+        24,
+        28,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": 50.021180030257185,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 9,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 5
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 9
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 7,
+            "week": 11
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 13,
+            "week": 12
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 14
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 15
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 7,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 18
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 24
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 26
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 31
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 783.5,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.13623853211009174,
+      "optimal_reference_local_cost": 296.5,
+      "prompt_tokens": 25091,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":40}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":40}",
+        "{\"quantity\":32}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":28}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}"
+      ],
+      "score": 37.84301212507977,
+      "seed": "6004dde3fcee7f67",
+      "system_total_cost": 10041.0,
+      "usage_cost_usd": 0.0027035000000000015
+    },
+    {
+      "actions": [
+        8,
+        20,
+        16,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        37,
+        37,
+        42
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 13,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 9
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 24
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 28
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 817.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.16015625,
+      "optimal_reference_local_cost": 235.0,
+      "prompt_tokens": 25271,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":20}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":37}",
+        "{\"quantity\":37}",
+        "{\"quantity\":42}"
+      ],
+      "score": 28.76376988984088,
+      "seed": "b7c3c42c06605a25",
+      "system_total_cost": 6554.5,
+      "usage_cost_usd": 0.002721499999999999
+    },
+    {
+      "actions": [
+        8,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": 15.373752877973907,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 11,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 10
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 15,
+            "week": 12
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 12,
+            "week": 14
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 16
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 19
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 20
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 25
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 32
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 34
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 741.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.09032846715328467,
+      "optimal_reference_local_cost": 343.0,
+      "prompt_tokens": 25418,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 46.288798920377864,
+      "seed": "f0cd8b5418cd1e55",
+      "system_total_cost": 7787.0,
+      "usage_cost_usd": 0.0027362000000000007
+    },
+    {
+      "actions": [
+        8,
+        16,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        24
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 694.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.171875,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 25163,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}"
+      ],
+      "score": 28.24207492795389,
+      "seed": "0fa94b60e8eb54e2",
+      "system_total_cost": 3903.0,
+      "usage_cost_usd": 0.0027106999999999995
+    },
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        32,
+        32,
+        40,
+        32,
+        24,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 739.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.125,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 25127,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":40}",
+        "{\"quantity\":32}",
+        "{\"quantity\":24}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 26.52232746955345,
+      "seed": "2b5eae5b998e4f1d",
+      "system_total_cost": 3450.0,
+      "usage_cost_usd": 0.0027071000000000005
+    },
+    {
+      "actions": [
+        8,
+        16,
+        32,
+        32,
+        40,
+        40,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 650.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.125,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 25235,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":40}",
+        "{\"quantity\":40}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 30.153846153846153,
+      "seed": "6ad00ac691773fce",
+      "system_total_cost": 5141.5,
+      "usage_cost_usd": 0.0027178999999999997
+    },
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        16,
+        16,
+        40,
+        56,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 875.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.296875,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 25199,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":40}",
+        "{\"quantity\":56}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 22.4,
+      "seed": "722ad6103d9490ad",
+      "system_total_cost": 5078.0,
+      "usage_cost_usd": 0.0027143000000000007
+    },
+    {
+      "actions": [
+        8,
+        20,
+        24,
+        32,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": 1600.0,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 315,
+      "demand": {
+        "demand_seed": "1e594a5f4f13c914",
+        "lambda": 6.967595256762656,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 3
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 2,
+            "retailer_b": 9,
+            "week": 9
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 12,
+            "week": 13
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 14
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 17
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 18
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 12,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 3,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 25
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 27
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 28
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 2,
+            "week": 29
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 30
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 5,
+            "week": 31
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 32
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 33
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 779.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.15566037735849056,
+      "optimal_reference_local_cost": 287.0,
+      "prompt_tokens": 24752,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":20}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}"
+      ],
+      "score": 36.8421052631579,
+      "seed": "1e594a5f4f13c914",
+      "system_total_cost": 6677.5,
+      "usage_cost_usd": 0.0026642
+    },
+    {
+      "actions": [
+        8,
+        24,
+        32,
+        32,
+        48,
+        48,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 315,
+      "demand": {
+        "demand_seed": "1ef97b9065013134",
+        "lambda": 4.195066463922865,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 4
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 7
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 8
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 11
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 12
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 13
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 14
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 18
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 22
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 24
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 25
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 33
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 34
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 752.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.21875,
+      "optimal_reference_local_cost": 215.0,
+      "prompt_tokens": 24682,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 28.590425531914892,
+      "seed": "1ef97b9065013134",
+      "system_total_cost": 8070.5,
+      "usage_cost_usd": 0.002657200000000001
+    },
+    {
+      "actions": [
+        8,
+        18,
+        24,
+        24,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        24,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 315,
+      "demand": {
+        "demand_seed": "60014380abcd0c62",
+        "lambda": 2.3949633454999293,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 3
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 9
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 10
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 13
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 16
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 17
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 18
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 19
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 22
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 24
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 25
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 27
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 28
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 30
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 31
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 32
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 33
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 34
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 35
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 670.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.109375,
+      "optimal_reference_local_cost": 215.0,
+      "prompt_tokens": 24682,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":18}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":24}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 32.08955223880597,
+      "seed": "60014380abcd0c62",
+      "system_total_cost": 8731.0,
+      "usage_cost_usd": 0.002657200000000001
+    },
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        24,
+        24,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 315,
+      "demand": {
+        "demand_seed": "ba0eef18cf04ad40",
+        "lambda": 2.186076986281477,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 3
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 0,
+            "week": 6
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 13
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 17
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 18
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 24
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 25
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 27
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 29
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 30
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 33
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 34
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 775.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.171875,
+      "optimal_reference_local_cost": 196.0,
+      "prompt_tokens": 24682,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":16}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":24}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":0}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":32}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 25.29032258064516,
+      "seed": "ba0eef18cf04ad40",
+      "system_total_cost": 8084.5,
+      "usage_cost_usd": 0.002657200000000001
+    },
+    {
+      "actions": [
+        8,
+        34,
+        45,
+        40,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 31.370086714349007,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 14,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 5
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 12,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 9
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 11
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 10,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 14
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 17
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 18
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 19
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 20
+          },
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 21
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 16,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 21,
+            "week": 24
+          },
+          {
+            "retailer_a": 14,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 19,
+            "retailer_b": 5,
+            "week": 26
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 11,
+            "week": 27
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 20,
+            "week": 28
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 14,
+            "week": 29
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 31
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 13,
+            "week": 32
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 33
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 12,
+            "week": 35
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 3166.5,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.1360569715142429,
+      "optimal_reference_local_cost": 1510.0,
+      "prompt_tokens": 25311,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":34}",
+        "{\"quantity\":45}",
+        "{\"quantity\":40}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}"
+      ],
+      "score": 47.686720353702825,
+      "seed": "98155973e5223d05",
+      "system_total_cost": 73866.5,
+      "usage_cost_usd": 0.002725500000000003
+    },
+    {
+      "actions": [
+        8,
+        48,
+        60,
+        64,
+        64,
+        96,
+        64,
+        64,
+        64,
+        96,
+        64,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 8.570229335760702,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 15,
+            "week": 1
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 3
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 13,
+            "week": 4
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 19,
+            "retailer_b": 15,
+            "week": 10
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 13
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 14
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 34,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 21,
+            "retailer_b": 6,
+            "week": 20
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 33,
+            "week": 21
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 15,
+            "week": 24
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 23,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 20,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 9,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 32
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 11,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 5973.5,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.2629482071713148,
+      "optimal_reference_local_cost": 3754.0,
+      "prompt_tokens": 25227,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":48}",
+        "{\"quantity\":60}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":96}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":96}",
+        "{\"quantity\":64}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}"
+      ],
+      "score": 62.84422867665523,
+      "seed": "a01e69edae32256e",
+      "system_total_cost": 125560.0,
+      "usage_cost_usd": 0.0027170999999999988
+    },
+    {
+      "actions": [
+        8,
+        60,
+        68,
+        68,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        0,
+        128,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 26.733415322288938,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 1
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 2
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 9,
+            "week": 3
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 4
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 17,
+            "week": 9
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 19,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 16,
+            "week": 15
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 17
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 3,
+            "week": 18
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 12,
+            "week": 19
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 32,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 12,
+            "week": 24
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 17,
+            "week": 26
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 19,
+            "week": 31
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 32
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 33
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 10,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 4770.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.6765239477503628,
+      "optimal_reference_local_cost": 3026.5,
+      "prompt_tokens": 25429,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":60}",
+        "{\"quantity\":68}",
+        "{\"quantity\":68}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":128}",
+        "{\"quantity\":0}",
+        "{\"quantity\":128}",
+        "{\"quantity\":0}"
+      ],
+      "score": 63.44863731656184,
+      "seed": "ba32f821074ddb20",
+      "system_total_cost": 89102.5,
+      "usage_cost_usd": 0.002737300000000002
+    },
+    {
+      "actions": [
+        8,
+        46,
+        50,
+        49,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 3.2094468614045994,
+      "cached_tokens": 0,
+      "completed_weeks": 36,
+      "completion_tokens": 324,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 14,
+            "week": 6
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 7
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 14,
+            "week": 9
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 13
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 16
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 14,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 19
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 24
+          },
+          {
+            "retailer_a": 22,
+            "retailer_b": 16,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 21,
+            "week": 26
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 10,
+            "week": 27
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 18,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 29
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 32
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 10,
+            "week": 35
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 2303.0,
+      "model": "openai_gpt-5.6-luna",
+      "model_id": "openai/gpt-5.6-luna",
+      "normalized_order_volatility": 0.12752862595419848,
+      "optimal_reference_local_cost": 1479.5,
+      "prompt_tokens": 25378,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\":8}",
+        "{\"quantity\":46}",
+        "{\"quantity\":50}",
+        "{\"quantity\":49}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":48}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":64}",
+        "{\"quantity\":0}"
+      ],
+      "score": 64.24229266174555,
+      "seed": "d9e921eb4abf1311",
+      "system_total_cost": 57927.5,
+      "usage_cost_usd": 0.0027321999999999993
+    }
+  ],
+  "summary": {
+    "bullwhip_ratio": {
+      "mean": 247.89687302029063,
+      "stderr": 225.42821475771868
+    },
+    "cache_hit_fraction": 0.0,
+    "cached_tokens": 0,
+    "format_failure_rate": 0.0,
+    "local_total_cost": {
+      "mean": 1577.5625,
+      "stderr": 412.2162101449311
+    },
+    "n": 16,
+    "normalized_order_volatility": {
+      "mean": 0.1949055158757491,
+      "stderr": 0.034909407895476266
+    },
+    "prompt_tokens": 401882,
+    "protocol_failure_rate": 0.0,
+    "score": {
+      "mean": 37.95591410860927,
+      "stderr": 3.6300121585508207
+    },
+    "system_total_cost": {
+      "mean": 26614.375,
+      "stderr": 9520.284247496238
+    },
+    "usage_cost_usd": 0.04327700000000001
+  }
+}

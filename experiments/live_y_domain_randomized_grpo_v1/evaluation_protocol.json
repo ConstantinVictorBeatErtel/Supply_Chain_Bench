@@ -11,9 +11,17 @@
     "shifted_mean_doubled_variance": "seeded NB(r=10,p=.5), mean 10 and variance 20 per retailer",
     "burst_and_collapse": "Poisson rate 4, then frozen seed-derived rate-12 burst, immediately followed by rate-1 collapse"
   },
-  "models": ["untrained_base", "recovered_historical_rl", "format_scaffold_diagnostic", "final_per_turn_grpo", "naive_base_stock", "adaptive_base_stock"],
+  "models": [
+    "gpt_5_6_luna",
+    "trained_qwen_grpo",
+    "untrained_qwen",
+    "deepseek_v4_flash",
+    "laguna_s_2_1"
+  ],
   "selection": "two-update endpoint fixed in advance; no evaluation bucket selects a checkpoint",
   "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
-  "score_formula": "100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)",
+  "score_formula": "100 * hindsight_perfect_mean_local_cost / policy_mean_local_cost",
+  "perfect_reference": "hindsight search over fixed CRN demand/counterparties (order-up-to grids, tuned adaptive, model warm starts, coordinate descent); true optimum is <= reported perfect",
+  "adaptive_base_stock": "reporting-only heuristic; mean local cost is about 1.09x hindsight perfect on the 16-seed set",
   "training_reward": "negative local wholesaler return-to-go only; system/team cost is reporting-only"
 }

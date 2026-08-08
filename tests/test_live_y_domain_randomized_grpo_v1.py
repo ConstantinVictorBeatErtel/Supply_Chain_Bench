@@ -18,6 +18,10 @@ from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment 
     research_spec,
 )
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.protocol import parse_completion
+from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.prompting import (
+    research_observation_user_message,
+    research_system_prompt,
+)
 from scripts.train_colab_grpo_wholesaler import ActionRecord
 
 
@@ -29,6 +33,24 @@ def test_episode_lambda_and_common_random_numbers_are_paired():
     assert left["demand"]["lambda"] == right["demand"]["lambda"]
     assert left["demand"]["trace"] == right["demand"]["trace"]
     assert left["counterparty_rng_streams"] == right["counterparty_rng_streams"]
+
+
+def test_research_prompt_hides_demand_parameters_and_factory_capacity():
+    spec = research_spec("0123456789abcdef", bucket="in_distribution")
+    prompt = research_system_prompt(spec, "wholesaler")
+    assert "long-run mean" not in prompt
+    assert "Poisson" not in prompt
+    assert "Factory capacity" not in prompt
+    assert "22" not in prompt
+
+    observation = {
+        "constraints": {"minimum_order": 0, "maximum_order": 128, "factory_capacity": 22},
+        "state": {"incoming_demand_or_order": 8},
+    }
+    rendered = research_observation_user_message(observation)
+    assert "factory_capacity" not in rendered
+    assert "22" not in rendered
+    assert '"maximum_order":128' in rendered
 
 
 def test_episode_randomized_poisson_is_fixed_for_the_episode():

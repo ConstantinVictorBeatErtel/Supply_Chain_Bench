@@ -9,6 +9,7 @@ import statistics
 from pathlib import Path
 import sys
 from types import SimpleNamespace
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 for path in (ROOT, ROOT / "environments" / "beer_distribution_game"):
@@ -18,12 +19,44 @@ for path in (ROOT, ROOT / "environments" / "beer_distribution_game"):
 import scripts.train_colab_grpo_wholesaler as pilot
 from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_game.scenario import scenario_from_dict
+from beer_distribution_rl.agents.llm.prefix_kv_cache import PrefixKVCache
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment import (
-    EVAL_PROCESSES,
     ResearchTask,
     research_spec,
 )
+from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.prompting import (
+    research_observation_user_message,
+)
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.protocol import parse_completion
+
+DEFAULT_MODEL = "Qwen/Qwen3.5-4B"
+LOCAL_BASE = ROOT / "local_checkpoints" / "qwen35-4b-base"
+
+
+def default_model_name() -> str:
+    if LOCAL_BASE.exists() and (LOCAL_BASE / "config.json").exists():
+        return str(LOCAL_BASE)
+    return DEFAULT_MODEL
+
+
+def research_prompt_text(task: Any, observation: dict, tokenizer) -> str:
+    messages = [
+        {"role": "system", "content": task.data.system_prompt},
+        {"role": "user", "content": research_observation_user_message(observation)},
+    ]
+    try:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+    except TypeError:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
 
 
 def aggregate(rows: list[dict]) -> dict:
@@ -41,16 +74,17 @@ def aggregate(rows: list[dict]) -> dict:
     return out
 
 
-def load_policy(adapter: str | None):
+def load_policy(adapter: str | None, model_name: str):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3.5-4B", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "left"
+    dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float16
     model = AutoModelForCausalLM.from_pretrained(
-        "Qwen/Qwen3.5-4B", trust_remote_code=True, device_map="auto", torch_dtype=torch.bfloat16
+        model_name, trust_remote_code=True, device_map="auto", torch_dtype=dtype
     )
     if adapter:
         from peft import PeftModel
@@ -60,7 +94,7 @@ def load_policy(adapter: str | None):
     return model, tokenizer
 
 
-def evaluate_episode(model, tokenizer, seed: str, bucket: str, label: str) -> dict:
+def evaluate_episode(model, tokenizer, seed: str, bucket: str, label: str, args: SimpleNamespace) -> dict:
     import torch
 
     torch.manual_seed(int(seed, 16) & 0x7FFFFFFF)
@@ -68,20 +102,13 @@ def evaluate_episode(model, tokenizer, seed: str, bucket: str, label: str) -> di
         name=f"live-y-domain-randomized-grpo-v1:eval:{bucket}:{seed}",
         scenario=research_spec(seed, bucket=bucket).to_dict(),
     )
-    spec = scenario_from_dict(task.scenario)
-    episode = BeerEpisode(spec, "wholesaler", include_reference=False)
+    episode = BeerEpisode(scenario_from_dict(task.scenario), "wholesaler", include_reference=False)
     observation = episode.start()
-    args = SimpleNamespace(
-        prompt_max_tokens=2048,
-        max_new_tokens=192,
-        temperature=0.7,
-        top_p=0.95,
-    )
     raw_outputs: list[str] = []
     actions: list[int] = []
     format_failures = 0
     while not episode.done:
-        prompt = pilot.prompt_text(SimpleNamespace(data=task), observation, tokenizer)
+        prompt = research_prompt_text(SimpleNamespace(data=task), observation, tokenizer)
         _, _, raw = pilot.generate_batch(model, tokenizer, [prompt], args, sample=True)[0]
         raw_outputs.append(raw)
         quantity = parse_completion(raw, tokenizer=tokenizer)
@@ -136,14 +163,42 @@ def main() -> None:
     p.add_argument("--adapter")
     p.add_argument("--label", required=True)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--model-name", default=default_model_name())
+    p.add_argument("--disable-prefix-kv-cache", action="store_true")
+    p.add_argument("--kv-cache-min-prefix-tokens", type=int, default=64)
     args = p.parse_args()
     manifest = json.loads((ROOT / "experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json").read_text())
-    model, tokenizer = load_policy(args.adapter)
+    model, tokenizer = load_policy(args.adapter, args.model_name)
+    gen_args = SimpleNamespace(
+        prompt_max_tokens=2048,
+        max_new_tokens=192,
+        temperature=0.7,
+        top_p=0.95,
+        _prefix_kv_cache=None,
+    )
+    if not args.disable_prefix_kv_cache:
+        gen_args._prefix_kv_cache = PrefixKVCache(
+            model, min_prefix_tokens=args.kv_cache_min_prefix_tokens
+        )
     rows = []
     for bucket, seeds in manifest["evaluation"].items():
         for seed in seeds:
-            rows.append(evaluate_episode(model, tokenizer, seed, bucket, args.label))
-    payload = {"evaluation_kind": "fixed research evaluation", "model": args.label, "adapter": args.adapter, "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192}, "summary": aggregate(rows), "rows": rows}
+            rows.append(evaluate_episode(model, tokenizer, seed, bucket, args.label, gen_args))
+    payload = {
+        "evaluation_kind": "fixed research evaluation",
+        "model": args.label,
+        "adapter": args.adapter,
+        "model_name": args.model_name,
+        "prompt": "research_observation_user_message",
+        "prefix_kv_cache": (
+            gen_args._prefix_kv_cache.snapshot()
+            if gen_args._prefix_kv_cache is not None
+            else {"enabled": False}
+        ),
+        "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
+        "summary": aggregate(rows),
+        "rows": rows,
+    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(json.dumps(payload["summary"], indent=2, sort_keys=True))

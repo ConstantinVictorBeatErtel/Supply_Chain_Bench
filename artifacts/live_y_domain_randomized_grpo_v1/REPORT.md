@@ -53,43 +53,33 @@ return-to-go values. System/team cost is reporting-only.
 
 ## Evaluation and reporting
 
-The evaluation runner evaluated the untrained base, final per-turn GRPO, naive
-base-stock, and adaptive base-stock under identical prompts, parsers, decoding,
-scenarios, and seeds. Recovered historical RL is unavailable, and format SFT
-was skipped by the predeclared 95% protocol gate.
-It records paired per-seed local/team costs, stderr, the exact score formula,
-protocol/format failure rates, bullwhip ratio, normalized order volatility,
-weekly costs, return-to-go, advantages, hashes, GPU time, and exact API cost.
-For this research arm, adaptive base-stock is the operational optimal-cost
-reference. The fixed score formula is:
+Evaluations store per-episode demand manifests (`research_exogenous` / `demand`
+traces), actions, and local costs. Hindsight search then computes a feasible
+perfect local cost for each of the 16 fixed seeds under the same CRN demand and
+scripted counterparties. The published score is:
 
-`100 * optimal_reference_mean_local_cost / policy_mean_local_cost`
+`100 * hindsight_perfect_mean_local_cost / policy_mean_local_cost`
 
-The model artifacts and fixed research results are in `runpod_final/` and
-`evaluations/`; the CPU reference rows remain labeled reference-only.
+Adaptive base-stock is retained as a reporting heuristic only. On this seed
+set its mean local cost is **783.59**, while hindsight perfect averages
+**720.88** (~1.09×). A score of 100% means matching the hindsight-perfect
+reference; lower percentages mean higher cost.
 
-Overall fixed evaluation across 16 seeds:
+Dashboard models (research prompt, rescored vs perfect):
 
-| Model | Local cost ± stderr | System cost ± stderr | Optimal-cost percentage |
+| Model | Local cost ± stderr | Perfect-cost percentage | Clean |
 |---|---:|---:|---:|
-| Adaptive base-stock reference | 783.59 ± 278.11 | — | 100.00% |
-| Untrained base | 1538.47 ± 312.27 | 20478.78 ± 5412.61 | 50.93% |
-| Final per-turn GRPO | 1120.72 ± 240.84 | 4680.13 ± 559.29 | 69.92% |
+| Hindsight perfect reference | 720.88 | 100.00% | 16/16 |
+| GPT-5.6 Luna | 1577.56 ± 412.22 | 45.70% | 16/16 |
+| Final per-turn GRPO | 1706.81 ± 277.24 | 42.24% | 16/16 |
+| Untrained base | 1934.84 ± 299.83 | 37.26% | 16/16 |
+| DeepSeek V4 Flash | 1831.42 ± 407.82 | 33.06% | 12/16 |
+| Laguna S 2.1 | 1132.88 ± 179.72 | 16.68% | 4/16 |
 
-Per-bucket local cost ± stderr / optimal-cost percentage:
-
-| Bucket | Optimal reference | Base | Final GRPO |
-|---|---:|---:|---:|
-| In-distribution | 228.25 | 916.88 ± 97.58 / 24.89% | 652.50 ± 26.19 / 34.98% |
-| Canonical held-out step | 196.00 | 1146.00 ± 160.74 / 17.10% | 784.25 ± 90.76 / 24.99% |
-| Shifted mean / doubled variance | 2442.50 | 3196.75 ± 820.94 / 76.41% | 2446.75 ± 598.78 / 99.83% |
-| Burst-and-collapse | 267.63 | 894.25 ± 76.33 / 29.93% | 599.38 ± 71.45 / 44.65% |
-
-Both model evaluations had 0% protocol and format failure. Scores use
-`100 * optimal_reference_mean_local_cost / policy_mean_local_cost`, with the
-adaptive base-stock reference computed over the same bucket seeds. A score of
-100% means matching the optimal-cost reference; lower percentages mean higher
-cost.
+Artifacts:
+`evaluations/hindsight_perfect_costs.json`,
+`evaluations/perfect_cost_leaderboard.json`, and
+`docs/assets/live-y-domain-randomized-benchmark.svg`.
 
 Runpod billing was $0.5996907949 total: $0.5381918224 for the A40 run and
 $0.0614989726 for the bounded recovery-pod inventory. The A40 was briefly
