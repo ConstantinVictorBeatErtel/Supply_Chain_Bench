@@ -75,6 +75,7 @@ describe("static build", () => {
     expect(app).not.toContain("seed-select");
     expect(app).not.toContain("Data collection notice.");
     expect(app).toContain("graphHtml");
-    expect(app).toContain("Orders out vs demand in");
+    expect(app).toContain('graphHtml("Stock"');
+    expect(app).toContain('graphHtml("Flow"');
   });
 });

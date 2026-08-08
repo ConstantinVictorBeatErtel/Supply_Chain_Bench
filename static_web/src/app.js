@@ -67,12 +67,12 @@ function setHeader(week = "—", cost = "—") {
   if (header) header.innerHTML = `<span><b>SEAT</b>${escapeHtml(ROLE_LABEL[selectedRole].toUpperCase())}</span><span><b>WEEK</b>${week}</span><span><b>COST</b>${cost}</span>`;
 }
 
-function lineChart(values, max, width = 720, height = 190) {
+function lineChart(values, max, width = 720, height = 160) {
   if (!values.length) return "";
   const top = Math.max(1, max);
   return values.map((value, index) => {
     const x = values.length === 1 ? 0 : (index / 35) * width;
-    const y = height - Math.max(0, Math.min(1, value / top)) * (height - 6) - 3;
+    const y = height - Math.max(0, Math.min(1, value / top)) * (height - 8) - 4;
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(" ");
 }
@@ -216,17 +216,30 @@ function briefingHtml() {
 }
 
 function statHtml(label, value, danger = false) {
-  return `<div class="stat"><span>${escapeHtml(label)}</span><strong class="${danger ? "danger" : ""}">${escapeHtml(value)}</strong></div>`;
+  return `<div class="stat ${danger ? "stat-danger" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+}
+
+function chartArea(values, max, width = 720, height = 160) {
+  if (!values.length) return "";
+  const line = lineChart(values, max, width, height);
+  const lastX = values.length === 1 ? 0 : width;
+  return `0,${height} ${line} ${lastX.toFixed(1)},${height}`;
 }
 
 function graphHtml(title, labels, lines, max) {
+  const legend = labels.map((label) => `<span class="chart-pill ${label.className}"><i></i>${escapeHtml(label.text)}</span>`).join("");
+  const areas = lines.map((line) => (
+    line.fill
+      ? `<polygon class="area ${line.className}" points="${chartArea(line.values, max)}"></polygon>`
+      : ""
+  )).join("");
+  const polylines = lines.map((line) => `<polyline class="${line.className}" points="${lineChart(line.values, max, 720, 160)}"></polyline>`).join("");
   return `<section class="graph">
-    <div class="graph-head"><span>${escapeHtml(title)}</span><div>${labels.map((label) => `<em class="${label.className}">— ${escapeHtml(label.text)}</em>`).join("")}</div></div>
-    <div class="chart"><svg viewBox="0 0 720 190" preserveAspectRatio="none" role="img" aria-label="${escapeHtml(title)}">
-      <line x1="0" y1="95" x2="720" y2="95"></line><line class="axis" x1="0" y1="190" x2="720" y2="190"></line>
-      ${lines.map((line) => `<polyline class="${line.className}" points="${lineChart(line.values, max)}"></polyline>`).join("")}
-    </svg><small>${n0(max)}</small></div>
-    <div class="chart-weeks"><span>WK 1</span><span>WK 36</span></div>
+    <div class="graph-head"><span>${escapeHtml(title)}</span><div class="chart-legend">${legend}</div></div>
+    <div class="chart"><svg viewBox="0 0 720 160" preserveAspectRatio="none" role="img" aria-label="${escapeHtml(title)}">
+      ${areas}${polylines}
+    </svg></div>
+    <div class="chart-weeks"><span>Week 1</span><span>Week 36</span></div>
   </section>`;
 }
 
@@ -240,25 +253,23 @@ function gameHtml() {
   const incoming = history.map((row) => row.incoming_demand_or_order);
   const stateMax = Math.max(8, ...inventory, ...backlog);
   const orderMax = Math.max(8, ...orders, ...incoming);
-  return `<section class="game" aria-labelledby="position-title">
+  return `<section class="game" aria-label="Weekly decision">
     ${chainHtml()}
     <div class="game-grid">
       <div class="decision-panel">
-        <section><p id="position-title" class="section-label">Your position · week ${observation.week}</p>
+        <section class="position-board" aria-label="Your position">
           <div class="stats-grid">
-            ${statHtml("Inventory on hand", n0(state.inventory_on_hand))}
+            ${statHtml("On hand", n0(state.inventory_on_hand))}
             ${statHtml("Backlog", n0(state.backlog), state.backlog > 0)}
-            ${statHtml("Inventory position", n0(state.inventory_position))}
             ${statHtml("On order", n0(state.on_order))}
-            ${statHtml("Shipment received", n0(state.shipment_received))}
-            ${statHtml("Demand on you", n0(state.incoming_demand_or_order))}
-            ${statHtml("Units filled", n0(state.units_filled))}
+            ${statHtml("Incoming", n0(state.shipment_received))}
+            ${statHtml("Demand", n0(state.incoming_demand_or_order))}
             ${statHtml("Week cost", n1(costs.current_inventory_backlog_cost))}
           </div>
         </section>
         <form id="order-form" class="order-form" novalidate>
           <p class="section-label">Place order upstream</p>
-          <div class="order-number"><output id="order-value">${order}</output><span>units · arrives wk ${Math.min(39, observation.week + 3)}</span></div>
+          <div class="order-number"><output id="order-value">${order}</output></div>
           <input id="order-range" type="range" min="0" max="128" step="1" value="${order}" aria-label="Order quantity">
           <div class="range-labels"><span>0</span><span>128</span></div>
           <p id="order-error" class="error-message" role="alert"></p>
@@ -267,9 +278,8 @@ function gameHtml() {
         </form>
       </div>
       <div class="graphs">
-        ${graphHtml("Inventory and backlog", [{ text: "On hand", className: "blue" }, { text: "Backlog", className: "red" }], [{ values: inventory, className: "blue" }, { values: backlog, className: "red" }], stateMax)}
-        ${graphHtml("Orders out vs demand in", [{ text: "You ordered", className: "light" }, { text: "Demand on you", className: "muted" }], [{ values: incoming, className: "muted" }, { values: orders, className: "light" }], orderMax)}
-        <div class="scorecard">${statHtml("Cost through prior week", n1(costs.cumulative_local_cost_through_previous_week))}${statHtml("Weeks remaining", observation.weeks_remaining)}${statHtml("Holding / backlog", "0.5 / 1.0")}${statHtml("Factory capacity", String(PUBLIC_FACTORY_CAPACITY))}</div>
+        ${graphHtml("Stock", [{ text: "On hand", className: "blue" }, { text: "Backlog", className: "red" }], [{ values: inventory, className: "blue", fill: true }, { values: backlog, className: "red", fill: true }], stateMax)}
+        ${graphHtml("Flow", [{ text: "You ordered", className: "accent" }, { text: "Demand", className: "muted" }], [{ values: incoming, className: "muted", fill: true }, { values: orders, className: "accent", fill: true }], orderMax)}
       </div>
     </div>
   </section>`;

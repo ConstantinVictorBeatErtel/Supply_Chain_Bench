@@ -283,34 +283,48 @@ h1 {
   display: grid; grid-template-columns: 400px minmax(0, 1fr);
   gap: 40px; margin-top: 40px; align-items: start;
 }
-.decision-panel, .graphs { display: flex; flex-direction: column; gap: 32px; }
-.graphs { gap: 36px; }
+.decision-panel, .graphs { display: flex; flex-direction: column; gap: 28px; }
+.graphs { gap: 28px; }
 
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.position-board {
+  padding: 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(201, 132, 74, 0.07), transparent 45%),
+    var(--surface);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 .stat {
-  min-height: 72px; padding: 18px 0;
-  border-bottom: 1px solid var(--line);
+  min-height: 0;
+  padding: 14px 14px 12px;
+  border: 1.5px solid rgba(58, 47, 44, 0.08);
+  border-radius: 8px;
+  background: #fbf9f6;
 }
 .stat span {
-  display: block; margin-bottom: 9px; color: var(--faint);
-  font: 400 10px/1 "IBM Plex Mono", monospace;
-  letter-spacing: .12em; text-transform: uppercase;
+  display: block; margin-bottom: 8px; color: var(--faint);
+  font: 500 9px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
 }
 .stat strong {
-  font: 500 22px/1 "IBM Plex Mono", monospace; letter-spacing: -.02em;
+  font: 500 26px/1 "IBM Plex Mono", monospace; letter-spacing: -.03em; color: var(--ink);
 }
-.stats-grid .stat strong { font-size: 24px; }
+.stat.stat-danger {
+  border-color: rgba(181, 74, 60, 0.28);
+  background: rgba(181, 74, 60, 0.06);
+}
+.stat.stat-danger strong { color: var(--red); }
 
-.order-form .section-label { margin-bottom: 26px; }
+.order-form .section-label { margin-bottom: 22px; border: 0; padding-bottom: 0; }
 .order-number { display: flex; align-items: end; gap: 16px; }
 .order-number output {
   color: var(--accent);
   font: 500 64px/.9 "IBM Plex Mono", monospace; letter-spacing: -.04em;
-}
-.order-number span {
-  padding-bottom: 8px; color: var(--faint);
-  font: 400 10px/1 "IBM Plex Mono", monospace;
-  letter-spacing: .12em; text-transform: uppercase;
 }
 .order-form input[type=range] {
   width: 100%; height: 14px; margin: 26px 0 0;
@@ -357,44 +371,59 @@ h1 {
 }
 .error-message { min-height: 0; margin: 8px 0 0; color: var(--red); font-size: 13px; }
 
-.graph-head {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-  padding-bottom: 14px; border-bottom: 1px solid var(--line);
-  color: var(--faint);
-  font: 400 10px/1 "IBM Plex Mono", monospace;
-  letter-spacing: .18em; text-transform: uppercase;
+.graph {
+  padding: 18px 18px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
 }
-.graph-head div { display: flex; gap: 20px; }
-.graph-head em { font-style: normal; letter-spacing: .1em; }
+.graph-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font: 500 11px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.chart-legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.chart-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--fill);
+  color: var(--muted);
+  font: 500 9px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.chart-pill i {
+  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+}
+.chart-pill.blue { color: var(--blue); }
+.chart-pill.red { color: var(--red); }
+.chart-pill.accent { color: var(--accent); }
+.chart-pill.light { color: var(--ink); }
+.chart-pill.muted { color: var(--faint); }
 .blue { color: var(--blue); }
 .red { color: var(--red); }
 .light { color: var(--ink); }
+.accent { color: var(--accent); }
 .muted { color: var(--faint); }
-.chart { position: relative; padding-top: 18px; }
-.chart svg { display: block; width: 100%; height: 190px; overflow: visible; }
-.chart line {
-  stroke: rgba(58, 47, 44, 0.06); stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-.chart line.axis { stroke: rgba(58, 47, 44, 0.16); }
+.chart { position: relative; padding-top: 6px; }
+.chart svg { display: block; width: 100%; height: 168px; overflow: visible; }
+.chart polygon.area { stroke: none; opacity: .18; }
+.chart polygon.area.blue { fill: var(--blue); }
+.chart polygon.area.red { fill: var(--red); }
+.chart polygon.area.accent { fill: var(--accent); }
+.chart polygon.area.muted { fill: var(--faint); }
 .chart polyline {
-  fill: none; stroke-width: 1.75;
-  vector-effect: non-scaling-stroke; stroke-linejoin: round;
+  fill: none; stroke-width: 2.4;
+  vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round;
 }
 .chart polyline.blue { stroke: var(--blue); }
 .chart polyline.red { stroke: var(--red); }
 .chart polyline.light { stroke: var(--ink); }
-.chart polyline.muted { stroke: var(--faint); }
-.chart small {
-  position: absolute; top: 12px; left: 0; color: var(--faint);
-  font: 400 10px "IBM Plex Mono", monospace;
-}
-.chart-weeks { margin-top: 8px; }
-.scorecard {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--line); gap: 20px;
-}
-.scorecard .stat { border: 0; }
+.chart polyline.accent { stroke: var(--accent); }
+.chart polyline.muted { stroke: var(--faint); stroke-dasharray: 5 5; }
+.chart-weeks { margin-top: 10px; padding: 0 2px; }
 
 .debrief .hero { padding-top: 80px; }
 .final-cards {
@@ -447,7 +476,6 @@ h1 {
   .game { padding-top: 28px; }
   .game-grid { grid-template-columns: 1fr; margin-top: 28px; }
   .graph-head { align-items: flex-start; flex-direction: column; }
-  .scorecard { grid-template-columns: 1fr 1fr; }
   .final-cards { grid-template-columns: 1fr; }
   .final-cards article {
     padding: 28px 0; border-bottom: 1px solid var(--line);
