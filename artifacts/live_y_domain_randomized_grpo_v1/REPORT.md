@@ -60,36 +60,41 @@ was skipped by the predeclared 95% protocol gate.
 It records paired per-seed local/team costs, stderr, the exact score formula,
 protocol/format failure rates, bullwhip ratio, normalized order volatility,
 weekly costs, return-to-go, advantages, hashes, GPU time, and exact API cost.
-The fixed score formula is:
+For this research arm, adaptive base-stock is the operational optimal-cost
+reference. The fixed score formula is:
 
-`100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)`
+`100 * optimal_reference_mean_local_cost / policy_mean_local_cost`
 
 The model artifacts and fixed research results are in `runpod_final/` and
 `evaluations/`; the CPU reference rows remain labeled reference-only.
 
 Overall fixed evaluation across 16 seeds:
 
-| Model | Local cost ± stderr | System cost ± stderr | Score |
+| Model | Local cost ± stderr | System cost ± stderr | Optimal-cost percentage |
 |---|---:|---:|---:|
-| Untrained base | 1538.47 ± 312.27 | 20478.78 ± 5412.61 | 82.89 |
-| Final per-turn GRPO | 1120.72 ± 240.84 | 4680.13 ± 559.29 | 86.93 |
+| Adaptive base-stock reference | 783.59 ± 278.11 | — | 100.00% |
+| Untrained base | 1538.47 ± 312.27 | 20478.78 ± 5412.61 | 50.93% |
+| Final per-turn GRPO | 1120.72 ± 240.84 | 4680.13 ± 559.29 | 69.92% |
 
-Per-bucket local cost ± stderr / exact score:
+Per-bucket local cost ± stderr / optimal-cost percentage:
 
-| Bucket | Base | Final GRPO |
-|---|---:|---:|
-| In-distribution | 916.88 ± 97.58 / 87.25 | 652.50 ± 26.19 / 90.58 |
-| Canonical held-out step | 1146.00 ± 160.74 / 84.30 | 784.25 ± 90.76 / 88.69 |
-| Shifted mean / doubled variance | 3196.75 ± 820.94 / 77.37 | 2446.75 ± 598.78 / 81.71 |
-| Burst-and-collapse | 894.25 ± 76.33 / 87.84 | 599.38 ± 71.45 / 91.51 |
+| Bucket | Optimal reference | Base | Final GRPO |
+|---|---:|---:|---:|
+| In-distribution | 228.25 | 916.88 ± 97.58 / 24.89% | 652.50 ± 26.19 / 34.98% |
+| Canonical held-out step | 196.00 | 1146.00 ± 160.74 / 17.10% | 784.25 ± 90.76 / 24.99% |
+| Shifted mean / doubled variance | 2442.50 | 3196.75 ± 820.94 / 76.41% | 2446.75 ± 598.78 / 99.83% |
+| Burst-and-collapse | 267.63 | 894.25 ± 76.33 / 29.93% | 599.38 ± 71.45 / 44.65% |
 
 Both model evaluations had 0% protocol and format failure. Scores use
-`100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)`
-with the naive reference mean computed over the same bucket seeds.
+`100 * optimal_reference_mean_local_cost / policy_mean_local_cost`, with the
+adaptive base-stock reference computed over the same bucket seeds. A score of
+100% means matching the optimal-cost reference; lower percentages mean higher
+cost.
 
-Runpod billing was $0.4520515278 total: $0.3905525552 for the A40 run and
-$0.0614989726 for the bounded recovery-pod inventory. Both pods were stopped
-after transfer; no pods remained running.
+Runpod billing was $0.5996907949 total: $0.5381918224 for the A40 run and
+$0.0614989726 for the bounded recovery-pod inventory. The A40 was briefly
+resumed for final artifact verification and stopped again; no pods remain
+running.
 
 The generated CPU reference-only rows (`cpu_reference_results.json`) are:
 

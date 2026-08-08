@@ -78,26 +78,41 @@ collection.
 
 ## Teacher-free Qwen LoRA — live Tier-5 Y game
 
-We also trained `Qwen/Qwen3.5-4B` specifically for the public-style Tier-5
+We trained `Qwen/Qwen3.5-4B` specifically for the public-style Tier-5
 Y-topology wholesaler task. This is a **development research result**, not a
 replacement for either frozen 100-seed benchmark below: it used 16 dedicated
-train-only seeds and 10 separate research evaluation seeds.
+train-only seeds and 16 separate fixed research evaluation seeds.
 
 The bf16, rank-16 LoRA was trained without a teacher, demonstrations, or
-base-stock actions. It used group-relative negative terminal local wholesaler
-cost, with protocol failures penalized, on one cloud-hosted 48 GB NVIDIA A40.
-On the 10 evaluation seeds, mean local wholesaler cost fell from **1,579.69 ±
-232.46** for the untuned base model to **1,096.31 ± 134.66** after LoRA — a
-**30.60% reduction**. Under the same non-clipping naive-anchored score used by
-the serial LoRA benchmark, this is **44.85 → 53.96**; all evaluated episodes
-were protocol-clean.
+base-stock actions. It used per-turn return-to-go group-relative advantages,
+with protocol failures penalized, on one cloud-hosted NVIDIA A40. Mean local
+wholesaler cost fell from **1,538.47 ± 312.27** for the untuned base model to
+**1,120.72 ± 240.84** after LoRA. All evaluated episodes were protocol-clean.
 
-![Teacher-free Qwen LoRA live-game result](docs/assets/live-y-qwen35-4b-rl.svg)
+For this research arm, the adaptive base-stock reference is the operational
+optimal-cost reference. The score is the percentage of that reference cost
+achieved by the policy:
 
-The compact result, exact split, and Runpod artifact paths are in
-[`artifacts/live_y_qwen35_4b_rl/`](artifacts/live_y_qwen35_4b_rl/). The full
-method and reproduction command are in
-[`docs/LIVE_Y_QWEN35_4B_RL.md`](docs/LIVE_Y_QWEN35_4B_RL.md).
+`optimal_cost_percentage = 100 × optimal_reference_mean_cost / policy_mean_cost`
+
+Thus **100%** means matching the reference cost; lower percentages mean higher
+cost. On the fixed 16-seed evaluation, the base scored **50.93%** of optimal
+cost and the final LoRA scored **69.92%**. This is separate from the historical
+naive-anchored scores used by the frozen benchmark sections below.
+
+The complete experiment bundle, including both LoRA adapter weight files,
+tokenizers, rollouts, logs, evaluations, configs, billing, and checksums, is in
+[`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/).
+The full method and reproduction notes are in
+[`artifacts/live_y_domain_randomized_grpo_v1/REPORT.md`](artifacts/live_y_domain_randomized_grpo_v1/REPORT.md).
+
+The 9.3 GB base checkpoint is kept in the laptop-only directory
+`local_checkpoints/qwen35-4b-base/` and is intentionally not committed to
+GitHub. It can be recreated with:
+
+```bash
+hf download Qwen/Qwen3.5-4B --local-dir local_checkpoints/qwen35-4b-base
+```
 
 ## Frontier OpenRouter benchmark
 

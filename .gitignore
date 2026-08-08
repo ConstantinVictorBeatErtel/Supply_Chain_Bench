@@ -13,6 +13,7 @@ outputs/
 .ruff_cache/
 .venv/
 venv/
+local_checkpoints/
 *.log
 .env
 .env.*

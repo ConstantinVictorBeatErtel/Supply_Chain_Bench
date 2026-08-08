@@ -94,9 +94,9 @@ def evaluate_episode(model, tokenizer, seed: str, bucket: str, label: str) -> di
         if not result["done"]:
             observation = result["next_observation"]
     grade = episode.outcome["grade"]
-    naive = pilot_reference(seed, bucket, "naive_base_stock")
+    optimal = pilot_reference(seed, bucket, "adaptive_base_stock")
     local = grade.get("primary", {}).get("local_total_cost")
-    score = None if local is None else 100.0 * naive / (naive + float(local))
+    score = None if local is None else 100.0 * optimal / float(local)
     return {
         "model": label,
         "bucket": bucket,
@@ -106,6 +106,7 @@ def evaluate_episode(model, tokenizer, seed: str, bucket: str, label: str) -> di
         "attempted_actions": len(raw_outputs),
         "completed_weeks": len(actions),
         "local_total_cost": local,
+        "optimal_reference_local_cost": optimal,
         "system_total_cost": grade.get("costs", {}).get("system_total_cost"),
         "score": score,
         "bullwhip_ratio": grade.get("stability", {}).get("bullwhip_ratio"),
