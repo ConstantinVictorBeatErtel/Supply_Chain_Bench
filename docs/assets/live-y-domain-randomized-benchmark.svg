@@ -5,7 +5,7 @@
   <rect width="1200" height="700" fill="#F7F3EE"/>
   <rect x="64" y="48" width="1072" height="604" fill="#FBF9F6" stroke="#D9D3CA" stroke-width="1"/>
 
-  <text x="104" y="100" fill="#6B7280" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.4">LIVE-Y RESEARCH  |  TIER-5 Y  |  16 SEEDS</text>
+  <text x="104" y="100" fill="#6B7280" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.4">LIVE-Y ARCHIVE  |  CAPACITY 22  |  16 SEEDS</text>
   <text x="104" y="152" fill="#1C1917" font-family="Georgia, 'Times New Roman', serif" font-size="42">Closing the hindsight gap</text>
   <text x="104" y="186" fill="#78716C" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-style="italic">Wholesaler local cost as a share of hindsight-perfect play</text>
 
@@ -59,5 +59,5 @@
   </g>
 
   <line x1="104" y1="628" x2="1096" y2="628" stroke="#E7E1D8" stroke-width="1"/>
-  <text x="104" y="656" fill="#78716C" font-family="Georgia, 'Times New Roman', serif" font-size="14">Score = 100 x hindsight-perfect mean / policy mean. Perfect = 720.88; adaptive base-stock = 783.59 (~1.09x).</text>
+  <text x="104" y="656" fill="#78716C" font-family="Georgia, 'Times New Roman', serif" font-size="14">ARCHIVE (capacity 22). Perfect = 720.88; adaptive = 783.59 (~1.09x). Current board: live-y-capacity-400-benchmark.svg.</text>
 </svg>

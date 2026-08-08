@@ -1,10 +1,12 @@
 # Human baseline Gradio app
 
-Anonymous human play on the **Tier 5 Y** beer game as the **Wholesaler** (36 weeks, orders 0–128, Hub seeds from development + validation). Retailers and upstream seats stay scripted — same task as LLM eval/training. Observations stay fog-of-war identical to the model prompt.
+Anonymous human play on the **Tier 5 Y** beer game as the **Wholesaler** (36 weeks, orders 0–128, Hub seeds from development + validation). Retailers and upstream seats stay scripted — same task as Hub LLM eval/training. Observations stay fog-of-war identical to the model prompt. **Factory capacity stays at the Hub value of 22** so human sessions remain comparable to Hub SFT / Verifiers traces.
+
+The public Cloudflare / Hugging Face **static** game is a separate surface: wholesaler-only UI and **capacity 400**. Do not mix Gradio Hub scores with that board.
 
 **UI:** Wholesale Command skin (dark tactical layout). Debrief compares your cost to the same-seed DeepSeek V4 Flash LLM eval and adaptive base-stock baseline.
 
-**Learning:** Offline only — collect sessions → export SFT → LoRA warm-start → GRPO on the programmatic wholesaler reward. See [`docs/HUMAN_TO_MODEL.md`](../../docs/HUMAN_TO_MODEL.md). Deploying this app as a public Hugging Face Space is a separate next step.
+**Learning:** Offline only — collect sessions → export SFT → LoRA warm-start → GRPO on the programmatic wholesaler reward. See [`docs/HUMAN_TO_MODEL.md`](../../docs/HUMAN_TO_MODEL.md). Deploying this app as a public Hugging Face Space is a separate next step from the Static Space that hosts the capacity-400 browser game.
 
 ## Local run
 

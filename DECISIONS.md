@@ -248,7 +248,7 @@ Logged defaults for the v1 research codebase. Change only with a dated note.
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| Environment | Exact v0.2.0 Tier-5 Y `headline`, wholesaler, 36-week scenario | Matches the public browser game without changing its parameters or counterparties. |
+| Environment | Exact v0.2.0 Tier-5 Y `headline`, wholesaler, 36-week scenario | Matches Hub Tier-5 (capacity 22). The public static game later raised playable capacity to 400; see `live_y_feasible_supply_grpo_v2`. |
 | Experiment seeds | 16 train + 10 evaluation master seeds, frozen in `experiments/live_y_qwen_rl/splits.json` | Existing development and validation seeds are the eight public browser-game seeds; normative test seeds remain test-only. The experiment split is SHA-256-derived and does not alter the normative split contract. |
 | Training signal | Group-relative negative terminal local wholesaler cost | No demonstrations, action labels, base-stock reward, or system-cost reward enter optimization. |
 | Reference policy | Paired adaptive base-stock only during evaluation reporting | Retains an interpretable comparison without acting as a teacher. |

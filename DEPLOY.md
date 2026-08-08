@@ -77,7 +77,10 @@ output.
 ## 5. Create and upload the Hugging Face Static Space
 
 Set the repository identifier once, then create and upload. The generated Space
-README contains `sdk: static` and `app_file: index.html`.
+README (`sdk: static`) documents wholesaler-only play and **factory capacity
+400**. Rebuild with `npm run build` before uploading so
+`dist/huggingface-space/README.md` picks up the latest template from
+`static_web/scripts/build.js`.
 
 ```bash
 export BEER_GAME_SPACE="YOUR-HF-USER/beer-distribution-game"
@@ -88,7 +91,7 @@ HfApi().upload_folder(
     folder_path="dist/huggingface-space",
     repo_id="YOUR-HF-USER/beer-distribution-game",
     repo_type="space",
-    commit_message="Deploy Beer Distribution Game static app",
+    commit_message="Deploy Beer Distribution Game static app (capacity 400, wholesaler-only)",
 )
 PY
 ```
@@ -97,11 +100,13 @@ PY
 
 Open both public game URLs in a private browser window. On each:
 
-1. Confirm exactly eight opaque scenarios, Tier 5, and wholesaler are shown.
-2. Start a game and verify an invalid order does not advance the week.
-3. Finish 36 decisions and confirm the three comparison totals appear only at
+1. Confirm the seat is locked to **wholesaler** (other roles show as locked).
+2. Confirm the scorecard / factory note (if shown) reflects **capacity 400**,
+   not Hub Tier-5 capacity 22.
+3. Start a game and verify an invalid order does not advance the week.
+4. Finish 36 decisions and confirm the three comparison totals appear only at
    the end.
-4. In Cloudflare D1, confirm the anonymous completed row was written:
+5. In Cloudflare D1, confirm the anonymous completed row was written:
 
 ```bash
 npx wrangler d1 execute beer-game-human-sessions \

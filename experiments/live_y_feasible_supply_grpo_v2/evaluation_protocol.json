@@ -1,0 +1,49 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "amendment_id": "live-y-feasible-supply-grpo-v2",
+  "research_extension": true,
+  "status": "capacity_400_openrouter_board_published; gpu_retrain_awaiting_go_ahead",
+  "environment": {
+    "topology_delays_costs_horizon": "unchanged from Tier-5 Y / v0.2.0",
+    "factory_capacity": 400,
+    "factory_capacity_note": "Research override only. Frozen Hub Tier-5 leaderboard remains capacity 22 in scenario_for(5).",
+    "initial_inventory": 12,
+    "initial_shipment_pipeline": 4,
+    "initial_order_pipeline": 4,
+    "aggressive_retailers": true,
+    "rationing": "proportional"
+  },
+  "information_contract": {
+    "demand_law_disclosed": false,
+    "factory_capacity_disclosed": false,
+    "system_prompt": "research_system_prompt",
+    "observation": "research_observation_user_message"
+  },
+  "training_demand": "episode_randomized_y_poisson_v1",
+  "training_lambda": "one Uniform(2,8) latent per episode, fixed across 36 weeks",
+  "common_random_numbers": "same scenario, lambda, demand seed/draws, parameter draws, and counterparty streams within each group",
+  "seed_manifest": "experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json",
+  "buckets": {
+    "in_distribution": "new SHA-derived episode-randomized Poisson seeds",
+    "canonical_held_out_step": "both retailers use classic 4 through week 4 and 8 from week 5; never trained or tuned",
+    "shifted_mean_doubled_variance": "seeded NB(r=10,p=.5), mean 10 and variance 20 per retailer",
+    "burst_and_collapse": "Poisson rate 4, then frozen seed-derived rate-12 burst, immediately followed by rate-1 collapse"
+  },
+  "training_schedule": {
+    "updates": 12,
+    "group_size": 6,
+    "seeds_per_update": 8,
+    "seed_cycling": "wraparound over 16 training seeds",
+    "learning_rate": 1e-5,
+    "max_trajectories": 576,
+    "max_decision_turns": 20736
+  },
+  "score_formula": "100 * hindsight_perfect_mean_local_cost / policy_mean_local_cost",
+  "perfect_reference": "artifacts/live_y_capacity_400/evaluations/hindsight_perfect_costs.json (recompute if env IC change)",
+  "success_gates": {
+    "protocol_clean_episodes": "16/16",
+    "min_gain_vs_untrained_base_pp": 10,
+    "feasibility_capacity_bound_rate_adaptive": "near 0 on train/eval seeds"
+  },
+  "gpu_launch": "requires explicit user approval; pod must not be left running after abort"
+}

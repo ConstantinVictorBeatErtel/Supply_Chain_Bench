@@ -1,5 +1,15 @@
 # Human → model learning (Tier 5 Y wholesaler)
 
+## Capacity surfaces (do not mix)
+
+| Surface | Capacity | Purpose |
+|---|---|---|
+| Gradio human app / Hub Verifiers / Prime Intellect package | **22** | Frozen Hub Tier-5 parity for SFT/GRPO vs published Hub traces |
+| Public static browser game + live-Y research board | **400** | Feasible upstream supply; current OpenRouter board |
+
+Keep Gradio sessions on capacity **22** when the goal is Hub-matching demos.
+Use the static app when matching the public/live-Y capacity-400 contract.
+
 ## Topology choice (why wholesaler, Y unchanged)
 
 Keep the **Tier 5 Y network** exactly as in Hub eval:

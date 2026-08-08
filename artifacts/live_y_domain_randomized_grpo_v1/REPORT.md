@@ -2,7 +2,14 @@
 
 ## Status
 
-This is a research extension, not the frozen v0.2.0 Tier-5 Y leaderboard.
+**Capacity-22 archive.** This report documents the original live-Y research run
+under factory capacity **22** (hindsight-perfect mean ≈ **720.88**). The
+**current** public/live-Y board uses capacity **400** (perfect ≈ **287.22**)
+and lives in [`../live_y_capacity_400/`](../live_y_capacity_400/) with the
+feasible-supply design note in
+[`../../experiments/live_y_feasible_supply_grpo_v2/DESIGN.md`](../../experiments/live_y_feasible_supply_grpo_v2/DESIGN.md).
+
+This is a research extension, not the frozen v0.2.0 Tier-5 Y Hub leaderboard.
 RL is the intended headline method: the existing critic-free multi-turn
 group-relative PPO/GRPO-style trainer is extended with per-turn return-to-go
 advantages. SFT is optional, self-generated format-normalization scaffolding
@@ -33,9 +40,10 @@ then evaluated separately on all 16 fixed research seeds below.
 - The canonical 4→8 step is held out, as are the shifted mean/variance and
   burst/collapse buckets. Fixed seeds are in `seed_manifest.json` and are
   disjoint from the repository's existing manifests.
-- Topology, capacity, rationing, costs, initial conditions, delays, horizon,
-  and native settlement are unchanged. The environment extension is labeled
-  with this protocol ID rather than v0.2.0.
+- Topology, rationing, costs, initial conditions, delays, horizon, and native
+  settlement matched Tier-5 Y. **This archived board used capacity 22**; the
+  current research override is capacity 400. The environment extension is
+  labeled with this protocol ID rather than v0.2.0.
 
 ## Training contract
 
@@ -51,7 +59,7 @@ same-timestep group mean is subtracted; no variance normalization is used.
 Protocol failure adds `-100000` at the failure turn, propagating to preceding
 return-to-go values. System/team cost is reporting-only.
 
-## Evaluation and reporting
+## Evaluation and reporting (capacity-22 archive)
 
 Evaluations store per-episode demand manifests (`research_exogenous` / `demand`
 traces), actions, and local costs. Hindsight search then computes a feasible
@@ -60,12 +68,12 @@ scripted counterparties. The published score is:
 
 `100 * hindsight_perfect_mean_local_cost / policy_mean_local_cost`
 
-Adaptive base-stock is retained as a reporting heuristic only. On this seed
-set its mean local cost is **783.59**, while hindsight perfect averages
-**720.88** (~1.09×). A score of 100% means matching the hindsight-perfect
-reference; lower percentages mean higher cost.
+Adaptive base-stock is retained as a reporting heuristic only. On this
+**capacity-22** seed set its mean local cost is **783.59**, while hindsight
+perfect averages **720.88** (~1.09×). A score of 100% means matching the
+hindsight-perfect reference; lower percentages mean higher cost.
 
-Dashboard models (research prompt, rescored vs perfect):
+Dashboard models (research prompt, rescored vs perfect, **capacity 22**):
 
 | Model | Local cost ± stderr | Perfect-cost percentage | Clean |
 |---|---:|---:|---:|
@@ -76,10 +84,14 @@ Dashboard models (research prompt, rescored vs perfect):
 | DeepSeek V4 Flash | 1831.42 ± 407.82 | 33.06% | 12/16 |
 | Laguna S 2.1 | 1132.88 ± 179.72 | 16.68% | 4/16 |
 
-Artifacts:
+Artifacts (archive):
 `evaluations/hindsight_perfect_costs.json`,
 `evaluations/perfect_cost_leaderboard.json`, and
 `docs/assets/live-y-domain-randomized-benchmark.svg`.
+
+Current capacity-400 board:
+`artifacts/live_y_capacity_400/evaluations/` and
+`docs/assets/live-y-capacity-400-benchmark.svg`.
 
 Runpod billing was $0.5996907949 total: $0.5381918224 for the A40 run and
 $0.0614989726 for the bounded recovery-pod inventory. The A40 was briefly

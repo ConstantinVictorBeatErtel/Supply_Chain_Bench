@@ -1,6 +1,6 @@
 # Beer Distribution Game
 
-**[▶ Play the redesigned Beer Distribution Game](https://beer-distribution-game.pages.dev/)**
+**[▶ Play the Beer Distribution Game](https://beer-distribution-game.pages.dev/)**
 
 This repository studies a simple question: what happens when a wholesaler has to
 make replenishment decisions with delayed shipments, incomplete information, and
@@ -23,32 +23,41 @@ flowchart LR
 ```
 
 The two highlighted boxes are alternative wholesaler runs on the same seed: the
-human game and the recorded LLM comparison. In the underlying frozen Y
-topology there is one wholesaler seat; the second box makes the comparison
-explicit rather than implying that both agents play simultaneously.
+human game and the recorded LLM comparison. In the underlying Y topology there
+is one wholesaler seat; the second box makes the comparison explicit rather than
+implying that both agents play simultaneously.
 
 ## The fixed evaluation condition
 
-The public human game and the headline LLM comparison use the same Tier 5 setup:
+### Public browser game + live-Y research (current)
 
-- Y-shaped supply chain, controlled role: **wholesaler**
+The Cloudflare / Hugging Face static game and the live-Y research board use:
+
+- Y-shaped supply chain, controlled role: **wholesaler only**
 - 36 decision weeks, followed by deterministic settlement
 - integer orders from 0 through 128
 - one-week order delay and two-week shipment delay
-- factory capacity of 22 with proportional allocation under shortage
+- **factory capacity 400** (feasible upstream supply; research prompts still
+  withhold the capacity number)
 - local observations only; no private retailer state or future demand
-- comparison against the recorded LLM trace and adaptive base-stock
-  policy for the same seed
+
+### Frozen Hub Tier-5 (Prime Intellect / Verifiers)
+
+The published Verifiers Hub package in
+[`environments/beer_distribution_game/`](environments/beer_distribution_game/)
+keeps the **calibrated Tier-5 capacity of 22** for historical leaderboard
+parity. Do not mix Hub scores with the capacity-400 live-Y board.
 
 Every action is `place_order(quantity)`. The player or model minimizes local
 holding and backlog cost, not a system-wide score.
 
 ## Live game and anonymous baseline
 
-The browser game is a dependency-free static app. It uses eight opaque development
-and validation seeds, shows only the observation available to the model, and
-reveals comparisons after week 36. Optional telemetry is fail-soft and stores an
-anonymous session UUID plus replay-verified actions, weekly state, and scores.
+The browser game is a dependency-free static app. Seat selection is locked to
+the **wholesaler**. It uses opaque seeds, shows only the observation available
+to the model, and reveals comparisons after week 36. Optional telemetry is
+fail-soft and stores an anonymous session UUID plus replay-verified actions,
+weekly state, and scores.
 
 - [Play on Cloudflare Pages](https://beer-distribution-game.pages.dev/)
 - [Open the Hugging Face Static Space](https://constantinertel-beer-distribution-game.static.hf.space/)
@@ -60,19 +69,21 @@ anonymous session UUID plus replay-verified actions, weekly state, and scores.
 |---|---|
 | [`static_web/`](static_web/) | JS simulator, browser UI, D1 Worker, and parity tests |
 | `beer_distribution_rl/` | Classical simulator, RL agents, and wrappers |
-| `environments/beer_distribution_game/` | Frozen Verifiers Hub environment |
-| [`artifacts/hub_llm/`](artifacts/hub_llm/) | Recorded LLM traces and compact results |
+| `environments/beer_distribution_game/` | Frozen Verifiers / Prime Intellect Hub environment (Tier-5 capacity **22**) |
+| [`artifacts/live_y_capacity_400/`](artifacts/live_y_capacity_400/) | Current live-Y OpenRouter evals + hindsight-perfect board |
+| [`artifacts/hub_llm/`](artifacts/hub_llm/) | Recorded Hub LLM traces and compact results |
 | `tests/` | Python simulator, Hub, calibration, and regression tests |
 | `docs/` | Frozen environment, reward, and difficulty specifications |
 
-## Benchmark
+## Benchmark (capacity 400)
 
-One evaluation condition for the live Tier-5 Y research board: each policy
-controls the **wholesaler** for 36 weeks under the research prompt (no demand
-law, no factory capacity). We use the same 16 fixed seeds in
+One evaluation condition for the live Tier-5 Y research board under **factory
+capacity 400**: each policy controls the **wholesaler** for 36 weeks under the
+research prompt (no demand law, no factory capacity disclosed). We use the same
+16 fixed seeds in
 [`experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json`](experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json).
-Demand traces are CRN-determined by seed and were stored on every evaluation
-row; hindsight search then finds a feasible minimum local cost for each seed.
+Demand traces are CRN-determined by seed; hindsight search finds a feasible
+minimum local cost for each seed.
 
 Score is the percentage of that **hindsight-perfect** local cost:
 
@@ -80,51 +91,46 @@ Score is the percentage of that **hindsight-perfect** local cost:
 
 Thus **100%** means matching the best open-loop wholesaler sequence found for
 the fixed demand/counterparties. Adaptive base-stock is **not** perfect: its
-mean local cost is 783.59 versus a hindsight-perfect mean of **720.88**
-(~1.09×). Protocol-failed episodes are excluded from a model's mean.
+mean local cost is **388.84** versus a hindsight-perfect mean of **287.22**
+(~1.35×). Protocol-failed episodes are excluded from a model's mean.
 
 | Model | Mean local cost | Score / 100 | Clean episodes |
 | --- | ---: | ---: | ---: |
-| GPT-5.6 Luna | 1,577.56 ± 412.22 | 45.70 | 16/16 |
-| Qwen3.5-4B + GRPO LoRA | 1,706.81 ± 277.24 | 42.24 | 16/16 |
-| Qwen3.5-4B (untuned) | 1,934.84 ± 299.83 | 37.26 | 16/16 |
-| DeepSeek V4 Flash | 1,831.42 ± 407.82 | 33.06 | 12/16 |
-| Laguna S 2.1 (free) | 1,132.88 ± 179.72 | 16.68 | 4/16 |
+| Laguna S 2.1 (free) | 2,584.43 ± 825.89 | 14.02 | 7/16 |
+| DeepSeek V4 Flash | 4,031.28 ± 882.47 | 7.12 | 16/16 |
+| Nemotron 3 Ultra (free) | 5,379.00 ± 4,260.00 | 6.56 | 2/16 |
 
-![Live-Y research benchmark](docs/assets/live-y-domain-randomized-benchmark.png)
+![Live-Y capacity-400 research benchmark](docs/assets/live-y-capacity-400-benchmark.svg)
 
-Hindsight perfect costs, rescored leaderboard, and per-seed action sequences
-live in
-[`artifacts/live_y_domain_randomized_grpo_v1/evaluations/`](artifacts/live_y_domain_randomized_grpo_v1/evaluations/).
+Artifacts:
+[`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/)
+(`hindsight_perfect_costs.json`, OpenRouter rows, `perfect_cost_leaderboard_capacity_400.json`).
+
+Design note for the feasible-supply amendment:
+[`experiments/live_y_feasible_supply_grpo_v2/DESIGN.md`](experiments/live_y_feasible_supply_grpo_v2/DESIGN.md).
+
+### Historical capacity-22 board (archive)
+
+An earlier live-Y board under **capacity 22** (perfect ≈ **720.88**, adaptive ≈
+**783.59**) remains in
+[`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/)
+and
+[`docs/assets/live-y-domain-randomized-benchmark.svg`](docs/assets/live-y-domain-randomized-benchmark.svg).
+Those numbers are **not comparable** to the capacity-400 board above.
 
 A separate frozen **serial** 100-seed board (naive-anchored score, 20 weeks)
 remains in [`docs/assets/wholesaler-lora-benchmark.svg`](docs/assets/wholesaler-lora-benchmark.svg)
 and [`eval/held_out_seeds.json`](eval/held_out_seeds.json); it is not mixed into
-the live-Y dashboard above.
+the live-Y dashboard.
 
 ## Teacher-free Qwen LoRA — live Tier-5 Y research run
 
 The repository contains a teacher-free development research run for
-`Qwen/Qwen3.5-4B`: 16 train-only seeds, 16 fixed research evaluation seeds,
-bf16 rank-16 LoRA, and per-turn return-to-go group-relative advantages with no
-teacher demonstrations. Under the **research prompt** (factory capacity
-withheld), mean local wholesaler cost is **1,934.84 ± 299.83** for the untuned
-base and **1,706.81 ± 277.24** after GRPO; both are 100% protocol-clean.
+`Qwen/Qwen3.5-4B` under the **capacity-22** information/scarcity contract (see
+the archive board). Retraining under capacity 400 is tracked in
+[`experiments/live_y_feasible_supply_grpo_v2/`](experiments/live_y_feasible_supply_grpo_v2/).
 
-Scoring uses **hindsight-perfect** local cost on the stored/CRN demand traces,
-not adaptive base-stock:
-
-`score = 100 × hindsight_perfect_mean_cost / policy_mean_cost`
-
-Hindsight perfect mean local cost across the 16 seeds is **720.88**; adaptive
-base-stock averages **783.59** (~1.09× perfect), so adaptive is a strong
-heuristic rather than the optimum. On this board the untuned base scores
-**37.26%** of perfect and the final LoRA **42.24%**. GPT-5.6 Luna leads the
-published comparison at **45.70%**. See the Benchmark section above for the
-full five-model dashboard.
-
-The complete experiment bundle, including both LoRA adapter weight files,
-tokenizers, rollouts, logs, evaluations, configs, billing, and checksums, is in
+The complete capacity-22 experiment bundle, including LoRA adapters, is in
 [`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/).
 The 9.3 GB base checkpoint is kept locally in
 `local_checkpoints/qwen35-4b-base/` and is intentionally not committed to
@@ -148,15 +154,9 @@ Perfect costs are produced by
 The reported perfect value is a feasible upper bound on the true optimum.
 Adaptive base-stock remains available as a reporting heuristic only.
 
-Qwen uses a bf16 rank-16 LoRA adapter with alpha 16 on
-`q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, and `down_proj`.
-The OpenRouter comparison models are zero-shot under the same research prompt
-and parser. Full protocol artifacts live in
-[`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/).
-
-Earlier serial / frontier experiments remain in the repository as
-supplementary artifacts, but are intentionally not mixed into this live-Y
-dashboard.
+Weekly local cost is `0.5 × inventory + 1.0 × backlog`. Episode cost sums
+36 operational weeks, 3 settlement weeks, and a terminal inventory-position
+exposure charge.
 
 ### How we kept compute cheap
 
@@ -207,9 +207,10 @@ request.
   grading.
 - Invalid actions do not mutate state or consume randomness.
 - Recorded traces replay to their published costs and rewards.
-- Normative source-of-truth files are not changed by the web app.
+- Normative Hub Tier-5 source-of-truth files keep capacity **22**; public play
+  and live-Y research override capacity to **400**.
 
-See the frozen specifications for the exact contract:
+See the frozen specifications for the exact Hub contract:
 
 - [`docs/ENVIRONMENT_SPEC.md`](docs/ENVIRONMENT_SPEC.md)
 - [`docs/REWARD_SPEC.md`](docs/REWARD_SPEC.md)

@@ -1,7 +1,7 @@
 [project]
 name = "beer-distribution-game"
 version = "0.2.2"
-description = "A reproducible Beer Distribution Game for evaluating tool-using LLM supply-chain control."
+description = "Prime Intellect / Verifiers Beer Distribution Game (frozen Tier-5 capacity 22; public/live-Y research uses capacity 400 separately)."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"

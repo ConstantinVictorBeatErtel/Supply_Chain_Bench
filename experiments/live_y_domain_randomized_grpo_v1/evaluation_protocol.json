@@ -1,7 +1,9 @@
 {
   "protocol_id": "live-y-domain-randomized-grpo-v1",
   "research_extension": true,
-  "frozen_environment": "v0.2.0 topology/capacity/rationing/cost/delay/settlement contracts",
+  "frozen_environment": "v0.2.0 topology/rationing/cost/delay/settlement contracts; research factory capacity raised to 400 (feasible-supply amendment — see experiments/live_y_feasible_supply_grpo_v2/DESIGN.md). Hub Tier-5 headline remains capacity 22.",
+  "current_board": "artifacts/live_y_capacity_400/evaluations/",
+  "historical_capacity_22_board": "artifacts/live_y_domain_randomized_grpo_v1/evaluations/ (archive; perfect≈720.88)",
   "training_demand": "episode_randomized_y_poisson_v1",
   "training_lambda": "one Uniform(2,8) latent per episode, fixed across 36 weeks",
   "common_random_numbers": "same scenario, lambda, demand seed/draws, parameter draws, and counterparty streams within each group",
@@ -11,7 +13,12 @@
     "shifted_mean_doubled_variance": "seeded NB(r=10,p=.5), mean 10 and variance 20 per retailer",
     "burst_and_collapse": "Poisson rate 4, then frozen seed-derived rate-12 burst, immediately followed by rate-1 collapse"
   },
-  "models": [
+  "models_capacity_400": [
+    "laguna_s_2_1_free",
+    "deepseek_v4_flash",
+    "nemotron_3_ultra_free"
+  ],
+  "models_capacity_22_archive": [
     "gpt_5_6_luna",
     "trained_qwen_grpo",
     "untrained_qwen",
@@ -21,7 +28,7 @@
   "selection": "two-update endpoint fixed in advance; no evaluation bucket selects a checkpoint",
   "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
   "score_formula": "100 * hindsight_perfect_mean_local_cost / policy_mean_local_cost",
-  "perfect_reference": "hindsight search over fixed CRN demand/counterparties (order-up-to grids, tuned adaptive, model warm starts, coordinate descent); true optimum is <= reported perfect",
-  "adaptive_base_stock": "reporting-only heuristic; mean local cost is about 1.09x hindsight perfect on the 16-seed set",
+  "perfect_reference": "artifacts/live_y_capacity_400/evaluations/hindsight_perfect_costs.json; mean perfect ≈ 287.22 under capacity 400",
+  "adaptive_base_stock": "reporting-only heuristic; under capacity 400 mean local cost is about 1.35x hindsight perfect on the 16-seed set (388.84 / 287.22)",
   "training_reward": "negative local wholesaler return-to-go only; system/team cost is reporting-only"
 }

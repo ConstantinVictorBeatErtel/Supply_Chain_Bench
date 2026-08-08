@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Two-update live-Y domain-randomized critic-free GRPO research run.
+"""Live-Y domain-randomized critic-free GRPO research runner.
 
-This is an additive runner around the repository's existing single-GPU
-multi-turn group-relative trainer. It changes only the research scenario,
-strict parser, seed schedule, and per-turn advantage assignment.
+Additive wrapper around the single-GPU multi-turn group-relative trainer.
+Uses the research prompt (no demand-law / factory-capacity leak), research
+``capacity=400`` feasible-supply override, and a longer wraparound seed
+schedule (defaults: 12 updates × 8 seeds × group 6).
+
+Do not launch a paid GPU job from this script unless the user explicitly
+approves; see ``experiments/live_y_feasible_supply_grpo_v2/DESIGN.md``.
 """
 
 from __future__ import annotations
@@ -43,9 +47,20 @@ LORA_TARGETS = ("q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", 
 def args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--output-dir", default="/workspace/outputs/live-y-domain-randomized-grpo-v1")
-    p.add_argument("--updates", type=int, default=2)
-    p.add_argument("--group-size", type=int, default=4)
-    p.add_argument("--learning-rate", type=float, default=5e-6)
+    p.add_argument(
+        "--updates",
+        type=int,
+        default=12,
+        help="Optimizer updates. Each update rolls out seeds_per_update training seeds × group_size.",
+    )
+    p.add_argument("--group-size", type=int, default=6)
+    p.add_argument(
+        "--seeds-per-update",
+        type=int,
+        default=8,
+        help="How many of the 16 training seeds to roll out each update (cycled).",
+    )
+    p.add_argument("--learning-rate", type=float, default=1e-5)
     p.add_argument("--seed", type=int, default=20260808)
     p.add_argument("--adapter", help="format-scaffold adapter; omit for base cold start")
     p.add_argument("--generation-token-cap", type=int, default=32)
@@ -148,8 +163,10 @@ def configure(requested_args: argparse.Namespace) -> None:
 
     def rollout_batch(model: Any, tokenizer: Any, tasks: list[Any], args: Any, group_size: int, sample: bool) -> list[Any]:
         if sample and not requested_args.smoke:
-            start = 0 if update_number[0] == 0 else 8
-            selected = tasks[start : start + 8]
+            # Cycle through the 16 train seeds so longer runs keep seeing every seed.
+            width = max(1, min(int(requested_args.seeds_per_update), len(tasks)))
+            start = (update_number[0] * width) % len(tasks)
+            selected = [tasks[(start + offset) % len(tasks)] for offset in range(width)]
             update_number[0] += 1
         else:
             selected = tasks
@@ -247,6 +264,33 @@ def main() -> None:
                     "top_p": 0.95,
                     "generation_token_cap": requested.generation_token_cap,
                     "protocol_max_completion_tokens": 192,
+                },
+                "prompt": {
+                    "system": "research_system_prompt",
+                    "observation": "research_observation_user_message",
+                    "hides_factory_capacity": True,
+                    "hides_demand_parameters": True,
+                },
+                "environment": {
+                    "amendment_id": "live-y-feasible-supply-grpo-v2",
+                    "factory_capacity": 400,
+                    "initial_inventory": 12,
+                    "initial_shipment_pipeline": 4,
+                    "initial_order_pipeline": 4,
+                    "aggressive_retailers": True,
+                    "design_note": "experiments/live_y_feasible_supply_grpo_v2/DESIGN.md",
+                },
+                "schedule": {
+                    "updates": 1 if requested.smoke else requested.updates,
+                    "group_size": requested.group_size,
+                    "seeds_per_update": requested.seeds_per_update,
+                    "learning_rate": requested.learning_rate,
+                    "seed_cycling": "wraparound",
+                    "max_trajectories": (
+                        requested.group_size
+                        if requested.smoke
+                        else requested.updates * requested.seeds_per_update * requested.group_size
+                    ),
                 },
                 "efficiency": {
                     "prefix_kv_cache": not requested.disable_prefix_kv_cache,

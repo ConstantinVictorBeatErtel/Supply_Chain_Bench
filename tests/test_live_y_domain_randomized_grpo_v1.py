@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 from beer_distribution_game.episode import BeerEpisode
+from beer_distribution_game.policies import adaptive_policy
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.advantages import (
     FAILURE_PENALTY,
     assign_group_advantages,
@@ -37,20 +38,44 @@ def test_episode_lambda_and_common_random_numbers_are_paired():
 
 def test_research_prompt_hides_demand_parameters_and_factory_capacity():
     spec = research_spec("0123456789abcdef", bucket="in_distribution")
+    assert spec.capacity == 400
     prompt = research_system_prompt(spec, "wholesaler")
     assert "long-run mean" not in prompt
     assert "Poisson" not in prompt
     assert "Factory capacity" not in prompt
     assert "22" not in prompt
+    assert "400" not in prompt
 
     observation = {
-        "constraints": {"minimum_order": 0, "maximum_order": 128, "factory_capacity": 22},
+        "constraints": {"minimum_order": 0, "maximum_order": 128, "factory_capacity": 400},
         "state": {"incoming_demand_or_order": 8},
     }
     rendered = research_observation_user_message(observation)
     assert "factory_capacity" not in rendered
-    assert "22" not in rendered
+    assert "400" not in rendered
     assert '"maximum_order":128' in rendered
+
+
+def test_research_capacity_does_not_bind_under_adaptive_wholesaler():
+    """Feasible-supply gate: capacity 400 should not starve adaptive fill."""
+
+    spec = research_spec("0123456789abcdef", bucket="in_distribution")
+    episode = BeerEpisode(spec, "wholesaler", include_reference=False)
+    obs = episode.start()
+    policy = adaptive_policy(spec, "wholesaler")
+    filled = demanded = bound = 0
+    while not episode.done:
+        state = obs["state"]
+        filled += int(state["units_filled"])
+        demanded += int(state["incoming_demand_or_order"])
+        out = episode.place_order(policy.act(obs))
+        bound += int(bool(episode.operational_transitions[-1].get("capacity_bound")))
+        if out.get("done"):
+            break
+        obs = out["next_observation"]
+    assert bound == 0
+    assert demanded > 0
+    assert filled / demanded >= 0.95
 
 
 def test_episode_randomized_poisson_is_fixed_for_the_episode():

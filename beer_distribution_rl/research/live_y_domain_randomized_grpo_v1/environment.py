@@ -42,7 +42,11 @@ def research_spec(seed_hex: str, *, bucket: str, index: int = 0) -> ScenarioSpec
                 if process == DEMAND_PROCESS_ID
                 else {"process_id": process}
             ),
-            # Public/playable capacity: allow upstream fulfillment of large orders.
+            # Research override: Tier-5 Hub capacity 22 chronically binds under
+            # aggressive retailers + delays. Capacity 400 makes upstream supply
+            # feasible so wholesaler fulfillment is learnable (see
+            # experiments/live_y_feasible_supply_grpo_v2/DESIGN.md). Still hidden
+            # from the research prompt/observation.
             "capacity": 400,
         }
     )
