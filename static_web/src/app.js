@@ -23,6 +23,7 @@ let active = null;
 let selectedRole = "wholesaler";
 let logSent = false;
 let fastForwardTimer = null;
+let shippingPulse = false;
 
 export function parseOrderInput(raw) {
   if (typeof raw !== "string" || !/^(0|[1-9]\d{0,2})$/.test(raw)) {
@@ -70,31 +71,128 @@ function lineChart(values, max, width = 720, height = 190) {
   }).join(" ");
 }
 
+function meterPct(inventory) {
+  return Math.max(0, Math.min(100, Math.round((Number(inventory) || 0) / 24 * 100)));
+}
+
+function inventoryMeter({ visible, inventory = 0, backlog = 0 } = {}) {
+  const danger = visible && backlog > 0;
+  const pct = visible ? meterPct(inventory) : 0;
+  const value = visible ? `${n0(inventory)}${backlog > 0 ? ` · BL ${n0(backlog)}` : ""}` : "——";
+  return `<div class="inv-meter ${danger ? "backlog" : ""}" aria-hidden="true">
+    <span class="inv-label">Inventory</span>
+    <div class="track"><span class="fill" style="width:${pct}%"></span></div>
+    <span class="inv-value">${value}</span>
+  </div>`;
+}
+
+function buildingSvg(role) {
+  if (role === "factory") {
+    return `<svg class="building-svg" viewBox="0 0 120 88" aria-hidden="true">
+      <circle class="smoke" cx="86" cy="10" r="3"/><circle class="smoke" cx="90" cy="4" r="2.4"/>
+      <circle class="smoke" cx="82" cy="3" r="2"/><circle class="smoke" cx="94" cy="9" r="1.8"/>
+      <rect class="soft" x="78" y="14" width="10" height="28"/>
+      <path class="soft" d="M14 38 L30 22 L46 38 L62 22 L78 38 L94 22 L110 38 V78 H14 Z"/>
+      <rect class="soft" x="22" y="44" width="10" height="10"/><rect class="soft" x="38" y="44" width="10" height="10"/>
+      <rect class="soft" x="54" y="44" width="10" height="10"/><rect class="soft" x="70" y="44" width="10" height="10"/>
+      <circle class="gear" cx="96" cy="58" r="8"/><circle class="gear" cx="96" cy="58" r="3"/>
+      <path class="stroke" d="M104 70 L116 78 L104 78 Z"/>
+    </svg>`;
+  }
+  if (role === "retailer_a" || role === "retailer_b") {
+    return `<svg class="building-svg" viewBox="0 0 120 88" aria-hidden="true">
+      <path class="soft" d="M18 36 H102 V78 H18 Z"/>
+      <path class="awning" d="M14 36 H106 L100 48 H20 Z"/>
+      <path class="awning" d="M22 36 L28 48 M36 36 L42 48 M50 36 L56 48 M64 36 L70 48 M78 36 L84 48 M92 36 L98 48" fill="none"/>
+      <rect class="soft" x="28" y="52" width="36" height="26"/>
+      <rect class="crate-fill" x="36" y="58" width="12" height="14" rx="1"/>
+      <rect class="soft" x="78" y="52" width="16" height="26"/>
+      <circle cx="90" cy="66" r="1.4" fill="var(--ink)"/>
+    </svg>`;
+  }
+  return `<svg class="building-svg" viewBox="0 0 120 88" aria-hidden="true">
+    <path class="soft" d="M20 40 L60 18 L100 40 V78 H20 Z"/>
+    <rect class="soft" x="34" y="46" width="12" height="12"/><rect class="soft" x="74" y="46" width="12" height="12"/>
+    <rect class="soft" x="48" y="52" width="24" height="26"/>
+    <path class="stroke" d="M56 52 V78 M64 52 V78"/>
+  </svg>`;
+}
+
+function ordersRailSvg() {
+  return `<svg viewBox="0 0 720 28" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="24" y1="14" x2="696" y2="14" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <circle cx="90" cy="14" r="3.5" fill="var(--accent)"/>
+    <circle cx="250" cy="14" r="3.5" fill="var(--accent)"/>
+    <circle cx="410" cy="14" r="3.5" fill="var(--accent)"/>
+    <circle cx="570" cy="14" r="3.5" fill="var(--accent)"/>
+    <path d="M160 14 L148 10 V18 Z" fill="var(--accent)"/>
+    <path d="M320 14 L308 10 V18 Z" fill="var(--accent)"/>
+    <path d="M480 14 L468 10 V18 Z" fill="var(--accent)"/>
+    <path d="M640 14 L628 10 V18 Z" fill="var(--accent)"/>
+  </svg>`;
+}
+
+function conveyorSvg() {
+  return `<svg class="conveyor-svg" viewBox="0 0 720 36" preserveAspectRatio="none" aria-hidden="true">
+    <line class="belt-line" x1="28" y1="18" x2="692" y2="18"/>
+    <line class="belt-line" x1="28" y1="24" x2="692" y2="24"/>
+    <circle class="belt-roller" cx="22" cy="21" r="9"/><path d="M17 16 L27 26 M27 16 L17 26" stroke="var(--ink)" stroke-width="1.4"/>
+    <circle class="belt-roller" cx="698" cy="21" r="9"/><path d="M693 16 L703 26 M703 16 L693 26" stroke="var(--ink)" stroke-width="1.4"/>
+    <g class="belt-crates">
+      <g transform="translate(100 8)">${crateGlyph()}</g>
+      <g transform="translate(260 8)">${crateGlyph()}</g>
+      <g transform="translate(420 8)">${crateGlyph()}</g>
+      <g transform="translate(580 8)">${crateGlyph()}</g>
+    </g>
+  </svg>`;
+}
+
+function crateGlyph() {
+  return `<rect class="crate-block" width="22" height="14" rx="1"/>
+    <circle class="crate-dot" cx="6" cy="5" r="1.2"/><circle class="crate-dot" cx="11" cy="5" r="1.2"/><circle class="crate-dot" cx="16" cy="5" r="1.2"/>
+    <circle class="crate-dot" cx="6" cy="10" r="1.2"/><circle class="crate-dot" cx="11" cy="10" r="1.2"/><circle class="crate-dot" cx="16" cy="10" r="1.2"/>`;
+}
+
+function stationCard(node, { briefing, role, states }) {
+  const isYou = node === role;
+  const state = states[node];
+  const visible = !briefing && isYou && state;
+  const tag = isYou ? "YOU" : briefing ? "AVAILABLE" : "SEALED";
+  const detail = briefing
+    ? `<p>${escapeHtml(ROLE_NOTE[node])}</p>`
+    : inventoryMeter({
+      visible,
+      inventory: state?.inventory,
+      backlog: state?.backlog,
+    });
+  return `<button class="chain-card ${isYou ? "selected" : ""}" data-role="${node}" type="button" ${briefing ? "" : "disabled"}>
+    <span class="chain-tag">${tag}</span>
+    ${buildingSvg(node)}
+    <strong>${ROLE_LABEL[node]}</strong>${detail}</button>`;
+}
+
 function chainHtml({ briefing = false } = {}) {
   const role = active?.role || selectedRole;
   const transition = active?.episode.operationalTransitions.at(-1);
   const states = transition?.states_after_fulfillment || {};
+  const ctx = { briefing, role, states };
   const cards = ROLES.map((node) => {
-    const isYou = node === role;
-    const state = states[node];
-    const visible = !briefing && isYou && state;
-    const detail = briefing
-      ? `<p>${escapeHtml(ROLE_NOTE[node])}</p>`
-      : `<dl><div><dt>INV</dt><dd>${visible ? n0(state.inventory) : "——"}</dd></div><div><dt>BL</dt><dd class="${visible && state.backlog > 0 ? "danger" : ""}">${visible ? n0(state.backlog) : "——"}</dd></div></dl>`;
-    const playerCard = `<button class="chain-card ${isYou ? "selected" : ""}" data-role="${node}" type="button" ${briefing ? "" : "disabled"}>
-      <span class="chain-tag">${isYou ? "YOU" : briefing ? "AVAILABLE" : "SEALED"}</span>
-      <strong>${ROLE_LABEL[node]}</strong>${detail}</button>`;
-    if (!isYou) return playerCard;
+    const playerCard = stationCard(node, ctx);
+    if (node !== role) return playerCard;
     const modelDetail = briefing
       ? "<p>The same seat, same seed, played in a sealed parallel episode.</p>"
-      : "<dl><div><dt>INV</dt><dd>——</dd></div><div><dt>BL</dt><dd>——</dd></div></dl>";
+      : inventoryMeter({ visible: false });
     return `<div class="chain-pair chain-${node}">${playerCard}
-      <div class="chain-card companion"><span class="chain-tag">RECORDED MODEL</span><strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
+      <div class="chain-card companion"><span class="chain-tag">RECORDED MODEL</span>${buildingSvg(node)}<strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
   });
-  return `<div class="chain" aria-label="Five-node Y supply chain">
-    <div class="retailers">${cards[0]}${cards[1]}</div>
-    <div class="fork" aria-hidden="true"><i></i><i></i><b></b></div>
-    ${cards[2]}<span class="link link-one" aria-hidden="true"></span>${cards[3]}<span class="link link-two" aria-hidden="true"></span>${cards[4]}
+  return `<div class="chain-board" aria-label="Five-node Y supply chain">
+    <div class="orders-rail">${ordersRailSvg()}<span class="rail-label">Orders</span></div>
+    <div class="chain">
+      <div class="retailers">${cards[0]}${cards[1]}</div>
+      <div class="fork" aria-hidden="true"><i></i><i></i><b></b></div>
+      ${cards[2]}<span class="link link-one" aria-hidden="true"></span>${cards[3]}<span class="link link-two" aria-hidden="true"></span>${cards[4]}
+    </div>
+    <div class="conveyor">${conveyorSvg()}<span class="rail-label">Inventory</span></div>
   </div>`;
 }
 
@@ -255,6 +353,7 @@ function renderBriefing() {
   clearInterval(fastForwardTimer);
   active = null;
   logSent = false;
+  shippingPulse = false;
   document.querySelector("#app").innerHTML = briefingHtml();
   setHeader();
   bindBriefing();
@@ -281,6 +380,7 @@ function commitOrder() {
     document.querySelector("#new-game").addEventListener("click", renderBriefing);
     return;
   }
+  shippingPulse = true;
   active.observation = result.next_observation;
   renderGame();
 }
@@ -288,6 +388,16 @@ function commitOrder() {
 function renderGame() {
   document.querySelector("#app").innerHTML = gameHtml();
   setHeader(`${active.observation.week}/36`, n1(active.observation.costs.cumulative_local_cost_through_previous_week));
+  if (shippingPulse) {
+    shippingPulse = false;
+    const board = document.querySelector(".chain-board");
+    if (board) {
+      // Force a reflow so the shipping class can replay after each week.
+      void board.offsetWidth;
+      board.classList.add("chain--shipping");
+      window.setTimeout(() => board.classList.remove("chain--shipping"), 700);
+    }
+  }
   const range = document.querySelector("#order-range");
   range.addEventListener("input", () => updateOrder(Number(range.value)));
   document.querySelector("#minus-order").addEventListener("click", () => updateOrder(active.order - 1));
