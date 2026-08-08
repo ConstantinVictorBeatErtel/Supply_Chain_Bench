@@ -1,0 +1,226 @@
+{
+  "adaptive_mean_local_cost_all_seeds": 388.84375,
+  "capacity": 400,
+  "hindsight_perfect_mean_local_cost_all_seeds": 287.21875,
+  "models": {
+    "DeepSeek V4 Flash": {
+      "hindsight_perfect_mean_on_clean": 287.21875,
+      "inline_adaptive_score_mean": 12.32677060988939,
+      "model_id": "deepseek_deepseek-v4-flash-0731",
+      "n_episodes": 16,
+      "n_protocol_clean": 16,
+      "per_seed": [
+        {
+          "bucket": "burst_and_collapse",
+          "local_total_cost": 886.0,
+          "perfect_local_cost": 146.5,
+          "score": 16.534988713318285,
+          "seed": "3385fc1772a83c0f"
+        },
+        {
+          "bucket": "burst_and_collapse",
+          "local_total_cost": 3102.5,
+          "perfect_local_cost": 238.5,
+          "score": 7.687348912167606,
+          "seed": "6004dde3fcee7f67"
+        },
+        {
+          "bucket": "burst_and_collapse",
+          "local_total_cost": 1352.0,
+          "perfect_local_cost": 174.5,
+          "score": 12.90680473372781,
+          "seed": "b7c3c42c06605a25"
+        },
+        {
+          "bucket": "burst_and_collapse",
+          "local_total_cost": 1617.0,
+          "perfect_local_cost": 256.0,
+          "score": 15.83178726035869,
+          "seed": "f0cd8b5418cd1e55"
+        },
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 5157.0,
+          "perfect_local_cost": 146.5,
+          "score": 2.8407989140973435,
+          "seed": "0fa94b60e8eb54e2"
+        },
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 4684.5,
+          "perfect_local_cost": 146.5,
+          "score": 3.127334827623012,
+          "seed": "2b5eae5b998e4f1d"
+        },
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 3338.0,
+          "perfect_local_cost": 146.5,
+          "score": 4.38885560215698,
+          "seed": "6ad00ac691773fce"
+        },
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 1027.0,
+          "perfect_local_cost": 146.5,
+          "score": 14.264849074975658,
+          "seed": "722ad6103d9490ad"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 2320.0,
+          "perfect_local_cost": 198.5,
+          "score": 8.556034482758621,
+          "seed": "1e594a5f4f13c914"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 882.0,
+          "perfect_local_cost": 160.5,
+          "score": 18.197278911564627,
+          "seed": "1ef97b9065013134"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 2194.0,
+          "perfect_local_cost": 160.5,
+          "score": 7.315405651777575,
+          "seed": "60014380abcd0c62"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 2744.0,
+          "perfect_local_cost": 146.5,
+          "score": 5.338921282798834,
+          "seed": "ba0eef18cf04ad40"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 8339.0,
+          "perfect_local_cost": 629.5,
+          "score": 7.548866770595994,
+          "seed": "98155973e5223d05"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 11337.0,
+          "perfect_local_cost": 626.5,
+          "score": 5.526153303343036,
+          "seed": "a01e69edae32256e"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 11902.5,
+          "perfect_local_cost": 727.0,
+          "score": 6.107960512497375,
+          "seed": "ba32f821074ddb20"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 3618.0,
+          "perfect_local_cost": 545.0,
+          "score": 15.063571033720287,
+          "seed": "d9e921eb4abf1311"
+        }
+      ],
+      "policy_mean_local_cost": 4031.28125,
+      "protocol_failure_rate": 0.0,
+      "score": 7.124750970922706,
+      "score_mean_of_per_seed": 9.452309999217608,
+      "score_stderr_per_seed": 1.2482801079643457
+    },
+    "Laguna S 2.1 (free)": {
+      "hindsight_perfect_mean_on_clean": 362.35714285714283,
+      "inline_adaptive_score_mean": 20.448740889059344,
+      "model_id": "poolside_laguna-s-2.1_free",
+      "n_episodes": 16,
+      "n_protocol_clean": 7,
+      "per_seed": [
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 1070.0,
+          "perfect_local_cost": 146.5,
+          "score": 13.69158878504673,
+          "seed": "6ad00ac691773fce"
+        },
+        {
+          "bucket": "canonical_held_out_step",
+          "local_total_cost": 1088.5,
+          "perfect_local_cost": 146.5,
+          "score": 13.458888378502527,
+          "seed": "722ad6103d9490ad"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 1448.5,
+          "perfect_local_cost": 198.5,
+          "score": 13.703831549879185,
+          "seed": "1e594a5f4f13c914"
+        },
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 1081.0,
+          "perfect_local_cost": 146.5,
+          "score": 13.552266419981498,
+          "seed": "ba0eef18cf04ad40"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 7004.0,
+          "perfect_local_cost": 626.5,
+          "score": 8.944888635065677,
+          "seed": "a01e69edae32256e"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 3571.5,
+          "perfect_local_cost": 727.0,
+          "score": 20.355592888142237,
+          "seed": "ba32f821074ddb20"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 2827.5,
+          "perfect_local_cost": 545.0,
+          "score": 19.27497789566755,
+          "seed": "d9e921eb4abf1311"
+        }
+      ],
+      "policy_mean_local_cost": 2584.4285714285716,
+      "protocol_failure_rate": 0.5625,
+      "score": 14.020783815156706,
+      "score_mean_of_per_seed": 14.711719221755057,
+      "score_stderr_per_seed": 1.3620467363727247
+    },
+    "Nemotron 3 Ultra (free)": {
+      "hindsight_perfect_mean_on_clean": 352.75,
+      "inline_adaptive_score_mean": 14.018521717097126,
+      "model_id": "nvidia_nemotron-3-ultra-550b-a55b_free",
+      "n_episodes": 16,
+      "n_protocol_clean": 2,
+      "per_seed": [
+        {
+          "bucket": "in_distribution",
+          "local_total_cost": 1119.0,
+          "perfect_local_cost": 160.5,
+          "score": 14.343163538873995,
+          "seed": "1ef97b9065013134"
+        },
+        {
+          "bucket": "shifted_mean_doubled_variance",
+          "local_total_cost": 9639.0,
+          "perfect_local_cost": 545.0,
+          "score": 5.654113497250752,
+          "seed": "d9e921eb4abf1311"
+        }
+      ],
+      "policy_mean_local_cost": 5379.0,
+      "protocol_failure_rate": 0.875,
+      "score": 6.55791039226622,
+      "score_mean_of_per_seed": 9.998638518062373,
+      "score_stderr_per_seed": 3.072043103250524
+    }
+  },
+  "n_seeds": 16,
+  "score_formula": "100 * mean(C*_seed) / mean(C_policy_seed) over protocol-clean episodes"
+}

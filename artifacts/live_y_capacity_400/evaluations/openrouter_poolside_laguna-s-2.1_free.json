@@ -1,0 +1,2980 @@
+{
+  "cache": {
+    "openrouter_cache_headers": true,
+    "session_id_per_episode": true,
+    "system_cache_control": {
+      "ttl": "1h",
+      "type": "ephemeral"
+    }
+  },
+  "client_totals": {
+    "cached_tokens": 63040,
+    "completion_tokens": 3901,
+    "prompt_tokens": 283708,
+    "spent_usd": 0.0
+  },
+  "decoding": {
+    "max_completion_tokens": 192,
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "evaluation_kind": "fixed research evaluation",
+  "model": "poolside_laguna-s-2.1_free",
+  "model_id": "poolside/laguna-s-2.1:free",
+  "prompt": "research_observation_user_message",
+  "rows": [
+    {
+      "actions": [
+        8,
+        8,
+        24,
+        24,
+        0
+      ],
+      "attempted_actions": 6,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1184,
+      "completed_weeks": 5,
+      "completion_tokens": 171,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 14,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 3406,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}\n\nKey observations:\n- Current backlog: 28 units\n- Incoming demand: 16 units\n- Inventory on hand: 0\n- On order: 28 units (arriving soon)\n- Backlog cost (1.0) > Holding cost (0.5)\n\nWith 28 units already on order arriving in 1 week, ordering 16 now will arrive in 2 weeks. This covers the current backlog (28) plus next week's expected demand (16), preventing further backlog accumulation while avoiding excessive holding costs. The order aligns with recent demand patterns of 16 units per week."
+      ],
+      "score": null,
+      "seed": "3385fc1772a83c0f",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        16,
+        12,
+        20
+      ],
+      "attempted_actions": 5,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 960,
+      "completed_weeks": 4,
+      "completion_tokens": 219,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 9,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 281.5,
+      "prompt_tokens": 2716,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 20}",
+        "Looking at the current state:\n- Backlog: 28 units (costing $28 in backlog costs)\n- Inventory on hand: 0\n- Inventory position: 8 (on order)\n- Incoming demand: 16 units\n- Last order placed: 20 (received 12 this week)\n\nThe backlog is growing rapidly (0 \u2192 4 \u2192 16 \u2192 24 \u2192 28). I need to clear the backlog while also meeting current demand. With 16 units of incoming demand and 28 units of backlog, I need 44 units total.\n\nHowever, shipments take 2 weeks, so I should place enough to cover the backlog plus upcoming demand. Given the aggressive ordering pattern and the need to reduce backlog costs (which are higher at $1.0 per unit), I'll place a substantial order to catch up.\n\nA reasonable order would be around"
+      ],
+      "score": null,
+      "seed": "6004dde3fcee7f67",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        12,
+        20,
+        16,
+        24,
+        20,
+        16,
+        24,
+        32,
+        48
+      ],
+      "attempted_actions": 11,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 2144,
+      "completed_weeks": 10,
+      "completion_tokens": 261,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 13,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 9
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 11
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 206.0,
+      "prompt_tokens": 7436,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "Looking at the current state:\n\n- Week 11, demand is steady at 16 units/week\n- Current backlog: 21 units\n- Inventory position: 72 (on hand: 0, on order: 93, minus backlog 21 = 72)\n- Incoming shipment this week: 36 units\n- Last order placed: 48 units\n\nThe incoming shipment of 36 will clear the backlog of 21, leaving 15 units of inventory. With steady demand of 16/week, I need to cover the remaining 26 weeks. \n\nTo build appropriate inventory while managing backlog costs, I'll place a moderate order that covers near-term demand plus some buffer, considering the 2-week shipping delay.\n\nOrder calculation:\n- Need to cover 26 weeks \u00d7 16 units = 416 units going forward\n- Current"
+      ],
+      "score": null,
+      "seed": "b7c3c42c06605a25",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [],
+      "attempted_actions": 0,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 0,
+      "completion_tokens": 0,
+      "error": "OpenRouter request failed week=35: {'status': 429, 'body': {'error': {'message': 'Rate limit exceeded: free-models-per-day-high-balance. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '1000', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1786233600000'}, 'limit_source': 'openrouter_free_tier_daily', 'remedy_hint': 'Wait for the daily reset (see X-RateLimit-Reset), or purchase credits to raise your free-model daily limit.', 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": null,
+      "prompt_tokens": 0,
+      "protocol_clean": false,
+      "raw_outputs": [],
+      "score": null,
+      "seed": "f0cd8b5418cd1e55",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        12,
+        16,
+        20,
+        20,
+        28,
+        16,
+        24,
+        32,
+        33,
+        32,
+        48,
+        48,
+        0,
+        16,
+        16,
+        0,
+        0,
+        0
+      ],
+      "attempted_actions": 20,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 3840,
+      "completed_weeks": 19,
+      "completion_tokens": 310,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 14865,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 33}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "Looking at the current state:\n- Inventory on hand: 81 units\n- Incoming demand/order: 16 units\n- No backlog\n- On order: 0 units\n- Horizon: 17 weeks remaining\n\nWith 81 units in inventory and steady demand of 16 units per week, I have approximately 5 weeks of stock. The recent history shows consistent 16-unit demand with no backlogs. \n\nGiven the holding cost of 0.5 per unit-week, I want to avoid overstocking while ensuring no stockouts. With 5 weeks of coverage already, I should place a small order to maintain a reasonable buffer without incurring excessive holding costs.\n\nA modest order of 16 units would replenish inventory after the 5-week buffer is consumed, accounting for the 2-week shipment delay.\n\n{\"quantity\": 16}"
+      ],
+      "score": null,
+      "seed": "0fa94b60e8eb54e2",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        8,
+        16,
+        24
+      ],
+      "attempted_actions": 5,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 384,
+      "completed_weeks": 4,
+      "completion_tokens": 218,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 2700,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 8}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "Looking at the current state:\n- Backlog: 32 units (high, costing $32 already)\n- Inventory on hand: 0\n- On order: 40 units (includes last order of 24 + previous)\n- Incoming demand this week: 16 units\n- Shipment received this week: 8 units\n\nThe backlog is growing and needs immediate attention. I need to clear the backlog of 32 units and also cover the incoming demand of 16 units. The on-order inventory of 40 will help, but I need to place a substantial order now to catch up.\n\nGiven the high backlog cost ($1.0 per unit-week) versus holding cost ($0.5 per unit-week), I should prioritize clearing the backlog. I'll order enough to cover the current backlog plus incoming demand, minus what's already on order that will arrive soon.\n\nOrder quantity: 4"
+      ],
+      "score": null,
+      "seed": "2b5eae5b998e4f1d",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        12,
+        16,
+        24,
+        20,
+        16,
+        32,
+        32,
+        16,
+        32,
+        16,
+        32,
+        16,
+        16,
+        32,
+        32,
+        0,
+        32,
+        0,
+        16,
+        0,
+        16,
+        16,
+        16,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 6944,
+      "completed_weeks": 36,
+      "completion_tokens": 247,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 1070.0,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.609375,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 28595,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 16.91588785046729,
+      "seed": "6ad00ac691773fce",
+      "system_total_cost": 2814.5,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        8,
+        24,
+        24,
+        16,
+        36,
+        34,
+        32,
+        48,
+        50,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 5568,
+      "completed_weeks": 36,
+      "completion_tokens": 245,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 9
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 17
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 19
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 21
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 32
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 34
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 1088.5,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.2578125,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 28587,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 50}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 16.628387689480938,
+      "seed": "722ad6103d9490ad",
+      "system_total_cost": 3374.0,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        20,
+        20,
+        24,
+        20,
+        36,
+        31,
+        36,
+        36,
+        36,
+        36,
+        16,
+        16,
+        36,
+        16,
+        0,
+        16,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": 818.8125,
+      "cached_tokens": 5024,
+      "completed_weeks": 36,
+      "completion_tokens": 247,
+      "demand": {
+        "demand_seed": "1e594a5f4f13c914",
+        "lambda": 6.967595256762656,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 3
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 2,
+            "retailer_b": 9,
+            "week": 9
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 12,
+            "week": 13
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 14
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 17
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 18
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 12,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 3,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 25
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 27
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 28
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 2,
+            "week": 29
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 30
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 5,
+            "week": 31
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 32
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 33
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 1448.5,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.2996462264150943,
+      "optimal_reference_local_cost": 245.0,
+      "prompt_tokens": 28451,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 31}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\":16}"
+      ],
+      "score": 16.91404901622368,
+      "seed": "1e594a5f4f13c914",
+      "system_total_cost": 3484.5,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        12,
+        16,
+        24,
+        30,
+        32,
+        24,
+        32,
+        32,
+        20,
+        16
+      ],
+      "attempted_actions": 12,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1792,
+      "completed_weeks": 11,
+      "completion_tokens": 249,
+      "demand": {
+        "demand_seed": "1ef97b9065013134",
+        "lambda": 4.195066463922865,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 4
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 7
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 8
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 11
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 12
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "prompt_tokens": 8246,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 16}",
+        "Looking at the current state:\n- Week 12, 25 weeks remaining\n- Backlog: 0\n- Inventory on hand: 1\n- Incoming demand/order: 16\n- On order: 83\n- Shipment received: 48\n- Inventory position: 84\n\nRecent history shows consistent demand of 16 units, with shipments arriving 2 weeks after ordering. The inventory position of 84 with on-order of 83 suggests good pipeline coverage.\n\nGiven stable demand of 16 and existing pipeline, I should place a modest order to maintain coverage without excessive holding costs. With 83 already on order and current inventory position at 84, ordering 16 would align with one week's demand and keep the pipeline balanced.\n\n{\"quantity\": 16}"
+      ],
+      "score": null,
+      "seed": "1ef97b9065013134",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        4,
+        12,
+        24,
+        20,
+        22,
+        30
+      ],
+      "attempted_actions": 7,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 576,
+      "completed_weeks": 6,
+      "completion_tokens": 227,
+      "demand": {
+        "demand_seed": "60014380abcd0c62",
+        "lambda": 2.3949633454999293,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 3
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "prompt_tokens": 4085,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 4}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 30}",
+        "Looking at the current state:\n- Backlog: 45 units\n- Inventory on hand: 0\n- Incoming demand/order: 16 units\n- Inventory position: 30 (which means on-order + inventory - backlog = 30, so 75 on order + 0 inventory - 45 backlog = 30)\n- Last order placed: 30\n\nI need to clear the backlog of 45 and meet current demand of 16, so I need at least 61 units. With orders taking 1 week and shipments taking 2 weeks, I should order enough to cover the backlog, current demand, and some future demand.\n\nGiven the consistent demand pattern of 16 units per week and the high backlog, I'll order 64 units to clear the backlog and build some inventory buffer.\n\n{\"quantity\": 64}"
+      ],
+      "score": null,
+      "seed": "60014380abcd0c62",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        16,
+        12,
+        20,
+        24,
+        16,
+        16,
+        16,
+        16,
+        30,
+        16,
+        16,
+        32,
+        32,
+        32,
+        32,
+        16,
+        16,
+        32,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 4224,
+      "completed_weeks": 36,
+      "completion_tokens": 249,
+      "demand": {
+        "demand_seed": "ba0eef18cf04ad40",
+        "lambda": 2.186076986281477,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 3
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 0,
+            "week": 6
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 13
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 17
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 18
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 24
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 25
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 27
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 29
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 30
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 33
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 34
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 1081.0,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.296875,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 28458,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 16.743755781683625,
+      "seed": "ba0eef18cf04ad40",
+      "system_total_cost": 6523.0,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        4,
+        32,
+        30,
+        32,
+        32,
+        70,
+        21,
+        32,
+        32,
+        70,
+        80,
+        70,
+        20,
+        0,
+        0
+      ],
+      "attempted_actions": 17,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "cached_tokens": 3264,
+      "completed_weeks": 16,
+      "completion_tokens": 300,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 14,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 5
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 12,
+            "week": 7
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 9
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 11
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 10,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 14
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 11,
+            "week": 17
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 812.0,
+      "prompt_tokens": 12595,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 4}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 21}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 80}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "Looking at the current state:\n- Week 17, 20 weeks remaining\n- Inventory on hand: 165 units\n- Backlog: 0\n- Incoming demand/order: 26 units\n- Shipment received this week: 81 units\n- On order: 62 units\n- Last order placed: 0 units\n\nRecent history shows demand has been relatively stable around 16-26 units per week, with some variability. My inventory position is 227 units, which provides good coverage.\n\nThe demand pattern suggests roughly 16-26 units per week. With 165 units on hand and 26 units of incoming demand, I'll have 139 units remaining after this week's demand. The shipment of 81 units arriving this week also replenishes inventory.\n\nGiven the stable demand and good inventory levels, I should place a modest"
+      ],
+      "score": null,
+      "seed": "98155973e5223d05",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        4,
+        24,
+        24,
+        60,
+        33,
+        32,
+        0,
+        0,
+        43,
+        64,
+        96,
+        128,
+        50,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        128,
+        64,
+        0,
+        0,
+        0,
+        0,
+        0,
+        64,
+        0,
+        0,
+        32,
+        0,
+        32,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 18.732534324508837,
+      "cached_tokens": 6912,
+      "completed_weeks": 36,
+      "completion_tokens": 241,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 15,
+            "week": 1
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 3
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 13,
+            "week": 4
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 19,
+            "retailer_b": 15,
+            "week": 10
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 13
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 14
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 34,
+            "week": 16
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 21,
+            "retailer_b": 6,
+            "week": 20
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 33,
+            "week": 21
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 15,
+            "week": 24
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 23,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 9,
+            "week": 26
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 27
+          },
+          {
+            "retailer_a": 20,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 29
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 9,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 32
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 34
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 11,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 7004.0,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.9970119521912352,
+      "optimal_reference_local_cost": 908.0,
+      "prompt_tokens": 29080,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 4}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 60}",
+        "{\"quantity\": 33}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 43}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 96}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 50}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 12.964020559680183,
+      "seed": "a01e69edae32256e",
+      "system_total_cost": 13771.0,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        0,
+        32,
+        32,
+        32,
+        48,
+        48,
+        32,
+        64,
+        48,
+        95,
+        64,
+        64,
+        64,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        18,
+        36,
+        32,
+        0,
+        48,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        24,
+        24,
+        24
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 11.271865731027997,
+      "cached_tokens": 6912,
+      "completed_weeks": 36,
+      "completion_tokens": 242,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 1
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 2
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 9,
+            "week": 3
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 4
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 13,
+            "week": 8
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 17,
+            "week": 9
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 19,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 13
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 16,
+            "week": 15
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 17
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 3,
+            "week": 18
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 12,
+            "week": 19
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 32,
+            "week": 20
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 12,
+            "week": 24
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 17,
+            "week": 26
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 28
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 11,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 19,
+            "week": 31
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 6,
+            "week": 32
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 33
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 10,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 10,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 3571.5,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.5478047895500726,
+      "optimal_reference_local_cost": 935.5,
+      "prompt_tokens": 28881,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 95}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 18}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}"
+      ],
+      "score": 26.19347613047739,
+      "seed": "ba32f821074ddb20",
+      "system_total_cost": 8645.5,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        34,
+        0,
+        34,
+        32,
+        34,
+        40,
+        44,
+        62,
+        62,
+        63,
+        0,
+        32,
+        64,
+        64,
+        0,
+        0,
+        0,
+        0,
+        32,
+        0,
+        16,
+        16,
+        16,
+        32,
+        48,
+        0,
+        32,
+        29,
+        32,
+        32,
+        16,
+        16,
+        16,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": 9.565762896208824,
+      "cached_tokens": 6720,
+      "completed_weeks": 36,
+      "completion_tokens": 241,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 9,
+            "week": 5
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 14,
+            "week": 6
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 7
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 14,
+            "week": 9
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 4,
+            "week": 11
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 13
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 14
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 7,
+            "week": 15
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 12,
+            "week": 16
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 14,
+            "week": 18
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 19
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 14,
+            "week": 24
+          },
+          {
+            "retailer_a": 22,
+            "retailer_b": 16,
+            "week": 25
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 21,
+            "week": 26
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 10,
+            "week": 27
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 18,
+            "week": 28
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 29
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 32
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 33
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 11,
+            "week": 34
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 10,
+            "week": 35
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 2827.5,
+      "model": "poolside_laguna-s-2.1_free",
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.7147900763358779,
+      "optimal_reference_local_cost": 1040.0,
+      "prompt_tokens": 28785,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 44}",
+        "{\"quantity\": 62}",
+        "{\"quantity\": 62}",
+        "{\"quantity\": 63}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 29}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 36.7816091954023,
+      "seed": "d9e921eb4abf1311",
+      "system_total_cost": 6526.0,
+      "usage_cost_usd": 0.0
+    }
+  ],
+  "summary": {
+    "bullwhip_ratio": {
+      "mean": 214.59566573793643,
+      "stderr": 201.41544498897488
+    },
+    "cache_hit_fraction": 0.21973949534034554,
+    "cached_tokens": 56448,
+    "format_failure_rate": 0.026865671641791045,
+    "local_total_cost": {
+      "mean": 2584.4285714285716,
+      "stderr": 825.8896028249912
+    },
+    "n": 16,
+    "normalized_order_volatility": {
+      "mean": 0.5319022206417543,
+      "stderr": 0.10239230923966118
+    },
+    "prompt_tokens": 256886,
+    "protocol_failure_rate": 0.5625,
+    "score": {
+      "mean": 20.448740889059344,
+      "stderr": 3.120907678403446
+    },
+    "system_total_cost": {
+      "mean": 6448.357142857143,
+      "stderr": 1463.0461850043498
+    },
+    "usage_cost_usd": 0.0
+  }
+}
