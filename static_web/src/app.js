@@ -5,8 +5,8 @@ import {
 
 const TIER = 5;
 const VARIANT = "headline";
-/** Public play capacity: research Tier 5 stays at 22; the order slider goes to 128. */
-const PUBLIC_FACTORY_CAPACITY = 200;
+/** Public play capacity: research Tier 5 stays at 22 in scenario.js; live play uses 400. */
+const PUBLIC_FACTORY_CAPACITY = 400;
 const ROLES = ["retailer_a", "retailer_b", "wholesaler", "distributor", "factory"];
 const ROLE_LABEL = {
   retailer_a: "Retailer A", retailer_b: "Retailer B", wholesaler: "Wholesaler",

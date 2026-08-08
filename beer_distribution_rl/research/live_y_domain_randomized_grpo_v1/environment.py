@@ -42,6 +42,8 @@ def research_spec(seed_hex: str, *, bucket: str, index: int = 0) -> ScenarioSpec
                 if process == DEMAND_PROCESS_ID
                 else {"process_id": process}
             ),
+            # Public/playable capacity: allow upstream fulfillment of large orders.
+            "capacity": 400,
         }
     )
     return ScenarioSpec(**{**values, "roles": tuple(values["roles"])})
