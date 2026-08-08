@@ -1,0 +1,143 @@
+{
+  "models": {
+    "final_per_turn_grpo": {
+      "buckets": {
+        "burst_and_collapse": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 11.026284043688312,
+          "mean_local_cost": 599.375,
+          "mean_normalized_order_volatility": 0.40293497151861646,
+          "mean_system_cost": 4343.375,
+          "n": 4,
+          "naive_mean_local_cost": 6461.25,
+          "optimal_mean_local_cost": 267.625,
+          "protocol_failure_rate": 0.0,
+          "score": 44.65067778936392,
+          "stderr_bullwhip_ratio": 5.631809753588542,
+          "stderr_local_cost": 71.45376564604555,
+          "stderr_normalized_order_volatility": 0.030508983947572337,
+          "stderr_system_cost": 380.5353342660836
+        },
+        "canonical_held_out_step": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": null,
+          "mean_local_cost": 784.25,
+          "mean_normalized_order_volatility": 0.3447265625,
+          "mean_system_cost": 2790.875,
+          "n": 4,
+          "naive_mean_local_cost": 6152.0,
+          "optimal_mean_local_cost": 196.0,
+          "protocol_failure_rate": 0.0,
+          "score": 24.99203060248645,
+          "stderr_bullwhip_ratio": null,
+          "stderr_local_cost": 90.76193677234232,
+          "stderr_normalized_order_volatility": 0.0634765625,
+          "stderr_system_cost": 100.23854360973128
+        },
+        "in_distribution": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 756.25,
+          "mean_local_cost": 652.5,
+          "mean_normalized_order_volatility": 0.4206957547169811,
+          "mean_system_cost": 5076.25,
+          "n": 4,
+          "naive_mean_local_cost": 6275.0,
+          "optimal_mean_local_cost": 228.25,
+          "protocol_failure_rate": 0.0,
+          "score": 34.980842911877396,
+          "stderr_bullwhip_ratio": 0.0,
+          "stderr_local_cost": 26.193987859812413,
+          "stderr_normalized_order_volatility": 0.0862231767255069,
+          "stderr_system_cost": 745.6076241339454
+        },
+        "shifted_mean_doubled_variance": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 0.7868167156123904,
+          "mean_local_cost": 2446.75,
+          "mean_normalized_order_volatility": 0.1623818114158758,
+          "mean_system_cost": 6510.0,
+          "n": 4,
+          "naive_mean_local_cost": 10932.25,
+          "optimal_mean_local_cost": 2442.5,
+          "protocol_failure_rate": 0.0,
+          "score": 99.82630019413507,
+          "stderr_bullwhip_ratio": 0.2595813539172677,
+          "stderr_local_cost": 598.7778003288588,
+          "stderr_normalized_order_volatility": 0.03852574688156383,
+          "stderr_system_cost": 1774.6128098827642
+        }
+      }
+    },
+    "untrained_base": {
+      "buckets": {
+        "burst_and_collapse": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 65.75561749157941,
+          "mean_local_cost": 894.25,
+          "mean_normalized_order_volatility": 0.8751420930154691,
+          "mean_system_cost": 9757.25,
+          "n": 4,
+          "naive_mean_local_cost": 6461.25,
+          "optimal_mean_local_cost": 267.625,
+          "protocol_failure_rate": 0.0,
+          "score": 29.92731339110987,
+          "stderr_bullwhip_ratio": 14.723469231367622,
+          "stderr_local_cost": 76.33328784569241,
+          "stderr_normalized_order_volatility": 0.2673434980156968,
+          "stderr_system_cost": 844.2257424212239
+        },
+        "canonical_held_out_step": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": null,
+          "mean_local_cost": 1146.0,
+          "mean_normalized_order_volatility": 1.0009765625,
+          "mean_system_cost": 11840.125,
+          "n": 4,
+          "naive_mean_local_cost": 6152.0,
+          "optimal_mean_local_cost": 196.0,
+          "protocol_failure_rate": 0.0,
+          "score": 17.102966841186735,
+          "stderr_bullwhip_ratio": null,
+          "stderr_local_cost": 160.73943718536117,
+          "stderr_normalized_order_volatility": 0.14426156391796116,
+          "stderr_system_cost": 4913.947807750064
+        },
+        "in_distribution": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 8227.21875,
+          "mean_local_cost": 916.875,
+          "mean_normalized_order_volatility": 0.9260097287735849,
+          "mean_system_cost": 7782.625,
+          "n": 4,
+          "naive_mean_local_cost": 6275.0,
+          "optimal_mean_local_cost": 228.25,
+          "protocol_failure_rate": 0.0,
+          "score": 24.89434219495569,
+          "stderr_bullwhip_ratio": 0.0,
+          "stderr_local_cost": 97.5793213664316,
+          "stderr_normalized_order_volatility": 0.19254362110147144,
+          "stderr_system_cost": 787.1059695439152
+        },
+        "shifted_mean_doubled_variance": {
+          "format_failure_rate": 0.0,
+          "mean_bullwhip_ratio": 38.57599575800107,
+          "mean_local_cost": 3196.75,
+          "mean_normalized_order_volatility": 1.899417838660014,
+          "mean_system_cost": 52535.125,
+          "n": 4,
+          "naive_mean_local_cost": 10932.25,
+          "optimal_mean_local_cost": 2442.5,
+          "protocol_failure_rate": 0.0,
+          "score": 76.40572456401033,
+          "stderr_bullwhip_ratio": 5.495912669117534,
+          "stderr_local_cost": 820.9445144669238,
+          "stderr_normalized_order_volatility": 0.28529321798607465,
+          "stderr_system_cost": 10049.254204033832
+        }
+      }
+    }
+  },
+  "optimal_reference": "adaptive_base_stock",
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "score_formula": "100 * optimal_reference_mean_local_cost / policy_mean_local_cost"
+}

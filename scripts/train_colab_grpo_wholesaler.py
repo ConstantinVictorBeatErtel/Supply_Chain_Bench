@@ -39,7 +39,6 @@ except ModuleNotFoundError:  # Allows --dry-run with only the environment instal
 from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_game.prompts import observation_user_message
 from beer_distribution_game.scenario import scenario_from_dict
-from beer_distribution_game.taskset import BeerTaskset, BeerTasksetConfig
 QUANTITY_RE = re.compile(r'"quantity"\s*:\s*(-?\d+)')
 
 
@@ -53,6 +52,8 @@ class ActionRecord:
     valid: bool
     advantage: float = 0.0
     old_logprob: float = 0.0
+    return_to_go: float | None = None
+    group_baseline: float | None = None
 
 
 @dataclass
@@ -111,6 +112,10 @@ def set_seed(seed: int) -> None:
 
 
 def load_tasks(split: str, seeds: list[int], tier5_controls: bool = False) -> list[Any]:
+    # Taskset is the only import in this script that requires Verifiers.  Keep
+    # it lazy so split/protocol dry-runs and integrity tests remain CPU-only.
+    from beer_distribution_game.taskset import BeerTaskset, BeerTasksetConfig
+
     if not seeds or min(seeds) < 0:
         raise ValueError("seeds must be non-empty non-negative integers")
     max_seed = max(seeds)
@@ -132,6 +137,17 @@ def load_tasks(split: str, seeds: list[int], tier5_controls: bool = False) -> li
     if len(selected) != expected:
         raise RuntimeError(f"expected {expected} task rows, found {len(selected)}")
     return selected
+
+
+def development_tasks_for_training(args: argparse.Namespace) -> list[Any]:
+    """Tasks used for pre/post training diagnostics.
+
+    Experiment wrappers with dedicated seed registries override this hook.  The
+    default retains the original Colab pilot behavior for its normative
+    development-only smoke configuration.
+    """
+
+    return load_tasks("development", args.train_seeds)
 
 
 def prompt_text(task: Any, observation: dict[str, Any], tokenizer: Any) -> str:
@@ -525,18 +541,24 @@ def main() -> None:
     args = parse_args()
     if args.tier5_controls and not args.eval_only:
         raise ValueError("Tier-5 controls are evaluation-only and cannot enter training.")
-    if args.eval_only and not args.adapter:
+    if args.eval_only and not args.adapter and not getattr(args, "allow_base_eval", False):
         raise ValueError("--eval-only requires --adapter.")
     set_seed(args.seed)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    train_tasks = load_tasks("development", args.train_seeds)
-    eval_tasks = (
-        load_tasks(args.eval_split, args.eval_seeds, tier5_controls=args.tier5_controls)
-        if args.eval_only
-        else []
-    )
+    if args.eval_only:
+        train_tasks: list[Any] = []
+        development_tasks: list[Any] = []
+        eval_tasks = load_tasks(
+            args.eval_split,
+            args.eval_seeds,
+            tier5_controls=args.tier5_controls,
+        )
+    else:
+        train_tasks = load_tasks("development", args.train_seeds)
+        development_tasks = development_tasks_for_training(args)
+        eval_tasks = []
     save_json(
         output_dir / "run_config.json",
         {
@@ -555,7 +577,9 @@ def main() -> None:
             json.dumps(
                 {
                     "train_tasks": [task.data.name for task in train_tasks],
+                    "development_tasks": [task.data.name for task in development_tasks],
                     "eval_tasks_constructed": bool(eval_tasks),
+                    "eval_tasks": [task.data.name for task in eval_tasks],
                     "output_dir": str(output_dir),
                 },
                 indent=2,
@@ -566,15 +590,16 @@ def main() -> None:
     print("Loading policy model and LoRA adapter...", flush=True)
     model, tokenizer = load_policy(args)
     print("Policy loaded.", flush=True)
-    print("Running pre-training development evaluation...", flush=True)
-    pre = evaluate(model, tokenizer, train_tasks, args)
-    save_json(output_dir / "eval_pre_development.json", pre)
     if args.eval_only:
-        print("Running held-out evaluation...", flush=True)
+        print(f"Running {args.eval_split} evaluation...", flush=True)
         result = evaluate(model, tokenizer, eval_tasks, args)
         save_json(output_dir / f"eval_{args.eval_split}.json", result)
         print(json.dumps(result["summary"], indent=2))
         return
+
+    print("Running pre-training development evaluation...", flush=True)
+    pre = evaluate(model, tokenizer, development_tasks, args)
+    save_json(output_dir / "eval_pre_development.json", pre)
 
     optimizer = torch.optim.AdamW(
         [parameter for parameter in model.parameters() if parameter.requires_grad],
@@ -610,7 +635,7 @@ def main() -> None:
     model.save_pretrained(adapter_dir)
     tokenizer.save_pretrained(adapter_dir)
     print("Running post-training development evaluation...", flush=True)
-    post = evaluate(model, tokenizer, train_tasks, args)
+    post = evaluate(model, tokenizer, development_tasks, args)
     save_json(output_dir / "eval_post_development.json", post)
     print(json.dumps({"pre": pre["summary"], "post": post["summary"]}, indent=2))
 

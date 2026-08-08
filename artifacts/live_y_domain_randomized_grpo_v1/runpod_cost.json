@@ -1,0 +1,19 @@
+{
+  "billing_source": "runpodctl billing pods",
+  "date": "2026-08-08",
+  "new_runpod_spend_usd": 0.5996907949447632,
+  "breakdown": {
+    "a40_pod_i5en88trid9ocv": {
+      "gpu": "NVIDIA A40",
+      "amount_usd": 0.5381918223574758,
+      "time_billed_ms": 4360774
+    },
+    "recovery_pod_s7bbri3e3zilb5": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "amount_usd": 0.061498972587287426,
+      "time_billed_ms": 297495
+    }
+  },
+  "spend_cap_usd": 6.0,
+  "pods_running_after_transfer": false
+}

@@ -1,0 +1,17 @@
+{
+  "action_serializer": "strict JSON quantity converted to place_order",
+  "eval_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "eval_split": "research_development",
+  "group_size": 4,
+  "model_name": "Qwen/Qwen3.5-4B",
+  "reward": "native BeerEpisode grade.episode_reward",
+  "train_seeds": [
+    0
+  ],
+  "updates": 1
+}

@@ -159,6 +159,9 @@ class BeerEpisode:
             "final_state": self.core.snapshot(),
             "grade": grade,
         }
+        research_manifest = self.core.research_exogenous_manifest()
+        if research_manifest is not None:
+            self.outcome["research_exogenous"] = research_manifest
 
     def protocol_failure_outcome(
         self, *, error_count: int, category: str
@@ -183,6 +186,9 @@ class BeerEpisode:
                 "completed_operational_weeks": len(self.operational_transitions),
             },
         }
+        research_manifest = self.core.research_exogenous_manifest()
+        if research_manifest is not None:
+            self.outcome["research_exogenous"] = research_manifest
         return self.outcome
 
 

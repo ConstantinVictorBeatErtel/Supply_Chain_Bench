@@ -83,6 +83,38 @@ An invalid model answer is recorded as order zero and a format failure.
 
 ![Wholesaler benchmark](docs/assets/wholesaler-lora-benchmark.svg)
 
+## Teacher-free Qwen LoRA — live Tier-5 Y research run
+
+The repository also contains a separate development research run for
+`Qwen/Qwen3.5-4B`, using 16 train-only seeds and 16 fixed research evaluation
+seeds. It used bf16 rank-16 LoRA, per-turn return-to-go group-relative
+advantages, and no teacher demonstrations or base-stock actions. Mean local
+wholesaler cost was **1,538.47 ± 312.27** for the untuned base and
+**1,120.72 ± 240.84** after LoRA; all evaluated episodes were protocol-clean.
+
+For this research arm, adaptive base-stock is the operational optimal-cost
+reference. Its score is the percentage of that reference cost achieved by the
+policy:
+
+`optimal_cost_percentage = 100 × optimal_reference_mean_cost / policy_mean_cost`
+
+Thus **100%** means matching the reference cost; lower percentages mean higher
+cost. On the fixed 16-seed evaluation, the base scored **50.93%** of optimal
+cost and the final LoRA scored **69.92%**. This is separate from the
+naive-anchored score used by the frozen benchmark above; the adaptive reference
+is operational and is not a formal proof of global optimality.
+
+The complete experiment bundle, including both LoRA adapter weight files,
+tokenizers, rollouts, logs, evaluations, configs, billing, and checksums, is in
+[`artifacts/live_y_domain_randomized_grpo_v1/`](artifacts/live_y_domain_randomized_grpo_v1/).
+The 9.3 GB base checkpoint is kept locally in
+`local_checkpoints/qwen35-4b-base/` and is intentionally not committed to
+GitHub. Recreate it with:
+
+```bash
+hf download Qwen/Qwen3.5-4B --local-dir local_checkpoints/qwen35-4b-base
+```
+
 ### How the score works
 
 The 0–100 score is deliberately anchored to a simple, non-model policy that

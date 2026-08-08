@@ -1,0 +1,16 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "training": [
+    "5393eec2adb5190a", "10b3ae030abbf426", "75f4a1654d8007ac", "6510210516825085",
+    "d8af5719a17dfc91", "c003ca7dac02effd", "0e9daf0509b13a07", "09f6a32ac308e2b9",
+    "8e9261c0d87a02d3", "5134475c26e174e0", "457efc80000e26ab", "582baa93783354b9",
+    "deae4d0cf1a80e4f", "8550f0139a666413", "723f64a0a92e34ed", "e60c1a64a3286f38"
+  ],
+  "evaluation": {
+    "in_distribution": ["1e594a5f4f13c914", "1ef97b9065013134", "60014380abcd0c62", "ba0eef18cf04ad40"],
+    "canonical_held_out_step": ["722ad6103d9490ad", "2b5eae5b998e4f1d", "6ad00ac691773fce", "0fa94b60e8eb54e2"],
+    "shifted_mean_doubled_variance": ["d9e921eb4abf1311", "98155973e5223d05", "a01e69edae32256e", "ba32f821074ddb20"],
+    "burst_and_collapse": ["b7c3c42c06605a25", "3385fc1772a83c0f", "6004dde3fcee7f67", "f0cd8b5418cd1e55"]
+  },
+  "derivation": "SHA-256(live-y-domain-randomized-grpo-v1|training/evaluation|bucket|index:05d)[:16]"
+}

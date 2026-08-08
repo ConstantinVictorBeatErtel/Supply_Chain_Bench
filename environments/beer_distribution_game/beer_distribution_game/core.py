@@ -81,6 +81,27 @@ class PreparedWeek:
 class DemandGenerator:
     def __init__(self, spec: ScenarioSpec):
         self.spec = spec
+        self.research_demand = None
+        if spec.demand_process in {
+            "episode_randomized_y_poisson_v1",
+            "canonical_y_step_4_to_8_v1",
+            "overdispersed_y_nb_mean10_var20_v1",
+            "burst_collapse_y_poisson_v1",
+        }:
+            from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.demand import (
+                EpisodeRandomizedPoissonDemand,
+                EvaluationDemand,
+            )
+
+            if spec.demand_process == "episode_randomized_y_poisson_v1":
+                self.research_demand = EpisodeRandomizedPoissonDemand(
+                    spec.master_seed_hex,
+                    float(spec.demand_parameters.get("lambda_low", 2.0)),
+                    float(spec.demand_parameters.get("lambda_high", 8.0)),
+                    str(spec.demand_parameters.get("demand_seed") or spec.master_seed_hex),
+                )
+            else:
+                self.research_demand = EvaluationDemand(spec.demand_process, spec.master_seed_hex)
         self.rng = random.Random(derive_seed(spec.master_seed_hex, "demand"))
         params = spec.demand_parameters
         self.x = float(params.get("x0") or params.get("mu") or params.get("mu_before") or 0)
@@ -89,6 +110,8 @@ class DemandGenerator:
     def sample(self, week: int, customers: tuple[Role, ...]) -> dict[Role, int]:
         process = self.spec.demand_process
         p = self.spec.demand_parameters
+        if self.research_demand is not None:
+            return self.research_demand.sample(week, customers)
         if process == "constant_v1":
             return {customers[0]: int(p["value"])}
         if process in ("ar1_v1", "shifted_ar1_v1"):
@@ -117,6 +140,9 @@ class DemandGenerator:
                 for role in customers
             }
         raise ValueError(f"unsupported demand process {process!r}")
+
+    def research_manifest(self) -> dict[str, object] | None:
+        return None if self.research_demand is None else self.research_demand.manifest()
 
 
 def _allocate(
@@ -401,3 +427,8 @@ class BeerGameCore:
 
     def canonical_snapshot(self) -> str:
         return canonical_json(self.snapshot())
+
+    def research_exogenous_manifest(self) -> dict[str, object] | None:
+        """Expose only the additive research trace; frozen scenarios are unchanged."""
+
+        return self.demand.research_manifest()

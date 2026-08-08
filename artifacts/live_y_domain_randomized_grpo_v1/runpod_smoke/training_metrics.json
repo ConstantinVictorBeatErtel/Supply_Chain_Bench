@@ -1,0 +1,27 @@
+[
+  {
+    "bullwhip_ratio_mean": null,
+    "bullwhip_ratio_sd": null,
+    "completed_weeks_mean": 0,
+    "cost_score_mean": null,
+    "cost_score_sd": null,
+    "immediate_fill_rate_mean": 0.5506161971830986,
+    "immediate_fill_rate_sd": 0.04906534107092166,
+    "local_total_cost_mean": 1108.0,
+    "local_total_cost_sd": 158.99213817041394,
+    "loss": 0.30154360665215385,
+    "mean_advantage": 0.0,
+    "n": 4,
+    "order_cap_hit_rate_mean": 0.03787878787878788,
+    "order_cap_hit_rate_sd": 0.033021961693489955,
+    "protocol_clean_rate": 1.0,
+    "reward_mean": 0.0,
+    "reward_sd": 0.0,
+    "system_total_cost_mean": 17540.875,
+    "system_total_cost_sd": 8963.119862630143,
+    "total_actions": 144,
+    "trainable_actions": 144.0,
+    "update": 1,
+    "valid_actions": 144
+  }
+]

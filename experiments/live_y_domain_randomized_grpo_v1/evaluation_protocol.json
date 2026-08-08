@@ -1,0 +1,19 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "research_extension": true,
+  "frozen_environment": "v0.2.0 topology/capacity/rationing/cost/delay/settlement contracts",
+  "training_demand": "episode_randomized_y_poisson_v1",
+  "training_lambda": "one Uniform(2,8) latent per episode, fixed across 36 weeks",
+  "common_random_numbers": "same scenario, lambda, demand seed/draws, parameter draws, and counterparty streams within each group",
+  "buckets": {
+    "in_distribution": "new SHA-derived episode-randomized Poisson seeds",
+    "canonical_held_out_step": "both retailers use classic 4 through week 4 and 8 from week 5; never trained or tuned",
+    "shifted_mean_doubled_variance": "seeded NB(r=10,p=.5), mean 10 and variance 20 per retailer",
+    "burst_and_collapse": "Poisson rate 4, then frozen seed-derived rate-12 burst, immediately followed by rate-1 collapse"
+  },
+  "models": ["untrained_base", "recovered_historical_rl", "format_scaffold_diagnostic", "final_per_turn_grpo", "naive_base_stock", "adaptive_base_stock"],
+  "selection": "two-update endpoint fixed in advance; no evaluation bucket selects a checkpoint",
+  "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
+  "score_formula": "100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)",
+  "training_reward": "negative local wholesaler return-to-go only; system/team cost is reporting-only"
+}

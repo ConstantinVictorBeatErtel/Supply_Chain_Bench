@@ -1,0 +1,21 @@
+{
+  "kind": "smoke",
+  "status": "blocked_before_model_load",
+  "command": "scripts/train_live_y_domain_randomized_grpo_v1.py --smoke",
+  "expected": {
+    "training_seeds": [0],
+    "group_size": 4,
+    "operational_weeks": 36,
+    "settlement": true
+  },
+  "observed": {
+    "error": "RuntimeError: research GRPO requires CUDA; no GPU is available on this host",
+    "cuda_available": false,
+    "oom": false,
+    "nan": false,
+    "adapter_saved": false,
+    "protocol_clean": "not reached",
+    "per_turn_advantages": "not reached"
+  },
+  "runpod_cost_usd": 0
+}

@@ -1,0 +1,19 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "method": "critic-free multi-turn group-relative PPO/GRPO-style update with per-turn return-to-go advantages",
+  "sft": "skipped; base development protocol rate was 100%",
+  "demand_process": "episode_randomized_y_poisson_v1",
+  "model": "Qwen/Qwen3.5-4B",
+  "precision": "bf16",
+  "quantization": "none",
+  "lora": {"rank": 16, "alpha": 16, "targets": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]},
+  "updates": 2,
+  "group_size": 4,
+  "scheduled_training_seeds": {"update_1": [0, 1, 2, 3, 4, 5, 6, 7], "update_2": [8, 9, 10, 11, 12, 13, 14, 15]},
+  "total_trajectories": 64,
+  "total_decision_turns": 2304,
+  "learning_rate": 0.000005,
+  "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
+  "training_reward": "negative local wholesaler return-to-go only; no system/team cost",
+  "normalization": "same-timestep group mean; no standard-deviation normalization"
+}

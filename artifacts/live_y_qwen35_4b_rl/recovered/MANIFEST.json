@@ -1,0 +1,12 @@
+{
+  "status": "blocked_before_transfer",
+  "pod_id": "s7bbri3e3zilb5",
+  "network_volume_id": "sqplkjdfcd",
+  "attempts": 2,
+  "reason": "Runpod rejected both starts because account balance was too low",
+  "gpu_time_hours": 0,
+  "cost_usd": 0,
+  "retrieved_paths": [],
+  "forbidden_paths_not_copied": ["base-model weights", "Hugging Face caches", "secrets"],
+  "verification": "not applicable; pod never entered running state"
+}
