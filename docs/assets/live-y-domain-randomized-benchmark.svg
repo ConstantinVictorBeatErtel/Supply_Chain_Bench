@@ -1,61 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
-  <title id="title">Live-Y domain-randomized wholesaler benchmark</title>
-  <desc id="desc">On the fixed 16-seed live-Y research evaluation with research prompts, GPT-5.6 Luna scores 45.70, Qwen3.5-4B GRPO LoRA 42.24, untuned Qwen 37.26, DeepSeek V4 Flash 33.06, and Laguna S 2.1 16.68 as a percentage of hindsight-perfect local cost.</desc>
-  <rect width="1200" height="780" fill="#f7f5ef"/>
-  <rect x="48" y="44" width="1104" height="692" fill="none" stroke="#111417" stroke-width="2"/>
-  <rect x="48" y="44" width="9" height="692" fill="#f05c3d"/>
-  <g font-family="Arial, Helvetica, sans-serif" fill="#111417">
-    <text x="92" y="94" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" letter-spacing="2.1">BDG / LIVE-Y RESEARCH / 2026.08</text>
-    <text x="92" y="152" font-family="Georgia, serif" font-size="46">Who closes the hindsight gap?</text>
-    <text x="92" y="188" fill="#596260" font-size="17">Tier-5 Y wholesaler · 36 weeks · 16 fixed research seeds · research prompt</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Live-Y wholesaler leaderboard</title>
+  <desc id="desc">GPT-5.6 Luna 45.70, Qwen GRPO LoRA 42.24, untuned Qwen 37.26, DeepSeek V4 Flash 33.06, Laguna S 2.1 16.68 as percent of hindsight-perfect local cost on 16 fixed live-Y seeds.</desc>
+
+  <rect width="1200" height="700" fill="#F7F3EE"/>
+  <rect x="64" y="48" width="1072" height="604" fill="#FBF9F6" stroke="#D9D3CA" stroke-width="1"/>
+
+  <text x="104" y="100" fill="#6B7280" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.4">LIVE-Y RESEARCH  |  TIER-5 Y  |  16 SEEDS</text>
+  <text x="104" y="152" fill="#1C1917" font-family="Georgia, 'Times New Roman', serif" font-size="42">Closing the hindsight gap</text>
+  <text x="104" y="186" fill="#78716C" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-style="italic">Wholesaler local cost as a share of hindsight-perfect play</text>
+
+  <line x1="104" y1="214" x2="1096" y2="214" stroke="#E7E1D8" stroke-width="1"/>
+
+  <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="11" fill="#A8A29E" letter-spacing="1.2">
+    <text x="104" y="246">MODEL</text>
+    <text x="700" y="246">0</text>
+    <text x="878" y="246">PERFECT</text>
+    <text x="1070" y="246">100</text>
   </g>
-  <line x1="92" y1="220" x2="1108" y2="220" stroke="#111417" stroke-width="2"/>
-  <g font-family="Menlo, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="1.4" fill="#596260">
-    <text x="92" y="252">RANK</text>
-    <text x="185" y="252">POLICY</text>
-    <text x="674" y="252">0</text>
-    <text x="820" y="252">PERFECT</text>
-    <text x="1048" y="252">100</text>
+
+  <!-- track -->
+  <g stroke="#E7E1D8" stroke-width="1">
+    <line x1="700" y1="258" x2="700" y2="560"/>
+    <line x1="885" y1="258" x2="885" y2="560" stroke="#C4D4F5"/>
+    <line x1="1070" y1="258" x2="1070" y2="560"/>
   </g>
-  <g font-family="Arial, Helvetica, sans-serif">
-    <text x="96" y="312" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">01</text>
-    <text x="185" y="302" fill="#111417" font-size="22" font-weight="700">GPT-5.6 Luna</text>
-    <text x="185" y="326" fill="#596260" font-size="14">openai/gpt-5.6-luna · zero-shot · 16/16 clean</text>
-    <rect x="674" y="285" width="370" height="24" fill="#dfdfd7"/>
-    <rect x="674" y="285" width="169" height="24" fill="#2d8f83"/>
-    <text x="1060" y="306" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">45.70</text>
-    <line x1="92" y1="350" x2="1108" y2="350" stroke="#c8c8c1"/>
 
-    <text x="96" y="408" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">02</text>
-    <text x="185" y="398" fill="#111417" font-size="22" font-weight="700">Qwen3.5-4B + GRPO LoRA</text>
-    <text x="185" y="422" fill="#596260" font-size="14">teacher-free adapter · research prompt · 16/16 clean</text>
-    <rect x="674" y="381" width="370" height="24" fill="#dfdfd7"/>
-    <rect x="674" y="381" width="156" height="24" fill="#111417"/>
-    <text x="1060" y="402" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">42.24</text>
-    <line x1="92" y1="446" x2="1108" y2="446" stroke="#c8c8c1"/>
+  <!-- rows: bar max width 370 from x=700 -->
+  <g font-family="Georgia, 'Times New Roman', serif">
+    <text x="104" y="298" fill="#1C1917" font-size="22">GPT-5.6 Luna</text>
+    <text x="104" y="322" fill="#78716C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">zero-shot  |  16/16 clean</text>
+    <rect x="700" y="288" width="370" height="18" fill="#EEEAE3"/>
+    <rect x="700" y="288" width="169" height="18" fill="#3B6FE8"/>
+    <text x="1084" y="303" fill="#1C1917" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18" text-anchor="end">45.70</text>
 
-    <text x="96" y="504" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">03</text>
-    <text x="185" y="494" fill="#111417" font-size="22" font-weight="700">Qwen3.5-4B</text>
-    <text x="185" y="518" fill="#596260" font-size="14">untuned base · research prompt · 16/16 clean</text>
-    <rect x="674" y="477" width="370" height="24" fill="#dfdfd7"/>
-    <rect x="674" y="477" width="138" height="24" fill="#9ba3a0"/>
-    <text x="1060" y="498" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">37.26</text>
-    <line x1="92" y1="542" x2="1108" y2="542" stroke="#c8c8c1"/>
+    <text x="104" y="368" fill="#1C1917" font-size="22">Qwen3.5-4B + GRPO LoRA</text>
+    <text x="104" y="392" fill="#78716C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">teacher-free adapter  |  16/16 clean</text>
+    <rect x="700" y="358" width="370" height="18" fill="#EEEAE3"/>
+    <rect x="700" y="358" width="156" height="18" fill="#3B6FE8" fill-opacity="0.82"/>
+    <text x="1084" y="373" fill="#1C1917" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18" text-anchor="end">42.24</text>
 
-    <text x="96" y="600" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">04</text>
-    <text x="185" y="590" fill="#111417" font-size="22" font-weight="700">DeepSeek V4 Flash</text>
-    <text x="185" y="614" fill="#596260" font-size="14">deepseek-v4-flash-0731 · zero-shot · 12/16 clean</text>
-    <rect x="674" y="573" width="370" height="24" fill="#dfdfd7"/>
-    <rect x="674" y="573" width="122" height="24" fill="#537f98"/>
-    <text x="1060" y="594" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">33.06</text>
-    <line x1="92" y1="638" x2="1108" y2="638" stroke="#c8c8c1"/>
+    <text x="104" y="438" fill="#1C1917" font-size="22">Qwen3.5-4B</text>
+    <text x="104" y="462" fill="#78716C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">untuned base  |  16/16 clean</text>
+    <rect x="700" y="428" width="370" height="18" fill="#EEEAE3"/>
+    <rect x="700" y="428" width="138" height="18" fill="#3B6FE8" fill-opacity="0.64"/>
+    <text x="1084" y="443" fill="#1C1917" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18" text-anchor="end">37.26</text>
 
-    <text x="96" y="696" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="17">05</text>
-    <text x="185" y="686" fill="#111417" font-size="22" font-weight="700">Laguna S 2.1</text>
-    <text x="185" y="710" fill="#596260" font-size="14">poolside free tier · zero-shot · 4/16 clean</text>
-    <rect x="674" y="669" width="370" height="24" fill="#dfdfd7"/>
-    <rect x="674" y="669" width="62" height="24" fill="#873cff"/>
-    <text x="1060" y="690" fill="#111417" font-family="Menlo, Consolas, monospace" font-size="22" font-weight="700">16.68</text>
+    <text x="104" y="508" fill="#1C1917" font-size="22">DeepSeek V4 Flash</text>
+    <text x="104" y="532" fill="#78716C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">zero-shot  |  12/16 clean</text>
+    <rect x="700" y="498" width="370" height="18" fill="#EEEAE3"/>
+    <rect x="700" y="498" width="122" height="18" fill="#3B6FE8" fill-opacity="0.48"/>
+    <text x="1084" y="513" fill="#1C1917" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18" text-anchor="end">33.06</text>
+
+    <text x="104" y="578" fill="#1C1917" font-size="22">Laguna S 2.1</text>
+    <text x="104" y="602" fill="#78716C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">free tier  |  4/16 clean</text>
+    <rect x="700" y="568" width="370" height="18" fill="#EEEAE3"/>
+    <rect x="700" y="568" width="62" height="18" fill="#3B6FE8" fill-opacity="0.32"/>
+    <text x="1084" y="583" fill="#1C1917" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18" text-anchor="end">16.68</text>
   </g>
-  <text x="92" y="748" fill="#596260" font-family="Arial, Helvetica, sans-serif" font-size="14">Score = 100 × hindsight-perfect mean local cost ÷ policy mean local cost. Perfect mean = 720.88; adaptive base-stock = 783.59 (~1.09× perfect).</text>
+
+  <line x1="104" y1="628" x2="1096" y2="628" stroke="#E7E1D8" stroke-width="1"/>
+  <text x="104" y="656" fill="#78716C" font-family="Georgia, 'Times New Roman', serif" font-size="14">Score = 100 x hindsight-perfect mean / policy mean. Perfect = 720.88; adaptive base-stock = 783.59 (~1.09x).</text>
 </svg>

@@ -91,7 +91,7 @@ mean local cost is 783.59 versus a hindsight-perfect mean of **720.88**
 | DeepSeek V4 Flash | 1,831.42 ± 407.82 | 33.06 | 12/16 |
 | Laguna S 2.1 (free) | 1,132.88 ± 179.72 | 16.68 | 4/16 |
 
-![Live-Y research benchmark](docs/assets/live-y-domain-randomized-benchmark.svg)
+![Live-Y research benchmark](docs/assets/live-y-domain-randomized-benchmark.png)
 
 Hindsight perfect costs, rescored leaderboard, and per-seed action sequences
 live in
@@ -157,6 +157,25 @@ and parser. Full protocol artifacts live in
 Earlier serial / frontier experiments remain in the repository as
 supplementary artifacts, but are intentionally not mixed into this live-Y
 dashboard.
+
+### How we kept compute cheap
+
+Training and eval stay lean without changing the information contract:
+
+- **Prefix-only KV reuse** — `PrefixKVCache` caches the shared system /
+  chat-template prefix across weeks in a batch; observations and history stay
+  uncached because they change every turn. The cache is dropped after each
+  optimizer step.
+- **Short generations** — one JSON quantity, thinking disabled, a 32-token
+  decode cap in training, and a bounded rolling history instead of a growing
+  transcript.
+- **Small updates, no critic** — LoRA + bf16 + gradient checkpointing; group
+  baselines and CRN seeds cut variance so we do not train a value head.
+- **API eval reuse** — OpenRouter runs use sticky `session_id` and system
+  `cache_control` so the long invariant prompt is billed once per session.
+
+Details and non-goals (compile, vLLM, full cross-week KV) are in
+[`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md).
 
 ## Run it locally
 
