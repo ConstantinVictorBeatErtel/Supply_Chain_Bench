@@ -99,7 +99,7 @@ buildTarget(PAGES);
 cpSync(PAGES, SPACE, { recursive: true });
 writeFileSync(
   resolve(SPACE, "README.md"),
-  `---\ntitle: Beer Distribution Game\nemoji: 🍺\ncolorFrom: yellow\ncolorTo: red\nsdk: static\napp_file: index.html\npinned: false\n---\n\n# Beer Distribution Game\n\nPublic static human baseline for the Y-network beer game.\n\n- **Seat:** wholesaler only\n- **Horizon:** 36 weeks + settlement\n- **Orders:** integers 0–128\n- **Factory capacity:** 400 (feasible upstream supply)\n- **Environment:** deterministic / replayable JS port of v0.2.0 mechanics\n\nPlay locally after \`npm run build\`, or on Cloudflare Pages. The Prime Intellect / Verifiers Hub package still publishes frozen Tier-5 capacity **22** for historical leaderboard parity — do not mix those scores with this Space.\n`,
+  `---\ntitle: Beer Distribution Game\nemoji: 🍺\ncolorFrom: yellow\ncolorTo: red\nsdk: static\napp_file: index.html\npinned: false\n---\n\n# Beer Distribution Game\n\nPublic static human baseline for the stochastic Y-network beer game.\n\n- **Seat:** wholesaler only\n- **Horizon:** 36 weeks + settlement\n- **Orders:** integers 0–128\n- **Factory capacity:** 400 (feasible upstream supply)\n- **Environment:** seed-replayable JS port of v0.2.0 mechanics\n\nPlay locally after \`npm run build\`, or on Cloudflare Pages. The Verifiers Hub package keeps frozen Tier-5 capacity **22** for historical leaderboard parity — do not mix those scores with this Space.\n`,
 );
 console.log(`Built ${PAGES}`);
 console.log(`Built ${SPACE}`);

@@ -1,24 +1,23 @@
 # Beer Distribution Game
 
-A public Verifiers environment for evaluating tool-using LLMs on delayed
-supply-chain control. One model controls one role through a strict
-`place_order(quantity)` tool while deterministic scripted policies control the
-other roles. The simulator is deterministic and replayable: the same scenario
+A Verifiers environment for evaluating tool-using LLMs on delayed supply-chain
+control. One model controls one role through a strict `place_order(quantity)`
+tool while scripted policies control the other seats. Customer demand may be
+stochastic by tier, but each episode is **seed-replayable**: the same scenario
 seed and action trace always produce the same outcome.
 
-This package is the **Prime Intellect Environments Hub / Verifiers**
-deliverable. The frozen Tier-5 Y headline keeps **factory capacity 22**
-(calibrated scarcity). The repository’s public browser game and live-Y research
-board use **capacity 400** instead — see the root
-[`README.md`](../../README.md) and
+This package is the **Environments Hub / Verifiers** deliverable. The frozen
+Tier-5 Y headline keeps **factory capacity 22** (calibrated scarcity). The
+repository’s public browser game and live-Y research board use **capacity 400**
+instead — see the root [`README.md`](../../README.md) and
 [`artifacts/live_y_capacity_400/`](../../artifacts/live_y_capacity_400/).
 
-The environment provides five tiers: steady demand, persistent stochastic demand,
-a hidden regime shift, partial pipeline observability, and strategic scarcity in a
-two-retailer Y network. Episodes are seeded, exactly replayable, and graded from
-the simulator trace. The primary result is controlled-role cost normalized against
-a same-seed adaptive base-stock reference; service, bullwhip, and system externality
-remain separate metrics.
+Five tiers: steady demand, persistent stochastic demand, a hidden regime shift,
+partial pipeline observability, and strategic scarcity in a two-retailer Y
+network. Episodes are seeded, exactly replayable, and graded from the simulator
+trace. The primary result is controlled-role cost normalized against a same-seed
+adaptive base-stock reference; service, bullwhip, and system externality remain
+separate metrics.
 
 ## Human baseline Gradio app
 
@@ -57,7 +56,7 @@ The checked-in evaluation config disables result upload by default.
 
 The steady retailer task is a protocol/control screen. DeepSeek V4 Flash matched
 the corrected base-stock reference exactly (cost 69, reward 0.5). The complementary
-tiers 5 Y-wholesaler task is harder: across three development seeds the model cost
+Tier 5 Y-wholesaler task is harder: across three development seeds the model cost
 was 1,111.8 ± 213.2 versus 850.7 ± 326.1 for paired base-stock, with reward
 0.423 ± 0.060. All 108 actions were protocol-clean. This is a development finding,
 not a held-out or multi-model benchmark result.

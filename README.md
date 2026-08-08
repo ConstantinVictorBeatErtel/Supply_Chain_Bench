@@ -1,26 +1,31 @@
 # Beer Distribution Game
 
-**[▶ Play](https://beer-distribution-game.pages.dev/)** · [Hugging Face Space](https://constantinertel-beer-distribution-game.static.hf.space/) · [Deploy](DEPLOY.md)
+**[▶ Play](https://beer-distribution-game.pages.dev/)**
 
-A deterministic Y-network beer game: one agent is the **wholesaler**, with delayed
-orders/shipments and fog-of-war observations. The public static app and live-Y
-research board use **factory capacity 400** and lock play to the wholesaler. The
-Prime Intellect / Verifiers Hub package still freezes Tier-5 at **capacity 22**
-for historical parity ([`environments/beer_distribution_game/`](environments/beer_distribution_game/)).
+A stochastic Y-network beer game for ordering agents under delayed shipments and
+fog-of-war. Public play and the live-Y research board use **factory capacity
+400** with the wholesaler seat locked; fixed held-out seeds score policies
+against a hindsight-perfect cost reference.
 
 ```mermaid
 flowchart LR
   F[Factory] --> D[Distributor] --> W[Wholesaler]
   W --> RA[Retailer A] --> CA[Customer A]
   W --> RB[Retailer B] --> CB[Customer B]
+  style W fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
+  style RA fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
+  style RB fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
+
+Controlled seat: **wholesaler**. The Y fork is the two highlighted retailers
+(aggressive scripted rivals under proportional rationing).
 
 ## Benchmark (capacity 400)
 
-Sixteen fixed live-Y seeds, research prompt (demand law and capacity withheld).
+Sixteen fixed live-Y seeds; research prompt withholds demand law and capacity.
 Protocol-failed episodes are dropped from each model mean.
 
-![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark.svg)
+![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark.png)
 
 | Model | Mean cost \(\overline{C}\) | Score | Clean |
 | --- | ---: | ---: | ---: |
@@ -30,56 +35,85 @@ Protocol-failed episodes are dropped from each model mean.
 
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).
 
-### How the score is calculated
+### Scoring
 
-**Weekly local cost** for the controlled role (holding \(0.5\), backlog \(1.0\)):
+Weekly local cost (holding \(0.5\), backlog \(1.0\)):
 
 $$
 c_t = 0.5\, I_t + 1.0\, B_t
 $$
 
-**Episode cost** over \(H=36\) decision weeks, \(3\) settlement weeks (zero new
-orders), and a terminal inventory-position charge:
+Episode cost over \(H=36\) decision weeks, \(3\) settlement weeks, and terminal
+inventory-position charge (\(O\) = on-order pipeline):
 
 $$
 \begin{aligned}
-IP &= I + \text{on\_order} - B \\
+IP &= I + O - B \\
 c^{\mathrm{term}} &= 0.5\max(IP,0) + 1.0\max(-IP,0) \\
 C &= \sum_{t=1}^{H} c_t + \sum_{t=H+1}^{H+3} c_t + c^{\mathrm{term}}
 \end{aligned}
 $$
 
-**Hindsight-perfect cost** \(C^\*\) is the best feasible open-loop wholesaler
-action sequence found on each CRN-fixed seed (order-up-to / tuned-adaptive
-grids, warm starts, coordinate descent). Reported \(C^\*\) is an upper bound on
-the true optimum:
-
-$$
-C^\*_{\mathrm{true}} \le C^\*
-$$
-
-Across the 16 seeds, \(\overline{C^\*} = 287.22\) and adaptive base-stock averages
-\(388.84\) (\(\approx 1.35\times\) perfect).
-
-**Published score** (protocol-clean episodes only):
+Hindsight-perfect \(C^\*\) is a feasible open-loop upper bound on each CRN seed
+(\(\overline{C^\*} = 287.22\); adaptive base-stock averages \(388.84\)). Score on
+protocol-clean episodes:
 
 $$
 \mathrm{score} = 100 \times \frac{\overline{C^\*}}{\overline{C_{\mathrm{policy}}}}
 $$
 
-So \(100\) means matching hindsight-perfect cost; lower means more expensive.
+## Qwen fine-tune (live-Y GRPO v1)
 
-Script: [`scripts/compute_live_y_hindsight_perfect.py`](scripts/compute_live_y_hindsight_perfect.py).
+[`scripts/train_live_y_domain_randomized_grpo_v1.py`](scripts/train_live_y_domain_randomized_grpo_v1.py)
+trains a LoRA adapter on `Qwen/Qwen3.5-4B` with critic-free multi-turn
+group-relative updates (GRPO-style). Demand is
+`episode_randomized_y_poisson_v1`: per episode, \(\lambda \sim U[2,8]\), then
+independent Poisson draws for each retailer; groups share CRN seeds.
 
-## Layout
+Per-turn return-to-go from local wholesaler cost (plus settlement / terminal
+exposure); protocol failure adds \(-10^{5}\) at the failing turn:
 
-| Path | Role |
+$$
+G_{i,t} = -\sum_{u \ge t} c_{i,u} + \text{(settlement / terminal)}
+$$
+
+Same-timestep group baseline (no variance normalization):
+
+$$
+A_{i,t} = G_{i,t} - \frac{1}{|g|}\sum_{j \in g} G_{j,t}
+$$
+
+Clipped importance-ratio objective (from the shared trainer):
+
+$$
+\mathcal{L} = -\mathbb{E}\Big[\min\big(r A,\; \mathrm{clip}(r, 1-\varepsilon, 1+\varepsilon)\, A\big)\Big],
+\quad r = \exp(\ell_{\theta} - \ell_{\mathrm{old}})
+$$
+
+with \(\varepsilon = 0.2\). Research capacity is **400**; Hub Tier-5 stays **22**.
+
+## Hyperefficient compute
+
+Documented in [`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md):
+
+- Prefix KV cache across shared chat-template tokens; invalidate after each LoRA update
+- Batched rollouts; separate inference / train minibatches; LoRA + bf16 + gradient checkpointing
+- Bounded JSON completions (32-token train cap); rolling history window, not full transcript
+- `torch.inference_mode` for generation / old-policy scoring; critic-free group baselines (no value net)
+- CRN / fixed seed derivation to cut rollout variance
+
+## How it is built
+
+| Layer | Role |
 | --- | --- |
-| [`static_web/`](static_web/) | Public JS game (capacity 400, wholesaler-only) |
-| [`environments/beer_distribution_game/`](environments/beer_distribution_game/) | Hub / Prime Intellect package (Tier-5 capacity 22) |
-| [`beer_distribution_rl/`](beer_distribution_rl/) | Research sim, agents, live-Y protocol |
-| [`artifacts/live_y_capacity_400/`](artifacts/live_y_capacity_400/) | Current OpenRouter board + \(C^\*\) |
-| [`docs/`](docs/) | Frozen Hub specs (`ENVIRONMENT_SPEC`, `REWARD_SPEC`, `DIFFICULTY_LADDER`) |
+| Python oracle (`environments/…/core.py`, research env) | Seeded simulator + grader |
+| [`static_web/`](static_web/) | Browser JS port, parity-checked against the oracle |
+| [`beer_distribution_rl/`](beer_distribution_rl/) | Research protocol, agents, GRPO / eval harness |
+| [`environments/beer_distribution_game/`](environments/beer_distribution_game/) | Verifiers Hub package (Tier-5 **capacity 22**) |
+
+## Links
+
+[Hugging Face Space](https://constantinertel-beer-distribution-game.static.hf.space/) · [Deploy](DEPLOY.md)
 
 ## Run locally
 
@@ -88,5 +122,3 @@ python -m pip install -e ".[dev]"
 python -m pytest -q
 npm ci && npm run test:all && npm run build
 ```
-
-MIT. No API keys in the repo.

@@ -12,15 +12,15 @@
   <rect width="1120" height="560" fill="#F7F5F1"/>
   <rect x="48" y="36" width="1024" height="488" rx="8" fill="#FFFFFF" stroke="#E5DFD7" stroke-width="1.5"/>
 
-  <text x="80" y="84" fill="#7A3B45" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.5">LIVE-Y · CAPACITY 400 · 16 SEEDS · WHOLESALER</text>
+  <text x="80" y="84" fill="#7A3B45" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.5">LIVE-Y  Â·  CAPACITY 400  Â·  16 SEEDS  Â·  WHOLESALER</text>
   <text x="80" y="128" fill="#3A2F2C" font-family="Georgia, 'Times New Roman', serif" font-size="36">Scoreboard</text>
   <text x="80" y="158" fill="#7A6E68" font-family="Georgia, 'Times New Roman', serif" font-size="16">
-    score = 100 × C* / C_policy   ·   C* = 287.22   ·   adaptive = 388.84 (1.35×)
+    score = 100 Ã— C* / C_policy    Â·    C* = 287.22    Â·    adaptive = 388.84 (1.35Ã—)
   </text>
 
   <line x1="80" y1="180" x2="1040" y2="180" stroke="#E5DFD7" stroke-width="1"/>
 
-  <!-- Axis labels: visual scale 0–20 (perfect is 100) so small scores remain readable -->
+  <!-- Axis labels: visual scale 0Â–20 (perfect is 100) so small scores remain readable -->
   <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="11" fill="#A39891" letter-spacing="1">
     <text x="80" y="210">MODEL</text>
     <text x="520" y="210">0</text>
@@ -37,19 +37,19 @@
   <!-- Bars: width = score/20 * 380 -->
   <g font-family="Georgia, 'Times New Roman', serif">
     <text x="80" y="268" fill="#3A2F2C" font-size="22">Laguna S 2.1</text>
-    <text x="80" y="290" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">free · 7/16 clean · C? = 2584</text>
+    <text x="80" y="290" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">free  Â·  7/16 clean  Â·  C* = 2584</text>
     <rect x="520" y="252" width="380" height="22" rx="4" fill="#EFEAE3"/>
     <rect x="520" y="252" width="266" height="22" rx="4" fill="url(#bar)"/>
     <text x="1040" y="270" fill="#3A2F2C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="22" text-anchor="end">14.02</text>
 
     <text x="80" y="348" fill="#3A2F2C" font-size="22">DeepSeek V4 Flash</text>
-    <text x="80" y="370" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">zero-shot · 16/16 clean · C? = 4031</text>
+    <text x="80" y="370" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">zero-shot  Â·  16/16 clean  Â·  C* = 4031</text>
     <rect x="520" y="332" width="380" height="22" rx="4" fill="#EFEAE3"/>
     <rect x="520" y="332" width="135" height="22" rx="4" fill="url(#bar)" fill-opacity="0.88"/>
     <text x="1040" y="350" fill="#3A2F2C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="22" text-anchor="end">7.12</text>
 
     <text x="80" y="428" fill="#3A2F2C" font-size="22">Nemotron 3 Ultra</text>
-    <text x="80" y="450" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">free · 2/16 clean · C? = 5379</text>
+    <text x="80" y="450" fill="#7A6E68" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12">free  Â·  2/16 clean  Â·  C* = 5379</text>
     <rect x="520" y="412" width="380" height="22" rx="4" fill="#EFEAE3"/>
     <rect x="520" y="412" width="125" height="22" rx="4" fill="url(#bar)" fill-opacity="0.72"/>
     <text x="1040" y="430" fill="#3A2F2C" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="22" text-anchor="end">6.56</text>
@@ -57,6 +57,6 @@
 
   <line x1="80" y1="478" x2="1040" y2="478" stroke="#E5DFD7" stroke-width="1"/>
   <text x="80" y="506" fill="#7A6E68" font-family="Georgia, 'Times New Roman', serif" font-size="13">
-    Bars use a 0–20 visual scale (100 = hindsight-perfect). Protocol-failed episodes are excluded from each mean.
+    Bars use a 0Â–20 visual scale (100 = hindsight-perfect). Protocol-failed episodes are excluded from each mean.
   </text>
 </svg>
