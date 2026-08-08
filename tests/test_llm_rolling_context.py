@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
-
 import pytest
 
 from beer_distribution_rl.agents.baselines import base_stock_order
-from beer_distribution_rl.agents.ippo.trainer import IPPOConfig, build_env_config
 from beer_distribution_rl.agents.llm import (
     DEFAULT_ROLLING_WINDOW,
     AgentMemory,
@@ -17,21 +14,11 @@ from beer_distribution_rl.agents.llm import (
     prompt_leak_report,
     serialize_prompt,
 )
-from beer_distribution_rl.env.core import BeerGameCore, Role
+from beer_distribution_rl.env.core import BeerGameCore, Role, y_topology_env_config
 
 
 def _y_core(seed: int = 0, horizon: int = 52) -> BeerGameCore:
-    cfg = IPPOConfig(
-        regime="A",
-        topology="y",
-        capacity_mult=None,
-        rationing="proportional",
-        demand="ar1",
-        seed=seed,
-        horizon=horizon,
-    )
-    env_cfg = replace(build_env_config(cfg), signaling_enabled=False, regime="A")
-    core = BeerGameCore(env_cfg)
+    core = BeerGameCore(y_topology_env_config(horizon=horizon, seed=seed))
     core.reset(seed)
     return core
 

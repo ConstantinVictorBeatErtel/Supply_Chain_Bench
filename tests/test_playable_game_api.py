@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytest.importorskip("fastapi")
+
 from fastapi.testclient import TestClient
 
 from beer_distribution_rl.web.runner import GameRunner

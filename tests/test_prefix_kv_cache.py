@@ -1,6 +1,8 @@
 from types import SimpleNamespace
 
-import torch
+import pytest
+
+torch = pytest.importorskip("torch")
 
 from beer_distribution_rl.agents.llm.prefix_kv_cache import PrefixKVCache
 

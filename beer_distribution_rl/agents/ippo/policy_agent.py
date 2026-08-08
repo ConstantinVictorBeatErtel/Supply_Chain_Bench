@@ -9,9 +9,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-import numpy as np
-
-from beer_distribution_rl.agents.ippo.obs import obs_dim, state_to_obs
 from beer_distribution_rl.env.core import BeerGameCore, EnvConfig, RoleState
 from beer_distribution_rl.env.core_types import Y_ROLE_NAMES, Y_ROLES, Role
 
@@ -52,11 +49,12 @@ def _require_torch():
             ActorCritic,
             RecurrentActorCritic,
         )
+        from beer_distribution_rl.agents.ippo.obs import obs_dim, state_to_obs
     except ImportError as exc:  # pragma: no cover - depends on optional deps
         raise PolicyLoadError(
-            "IPPO opponents require torch. Install with: pip install -e \".[marl]\""
+            "IPPO opponents require torch/numpy. Install with: pip install -e \".[marl]\""
         ) from exc
-    return torch, ActorCritic, RecurrentActorCritic
+    return torch, ActorCritic, RecurrentActorCritic, obs_dim, state_to_obs
 
 
 class IPPOPolicyAgent:
@@ -84,7 +82,7 @@ class IPPOPolicyAgent:
         self.reset()
 
     def reset(self) -> None:
-        torch, _, RecurrentActorCritic = _require_torch()
+        torch, _, RecurrentActorCritic, _, _ = _require_torch()
         if self.recurrent:
             assert isinstance(self.policy, RecurrentActorCritic)
             self._h = self.policy.initial_hidden(1, torch.device(self.device))
@@ -99,7 +97,7 @@ class IPPOPolicyAgent:
         return max(0, min(self.order_cap, raw))
 
     def order(self, state: RoleState, core: BeerGameCore) -> int:
-        torch, _, RecurrentActorCritic = _require_torch()
+        torch, _, RecurrentActorCritic, _, state_to_obs = _require_torch()
         obs = state_to_obs(state, self.role, core)
         ot = torch.as_tensor(obs, dtype=torch.float32, device=self.device).unsqueeze(0)
         with torch.no_grad():
@@ -145,7 +143,7 @@ def load_ippo_team(
     roles: tuple[Role, ...] = Y_ROLES,
 ) -> IPPOTeam:
     """Load per-role policies for Y-topology inference."""
-    torch, ActorCritic, RecurrentActorCritic = _require_torch()
+    torch, ActorCritic, RecurrentActorCritic, obs_dim, _ = _require_torch()
 
     ckpt = Path(checkpoint_dir) if checkpoint_dir else default_ippo_checkpoint_dir()
     if not ckpt.is_dir():

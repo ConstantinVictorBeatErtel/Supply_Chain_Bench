@@ -110,6 +110,7 @@ def test_completed_debrief_includes_llm_comparison() -> None:
 
 
 def test_debrief_html_has_single_masthead() -> None:
+    pytest.importorskip("gradio")
     from human_app.app import _debrief_station_html
 
     session = HumanSession(
@@ -124,6 +125,7 @@ def test_debrief_html_has_single_masthead() -> None:
 
 
 def test_demo_handlers_output_count_matches_gradio_outputs() -> None:
+    pytest.importorskip("gradio")
     from human_app.app import (
         _empty_state,
         abandon_game,
@@ -139,6 +141,7 @@ def test_demo_handlers_output_count_matches_gradio_outputs() -> None:
 
 
 def test_demo_builds() -> None:
+    pytest.importorskip("gradio")
     from human_app.app import build_demo
 
     demo = build_demo()
