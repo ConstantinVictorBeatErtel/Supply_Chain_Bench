@@ -1,8 +1,0 @@
-{
-  "eval/mean_system_cost": 10.865384615384615,
-  "eval/std_system_cost": 0.0,
-  "eval/retailer_cost": 1.4807692307692306,
-  "eval/wholesaler_cost": 2.7788461538461537,
-  "eval/distributor_cost": 3.0384615384615388,
-  "eval/factory_cost": 3.5673076923076925
-}

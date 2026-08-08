@@ -85,9 +85,8 @@ Dashboard models (research prompt, rescored vs perfect, **capacity 22**):
 | Laguna S 2.1 | 1132.88 ± 179.72 | 16.68% | 4/16 |
 
 Artifacts (archive):
-`evaluations/hindsight_perfect_costs.json`,
-`evaluations/perfect_cost_leaderboard.json`, and
-`docs/assets/live-y-domain-randomized-benchmark.svg`.
+`evaluations/hindsight_perfect_costs.json` and
+`evaluations/perfect_cost_leaderboard.json`.
 
 Current capacity-400 board:
 `artifacts/live_y_capacity_400/evaluations/` and
