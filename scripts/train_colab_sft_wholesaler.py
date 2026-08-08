@@ -31,6 +31,8 @@ for path in (_ENV, _ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
+from scripts.live_y_integrity import assert_training_data_rows
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
@@ -49,6 +51,14 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lora-r", type=int, default=16)
     p.add_argument("--lora-alpha", type=int, default=32)
     p.add_argument("--seed", type=int, default=20260725)
+    p.add_argument(
+        "--require-live-y-train-seeds",
+        action="store_true",
+        help=(
+            "Require every example to carry a seed from the frozen live-Y train split. "
+            "Development and held-out-test seeds are always rejected if detected."
+        ),
+    )
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--no-4bit", action="store_true")
     return p.parse_args()
@@ -188,6 +198,10 @@ def train(args: argparse.Namespace, rows: list[dict[str, Any]]) -> None:
 def main() -> int:
     args = parse_args()
     rows = load_examples(args.data)
+    assert_training_data_rows(
+        rows,
+        require_live_y_split=args.require_live_y_train_seeds,
+    )
     report = dry_run_report(rows)
     print(json.dumps({"dry_run": args.dry_run, **report}, indent=2))
     if args.dry_run:

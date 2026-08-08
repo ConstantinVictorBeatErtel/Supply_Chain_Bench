@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "tier5-y-wholesaler-36w-policy-v1",
+  "leaderboard": "Tier-5 Y wholesaler, native 36-week environment",
+  "separate_from": "Frozen 20-week serial wholesaler benchmark in eval/run_eval.py",
+  "environment": {
+    "environment_version": "0.2.0",
+    "scenario_id": "t5-strategic-y-v2",
+    "tier": 5,
+    "variant": "headline",
+    "topology": "y",
+    "controlled_role": "wholesaler",
+    "operational_weeks": 36,
+    "settlement_weeks": 3,
+    "order_cap": 128,
+    "capacity": 22,
+    "rationing": "proportional",
+    "counterparty_policy": "adaptive_base_stock_v2",
+    "aggressive_retailers": true,
+    "counterparties": "BeerEpisode constructs the same deterministic scripted counterparties from the unmodified ScenarioSpec for every policy"
+  },
+  "policy_interface": {
+    "observation": "the role-local observation rendered by beer_distribution_game.prompts.observation_user_message with action_format=json",
+    "system_prompt": "beer_distribution_game.prompts.system_prompt for the exact ScenarioSpec and wholesaler role",
+    "response": "one JSON object with exactly one key, quantity, whose value is a JSON integer in [0, 128]",
+    "accepted_examples": [
+      "{\"quantity\":0}",
+      "{\"quantity\":128}"
+    ],
+    "invalid_examples": [
+      "12",
+      "{\"quantity\":12.0}",
+      "{\"quantity\":12,\"reason\":\"x\"}",
+      "place_order(quantity=12)",
+      "{\"quantity\":129}"
+    ],
+    "invalid_action": "terminate the episode as a protocol failure; do not repair or substitute an order",
+    "settlement": "after 36 accepted policy actions, BeerEpisode runs the native three settlement weeks with zero orders and applies the native terminal exposure charge"
+  },
+  "reporting": {
+    "primary": "mean local wholesaler holding plus backlog cost including settlement and terminal exposure, with stderr across seeds",
+    "score_formula": "100 * naive_mean_local_cost / (naive_mean_local_cost + policy_mean_local_cost)",
+    "protocol_metric": "protocol failure rate over episodes and format failure rate over attempted actions",
+    "stability_metric": "native grade.stability.bullwhip_ratio or normalized order-volatility metric with its exact formula recorded",
+    "provenance": "record split ID and purpose, per-episode seed, model and adapter hashes, git revision, RNG seed, config, GPU time, and API cost"
+  }
+}

@@ -1,17 +1,81 @@
 {
-  "schema_version": "1.0",
-  "derivation": "SHA-256('beer-live-y-rl-v1|<split>|<index>')[:16]",
-  "environment": "v0.2.0 Tier-5 Y headline, wholesaler, 36 weeks",
-  "rule": "These experiment-only seeds are never used by the public human game, the normative development/validation/test splits, or any previous benchmark.",
-  "train": [
-    "c01c2dcd33ef76ba", "5ef97c6d6f44bad4", "9a753c91ba00ba12", "911c128344d16b26",
-    "14723a91c77235fe", "86cba9412b525b35", "1544d12094b8585c", "f8faed3fe931c201",
-    "04ab3497d0d7391a", "97c2079e2c1006b5", "d310bceb9e5b6f2f", "0da5d5139c9011b0",
-    "646e493371954784", "f8fab0ce44c734d1", "3483772edad85e9d", "f3094fa0f61a5fa0"
+  "schema_version": "2.0",
+  "split_id": "beer-live-y-rl-v1",
+  "frozen_at": "2026-08-08",
+  "environment": "v0.2.0 Tier-5 Y headline, wholesaler, 36 operational weeks plus settlement",
+  "rules": [
+    "train is the only split permitted for rollouts or training-data generation",
+    "research_development is permitted for calibration, prompt and hyperparameter selection, and development evaluation",
+    "held_out_test is model-selection-free and requires an explicit opt-in after the model and evaluation protocol are frozen",
+    "held_out_test must never be used for training, training-data generation, calibration, prompt changes, hyperparameter selection, early stopping, or development evaluation"
   ],
-  "eval": [
-    "fa8b86d551c26fea", "56fd12cd0deea9b2", "748b85f34466f5f2", "de16c6b7cff3e675",
-    "ac7f9a9cb6c3077d", "60625336e832d312", "291c0117a39c2b45", "60e5e3484ef9cef6",
-    "4c578d667459af5d", "851c83881571cd27"
-  ]
+  "splits": {
+    "train": {
+      "purpose": "training rollouts and training-data generation only",
+      "derivation": "SHA-256('beer-live-y-rl-v1|train|<index:05d>')[:16]",
+      "count": 16,
+      "seeds": [
+        "c01c2dcd33ef76ba",
+        "5ef97c6d6f44bad4",
+        "9a753c91ba00ba12",
+        "911c128344d16b26",
+        "14723a91c77235fe",
+        "86cba9412b525b35",
+        "1544d12094b8585c",
+        "f8faed3fe931c201",
+        "04ab3497d0d7391a",
+        "97c2079e2c1006b5",
+        "d310bceb9e5b6f2f",
+        "0da5d5139c9011b0",
+        "646e493371954784",
+        "f8fab0ce44c734d1",
+        "3483772edad85e9d",
+        "f3094fa0f61a5fa0"
+      ]
+    },
+    "research_development": {
+      "purpose": "development evaluation and model selection; never training",
+      "derivation": "SHA-256('beer-live-y-rl-v1|eval|<index:05d>')[:16]",
+      "count": 10,
+      "seeds": [
+        "fa8b86d551c26fea",
+        "56fd12cd0deea9b2",
+        "748b85f34466f5f2",
+        "de16c6b7cff3e675",
+        "ac7f9a9cb6c3077d",
+        "60625336e832d312",
+        "291c0117a39c2b45",
+        "60e5e3484ef9cef6",
+        "4c578d667459af5d",
+        "851c83881571cd27"
+      ]
+    },
+    "held_out_test": {
+      "purpose": "one-shot, model-selection-free final reporting only",
+      "derivation": "SHA-256('beer-live-y-rl-v1|held_out_test|<index:05d>')[:16]",
+      "count": 20,
+      "seeds": [
+        "ace3f6f169cfe8d7",
+        "d75a83ef504387b6",
+        "a21d0eeb0d0e9d9a",
+        "11b4223c1ed29716",
+        "9b042aabe347362f",
+        "94795b9ca9ac79fd",
+        "5b41fccd0d802613",
+        "bc6a35f4dd76fe1f",
+        "f9e87132094bf292",
+        "86deb5a0e4f58157",
+        "81eae3aac3b4f3d3",
+        "f86bd9b76df7c4b5",
+        "7516c261cb486917",
+        "5fa330953a02b6c5",
+        "bd4186724d7a325a",
+        "383e592710eeaad1",
+        "594b615b65c2bb18",
+        "c203ba80ef8ff78f",
+        "b5e6aa0077a8ea5a",
+        "883661722563a4fa"
+      ]
+    }
+  }
 }
