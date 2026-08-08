@@ -35,7 +35,7 @@ button { color: inherit; }
 
 .site-header {
   position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  display: flex; align-items: center; justify-content: flex-start; gap: 2rem;
   width: 100%; height: 64px; margin: auto;
   padding: 0 max(40px, calc((100% - 1180px) / 2 + 40px));
   border-bottom: 1px solid var(--line);
@@ -55,12 +55,7 @@ button { color: inherit; }
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
 }
 .brand-lockup::after { content: none; }
-.header-status {
-  display: flex; gap: 28px;
-  font: 400 12px/1 "IBM Plex Mono", monospace; letter-spacing: .08em;
-}
-.header-status span { display: flex; gap: 8px; }
-.header-status b { color: var(--faint); font-weight: 400; }
+.header-status { display: none; }
 
 .shell {
   width: 100%; max-width: 1180px; min-height: calc(100vh - 64px);
@@ -87,7 +82,16 @@ h1 {
   font: 400 10px/1.4 "IBM Plex Mono", monospace;
   letter-spacing: .18em; text-transform: uppercase;
 }
-.briefing > .section-label { margin-top: 48px; border: 0; }
+.briefing > .section-label {
+  margin-top: 48px; border: 0; padding-bottom: 0;
+  color: var(--ink);
+  font: 700 12px/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: .16em;
+}
+.briefing > .section-label.seat-label {
+  color: #1a1210;
+  font-weight: 700;
+}
 
 /* —— Playful supply chain board —— */
 .chain-board {
@@ -122,7 +126,7 @@ h1 {
 .chain {
   display: grid;
   grid-template-columns: 1fr 36px 1fr 36px 1fr 36px 1fr;
-  align-items: end;
+  align-items: center;
   gap: 0;
   margin-top: 0;
 }
@@ -153,7 +157,7 @@ h1 {
 .chain-factory { grid-column: 7; }
 .link {
   width: 100%; height: 1.5px; margin: 0 2px;
-  align-self: center; margin-bottom: 78px;
+  align-self: center;
 }
 
 .chain-card {
@@ -165,11 +169,16 @@ h1 {
   border-radius: 6px;
   transition: border-color .15s ease, background .15s ease, transform .15s ease;
 }
-.briefing .chain-card { cursor: pointer; }
-.briefing .chain-card:not(:disabled):hover {
+.briefing .chain-card { cursor: default; }
+.briefing .chain-card.selectable { cursor: pointer; }
+.briefing .chain-card.selectable:not(:disabled):hover {
   border-color: var(--accent-soft);
   background: rgba(122, 59, 69, 0.04);
   transform: translateY(-2px);
+}
+.briefing .chain-card.locked {
+  opacity: 0.72;
+  cursor: not-allowed;
 }
 .chain-card.selected {
   border-color: var(--accent);
@@ -464,8 +473,7 @@ h1 {
 @media (max-width: 800px) {
   .site-header { height: auto; min-height: 64px; padding: 0 16px; }
   .shell { width: 100%; padding: 0 16px 80px; }
-  .header-status b, .header-status span:first-child { display: none; }
-  .header-status { gap: 12px; font-size: 10px; }
+  .header-status { display: none; }
   .hero { padding: 56px 0 36px; }
   .chain-board { padding: 18px 12px 12px; }
   .orders-rail .rail-label, .conveyor .rail-label { display: none; }

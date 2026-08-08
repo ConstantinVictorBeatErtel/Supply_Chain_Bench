@@ -62,9 +62,8 @@ function scenarioForTrace(trace) {
   return spec;
 }
 
-function setHeader(week = "—", cost = "—") {
-  const header = document.querySelector("#header-status");
-  if (header) header.innerHTML = `<span><b>SEAT</b>${escapeHtml(ROLE_LABEL[selectedRole].toUpperCase())}</span><span><b>WEEK</b>${week}</span><span><b>COST</b>${cost}</span>`;
+function setHeader(_week = "—", _cost = "—") {
+  // Header status chrome is intentionally hidden in the public UI.
 }
 
 function lineChart(values, max, width = 720, height = 160) {
@@ -163,7 +162,8 @@ function stationCard(node, { briefing, role, states }) {
   const isYou = node === role;
   const state = states[node];
   const visible = !briefing && isYou && state;
-  const tag = isYou ? "YOU" : briefing ? "AVAILABLE" : "SEALED";
+  const selectable = briefing && node === "wholesaler";
+  const tag = isYou ? "YOU" : briefing ? (node === "wholesaler" ? "AVAILABLE" : "LOCKED") : "SEALED";
   const detail = briefing
     ? `<p>${escapeHtml(ROLE_NOTE[node])}</p>`
     : inventoryMeter({
@@ -171,7 +171,13 @@ function stationCard(node, { briefing, role, states }) {
       inventory: state?.inventory,
       backlog: state?.backlog,
     });
-  return `<button class="chain-card ${isYou ? "selected" : ""}" data-role="${node}" type="button" ${briefing ? "" : "disabled"}>
+  const classes = [
+    "chain-card",
+    isYou ? "selected" : "",
+    selectable ? "selectable" : "",
+    briefing && !selectable ? "locked" : "",
+  ].filter(Boolean).join(" ");
+  return `<button class="${classes}" data-role="${node}" type="button" ${selectable ? "" : "disabled"}>
     <span class="chain-tag">${tag}</span>
     ${buildingSvg(node)}
     <strong>${ROLE_LABEL[node]}</strong>${detail}</button>`;
@@ -209,7 +215,7 @@ function briefingHtml() {
       <p>Every week you see your own inventory, your own backlog, and the order that arrived from downstream. Nothing else. You place one order upstream and it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
       <p>A language model plays the same seat, on the same seed, against the same counterparties, in a separate sealed episode. Neither of you sees the other until week 36.</p>
     </div>
-    <p class="section-label">Choose your seat</p>
+    <p class="section-label seat-label">Choose your seat</p>
     ${chainHtml({ briefing: true })}
     <div class="start-row"><button id="start-game" class="primary-button" type="button">Begin week 1 <span>→</span></button></div>
   </section>`;
@@ -348,20 +354,19 @@ function sendCurrentRecord(status) {
 }
 
 function bindBriefing() {
-  document.querySelectorAll("[data-role]").forEach((card) => card.addEventListener("click", () => {
-    selectedRole = card.dataset.role;
+  document.querySelectorAll("[data-role].selectable").forEach((card) => card.addEventListener("click", () => {
+    selectedRole = "wholesaler";
     renderBriefing();
   }));
   document.querySelector("#start-game").addEventListener("click", () => {
+    selectedRole = "wholesaler";
     const random = new Uint32Array(1);
     globalThis.crypto?.getRandomValues?.(random);
     const catalogIndex = random[0] % catalog.seeds.length;
     const seed = catalog.seeds[catalogIndex];
-    const spec = publicScenario(
-      selectedRole === "wholesaler" ? scenarioForTrace(seed) : scenarioFor(TIER, "development", catalogIndex % 3),
-    );
-    const episode = new BeerEpisode(spec, selectedRole);
-    active = { seed, episode, role: selectedRole, observation: episode.start(), order: 8, actions: [], weekly: [], sessionUuid: createSessionUuid(), timestamp: new Date().toISOString(), trace: selectedRole === "wholesaler" ? seed : null };
+    const spec = publicScenario(scenarioForTrace(seed));
+    const episode = new BeerEpisode(spec, "wholesaler");
+    active = { seed, episode, role: "wholesaler", observation: episode.start(), order: 8, actions: [], weekly: [], sessionUuid: createSessionUuid(), timestamp: new Date().toISOString(), trace: seed };
     logSent = false;
     renderGame();
   });
