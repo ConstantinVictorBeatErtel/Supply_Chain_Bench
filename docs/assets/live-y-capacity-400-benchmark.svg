@@ -10,43 +10,45 @@
     </linearGradient>
   </defs>
 
-  <!-- track x=72..1000 (928px) => 9.28 px per score point; scale 0-100 -->
-  <g stroke="#EFEAE3" stroke-width="1">
-    <line x1="72" y1="60" x2="72" y2="476"/>
-    <line x1="304" y1="60" x2="304" y2="476"/>
-    <line x1="536" y1="60" x2="536" y2="476"/>
-    <line x1="768" y1="60" x2="768" y2="476"/>
-    <line x1="1000" y1="60" x2="1000" y2="476"/>
+  <!-- names left; track x=320..1048 (728px) => 7.28 px per score point; scale 0-100 -->
+  <g font-family="IBM Plex Sans, Helvetica Neue, Arial, sans-serif" font-size="18" fill="#3A2F2C" text-anchor="end">
+    <text x="304" y="105">Grok 4.5</text>
+    <text x="304" y="161">GPT-5.6 Luna</text>
+    <text x="304" y="217">Laguna S 2.1</text>
+    <text x="304" y="273">Qwen3.5-4B GRPO</text>
+    <text x="304" y="329">DeepSeek V4 Flash</text>
+    <text x="304" y="385">Qwen3.5-4B</text>
+    <text x="304" y="441">Nemotron 3 Ultra</text>
   </g>
 
   <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="20" fill="#3A2F2C">
     <!-- Grok 29.78 -->
-    <rect x="72" y="80" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="80" width="276" height="36" rx="4" fill="url(#bar)"/>
-    <text x="360" y="105">29.78</text>
+    <rect x="320" y="80" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="80" width="217" height="36" rx="4" fill="url(#bar)"/>
+    <text x="549" y="105">29.78</text>
     <!-- Luna 14.80 -->
-    <rect x="72" y="136" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="136" width="137" height="36" rx="4" fill="url(#bar)" fill-opacity="0.95"/>
-    <text x="221" y="161">14.80</text>
+    <rect x="320" y="136" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="136" width="108" height="36" rx="4" fill="url(#bar)" fill-opacity="0.95"/>
+    <text x="440" y="161">14.80</text>
     <!-- Laguna 14.02 -->
-    <rect x="72" y="192" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="192" width="130" height="36" rx="4" fill="url(#bar)" fill-opacity="0.90"/>
-    <text x="214" y="217">14.02</text>
+    <rect x="320" y="192" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="192" width="102" height="36" rx="4" fill="url(#bar)" fill-opacity="0.90"/>
+    <text x="434" y="217">14.02</text>
     <!-- Qwen GRPO 7.48 -->
-    <rect x="72" y="248" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="248" width="69" height="36" rx="4" fill="url(#bar)" fill-opacity="0.85"/>
-    <text x="153" y="273">7.48</text>
+    <rect x="320" y="248" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="248" width="54" height="36" rx="4" fill="url(#bar)" fill-opacity="0.85"/>
+    <text x="386" y="273">7.48</text>
     <!-- DeepSeek 7.12 -->
-    <rect x="72" y="304" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="304" width="66" height="36" rx="4" fill="url(#bar)" fill-opacity="0.80"/>
-    <text x="150" y="329">7.12</text>
+    <rect x="320" y="304" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="304" width="52" height="36" rx="4" fill="url(#bar)" fill-opacity="0.80"/>
+    <text x="384" y="329">7.12</text>
     <!-- Qwen untrained 6.73 -->
-    <rect x="72" y="360" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="360" width="62" height="36" rx="4" fill="url(#bar)" fill-opacity="0.75"/>
-    <text x="146" y="385">6.73</text>
+    <rect x="320" y="360" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="360" width="49" height="36" rx="4" fill="url(#bar)" fill-opacity="0.75"/>
+    <text x="381" y="385">6.73</text>
     <!-- Nemotron 6.56 -->
-    <rect x="72" y="416" width="928" height="36" rx="4" fill="#EFEAE3"/>
-    <rect x="72" y="416" width="61" height="36" rx="4" fill="url(#bar)" fill-opacity="0.70"/>
-    <text x="145" y="441">6.56</text>
+    <rect x="320" y="416" width="728" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="320" y="416" width="48" height="36" rx="4" fill="url(#bar)" fill-opacity="0.70"/>
+    <text x="380" y="441">6.56</text>
   </g>
 </svg>
