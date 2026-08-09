@@ -10,14 +10,7 @@
     </linearGradient>
   </defs>
 
-  <!-- track: x=72..1000 (928px) => 9.28 px per score point; scale 0–100 -->
-  <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="13" fill="#A39891">
-    <text x="72" y="52">0</text>
-    <text x="304" y="52">25</text>
-    <text x="536" y="52">50</text>
-    <text x="768" y="52">75</text>
-    <text x="1000" y="52" text-anchor="end">100</text>
-  </g>
+  <!-- track x=72..1000 (928px) => 9.28 px per score point; scale 0-100 -->
   <g stroke="#EFEAE3" stroke-width="1">
     <line x1="72" y1="60" x2="72" y2="476"/>
     <line x1="304" y1="60" x2="304" y2="476"/>
@@ -31,32 +24,26 @@
     <rect x="72" y="80" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="80" width="276" height="36" rx="4" fill="url(#bar)"/>
     <text x="360" y="105">29.78</text>
-
     <!-- Luna 14.80 -->
     <rect x="72" y="136" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="136" width="137" height="36" rx="4" fill="url(#bar)" fill-opacity="0.95"/>
     <text x="221" y="161">14.80</text>
-
     <!-- Laguna 14.02 -->
     <rect x="72" y="192" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="192" width="130" height="36" rx="4" fill="url(#bar)" fill-opacity="0.90"/>
     <text x="214" y="217">14.02</text>
-
     <!-- Qwen GRPO 7.48 -->
     <rect x="72" y="248" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="248" width="69" height="36" rx="4" fill="url(#bar)" fill-opacity="0.85"/>
     <text x="153" y="273">7.48</text>
-
     <!-- DeepSeek 7.12 -->
     <rect x="72" y="304" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="304" width="66" height="36" rx="4" fill="url(#bar)" fill-opacity="0.80"/>
     <text x="150" y="329">7.12</text>
-
     <!-- Qwen untrained 6.73 -->
     <rect x="72" y="360" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="360" width="62" height="36" rx="4" fill="url(#bar)" fill-opacity="0.75"/>
     <text x="146" y="385">6.73</text>
-
     <!-- Nemotron 6.56 -->
     <rect x="72" y="416" width="928" height="36" rx="4" fill="#EFEAE3"/>
     <rect x="72" y="416" width="61" height="36" rx="4" fill="url(#bar)" fill-opacity="0.70"/>
