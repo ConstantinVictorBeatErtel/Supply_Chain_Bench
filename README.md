@@ -1,10 +1,10 @@
 # Beer Distribution Game
 
-**[▶ Play](https://beer-distribution-game.pages.dev/)**
+[▶ Play](https://beer-distribution-game.pages.dev/)
 
 A stochastic Y-network beer game for ordering agents under delayed shipments and
-fog-of-war. Public play and the live-Y research board use **factory capacity
-400** with the wholesaler seat locked; fixed held-out seeds score policies
+fog-of-war. Public play and the live-Y research board use factory capacity
+400 with the wholesaler seat locked; fixed held-out seeds score policies
 against a hindsight-perfect cost reference.
 
 ```mermaid
@@ -18,7 +18,7 @@ flowchart LR
   style WM fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-The playable board highlights **two wholesalers**: you and the sealed recorded-model
+The playable board highlights two wholesalers: you and the sealed recorded-model
 companion on the same seed (same station pair as the static game UI). Underneath,
 the Y DAG still has one wholesaler seat feeding Retailer A/B; the second card is
 the parallel comparison episode, not a second live seat.
@@ -30,11 +30,11 @@ Protocol-failed episodes are dropped from each model mean.
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark.png)
 
-| Model | Mean cost \(\overline{C}\) | Score | Clean |
-| --- | ---: | ---: | ---: |
-| Laguna S 2.1 (free) | 2584.4 | **14.02** | 7/16 |
-| DeepSeek V4 Flash | 4031.3 | **7.12** | 16/16 |
-| Nemotron 3 Ultra (free) | 5379.0 | **6.56** | 2/16 |
+| Model | Mean cost \(\overline{C}\) | Score |
+| --- | ---: | ---: |
+| Laguna S 2.1 (free) | 2584.4 | 14.02 |
+| DeepSeek V4 Flash | 4031.3 | 7.12 |
+| Nemotron 3 Ultra (free) | 5379.0 | 6.56 |
 
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).
 
@@ -59,7 +59,7 @@ $$
 
 Hindsight-perfect \(C^\*\) is a feasible open-loop upper bound on each CRN seed
 (\(\overline{C^\*} = 287.22\); adaptive base-stock averages \(388.84\)). Score on
-protocol-clean episodes:
+protocol-valid episodes:
 
 $$
 \mathrm{score} = 100 \times \frac{\overline{C^\*}}{\overline{C_{\mathrm{policy}}}}
@@ -93,7 +93,7 @@ $$
 \quad r = \exp(\ell_{\theta} - \ell_{\mathrm{old}})
 $$
 
-with \(\varepsilon = 0.2\). Research capacity is **400**; Hub Tier-5 stays **22**.
+with \(\varepsilon = 0.2\). Research capacity is 400; Hub Tier-5 stays 22.
 
 ## Hyperefficient compute
 
@@ -112,7 +112,7 @@ Documented in [`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md):
 | Python oracle (`environments/…/core.py`, research env) | Seeded simulator + grader |
 | [`static_web/`](static_web/) | Browser JS port, parity-checked against the oracle |
 | [`beer_distribution_rl/`](beer_distribution_rl/) | Research protocol, agents, GRPO / eval harness |
-| [`environments/beer_distribution_game/`](environments/beer_distribution_game/) | Verifiers Hub package (Tier-5 **capacity 22**) |
+| [`environments/beer_distribution_game/`](environments/beer_distribution_game/) | Verifiers Hub package (Tier-5 capacity 22) |
 
 ## Links
 
