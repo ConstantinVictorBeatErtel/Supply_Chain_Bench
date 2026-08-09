@@ -8,20 +8,20 @@ fog-of-war. Public play and the live-Y research board use **factory capacity
 against a hindsight-perfect cost reference.
 
 ```mermaid
-flowchart TB
-  F[Factory] --> D[Distributor] --> W["Wholesaler (controlled)"]
-  W --> RA[Retailer A]
-  W --> RB[Retailer B]
-  RA --> CA[Customer A]
-  RB --> CB[Customer B]
-  style W fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
-  style RA fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
-  style RB fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
+flowchart LR
+  F[Factory] --> D[Distributor]
+  D --> WH["Wholesaler · you"]
+  D --> WM["Wholesaler · recorded model"]
+  WH --> RA[Retailer A] --> CA[Customer A]
+  WM --> RB[Retailer B] --> CB[Customer B]
+  style WH fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
+  style WM fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-Y topology is **one wholesaler → two retailers** (not two wholesaler seats). Both
-retailer fork nodes are highlighted; the wholesaler is the locked controlled seat.
-Scripted aggressive rivals share proportional rationing from that single pool.
+The playable board highlights **two wholesalers**: you and the sealed recorded-model
+companion on the same seed (same station pair as the static game UI). Underneath,
+the Y DAG still has one wholesaler seat feeding Retailer A/B; the second card is
+the parallel comparison episode, not a second live seat.
 
 ## Benchmark (capacity 400)
 
