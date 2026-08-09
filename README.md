@@ -28,7 +28,7 @@ the parallel comparison episode, not a second live seat.
 Sixteen fixed live-Y seeds; research prompt withholds demand law and capacity.
 Protocol-failed episodes are dropped from each model mean.
 
-![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark.png)
+![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v2.png)
 
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).
 
@@ -51,12 +51,19 @@ C &= \sum_{t=1}^{H} c_t + \sum_{t=H+1}^{H+3} c_t + c^{\mathrm{term}}
 \end{aligned}
 $$
 
-Hindsight-perfect $C^*$ is a feasible open-loop upper bound on each CRN seed
-($\overline{C^*} = 287.22$; adaptive base-stock averages $388.84$). Score on
-protocol-valid episodes:
+Hindsight-perfect $C^{\star}$ is a feasible open-loop upper bound on each CRN seed.
+Across the 16 seeds, the reference means are:
 
 $$
-\mathrm{score} = 100 \times \frac{\overline{C^*}}{\overline{C_{\mathrm{policy}}}}
+\overline{C^{\star}} = 287.22,
+\qquad
+\text{adaptive base-stock average} = 388.84
+$$
+
+Score on protocol-valid episodes:
+
+$$
+\mathrm{score} = 100 \times \frac{\overline{C^{\star}}}{\overline{C_{\mathrm{policy}}}}
 $$
 
 ## Qwen fine-tune (live-Y GRPO v1)
