@@ -1,0 +1,1389 @@
+{
+  "adapter": null,
+  "decoding": {
+    "max_completion_tokens": 64,
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "evaluation_kind": "fixed research evaluation",
+  "model": "untrained_qwen_capacity_400",
+  "model_name": "/Users/ConstiX/Downloads/beer_distribution_rl/local_checkpoints/qwen35-4b-base",
+  "prefix_kv_cache": {
+    "cache_hits": 0,
+    "cache_lookups": 144,
+    "enabled": true,
+    "entries": 8,
+    "fallbacks": 0,
+    "last_error": null,
+    "prefix_forward_calls": 144,
+    "prefix_tokens_avoided": 0
+  },
+  "prompt": "research_observation_user_message",
+  "rows": [
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 2652.5,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 245.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 9.236569274269558,
+      "seed": "1e594a5f4f13c914",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 1217.5,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 15.852156057494867,
+      "seed": "1ef97b9065013134",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 5238.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 3.6846124474990454,
+      "seed": "60014380abcd0c62",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 6034.5,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 2.999420001657138,
+      "seed": "ba0eef18cf04ad40",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 3115.5,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 5.8096613705665225,
+      "seed": "722ad6103d9490ad",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 5417.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 3.341332841055935,
+      "seed": "2b5eae5b998e4f1d",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 2548.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 7.1036106750392465,
+      "seed": "6ad00ac691773fce",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 3015.5,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 6.002321339744652,
+      "seed": "0fa94b60e8eb54e2",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 5719.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 1040.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 18.18499737716384,
+      "seed": "d9e921eb4abf1311",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 4054.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 812.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 20.029600394671927,
+      "seed": "98155973e5223d05",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 4075.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 908.0,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 22.282208588957054,
+      "seed": "a01e69edae32256e",
+      "system_total_cost": null
+    },
+    {
+      "actions": null,
+      "attempted_actions": 36,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": null,
+      "format_failures": 0,
+      "local_total_cost": 6086.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 935.5,
+      "protocol_clean": true,
+      "raw_outputs": null,
+      "recovered_from_log": true,
+      "score": 15.371344068353599,
+      "seed": "ba32f821074ddb20",
+      "system_total_cost": null
+    },
+    {
+      "actions": [
+        0,
+        128,
+        0,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        128,
+        0,
+        0,
+        0,
+        0,
+        128,
+        0,
+        0,
+        0,
+        128,
+        0,
+        0,
+        0,
+        0,
+        64,
+        0,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 13,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 9
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 24
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 28
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 10172.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": 2.0,
+      "optimal_reference_local_cost": 206.0,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 0}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 2.025167125442391,
+      "seed": "b7c3c42c06605a25",
+      "system_total_cost": 20523.5
+    },
+    {
+      "actions": [
+        4,
+        12,
+        20,
+        32,
+        40,
+        32,
+        40,
+        32,
+        40,
+        40,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        32,
+        32,
+        0,
+        32,
+        0,
+        48,
+        0,
+        48,
+        32,
+        32,
+        32,
+        0,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "completed_weeks": 36,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 14,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 9
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 14,
+            "week": 14
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 10,
+            "week": 15
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 15,
+            "retailer_b": 11,
+            "week": 17
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 18
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 20
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 23
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 25
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 26
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 27
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 28
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 29
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 30
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 31
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 33
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 35
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 1971.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": 1.0,
+      "optimal_reference_local_cost": 181.0,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 4}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 9.183155758498224,
+      "seed": "3385fc1772a83c0f",
+      "system_total_cost": 7404.0
+    },
+    {
+      "actions": [
+        16,
+        4,
+        40,
+        48,
+        48,
+        40,
+        20,
+        20,
+        80,
+        128,
+        40,
+        40,
+        20,
+        20,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        48,
+        0,
+        16,
+        48,
+        48,
+        16,
+        48,
+        48,
+        32,
+        32,
+        32,
+        40,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": 157.83358547655067,
+      "completed_weeks": 36,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 9,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 5
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 9
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 7,
+            "week": 11
+          },
+          {
+            "retailer_a": 16,
+            "retailer_b": 13,
+            "week": 12
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 13
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 14
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 15
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 7,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 18
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 22
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 23
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 24
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 25
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 26
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 27
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 28
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 29
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 31
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 32
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 34
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 4253.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": 1.0142201834862385,
+      "optimal_reference_local_cost": 281.5,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 16}",
+        "{\"quantity\": 4}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 80}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "score": 6.618857277216083,
+      "seed": "6004dde3fcee7f67",
+      "system_total_cost": 10899.5
+    },
+    {
+      "actions": [
+        0,
+        22,
+        22,
+        22,
+        50,
+        100,
+        34,
+        64,
+        48,
+        52,
+        52,
+        10,
+        0,
+        0,
+        0,
+        0,
+        32,
+        0,
+        0,
+        32,
+        48,
+        0,
+        0,
+        0,
+        32,
+        0,
+        0,
+        32,
+        0,
+        16,
+        0,
+        0,
+        16,
+        16,
+        16,
+        32
+      ],
+      "attempted_actions": 36,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": 61.66078280890253,
+      "completed_weeks": 36,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 11,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 10
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 15,
+            "week": 12
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 12,
+            "week": 14
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 16
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 17
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 19
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 20
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 25
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 26
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 27
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 28
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 30
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 1,
+            "week": 31
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 32
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 33
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 34
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 35
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "local_total_cost": 2666.0,
+      "model": "untrained_qwen_capacity_400",
+      "normalized_order_volatility": 1.1253421532846715,
+      "optimal_reference_local_cost": 321.5,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 0}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 50}",
+        "{\"quantity\": 100}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 52}",
+        "{\"quantity\": 52}",
+        "{\"quantity\": 10}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}"
+      ],
+      "score": 12.05926481620405,
+      "seed": "f0cd8b5418cd1e55",
+      "system_total_cost": 8594.5
+    }
+  ],
+  "summary": {
+    "bullwhip_ratio": {
+      "mean": 109.7471841427266,
+      "stderr": 48.086401333824064
+    },
+    "format_failure_rate": 0.0,
+    "local_total_cost": {
+      "mean": 4264.65625,
+      "stderr": 545.228818018083
+    },
+    "n": 16,
+    "normalized_order_volatility": {
+      "mean": 1.2848905841927274,
+      "stderr": 0.24001081384695394
+    },
+    "protocol_failure_rate": 0.0,
+    "score": {
+      "mean": 9.986517463364633,
+      "stderr": 1.6294376885290438
+    },
+    "system_total_cost": {
+      "mean": 11855.375,
+      "stderr": 2979.0677119346697
+    }
+  }
+}

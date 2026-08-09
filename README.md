@@ -32,8 +32,12 @@ Protocol-failed episodes are dropped from each model mean.
 
 | Model | Mean cost \(\overline{C}\) | Score |
 | --- | ---: | ---: |
+| Grok 4.5 | 964.6 | 29.78 |
+| GPT-5.6 Luna | 1941.2 | 14.80 |
 | Laguna S 2.1 (free) | 2584.4 | 14.02 |
+| Qwen3.5-4B GRPO | 3838.9 | 7.48 |
 | DeepSeek V4 Flash | 4031.3 | 7.12 |
+| Qwen3.5-4B (untrained) | 4264.7 | 6.73 |
 | Nemotron 3 Ultra (free) | 5379.0 | 6.56 |
 
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).

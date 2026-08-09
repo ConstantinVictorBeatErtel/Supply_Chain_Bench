@@ -82,14 +82,33 @@ def load_policy(adapter: str | None, model_name: str):
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "left"
-    dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float16
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+        dtype = torch.bfloat16
+        device_map = "auto"
+    elif getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available():
+        device = torch.device("mps")
+        dtype = torch.float16
+        device_map = None
+    else:
+        device = torch.device("cpu")
+        dtype = torch.float32
+        device_map = None
     model = AutoModelForCausalLM.from_pretrained(
-        model_name, trust_remote_code=True, device_map="auto", torch_dtype=dtype
+        model_name,
+        trust_remote_code=True,
+        device_map=device_map,
+        torch_dtype=dtype,
+        low_cpu_mem_usage=True,
     )
+    if device_map is None:
+        model = model.to(device)
     if adapter:
         from peft import PeftModel
 
         model = PeftModel.from_pretrained(model, adapter, is_trainable=False)
+        if device_map is None:
+            model = model.to(device)
     model.eval()
     return model, tokenizer
 
@@ -166,12 +185,17 @@ def main() -> None:
     p.add_argument("--model-name", default=default_model_name())
     p.add_argument("--disable-prefix-kv-cache", action="store_true")
     p.add_argument("--kv-cache-min-prefix-tokens", type=int, default=64)
+    p.add_argument(
+        "--seeds",
+        help="Comma-separated seed hexes to evaluate (default: all evaluation seeds). Resume still skips seeds already in --output.",
+    )
     args = p.parse_args()
     manifest = json.loads((ROOT / "experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json").read_text())
+    seed_filter = {s.strip() for s in args.seeds.split(",") if s.strip()} if args.seeds else None
     model, tokenizer = load_policy(args.adapter, args.model_name)
     gen_args = SimpleNamespace(
         prompt_max_tokens=2048,
-        max_new_tokens=192,
+        max_new_tokens=64,
         temperature=0.7,
         top_p=0.95,
         _prefix_kv_cache=None,
@@ -180,28 +204,68 @@ def main() -> None:
         gen_args._prefix_kv_cache = PrefixKVCache(
             model, min_prefix_tokens=args.kv_cache_min_prefix_tokens
         )
-    rows = []
-    for bucket, seeds in manifest["evaluation"].items():
-        for seed in seeds:
-            rows.append(evaluate_episode(model, tokenizer, seed, bucket, args.label, gen_args))
-    payload = {
-        "evaluation_kind": "fixed research evaluation",
-        "model": args.label,
-        "adapter": args.adapter,
-        "model_name": args.model_name,
-        "prompt": "research_observation_user_message",
-        "prefix_kv_cache": (
-            gen_args._prefix_kv_cache.snapshot()
-            if gen_args._prefix_kv_cache is not None
-            else {"enabled": False}
-        ),
-        "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
-        "summary": aggregate(rows),
-        "rows": rows,
-    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-    print(json.dumps(payload["summary"], indent=2, sort_keys=True))
+    rows: list[dict] = []
+    done_seeds: set[str] = set()
+    if args.output.exists():
+        try:
+            prior = json.loads(args.output.read_text())
+            if prior.get("model") == args.label and isinstance(prior.get("rows"), list):
+                rows = list(prior["rows"])
+                done_seeds = {str(row.get("seed")) for row in rows if row.get("seed") is not None}
+                print(f"[{args.label}] resume {len(rows)} saved rows from {args.output}", flush=True)
+        except (json.JSONDecodeError, OSError) as exc:
+            print(f"[{args.label}] ignore unreadable output ({exc})", flush=True)
+            rows = []
+            done_seeds = set()
+
+    def write_checkpoint() -> None:
+        payload = {
+            "evaluation_kind": "fixed research evaluation",
+            "model": args.label,
+            "adapter": args.adapter,
+            "model_name": args.model_name,
+            "prompt": "research_observation_user_message",
+            "prefix_kv_cache": (
+                gen_args._prefix_kv_cache.snapshot()
+                if gen_args._prefix_kv_cache is not None
+                else {"enabled": False}
+            ),
+            "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 64},
+            "summary": aggregate(rows),
+            "rows": rows,
+        }
+        args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+    jobs = [(bucket, seed) for bucket, seeds in manifest["evaluation"].items() for seed in seeds]
+    if seed_filter is not None:
+        jobs = [(bucket, seed) for bucket, seed in jobs if seed in seed_filter]
+        missing = seed_filter - {seed for _, seed in jobs}
+        if missing:
+            raise SystemExit(f"Unknown --seeds not in evaluation manifest: {sorted(missing)}")
+    for index, (bucket, seed) in enumerate(jobs, start=1):
+        if seed in done_seeds:
+            print(f"[{args.label}] {index}/{len(jobs)} {bucket} {seed} skip", flush=True)
+            continue
+        print(f"[{args.label}] {index}/{len(jobs)} {bucket} {seed}", flush=True)
+        rows.append(evaluate_episode(model, tokenizer, seed, bucket, args.label, gen_args))
+        done_seeds.add(seed)
+        print(
+            json.dumps(
+                {
+                    "bucket": bucket,
+                    "seed": seed,
+                    "protocol_clean": rows[-1]["protocol_clean"],
+                    "local_total_cost": rows[-1]["local_total_cost"],
+                    "completed_weeks": rows[-1]["completed_weeks"],
+                },
+                sort_keys=True,
+            ),
+            flush=True,
+        )
+        write_checkpoint()
+    write_checkpoint()
+    print(json.dumps(aggregate(rows), indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

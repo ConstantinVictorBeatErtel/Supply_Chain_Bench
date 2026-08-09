@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import os
 from pathlib import Path
+import re
 import ssl
 import statistics
 import threading
@@ -42,9 +43,28 @@ from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.protocol imp
 DEFAULT_MODELS = (
     "deepseek/deepseek-v4-flash-0731",
     "openai/gpt-5.6-luna",
+    "x-ai/grok-4.5",
     "nvidia/nemotron-3-ultra-550b-a55b:free",
     "poolside/laguna-s-2.1:free",
 )
+
+# Models that reject reasoning.effort=none and spend completion budget on
+# hidden reasoning tokens. Leave headroom so the JSON action still fits.
+REASONING_REQUIRED_MODELS = {
+    "x-ai/grok-4.5",
+}
+REASONING_MAX_TOKENS = 768
+DEFAULT_MAX_TOKENS = 192
+
+FENCE_RE = re.compile(r"^```(?:json|JSON)?\s*([\s\S]*?)\s*```\s*$")
+
+
+def normalize_openrouter_completion(text: str) -> str:
+    """Strip optional markdown fences; keep the strict JSON body for parsing."""
+
+    stripped = text.strip()
+    match = FENCE_RE.match(stripped)
+    return match.group(1).strip() if match else stripped
 
 
 def ssl_context() -> ssl.SSLContext:
@@ -156,13 +176,14 @@ class OpenRouterClient:
                 )
 
     def complete(self, *, system: str, user: str, session_id: str, week: int) -> tuple[str, dict[str, Any]]:
+        reasoning_required = self.model_id in REASONING_REQUIRED_MODELS
+        max_tokens = REASONING_MAX_TOKENS if reasoning_required else DEFAULT_MAX_TOKENS
         body: dict[str, Any] = {
             "model": self.model_id,
             "temperature": 0.7,
             "top_p": 0.95,
-            "max_tokens": 192,
+            "max_tokens": max_tokens,
             "session_id": session_id,
-            "reasoning": {"effort": "none"},
             "messages": [
                 {
                     "role": "system",
@@ -178,6 +199,11 @@ class OpenRouterClient:
             ],
             "usage": {"include": True},
         }
+        if reasoning_required:
+            # Grok-4.5 rejects effort=none; low keeps hidden reasoning short.
+            body["reasoning"] = {"effort": "low"}
+        else:
+            body["reasoning"] = {"effort": "none"}
         headers = {
             "Authorization": f"Bearer {self.key}",
             "Content-Type": "application/json",
@@ -187,6 +213,7 @@ class OpenRouterClient:
             "X-OpenRouter-Cache-TTL": "86400",
         }
         last_error: dict[str, Any] | None = None
+        flattened_system = False
         for attempt in range(5):
             try:
                 request = urllib.request.Request(
@@ -216,10 +243,18 @@ class OpenRouterClient:
                 except Exception:
                     payload = {}
                 last_error = {"status": exc.code, "body": payload}
+                message = str((payload.get("error") or {}).get("message") or payload).lower()
                 # Some models reject structured system content / cache_control / reasoning.
-                if exc.code == 400 and attempt == 0:
+                if exc.code == 400 and (
+                    "reasoning is mandatory" in message or "cannot be disabled" in message
+                ):
+                    body["reasoning"] = {"effort": "low"}
+                    body["max_tokens"] = max(int(body.get("max_tokens") or 0), REASONING_MAX_TOKENS)
+                elif exc.code == 400 and not flattened_system:
                     body["messages"][0]["content"] = system
-                    body.pop("reasoning", None)
+                    flattened_system = True
+                    if not reasoning_required:
+                        body.pop("reasoning", None)
                 elif exc.code not in (408, 409, 429) and exc.code < 500:
                     break
             except (urllib.error.URLError, TimeoutError) as exc:
@@ -252,7 +287,7 @@ def evaluate_episode(client: OpenRouterClient, seed: str, bucket: str, label: st
         completion_tokens += int(usage.get("completion_tokens") or 0)
         cached_tokens += int((usage.get("prompt_tokens_details") or {}).get("cached_tokens") or 0)
         usage_cost += float(usage.get("cost") or 0.0)
-        quantity = parse_completion(raw)
+        quantity = parse_completion(normalize_openrouter_completion(raw))
         if quantity is None:
             format_failures += 1
             episode.protocol_failure_outcome(error_count=1, category="invalid_protocol")
@@ -371,7 +406,14 @@ def run_model(
             "system_cache_control": {"type": "ephemeral", "ttl": "1h"},
             "openrouter_cache_headers": True,
         },
-        "decoding": {"temperature": 0.7, "top_p": 0.95, "max_completion_tokens": 192},
+        "decoding": {
+            "temperature": 0.7,
+            "top_p": 0.95,
+            "max_completion_tokens": (
+                REASONING_MAX_TOKENS if model_id in REASONING_REQUIRED_MODELS else DEFAULT_MAX_TOKENS
+            ),
+            "reasoning_effort": "low" if model_id in REASONING_REQUIRED_MODELS else "none",
+        },
         "summary": aggregate(rows),
         "client_totals": {
             "spent_usd": client.spent,
