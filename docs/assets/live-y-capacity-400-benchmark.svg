@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-labelledby="title">
   <title id="title">Live-Y capacity-400 scores</title>
-  <rect width="1120" height="560" fill="#F7F5F1"/>
-  <rect x="40" y="28" width="1040" height="504" rx="8" fill="#FFFFFF" stroke="#E5DFD7" stroke-width="1.5"/>
+  <rect width="1120" height="520" fill="#F7F5F1"/>
+  <rect x="40" y="24" width="1040" height="472" rx="8" fill="#FFFFFF" stroke="#E5DFD7" stroke-width="1.5"/>
 
   <defs>
     <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
@@ -10,63 +10,56 @@
     </linearGradient>
   </defs>
 
-  <!-- axis ticks 0 / 25 / 50 / 75 / 100 ; bar origin x=280, width=720 => 7.2 px per score point -->
-  <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="12" fill="#A39891">
-    <text x="280" y="56">0</text>
-    <text x="460" y="56">25</text>
-    <text x="640" y="56">50</text>
-    <text x="820" y="56">75</text>
-    <text x="1000" y="56" text-anchor="end">100</text>
+  <!-- track: x=72..1000 (928px) => 9.28 px per score point; scale 0–100 -->
+  <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="13" fill="#A39891">
+    <text x="72" y="52">0</text>
+    <text x="304" y="52">25</text>
+    <text x="536" y="52">50</text>
+    <text x="768" y="52">75</text>
+    <text x="1000" y="52" text-anchor="end">100</text>
   </g>
   <g stroke="#EFEAE3" stroke-width="1">
-    <line x1="280" y1="64" x2="280" y2="520"/>
-    <line x1="460" y1="64" x2="460" y2="520"/>
-    <line x1="640" y1="64" x2="640" y2="520"/>
-    <line x1="820" y1="64" x2="820" y2="520"/>
-    <line x1="1000" y1="64" x2="1000" y2="520"/>
+    <line x1="72" y1="60" x2="72" y2="476"/>
+    <line x1="304" y1="60" x2="304" y2="476"/>
+    <line x1="536" y1="60" x2="536" y2="476"/>
+    <line x1="768" y1="60" x2="768" y2="476"/>
+    <line x1="1000" y1="60" x2="1000" y2="476"/>
   </g>
 
-  <g font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#3A2F2C">
-    <!-- Grok 29.78 -> w=214.4 -->
-    <text x="56" y="104">Grok 4.5</text>
-    <rect x="280" y="84" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="84" width="214" height="28" rx="4" fill="url(#bar)"/>
-    <text x="504" y="104" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">29.78</text>
+  <g font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="20" fill="#3A2F2C">
+    <!-- Grok 29.78 -->
+    <rect x="72" y="80" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="80" width="276" height="36" rx="4" fill="url(#bar)"/>
+    <text x="360" y="105">29.78</text>
 
-    <!-- Luna 14.80 -> w=106.6 -->
-    <text x="56" y="168">GPT-5.6 Luna</text>
-    <rect x="280" y="148" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="148" width="107" height="28" rx="4" fill="url(#bar)" fill-opacity="0.95"/>
-    <text x="397" y="168" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">14.80</text>
+    <!-- Luna 14.80 -->
+    <rect x="72" y="136" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="136" width="137" height="36" rx="4" fill="url(#bar)" fill-opacity="0.95"/>
+    <text x="221" y="161">14.80</text>
 
-    <!-- Laguna 14.02 -> w=101.0 -->
-    <text x="56" y="232">Laguna S 2.1</text>
-    <rect x="280" y="212" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="212" width="101" height="28" rx="4" fill="url(#bar)" fill-opacity="0.90"/>
-    <text x="391" y="232" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">14.02</text>
+    <!-- Laguna 14.02 -->
+    <rect x="72" y="192" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="192" width="130" height="36" rx="4" fill="url(#bar)" fill-opacity="0.90"/>
+    <text x="214" y="217">14.02</text>
 
-    <!-- Qwen GRPO 7.48 -> w=53.9 -->
-    <text x="56" y="296">Qwen GRPO</text>
-    <rect x="280" y="276" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="276" width="54" height="28" rx="4" fill="url(#bar)" fill-opacity="0.85"/>
-    <text x="344" y="296" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">7.48</text>
+    <!-- Qwen GRPO 7.48 -->
+    <rect x="72" y="248" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="248" width="69" height="36" rx="4" fill="url(#bar)" fill-opacity="0.85"/>
+    <text x="153" y="273">7.48</text>
 
-    <!-- DeepSeek 7.12 -> w=51.3 -->
-    <text x="56" y="360">DeepSeek V4</text>
-    <rect x="280" y="340" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="340" width="51" height="28" rx="4" fill="url(#bar)" fill-opacity="0.80"/>
-    <text x="341" y="360" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">7.12</text>
+    <!-- DeepSeek 7.12 -->
+    <rect x="72" y="304" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="304" width="66" height="36" rx="4" fill="url(#bar)" fill-opacity="0.80"/>
+    <text x="150" y="329">7.12</text>
 
-    <!-- Qwen untrained 6.73 -> w=48.5 -->
-    <text x="56" y="424">Qwen base</text>
-    <rect x="280" y="404" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="404" width="48" height="28" rx="4" fill="url(#bar)" fill-opacity="0.75"/>
-    <text x="338" y="424" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">6.73</text>
+    <!-- Qwen untrained 6.73 -->
+    <rect x="72" y="360" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="360" width="62" height="36" rx="4" fill="url(#bar)" fill-opacity="0.75"/>
+    <text x="146" y="385">6.73</text>
 
-    <!-- Nemotron 6.56 -> w=47.2 -->
-    <text x="56" y="488">Nemotron 3</text>
-    <rect x="280" y="468" width="720" height="28" rx="4" fill="#EFEAE3"/>
-    <rect x="280" y="468" width="47" height="28" rx="4" fill="url(#bar)" fill-opacity="0.70"/>
-    <text x="337" y="488" font-family="IBM Plex Mono, Menlo, Consolas, monospace" font-size="18">6.56</text>
+    <!-- Nemotron 6.56 -->
+    <rect x="72" y="416" width="928" height="36" rx="4" fill="#EFEAE3"/>
+    <rect x="72" y="416" width="61" height="36" rx="4" fill="url(#bar)" fill-opacity="0.70"/>
+    <text x="145" y="441">6.56</text>
   </g>
 </svg>
