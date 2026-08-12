@@ -41,3 +41,17 @@ artifacts/**/*.csv
 !beer_distribution_rl/web/assets/**/
 !beer_distribution_rl/web/assets/**/*.pt
 !beer_distribution_rl/web/assets/**/*.pth
+
+# Never let credential material into the tree (a sync bug once copied an SSH
+# private key into artifacts/; see scripts/sync_runpod_artifacts.sh).
+*.pem
+*ssh-key*
+id_rsa*
+id_ed25519*
+
+# LoRA adapters and per-update checkpoints are large binaries; the selected
+# adapter is published to the Hugging Face Hub instead (see the postmortem).
+# Metrics, rollouts and manifests stay in git; weights do not.
+artifacts/**/adapter_model.safetensors
+artifacts/**/checkpoints/update_*/
+artifacts/live_y_best_adapter*/tokenizer.json

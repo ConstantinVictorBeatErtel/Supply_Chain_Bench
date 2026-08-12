@@ -1,0 +1,40 @@
+{
+  "action_serializer": "strict JSON quantity converted to place_order",
+  "efficiency": {
+    "generation_token_cap": 32,
+    "inference_mode": true,
+    "kv_cache_min_prefix_tokens": 64,
+    "prefix_kv_cache": true,
+    "prompt_max_tokens": 2048,
+    "training_forward_use_cache": false
+  },
+  "eval_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "eval_split": "research_development",
+  "group_size": 6,
+  "model_name": "Qwen/Qwen3.5-4B",
+  "reward": "native BeerEpisode grade.episode_reward",
+  "train_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "updates": 20
+}

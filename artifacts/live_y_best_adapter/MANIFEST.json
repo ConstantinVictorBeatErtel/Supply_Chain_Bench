@@ -1,0 +1,47 @@
+{
+  "base_model": "Qwen/Qwen3.5-4B",
+  "development_eval": {
+    "cost_reduction_pct": 39.4,
+    "immediate_fill_rate_mean": 0.7626775068078542,
+    "protocol_clean_rate": 1.0,
+    "seeds": "derive_research_seed('development', 0..3), in_distribution bucket, n=4",
+    "trained_local_cost_mean": 1430.875,
+    "untrained_local_cost_mean": 2360.625
+  },
+  "lora": {
+    "alpha": 16,
+    "dropout": 0.0,
+    "r": 16,
+    "targets": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "not_yet_measured": "capacity-400 held-out board (16 seeds, 4 buckets). Do not quote a board score for this adapter.",
+  "saved_utc": "2026-08-11T05:32:49Z",
+  "selected_update": 16,
+  "sha256_adapter_model_safetensors": "4fde2ce9029c1cc0d502e3776144668f454e835c87346b2284b44786886602f4",
+  "sibling": "artifacts/live_y_best_adapter_u15/ holds update 15 (training cost 1638), unvalidated on development seeds",
+  "status": "FINAL",
+  "training": {
+    "bucket": "in_distribution",
+    "clip_epsilon": 0.2,
+    "credit_window_weeks": 6,
+    "dual_clip": 3.0,
+    "group_size": 6,
+    "lr": 1e-05,
+    "scored_tokens": "digits of the order only",
+    "seed": 20260808,
+    "seeds_per_update": 8,
+    "updates": 16
+  },
+  "training_protocol_clean_rate": 1.0,
+  "training_rollout_local_cost_mean": 1510.9791666666667,
+  "what": "LoRA adapter, live-Y GRPO run 2 (corrected 6-week credit window, group-normalized advantages, token-level surrogate)",
+  "why_this_one": "update 16 is both the lowest training-rollout cost (1511) and the checkpoint the post-training development evaluation actually measured; adapter_best/ held update 15 only because the trainer excluded the final update from best-selection"
+}

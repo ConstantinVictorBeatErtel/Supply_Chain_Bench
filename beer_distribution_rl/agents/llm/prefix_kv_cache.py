@@ -14,6 +14,15 @@ from collections import defaultdict
 from typing import Any
 
 
+class UnsupportedCacheLayout(TypeError):
+    """The model's KV cache cannot be batch-expanded by this implementation.
+
+    Distinguished from a transient failure (an allocator hiccup, a model-version
+    quirk) because it is a permanent property of the loaded model: retrying it
+    on every batch costs a prefix forward pass each time and can never succeed.
+    """
+
+
 class PrefixKVCache:
     """Cache model KV states for invariant prompt prefixes.
 
@@ -31,15 +40,20 @@ class PrefixKVCache:
         self._entries: dict[tuple[int, ...], Any] = {}
         self._stats = defaultdict(int)
         self._last_error: str | None = None
+        self._disabled_reason: str | None = None
 
     def clear(self) -> None:
         self._entries.clear()
         self._stats["clears"] += 1
         self._last_error = None
 
+    @property
+    def disabled(self) -> bool:
+        return self._disabled_reason is not None
+
     def snapshot(self) -> dict[str, Any]:
         return {
-            "enabled": True,
+            "enabled": not self.disabled,
             "entries": len(self._entries),
             "cache_lookups": self._stats["lookups"],
             "cache_hits": self._stats["hits"],
@@ -47,6 +61,7 @@ class PrefixKVCache:
             "fallbacks": self._stats["fallbacks"],
             "prefix_tokens_avoided": self._stats["prefix_tokens_avoided"],
             "last_error": self._last_error,
+            "disabled_reason": self._disabled_reason,
         }
 
     @staticmethod
@@ -73,10 +88,104 @@ class PrefixKVCache:
             )
         return copy.deepcopy(cache)
 
+    @staticmethod
+    def _repeat_tensor(value: Any, repeats: int) -> Any:
+        if value is None or not hasattr(value, "repeat_interleave"):
+            return value
+        return value.repeat_interleave(repeats, dim=0)
+
+    @classmethod
+    def _repeat_state(cls, state: Any, initialized: Any, repeats: int) -> Any:
+        """Expand one recurrent-state container, whatever shape the version uses."""
+
+        if isinstance(state, dict):
+            expanded = dict(state)
+            for key, value in state.items():
+                ready = initialized.get(key, True) if isinstance(initialized, dict) else initialized
+                if ready is False:
+                    continue
+                expanded[key] = cls._repeat_tensor(value, repeats)
+            return expanded
+        if initialized is False:
+            return state
+        return cls._repeat_tensor(state, repeats)
+
+    @classmethod
+    def _repeat_layer(cls, layer: Any, repeats: int) -> None:
+        """Expand one cache layer along the batch dimension, in place.
+
+        Transformers' ``Cache.batch_repeat_interleave`` delegates to each layer,
+        and not every layer type implements it.  Qwen3.5 is hybrid: its
+        full-attention layers are ``DynamicLayer`` (which does) while its linear
+        attention layers are ``LinearAttentionLayer`` (which does not), so the
+        delegating call raises partway through the layer loop.  Handling the
+        layers individually keeps the cache usable on hybrid models.
+        """
+
+        handled = False
+
+        # Linear-attention layers keep a fixed-size recurrent state instead of a
+        # growing key/value pair.  ``reorder_cache`` on the same classes treats
+        # those tensors as batch-first and guards on the same initialization
+        # flags, so this mirrors the layer's own notion of its batch dimension.
+        #
+        # The container shape is version-dependent: transformers 5.9 stores one
+        # tensor per layer, 5.14 stores ``dict[int, Tensor | None]`` keyed by
+        # state index (with the initialization flags keyed the same way).  Both
+        # are handled rather than pinning a version.
+        for name in ("conv_states", "recurrent_states"):
+            if not hasattr(layer, name):
+                continue
+            handled = True
+            setattr(
+                layer,
+                name,
+                cls._repeat_state(
+                    getattr(layer, name),
+                    getattr(layer, f"is_{name}_initialized", None),
+                    repeats,
+                ),
+            )
+
+        # Both families are expanded rather than one or the other.  A layer can
+        # carry both -- transformers' ``LinearAttentionAndFullAttentionLayer``
+        # does -- and it *inherits* ``batch_repeat_interleave`` from
+        # ``DynamicLayer``, which touches only keys and values.  Delegating to
+        # that method would leave the recurrent state at the original batch size
+        # and corrupt generation silently rather than raising.
+        if hasattr(layer, "keys") and hasattr(layer, "values"):
+            handled = True
+            if layer.keys is not None:
+                layer.keys = layer.keys.repeat_interleave(repeats, dim=0)
+            if layer.values is not None:
+                layer.values = layer.values.repeat_interleave(repeats, dim=0)
+
+        if handled:
+            return
+
+        # Only for layouts we do not recognize at all: trust the layer to know
+        # how to expand itself.
+        repeat = getattr(layer, "batch_repeat_interleave", None)
+        if callable(repeat):
+            repeat(repeats)
+            return
+
+        raise UnsupportedCacheLayout(
+            f"cache layer {type(layer).__name__!r} cannot be batch-expanded"
+        )
+
     @classmethod
     def _repeat_cache(cls, cache: Any, batch_size: int) -> Any:
         cache = cls._clone_cache(cache)
         if batch_size == 1:
+            return cache
+        # Prefer per-layer expansion over the delegating top-level helper: the
+        # latter mutates layers in order and leaves the cache half-expanded when
+        # one layer type is unsupported.
+        layers = getattr(cache, "layers", None)
+        if layers is not None:
+            for layer in layers:
+                cls._repeat_layer(layer, batch_size)
             return cache
         repeat = getattr(cache, "batch_repeat_interleave", None)
         if callable(repeat):
@@ -89,7 +198,7 @@ class PrefixKVCache:
                 else layer
                 for layer in cache
             )
-        raise TypeError(f"unsupported past-key-value cache type: {type(cache)!r}")
+        raise UnsupportedCacheLayout(f"unsupported past-key-value cache type: {type(cache)!r}")
 
     def _prefix_cache(self, prefix_ids: list[int], device: Any) -> Any:
         key = tuple(prefix_ids)
@@ -131,6 +240,9 @@ class PrefixKVCache:
 
         if not prompts:
             return []
+        if self.disabled:
+            self._stats["fallbacks"] += 1
+            return None
         try:
             rows: list[list[int]] = []
             for prompt in prompts:
@@ -214,6 +326,15 @@ class PrefixKVCache:
                 len(rows) if cache_was_hit else max(0, len(rows) - 1)
             )
             return [output for output in outputs if output is not None]
+        except UnsupportedCacheLayout as exc:
+            # Permanent for this model, so stop paying a prefix forward pass per
+            # batch to rediscover it.  Correctness is unaffected: the caller
+            # falls back to plain batched generation exactly as before.
+            self._stats["fallbacks"] += 1
+            self._last_error = f"{type(exc).__name__}: {exc}"[:240]
+            self._disabled_reason = self._last_error
+            self._entries.clear()
+            return None
         except Exception as exc:  # pragma: no cover - exercised by model-version fallback
             self._stats["fallbacks"] += 1
             self._last_error = f"{type(exc).__name__}: {exc}"[:240]

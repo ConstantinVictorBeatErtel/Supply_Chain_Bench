@@ -41,6 +41,9 @@ from beer_distribution_game.prompts import observation_user_message
 from beer_distribution_game.scenario import scenario_from_dict
 QUANTITY_RE = re.compile(r'"quantity"\s*:\s*(-?\d+)')
 
+DEFAULT_CLIP_EPSILON = 0.2
+DEFAULT_DUAL_CLIP = 3.0
+
 
 @dataclass
 class ActionRecord:
@@ -52,6 +55,12 @@ class ActionRecord:
     valid: bool
     advantage: float = 0.0
     old_logprob: float = 0.0
+    old_token_logprobs: list[float] = field(default_factory=list)
+    # Which completion tokens actually encode the decision.  ``{"quantity": 48}``
+    # is roughly eight tokens, of which one carries the order; the rest are
+    # boilerplate the policy already emits with probability ~1.  Scoring the
+    # whole span dilutes the update across tokens that have nothing to learn.
+    action_token_mask: list[bool] = field(default_factory=list)
     return_to_go: float | None = None
     group_baseline: float | None = None
 
@@ -106,6 +115,30 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--temperature", type=float, default=0.7)
     p.add_argument("--top-p", type=float, default=0.95)
     p.add_argument("--no-4bit", action="store_true")
+    p.add_argument(
+        "--checkpoint-every",
+        type=int,
+        default=1,
+        help="Save the adapter every N updates; 0 saves only at the end.",
+    )
+    p.add_argument(
+        "--no-keep-all-checkpoints",
+        dest="keep_all_checkpoints",
+        action="store_false",
+        help="Keep only the latest and best adapters instead of one per update.",
+    )
+    p.add_argument("--clip-epsilon", type=float, default=DEFAULT_CLIP_EPSILON)
+    p.add_argument(
+        "--dual-clip",
+        type=float,
+        default=DEFAULT_DUAL_CLIP,
+        help="Lower bound multiplier on the surrogate for negative advantages.",
+    )
+    p.add_argument(
+        "--all-completion-tokens",
+        action="store_true",
+        help="Score every completion token instead of only the digits of the order.",
+    )
     return p.parse_args()
 
 
@@ -186,6 +219,22 @@ def extract_quantity(text: str) -> int | None:
         return None
     quantity = int(match.group(1))
     return quantity if 0 <= quantity <= 128 else None
+
+
+def decision_token_mask(tokenizer: Any, completion_ids: list[int]) -> list[bool]:
+    """Flag the completion tokens that carry the integer order.
+
+    ``{"quantity": 48}`` decodes to roughly eight tokens and only the numeric
+    one is a decision; the braces, key and colon are boilerplate the policy
+    already emits deterministically.  Decoding each token on its own and
+    keeping the ones containing a digit isolates the order without having to
+    reason about a specific tokenizer's merges.
+    """
+    flags: list[bool] = []
+    for token_id in completion_ids:
+        piece = tokenizer.decode([token_id], skip_special_tokens=True)
+        flags.append(any(character.isdigit() for character in piece))
+    return flags
 
 
 def model_device(model: Any) -> torch.device:
@@ -361,6 +410,7 @@ def rollout_batch(
                         raw_text=raw_text,
                         quantity=quantity,
                         valid=True,
+                        action_token_mask=decision_token_mask(tokenizer, completion_ids),
                     )
                 )
                 if not result["done"]:
@@ -377,6 +427,7 @@ def rollout_batch(
                         raw_text=raw_text,
                         quantity=None,
                         valid=False,
+                        action_token_mask=decision_token_mask(tokenizer, completion_ids),
                     )
                 )
                 finish_invalid(run, "invalid_json_action")
@@ -430,32 +481,33 @@ def task_lookup(tasks: list[Any]) -> dict[str, Any]:
     return {task.data.name: task for task in tasks}
 
 
-def completion_mean_logprob(
+def completion_token_logprobs(
     logits: torch.Tensor,
     input_ids: torch.Tensor,
     prompt_len: int,
     completion_len: int,
 ) -> torch.Tensor:
-    """Mean log probability of completion tokens without prompt-sized softmax."""
+    """Per-token log probabilities of the completion, without a prompt-sized softmax."""
     if completion_len == 0:
-        return logits.new_zeros(())
+        return logits.new_zeros((0,))
     # Position t predicts input_ids[t + 1].  Slice before softmax so the
     # temporary [sequence, vocabulary] log-probability tensor is only as long
     # as the generated completion, not the full prompt.
     start = prompt_len - 1
     completion_logits = logits[start : start + completion_len].float()
     completion_labels = input_ids[prompt_len : prompt_len + completion_len]
-    token_logp = torch.log_softmax(completion_logits, dim=-1).gather(
+    return torch.log_softmax(completion_logits, dim=-1).gather(
         -1, completion_labels.unsqueeze(-1)
     ).squeeze(-1)
-    return token_logp.mean()
 
 
-def sequence_logprobs(model: Any, records: list[ActionRecord], minibatch: int) -> torch.Tensor:
+def old_token_logprobs(
+    model: Any, records: list[ActionRecord], minibatch: int
+) -> list[list[float]]:
     if torch is None or pad_sequence is None:
         raise RuntimeError("Install torch in the Colab runtime first.")
     device = model_device(model)
-    values: list[torch.Tensor] = []
+    values: list[list[float]] = []
     model.eval()
     for start in range(0, len(records), minibatch):
         batch = records[start : start + minibatch]
@@ -470,61 +522,124 @@ def sequence_logprobs(model: Any, records: list[ActionRecord], minibatch: int) -
             logits = model(input_ids=ids, attention_mask=mask, use_cache=False).logits.float()
         for row, (prompt_len, completion_len) in enumerate(zip(lengths, completion_lengths)):
             values.append(
-                completion_mean_logprob(logits[row], ids[row], prompt_len, completion_len)
+                completion_token_logprobs(logits[row], ids[row], prompt_len, completion_len)
                 .cpu()
+                .tolist()
             )
-    return torch.stack(values)
+    return values
+
+
+def loss_token_mask(record: ActionRecord, decision_tokens_only: bool) -> list[bool]:
+    """Which completion tokens the surrogate scores."""
+    length = len(record.completion_ids)
+    if not decision_tokens_only:
+        return [True] * length
+    mask = record.action_token_mask[:length]
+    if len(mask) < length:
+        mask = mask + [False] * (length - len(mask))
+    # A completion with no digit token (a protocol failure, typically) still has
+    # to carry its penalty, so fall back to the whole span.
+    return mask if any(mask) else [True] * length
 
 
 def train_update(model: Any, optimizer: Any, records: list[ActionRecord], args: argparse.Namespace) -> dict[str, float]:
     if torch is None or pad_sequence is None:
         raise RuntimeError("Install torch in the Colab runtime first.")
+    empty = {
+        "loss": 0.0,
+        "trainable_actions": 0.0,
+        "mean_advantage": 0.0,
+        "scored_tokens": 0.0,
+        "clip_fraction": 0.0,
+    }
     if not records:
-        return {"loss": 0.0, "trainable_actions": 0.0, "mean_advantage": 0.0}
+        return empty
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-    old = sequence_logprobs(model, records, args.inference_minibatch)
+    old = old_token_logprobs(model, records, args.inference_minibatch)
     # Batched generation and the no-grad old-policy pass can leave large
     # reclaimable segments in the CUDA caching allocator.  Return them before
     # constructing the backward graph, which is the peak-memory phase.
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-    for record, value in zip(records, old.tolist()):
-        record.old_logprob = float(value)
+    for record, value in zip(records, old):
+        record.old_token_logprobs = value
+        record.old_logprob = float(statistics.mean(value)) if value else 0.0
     trainable = [record for record in records if abs(record.advantage) > 1e-12 and record.completion_ids]
     if not trainable:
-        return {"loss": 0.0, "trainable_actions": 0.0, "mean_advantage": 0.0}
+        return empty
 
+    # getattr defaults keep the sibling launchers (which build their own
+    # argument namespaces) working without each having to restate every knob.
+    decision_only = not getattr(args, "all_completion_tokens", False)
+    epsilon = float(getattr(args, "clip_epsilon", DEFAULT_CLIP_EPSILON))
+    dual_clip = float(getattr(args, "dual_clip", DEFAULT_DUAL_CLIP))
+    clip_low = 1.0 - epsilon
+    clip_high = 1.0 + epsilon
+    device = model_device(model)
     model.train()
     losses: list[float] = []
+    scored_tokens = 0
+    clipped_tokens = 0
     for start in range(0, len(trainable), args.train_minibatch):
         batch = trainable[start : start + args.train_minibatch]
         sequences = [torch.tensor(r.prompt_ids + r.completion_ids, dtype=torch.long) for r in batch]
         lengths = [len(r.prompt_ids) for r in batch]
         completion_lengths = [len(r.completion_ids) for r in batch]
-        ids = pad_sequence(sequences, batch_first=True, padding_value=0).to(model_device(model))
+        ids = pad_sequence(sequences, batch_first=True, padding_value=0).to(device)
         mask = torch.zeros_like(ids, dtype=torch.long)
         for row, seq in enumerate(sequences):
             mask[row, : len(seq)] = 1
         logits = model(input_ids=ids, attention_mask=mask, use_cache=False).logits.float()
-        current: list[torch.Tensor] = []
+
+        width = max(completion_lengths)
+        current = torch.zeros((len(batch), width), device=device)
+        old_logp = torch.zeros((len(batch), width), device=device)
+        score = torch.zeros((len(batch), width), device=device)
         for row, (prompt_len, completion_len) in enumerate(zip(lengths, completion_lengths)):
-            current.append(completion_mean_logprob(logits[row], ids[row], prompt_len, completion_len))
-        current_logp = torch.stack(current)
-        old_logp = torch.tensor([r.old_logprob for r in batch], device=current_logp.device)
-        advantages = torch.tensor([r.advantage for r in batch], device=current_logp.device)
-        ratio = torch.exp((current_logp - old_logp).clamp(-5.0, 5.0))
-        clipped = torch.clamp(ratio, 0.8, 1.2)
-        loss = -(torch.minimum(ratio * advantages, clipped * advantages)).mean()
+            token_logp = completion_token_logprobs(logits[row], ids[row], prompt_len, completion_len)
+            current[row, :completion_len] = token_logp
+            old_logp[row, :completion_len] = torch.tensor(
+                batch[row].old_token_logprobs[:completion_len], device=device
+            )
+            keep = loss_token_mask(batch[row], decision_only)
+            score[row, :completion_len] = torch.tensor(
+                [1.0 if flag else 0.0 for flag in keep], device=device
+            )
+
+        advantages = torch.tensor(
+            [r.advantage for r in batch], device=device, dtype=current.dtype
+        ).unsqueeze(1)
+        # Token-level ratio.  Averaging log probabilities over the completion
+        # first (the previous behaviour) let seven boilerplate tokens outvote
+        # the one token that carries the order, so the ratio barely responded
+        # to a change in the order distribution and the clip never engaged.
+        ratio = torch.exp((current - old_logp).clamp(-5.0, 5.0))
+        surrogate = torch.minimum(ratio * advantages, ratio.clamp(clip_low, clip_high) * advantages)
+        # Double-sided: for negative advantages the single-sided minimum is
+        # unbounded below, so one badly off-policy token can dominate the batch.
+        surrogate = torch.where(
+            advantages < 0, torch.maximum(surrogate, dual_clip * advantages), surrogate
+        )
+        denominator = score.sum().clamp(min=1.0)
+        loss = -(surrogate * score).sum() / denominator
+
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
+
         losses.append(float(loss.detach().cpu()))
+        with torch.no_grad():
+            engaged = ((ratio < clip_low) | (ratio > clip_high)).float() * score
+            clipped_tokens += int(engaged.sum().item())
+            scored_tokens += int(score.sum().item())
     return {
         "loss": statistics.mean(losses) if losses else 0.0,
         "trainable_actions": float(len(trainable)),
         "mean_advantage": statistics.mean(record.advantage for record in trainable),
+        "scored_tokens": float(scored_tokens),
+        "clip_fraction": clipped_tokens / scored_tokens if scored_tokens else 0.0,
     }
 
 
@@ -646,6 +761,7 @@ def main() -> None:
         weight_decay=0.0,
     )
     update_rows: list[dict[str, Any]] = []
+    best: dict[str, Any] = {"cost": float("inf"), "update": None}
     for update in range(1, args.updates + 1):
         print(f"Update {update}/{args.updates}: collecting rollouts...", flush=True)
         runs = rollout_batch(model, tokenizer, train_tasks, args, args.group_size, sample=True)
@@ -678,6 +794,46 @@ def main() -> None:
         with (output_dir / "rollouts.jsonl").open("a") as handle:
             for episode in episode_rows:
                 handle.write(json.dumps({"update": update, **episode}) + "\n")
+
+        # A long run can lose its pod mid-flight (spend cap, preemption, a dead
+        # shell).  The adapter is small, so checkpoint it every update rather
+        # than discovering at the end that hours of GPU time produced nothing.
+        every = int(getattr(args, "checkpoint_every", 0) or 0)
+        # The final update is checkpointed too.  Excluding it (the loop below
+        # used to stop at ``update < args.updates``) meant the last update could
+        # never win best-selection: run 2 ended on its cheapest and only
+        # development-validated update, and ``adapter_best`` still pointed at
+        # the runner-up.
+        if every and update % every == 0:
+            model.save_pretrained(output_dir / "adapter")
+            tokenizer.save_pretrained(output_dir / "adapter")
+            state = {"completed_updates": update, "planned_updates": args.updates}
+
+            # Numbered snapshots are never overwritten, so any update can be
+            # recovered after the fact -- including one that only looks like the
+            # right stopping point once the whole curve is visible.
+            if getattr(args, "keep_all_checkpoints", False):
+                snapshot = output_dir / "checkpoints" / f"update_{update:03d}"
+                model.save_pretrained(snapshot)
+                tokenizer.save_pretrained(snapshot)
+                save_json(snapshot / "metrics.json", row)
+
+            # GRPO on this task over-optimizes: cost bottoms out and then the
+            # policy drifts into under-ordering and malformed JSON.  A
+            # last-update-only checkpoint therefore hands back the *worst*
+            # policy of the late run.  Keep the best clean update separately.
+            clean = row.get("protocol_clean_rate")
+            cost = row.get("local_total_cost_mean")
+            eligible = cost is not None and (clean is None or clean >= 1.0)
+            if eligible and cost < best["cost"]:
+                best.update({"cost": float(cost), "update": update})
+                model.save_pretrained(output_dir / "adapter_best")
+                tokenizer.save_pretrained(output_dir / "adapter_best")
+                save_json(output_dir / "adapter_best" / "selection.json", dict(best))
+                print(f"New best adapter at update {update} (cost {cost:.0f}).", flush=True)
+            state["best"] = dict(best)
+            save_json(output_dir / "checkpoint_state.json", state)
+            print(f"Checkpointed adapter after update {update}.", flush=True)
 
     print("Saving LoRA adapter...", flush=True)
     model.config.use_cache = True

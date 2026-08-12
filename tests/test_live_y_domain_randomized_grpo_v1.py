@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -7,6 +10,9 @@ import pytest
 from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_game.policies import adaptive_policy
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.advantages import (
+    ADVANTAGE_CLIP,
+    DEFAULT_CREDIT_WINDOW,
+    FAILURE_ADVANTAGE,
     FAILURE_PENALTY,
     assign_group_advantages,
     return_to_go,
@@ -143,7 +149,7 @@ def test_return_to_go_includes_weekly_settlement_and_terminal_cost():
 def test_same_timestep_baseline_and_different_turn_advantages():
     first = _run([1.0, 2.0, 3.0], group=4)
     second = _run([4.0, 2.0, 1.0], group=4)
-    diagnostics = assign_group_advantages([first, second])
+    diagnostics = assign_group_advantages([first, second], window=None, normalize=False)
     assert first.records[0].group_baseline == pytest.approx(-17.5)
     assert first.records[0].advantage == pytest.approx(0.5)
     assert first.records[1].advantage == pytest.approx(-1.0)
@@ -162,7 +168,7 @@ def test_zero_variance_group_is_finite_zero():
 
 def test_protocol_failure_penalty_propagates_to_preceding_turns():
     run = _run([1.0, 2.0], clean=False, valid=[True, False])
-    values = return_to_go(run)
+    values = return_to_go(run, window=None)
     assert values == pytest.approx([-100001.0, FAILURE_PENALTY])
 
 
@@ -173,3 +179,117 @@ def test_unequal_group_lengths_are_masked_per_timestep():
     assert short.records[0].group_baseline == long.records[0].group_baseline
     assert long.records[1].group_baseline == pytest.approx(long.records[1].return_to_go)
     assert diagnostics["total_group_timesteps"] == 2
+
+
+def test_credit_window_bounds_downstream_cost_attribution():
+    run = _run([1.0, 2.0, 3.0, 4.0, 5.0])
+    # Window 2 charges turn 0 for weeks 0-1 only; terminal exposure is not yet
+    # in reach, so it is not attributed.
+    assert return_to_go(run, window=2)[0] == pytest.approx(-3.0)
+    # The last two turns can reach the horizon, so they carry the -11 terminal.
+    assert return_to_go(run, window=2)[3] == pytest.approx(-(4.0 + 5.0) - 11.0)
+    assert return_to_go(run, window=2)[4] == pytest.approx(-5.0 - 11.0)
+    # An unbounded window reproduces the archived behaviour.
+    assert return_to_go(run, window=None)[0] == pytest.approx(-15.0 - 11.0)
+
+
+def test_credit_window_of_horizon_matches_unbounded():
+    run = _run([1.0, 2.0, 3.0])
+    assert return_to_go(run, window=3) == pytest.approx(return_to_go(run, window=None))
+
+
+def test_discount_downweights_later_weeks_inside_the_window():
+    run = _run([0.0, 10.0, 0.0], clean=False)
+    assert return_to_go(run, window=3, discount=0.5)[0] == pytest.approx(-5.0)
+
+
+def test_window_must_be_at_least_one_week():
+    with pytest.raises(ValueError):
+        return_to_go(_run([1.0]), window=0)
+
+
+def test_normalization_puts_advantages_on_unit_scale():
+    first = _run([1.0, 1.0, 1.0], group=3)
+    second = _run([9.0, 1.0, 1.0], group=3)
+    assign_group_advantages([first, second], window=1, normalize=True)
+    # Two members, so each sits exactly one group standard deviation out.
+    assert first.records[0].advantage == pytest.approx(1.0)
+    assert second.records[0].advantage == pytest.approx(-1.0)
+
+
+def test_protocol_failure_advantage_is_fixed_and_bounded():
+    clean = _run([1.0, 1.0], group=5)
+    failed = _run([1.0, 1.0], group=5, clean=False, valid=[True, False])
+    assign_group_advantages([clean, failed])
+    # Without the override, group normalization would rescale -1e5 to -1.0 here
+    # and make a protocol failure look like an ordinary bad week.
+    assert failed.records[1].advantage == pytest.approx(FAILURE_ADVANTAGE)
+    assert failed.records[0].advantage == pytest.approx(FAILURE_ADVANTAGE)
+    assert clean.records[1].advantage == pytest.approx(1.0)
+    assert abs(FAILURE_ADVANTAGE) < ADVANTAGE_CLIP
+
+
+def test_default_window_is_the_causal_order_horizon():
+    assert DEFAULT_CREDIT_WINDOW == 6
+
+
+ARCHIVED_ROLLOUTS = (
+    Path(__file__).resolve().parents[1]
+    / "artifacts"
+    / "live_y_domain_randomized_grpo_v1"
+    / "runpod_final"
+    / "rollouts.jsonl"
+)
+
+
+@pytest.mark.skipif(not ARCHIVED_ROLLOUTS.exists(), reason="archived rollouts not present")
+def test_unbounded_unnormalized_path_reproduces_the_archived_advantages():
+    """The archived run must stay bit-reproducible after the window refactor.
+
+    ``--credit-window 0`` is the documented way to rerun the original setting,
+    so it has to reproduce the advantages that were actually optimized in
+    ``runpod_final``, not merely something close to them.
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from replay_live_y_credit_window import build_run
+
+    rows = [json.loads(line) for line in ARCHIVED_ROLLOUTS.read_text().splitlines() if line.strip()]
+    groups: dict[tuple[int, str], int] = {}
+    runs = [
+        build_run(row, groups.setdefault((row["update"], row["task"]), len(groups)))
+        for row in rows
+    ]
+
+    assign_group_advantages(runs, window=None, discount=1.0, normalize=False)
+
+    for run, row in zip(runs, rows):
+        rebuilt = [record.advantage for record in run.records]
+        assert rebuilt == pytest.approx(row["per_turn_advantages"], abs=1e-9)
+
+
+@pytest.mark.skipif(not ARCHIVED_ROLLOUTS.exists(), reason="archived rollouts not present")
+def test_credit_window_restores_per_turn_credit_on_the_archived_rollouts():
+    """The whole point of the window: advantages that vary week to week.
+
+    Unbounded return-to-go left ~10% of the advantage variance per-turn; the
+    rest was a per-trajectory constant broadcast to all 36 decisions, which is
+    episode-level REINFORCE wearing a per-turn costume.
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from replay_live_y_credit_window import build_run, variance_split
+
+    rows = [json.loads(line) for line in ARCHIVED_ROLLOUTS.read_text().splitlines() if line.strip()]
+    groups: dict[tuple[int, str], int] = {}
+    runs = [
+        build_run(row, groups.setdefault((row["update"], row["task"]), len(groups)))
+        for row in rows
+    ]
+
+    def per_turn_share(window: int | None) -> float:
+        assign_group_advantages(runs, window=window, discount=1.0, normalize=False)
+        return variance_split([[r.advantage for r in run.records] for run in runs])[
+            "per_turn_variance_share"
+        ]
+
+    assert per_turn_share(None) < 0.15
+    assert per_turn_share(DEFAULT_CREDIT_WINDOW) > 0.70

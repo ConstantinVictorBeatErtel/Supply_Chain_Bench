@@ -1,0 +1,10 @@
+{
+  "base_model": "Qwen/Qwen3.5-4B",
+  "caveat": "Selected on TRAINING rollout cost; not validated on development or held-out seeds.",
+  "saved_utc": "2026-08-11T05:31:18Z",
+  "selected_update": 15,
+  "selection_criterion": "lowest mean training-rollout local cost among 100%-protocol-clean updates",
+  "sha256_adapter_model_safetensors": "e41fd26636832c3a6828f74559c8986afe81af6c1762e608f1d58ffdc1172b02",
+  "status": "FINAL - training completed",
+  "training_rollout_local_cost_mean": 1638.3125
+}

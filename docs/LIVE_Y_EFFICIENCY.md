@@ -22,7 +22,22 @@ teacher-forced backward pass, where it increases memory use.
 Per-update `training_metrics.json` records prompt tokens, completion tokens,
 the generation cap, cache hits, prefix forwards, fallbacks, and estimated
 prefix tokens avoided. A fallback counter is a correctness signal, not a
-reason to silently trust an unsupported cache implementation.
+reason to silently trust an unsupported cache implementation. **Read it after
+every run**: an A40 smoke on 2026-08-09 fell back on 31 of 72 lookups because
+`Cache.batch_repeat_interleave` delegates per layer and Qwen3.5's hybrid stack
+mixes `DynamicLayer` (which implements it) with `LinearAttentionLayer` (which
+does not). The cache stayed correct and the run completed, so nothing failed
+loudly — it just quietly stopped saving anything on multi-row batches.
+
+Batch expansion is therefore done per layer rather than through the delegating
+top-level helper, which also avoids leaving the cache half-expanded when one
+layer type is unsupported. Linear-attention layers expose a fixed-size
+`conv_states` / `recurrent_states` pair instead of growing keys and values;
+both are batch-first, matching those classes' own `reorder_cache`. A layout
+this implementation genuinely cannot expand raises `UnsupportedCacheLayout`,
+which latches the cache off and surfaces as `enabled: false` with a
+`disabled_reason`, so an impossible layout costs one prefix forward rather than
+one per batch. Transient errors do not latch.
 
 ## Cost controls already in use
 
@@ -45,6 +60,13 @@ reason to silently trust an unsupported cache implementation.
 - Training uses local role cost, same-timestep group baselines, fixed
   deterministic seed derivation, and common random numbers. This reduces
   variance and avoids spending additional rollouts on a learned critic.
+  The saving is real but it is not free: a group baseline compares a member
+  against groupmates that have diverged into different inventory states, which
+  is the weakest remaining component of the update. See
+  [`LIVE_Y_RL_POSTMORTEM.md`](LIVE_Y_RL_POSTMORTEM.md).
+- The surrogate scores only the tokens that encode the integer order rather than
+  the whole completion, so a 32-token generation cap is not also a 32-token
+  gradient budget spent mostly on JSON punctuation.
 - Training and evaluation seed registries are separate, and reference
   trajectories are not constructed for training rollouts.
 

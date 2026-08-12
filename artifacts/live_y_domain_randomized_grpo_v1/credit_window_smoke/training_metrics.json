@@ -1,0 +1,44 @@
+[
+  {
+    "bullwhip_ratio_mean": null,
+    "bullwhip_ratio_sd": null,
+    "clip_fraction": 0.12149532710280374,
+    "completed_weeks_mean": 0,
+    "cost_score_mean": null,
+    "cost_score_sd": null,
+    "efficiency": {
+      "completion_tokens": 1078,
+      "generation_token_cap": 32,
+      "prefix_kv_cache": {
+        "cache_hits": 60,
+        "cache_lookups": 72,
+        "enabled": true,
+        "entries": 8,
+        "fallbacks": 31,
+        "last_error": "AttributeError: 'LinearAttentionLayer' object has no attribute 'batch_repeat_interleave'",
+        "prefix_forward_calls": 12,
+        "prefix_tokens_avoided": 35168
+      },
+      "prompt_tokens": 111855
+    },
+    "immediate_fill_rate_mean": 0.761443661971831,
+    "immediate_fill_rate_sd": 0.010672848286075814,
+    "local_total_cost_mean": 3037.75,
+    "local_total_cost_sd": 912.6693336033593,
+    "loss": 0.0275837734548582,
+    "mean_advantage": 3.686287386450715e-18,
+    "n": 4,
+    "order_cap_hit_rate_mean": 0.007575757575757576,
+    "order_cap_hit_rate_sd": 0.01312159702703695,
+    "protocol_clean_rate": 1.0,
+    "reward_mean": 0.0,
+    "reward_sd": 0.0,
+    "scored_tokens": 214.0,
+    "system_total_cost_mean": 11014.25,
+    "system_total_cost_sd": 1575.5913770708444,
+    "total_actions": 144,
+    "trainable_actions": 144.0,
+    "update": 1,
+    "valid_actions": 144
+  }
+]

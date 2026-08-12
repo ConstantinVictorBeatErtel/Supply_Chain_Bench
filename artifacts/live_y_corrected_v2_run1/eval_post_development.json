@@ -1,0 +1,224 @@
+{
+  "episodes": [
+    {
+      "actions": [
+        16,
+        0
+      ],
+      "bullwhip_ratio": null,
+      "completed_weeks": 2,
+      "cost_score": null,
+      "immediate_fill_rate": null,
+      "local_total_cost": null,
+      "order_cap_hit_rate": null,
+      "per_turn_advantages": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_turn_baselines": [
+        null,
+        null,
+        null
+      ],
+      "protocol_clean": false,
+      "protocol_id": "live-y-domain-randomized-grpo-v1",
+      "raw_outputs": [
+        "{\"quantity\":16}",
+        "{\"quantity\":  0}",
+        "{\"quantity\":                             "
+      ],
+      "return_to_go": [
+        null,
+        null,
+        null
+      ],
+      "reward": 0.0,
+      "system_total_cost": null,
+      "task": "live-y-domain-randomized-grpo-v1:development:0",
+      "variant": "headline",
+      "weekly_local_costs": [
+        4.0,
+        22.0
+      ]
+    },
+    {
+      "actions": [
+        16,
+        16,
+        0
+      ],
+      "bullwhip_ratio": null,
+      "completed_weeks": 3,
+      "cost_score": null,
+      "immediate_fill_rate": null,
+      "local_total_cost": null,
+      "order_cap_hit_rate": null,
+      "per_turn_advantages": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_turn_baselines": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "protocol_clean": false,
+      "protocol_id": "live-y-domain-randomized-grpo-v1",
+      "raw_outputs": [
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":  0}",
+        "{\"quantity\":                             "
+      ],
+      "return_to_go": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "reward": 0.0,
+      "system_total_cost": null,
+      "task": "live-y-domain-randomized-grpo-v1:development:1",
+      "variant": "headline",
+      "weekly_local_costs": [
+        4.0,
+        11.0,
+        23.0
+      ]
+    },
+    {
+      "actions": [
+        16,
+        16,
+        0
+      ],
+      "bullwhip_ratio": null,
+      "completed_weeks": 3,
+      "cost_score": null,
+      "immediate_fill_rate": null,
+      "local_total_cost": null,
+      "order_cap_hit_rate": null,
+      "per_turn_advantages": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_turn_baselines": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "protocol_clean": false,
+      "protocol_id": "live-y-domain-randomized-grpo-v1",
+      "raw_outputs": [
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":  0}",
+        "{\"quantity\":                             "
+      ],
+      "return_to_go": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "reward": 0.0,
+      "system_total_cost": null,
+      "task": "live-y-domain-randomized-grpo-v1:development:2",
+      "variant": "headline",
+      "weekly_local_costs": [
+        4.0,
+        12.0,
+        24.0
+      ]
+    },
+    {
+      "actions": [
+        16,
+        16
+      ],
+      "bullwhip_ratio": null,
+      "completed_weeks": 2,
+      "cost_score": null,
+      "immediate_fill_rate": null,
+      "local_total_cost": null,
+      "order_cap_hit_rate": null,
+      "per_turn_advantages": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_turn_baselines": [
+        null,
+        null,
+        null
+      ],
+      "protocol_clean": false,
+      "protocol_id": "live-y-domain-randomized-grpo-v1",
+      "raw_outputs": [
+        "{\"quantity\":16}",
+        "{\"quantity\":16}",
+        "{\"quantity\":                             "
+      ],
+      "return_to_go": [
+        null,
+        null,
+        null
+      ],
+      "reward": 0.0,
+      "system_total_cost": null,
+      "task": "live-y-domain-randomized-grpo-v1:development:3",
+      "variant": "headline",
+      "weekly_local_costs": [
+        4.0,
+        17.0
+      ]
+    }
+  ],
+  "summary": {
+    "bullwhip_ratio_mean": null,
+    "bullwhip_ratio_sd": null,
+    "completed_weeks_mean": 2.5,
+    "cost_score_mean": null,
+    "cost_score_sd": null,
+    "immediate_fill_rate_mean": null,
+    "immediate_fill_rate_sd": null,
+    "local_total_cost_mean": null,
+    "local_total_cost_sd": null,
+    "n": 4,
+    "order_cap_hit_rate_mean": null,
+    "order_cap_hit_rate_sd": null,
+    "protocol_clean_rate": 0.0,
+    "reward_mean": 0.0,
+    "reward_sd": 0.0,
+    "system_total_cost_mean": null,
+    "system_total_cost_sd": null
+  },
+  "summary_by_variant": {
+    "headline": {
+      "bullwhip_ratio_mean": null,
+      "bullwhip_ratio_sd": null,
+      "completed_weeks_mean": 2.5,
+      "cost_score_mean": null,
+      "cost_score_sd": null,
+      "immediate_fill_rate_mean": null,
+      "immediate_fill_rate_sd": null,
+      "local_total_cost_mean": null,
+      "local_total_cost_sd": null,
+      "n": 4,
+      "order_cap_hit_rate_mean": null,
+      "order_cap_hit_rate_sd": null,
+      "protocol_clean_rate": 0.0,
+      "reward_mean": 0.0,
+      "reward_sd": 0.0,
+      "system_total_cost_mean": null,
+      "system_total_cost_sd": null
+    }
+  }
+}

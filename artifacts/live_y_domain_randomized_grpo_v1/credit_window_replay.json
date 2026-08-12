@@ -1,0 +1,97 @@
+{
+  "groups": 16,
+  "metric_notes": {
+    "per_turn_variance_share": "share of advantage variance that varies week to week within a trajectory rather than being a per-trajectory constant; 1.0 would be pure per-turn credit, 0.0 pure episode-level verdict",
+    "sign_agreement_with_episode_verdict": "fraction of weeks whose advantage sign merely repeats the trajectory's overall verdict"
+  },
+  "reconstruction_max_abs_error": 0.0,
+  "role": "wholesaler",
+  "schemes": [
+    {
+      "between_trajectory_sd": 138.76456416404875,
+      "corr_week1_week12": 0.9581049291182338,
+      "corr_week1_week24": 0.8930435026307562,
+      "discount": 1.0,
+      "mean_abs_advantage": 119.49555121527777,
+      "name": "to-end, undiscounted (archived)",
+      "per_turn_variance_share": 0.0988778747262152,
+      "sign_agreement_with_episode_verdict": 0.9110243055555556,
+      "window": null,
+      "within_trajectory_sd": 45.96595748269131
+    },
+    {
+      "between_trajectory_sd": 42.45793986708585,
+      "corr_week1_week12": 0.8424876664157173,
+      "corr_week1_week24": 0.1966732915043594,
+      "discount": 0.9,
+      "mean_abs_advantage": 45.29820699804722,
+      "name": "to-end, discount 0.9",
+      "per_turn_variance_share": 0.4315538096463105,
+      "sign_agreement_with_episode_verdict": 0.7782118055555556,
+      "window": null,
+      "within_trajectory_sd": 36.994036004041526
+    },
+    {
+      "between_trajectory_sd": 55.594473212276945,
+      "corr_week1_week12": 0.4654849034001096,
+      "corr_week1_week24": -0.015138444242950867,
+      "discount": 1.0,
+      "mean_abs_advantage": 70.46126302083333,
+      "name": "window 12 weeks",
+      "per_turn_variance_share": 0.6009424163773556,
+      "sign_agreement_with_episode_verdict": 0.6970486111111112,
+      "window": 12,
+      "within_trajectory_sd": 68.2229138725673
+    },
+    {
+      "between_trajectory_sd": 38.03107718894921,
+      "corr_week1_week12": 0.7569354196937017,
+      "corr_week1_week24": -0.060406110236796026,
+      "discount": 1.0,
+      "mean_abs_advantage": 53.30327690972222,
+      "name": "window 8 weeks",
+      "per_turn_variance_share": 0.6924406664571552,
+      "sign_agreement_with_episode_verdict": 0.6731770833333334,
+      "window": 8,
+      "within_trajectory_sd": 57.06442608418225
+    },
+    {
+      "between_trajectory_sd": 28.667237794429127,
+      "corr_week1_week12": 0.7473876754361207,
+      "corr_week1_week24": -0.06429214069495198,
+      "discount": 1.0,
+      "mean_abs_advantage": 41.961697048611114,
+      "name": "window 6 weeks",
+      "per_turn_variance_share": 0.7357824428102483,
+      "sign_agreement_with_episode_verdict": 0.6636284722222222,
+      "window": 6,
+      "within_trajectory_sd": 47.838738920585385
+    },
+    {
+      "between_trajectory_sd": 19.188963040393464,
+      "corr_week1_week12": 0.6545626610708193,
+      "corr_week1_week24": -0.02576196519733683,
+      "discount": 1.0,
+      "mean_abs_advantage": 29.328993055555557,
+      "name": "window 4 weeks",
+      "per_turn_variance_share": 0.7779356923214136,
+      "sign_agreement_with_episode_verdict": 0.6558159722222222,
+      "window": 4,
+      "within_trajectory_sd": 35.915670217447904
+    },
+    {
+      "between_trajectory_sd": 21.970413634889407,
+      "corr_week1_week12": 0.7438041294425256,
+      "corr_week1_week24": -0.06746800482636779,
+      "discount": 0.9,
+      "mean_abs_advantage": 32.36156042165799,
+      "name": "window 6 weeks, discount 0.9",
+      "per_turn_variance_share": 0.7369207561553709,
+      "sign_agreement_with_episode_verdict": 0.6592881944444444,
+      "window": 6,
+      "within_trajectory_sd": 36.77099108204941
+    }
+  ],
+  "source": "artifacts/live_y_domain_randomized_grpo_v1/runpod_final/rollouts.jsonl",
+  "trajectories": 64
+}

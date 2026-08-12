@@ -30,7 +30,11 @@ from beer_distribution_game.episode import BeerEpisode
 from beer_distribution_game.prompts import system_prompt
 from beer_distribution_game.scenario import scenario_from_dict
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1 import PROTOCOL_ID
-from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.advantages import assign_group_advantages
+from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.advantages import (
+    DEFAULT_CREDIT_WINDOW,
+    DEFAULT_DISCOUNT,
+    assign_group_advantages,
+)
 from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment import (
     ResearchTask,
     derive_research_seed,
@@ -63,6 +67,40 @@ def args() -> argparse.Namespace:
     p.add_argument("--learning-rate", type=float, default=1e-5)
     p.add_argument("--seed", type=int, default=20260808)
     p.add_argument("--adapter", help="format-scaffold adapter; omit for base cold start")
+    p.add_argument(
+        "--credit-window",
+        type=int,
+        default=DEFAULT_CREDIT_WINDOW,
+        help=(
+            "Weeks of downstream cost charged to one decision. 0 restores the "
+            "unbounded return-to-go used by the archived two-update run."
+        ),
+    )
+    p.add_argument("--credit-discount", type=float, default=DEFAULT_DISCOUNT)
+    p.add_argument(
+        "--raw-advantages",
+        action="store_true",
+        help="Skip group-standard-deviation normalization of the advantages.",
+    )
+    p.add_argument(
+        "--checkpoint-every",
+        type=int,
+        default=1,
+        help="Save the adapter every N updates; 0 saves only at the end.",
+    )
+    p.add_argument(
+        "--no-keep-all-checkpoints",
+        dest="keep_all_checkpoints",
+        action="store_false",
+        help="Keep only the latest and best adapters instead of one per update.",
+    )
+    p.add_argument("--clip-epsilon", type=float, default=pilot.DEFAULT_CLIP_EPSILON)
+    p.add_argument("--dual-clip", type=float, default=pilot.DEFAULT_DUAL_CLIP)
+    p.add_argument(
+        "--all-completion-tokens",
+        action="store_true",
+        help="Score every completion token instead of only the digits of the order.",
+    )
     p.add_argument("--generation-token-cap", type=int, default=32)
     p.add_argument("--kv-cache-min-prefix-tokens", type=int, default=64)
     p.add_argument("--disable-prefix-kv-cache", action="store_true")
@@ -142,7 +180,12 @@ def configure(requested_args: argparse.Namespace) -> None:
             )
 
     def assign_advantages(runs: list[Any]) -> None:
-        diagnostics = assign_group_advantages(runs)
+        diagnostics = assign_group_advantages(
+            runs,
+            window=requested_args.credit_window or None,
+            discount=requested_args.credit_discount,
+            normalize=not requested_args.raw_advantages,
+        )
         if not hasattr(pilot, "_research_advantage_diagnostics"):
             pilot._research_advantage_diagnostics = []
         pilot._research_advantage_diagnostics.append(diagnostics)
@@ -227,6 +270,11 @@ def configure(requested_args: argparse.Namespace) -> None:
             temperature=0.7,
             top_p=0.95,
             no_4bit=True,
+            checkpoint_every=requested_args.checkpoint_every,
+            keep_all_checkpoints=requested_args.keep_all_checkpoints,
+            clip_epsilon=requested_args.clip_epsilon,
+            dual_clip=requested_args.dual_clip,
+            all_completion_tokens=requested_args.all_completion_tokens,
             kv_cache_min_prefix_tokens=requested_args.kv_cache_min_prefix_tokens,
             disable_prefix_kv_cache=requested_args.disable_prefix_kv_cache,
         )
@@ -302,7 +350,29 @@ def main() -> None:
                     "training_forward_use_cache": False,
                 },
                 "reward": "negative local wholesaler return-to-go; no system/team cost",
-                "per_turn_normalization": "none; same-timestep mean baseline only",
+                "credit_assignment": {
+                    "window_weeks": requested.credit_window or None,
+                    "discount": requested.credit_discount,
+                    "rationale": (
+                        "order delay 1 + shipment delay 2, so one order's cost "
+                        "footprint lands within ~3 weeks and washes out by ~6"
+                    ),
+                },
+                "surrogate": {
+                    "ratio": "per-token",
+                    "clip_epsilon": requested.clip_epsilon,
+                    "dual_clip": requested.dual_clip,
+                    "scored_tokens": (
+                        "all completion tokens"
+                        if requested.all_completion_tokens
+                        else "digits of the order only"
+                    ),
+                },
+                "per_turn_normalization": (
+                    "none; same-timestep mean baseline only"
+                    if requested.raw_advantages
+                    else "same-timestep group mean and standard deviation"
+                ),
             },
             indent=2,
             sort_keys=True,

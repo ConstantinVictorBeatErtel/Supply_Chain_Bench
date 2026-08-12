@@ -1,0 +1,77 @@
+{
+  "credit_assignment": {
+    "discount": 1.0,
+    "rationale": "order delay 1 + shipment delay 2, so one order's cost footprint lands within ~3 weeks and washes out by ~6",
+    "window_weeks": 6
+  },
+  "decoding": {
+    "generation_token_cap": 32,
+    "protocol_max_completion_tokens": 192,
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "demand_process": "episode_randomized_y_poisson_v1",
+  "efficiency": {
+    "bf16": true,
+    "gradient_checkpointing": true,
+    "kv_cache_min_prefix_tokens": 64,
+    "lora": true,
+    "prefix_kv_cache": true,
+    "rolling_history_window": 8,
+    "training_forward_use_cache": false
+  },
+  "environment": {
+    "aggressive_retailers": true,
+    "amendment_id": "live-y-feasible-supply-grpo-v2",
+    "design_note": "experiments/live_y_feasible_supply_grpo_v2/DESIGN.md",
+    "factory_capacity": 400,
+    "initial_inventory": 12,
+    "initial_order_pipeline": 4,
+    "initial_shipment_pipeline": 4
+  },
+  "group_size": 6,
+  "method": "critic-free multi-turn group-relative PPO/GRPO-style update",
+  "per_turn_normalization": "same-timestep group mean and standard deviation",
+  "prompt": {
+    "hides_demand_parameters": true,
+    "hides_factory_capacity": true,
+    "observation": "research_observation_user_message",
+    "system": "research_system_prompt"
+  },
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "reward": "negative local wholesaler return-to-go; no system/team cost",
+  "schedule": {
+    "group_size": 6,
+    "learning_rate": 1e-05,
+    "max_trajectories": 960,
+    "seed_cycling": "wraparound",
+    "seeds_per_update": 8,
+    "updates": 20
+  },
+  "scheduled_training_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "sft": "optional self-generated format-normalization scaffolding only",
+  "surrogate": {
+    "clip_epsilon": 0.2,
+    "dual_clip": 3.0,
+    "ratio": "per-token",
+    "scored_tokens": "digits of the order only"
+  },
+  "updates": 20
+}
