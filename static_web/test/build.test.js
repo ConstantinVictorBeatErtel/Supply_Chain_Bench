@@ -3,6 +3,7 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
+import { traceArtifact } from "./helpers.js";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const PAGES = resolve(ROOT, "dist/cloudflare-pages");
@@ -39,25 +40,37 @@ describe("static build", () => {
     const catalog = JSON.parse(readFileSync(
       resolve(PAGES, "data/llm-comparison.json"), "utf8",
     ));
+    const artifact = traceArtifact();
     expect(catalog.environment_version).toBe("0.2.0");
     expect(catalog.scenario_id).toBe("t5-strategic-y-v2");
     expect(catalog.controlled_role).toBe("wholesaler");
-    expect(catalog.model).toBe("Recorded LLM");
+    expect(catalog.capacity).toBe(400);
+    expect(catalog.model).toBe(artifact.model);
     expect(catalog.seeds).toHaveLength(8);
 
-    const sources = [
-      ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
-      ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
-    ];
-    const expected = sources.flatMap(([split, path]) => JSON.parse(
-      readFileSync(resolve(ROOT, path), "utf8"),
-    ).episodes.filter((episode) => episode.scenario_id === "t5-strategic-y-v2")
-      .map((episode) => ({ ...episode, split })));
     for (const row of catalog.seeds) {
-      const { id: _id, ...recordedFields } = row;
-      expect(expected.find(
+      const recorded = artifact.episodes.find(
         (candidate) => candidate.split === row.split && candidate.seed_index === row.seed_index,
-      )).toMatchObject(recordedFields);
+      );
+      expect(recorded).toMatchObject({ ...row, weeks: expect.anything() });
+      expect(row.weeks.map((week) => week.thought))
+        .toEqual(recorded.weeks.map((week) => week.thought));
+    }
+  });
+
+  test("ships the model's week-by-week notes to the client", () => {
+    const catalog = JSON.parse(readFileSync(
+      resolve(PAGES, "data/llm-comparison.json"), "utf8",
+    ));
+    for (const seed of catalog.seeds) {
+      expect(seed.weeks).toHaveLength(36);
+      for (const week of seed.weeks) {
+        expect(Object.keys(week).sort()).toEqual([
+          "demand", "ending_backlog", "ending_inventory", "quantity", "thought", "week",
+        ]);
+      }
+      // A tracker with nothing to show would be worse than no tracker.
+      expect(seed.weeks.filter((week) => week.thought.trim()).length).toBeGreaterThan(30);
     }
   });
 

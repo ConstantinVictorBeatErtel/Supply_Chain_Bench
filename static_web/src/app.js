@@ -24,12 +24,16 @@ function publicScenario(spec) {
   return { ...spec, capacity: PUBLIC_FACTORY_CAPACITY };
 }
 
+/** Weeks per chapter in the debrief thought tracker. 36 weeks / 6 = six chapters. */
+const THOUGHT_GROUP_SIZE = 6;
+
 let catalog = null;
 let active = null;
 let selectedRole = "wholesaler";
 let logSent = false;
 let fastForwardTimer = null;
 let shippingPulse = false;
+let thoughtView = { group: 0, query: "" };
 
 export function parseOrderInput(raw) {
   if (typeof raw !== "string" || !/^(0|[1-9]\d{0,2})$/.test(raw)) {
@@ -298,6 +302,150 @@ function ratio(values) {
   return n1(variance);
 }
 
+function traceWeeks() {
+  const weeks = active?.trace?.weeks;
+  if (!Array.isArray(weeks)) return [];
+  return weeks.filter((entry) => entry && Number.isFinite(Number(entry.week)));
+}
+
+export function thoughtGroups(weeks) {
+  const groups = [];
+  for (let start = 0; start < weeks.length; start += THOUGHT_GROUP_SIZE) {
+    groups.push(weeks.slice(start, start + THOUGHT_GROUP_SIZE));
+  }
+  return groups;
+}
+
+function groupLabel(group) {
+  return `Weeks ${group[0].week}–${group.at(-1).week}`;
+}
+
+/** Split on the query first, escape each piece: never highlights inside an entity. */
+export function highlight(text, query) {
+  const needle = query.trim();
+  if (!needle) return escapeHtml(text);
+  const pattern = needle.replaceAll(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.split(new RegExp(`(${pattern})`, "gi"))
+    .map((part, index) => (index % 2 ? `<mark>${escapeHtml(part)}</mark>` : escapeHtml(part)))
+    .join("");
+}
+
+/** Free-text over the notes, plus a bare week number so "14" jumps to week 14. */
+export function searchWeeks(weeks, query) {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return null;
+  const asWeek = /^(?:week\s*)?(\d{1,2})$/.exec(needle);
+  const wanted = asWeek ? Number(asWeek[1]) : null;
+  return weeks.filter((entry) => (
+    String(entry.thought || "").toLowerCase().includes(needle) || entry.week === wanted
+  ));
+}
+
+function thoughtBubble(entry, query) {
+  const humanOrder = active.actions[entry.week - 1];
+  const body = entry.thought
+    ? `<p>${highlight(entry.thought, query)}</p>`
+    : '<p class="thought-silent">No note recorded this week.</p>';
+  const backlogged = Number(entry.ending_backlog) > 0;
+  const facts = [
+    entry.demand === undefined ? "" : `Demand ${n0(entry.demand)}`,
+    backlogged
+      ? `<b class="danger">Backlog ${n0(entry.ending_backlog)}</b>`
+      : (entry.ending_inventory === undefined ? "" : `Stock ${n0(entry.ending_inventory)}`),
+    humanOrder === undefined ? "" : `You ordered ${n0(humanOrder)}`,
+  ].filter(Boolean).map((fact) => `<span>${fact}</span>`).join("");
+  // No inline style: the page CSP forbids style attributes, so the entrance
+  // stagger is nth-child based in styles.css.
+  return `<article class="thought">
+    <div class="thought-mark">
+      <span class="thought-week">Week ${n0(entry.week)}</span>
+      <span class="thought-order">${n0(entry.quantity)}</span>
+      <span class="thought-order-note">ordered</span>
+    </div>
+    <div class="thought-bubble">${body}<footer>${facts}</footer></div>
+  </article>`;
+}
+
+function thoughtStreamHtml() {
+  const weeks = traceWeeks();
+  const groups = thoughtGroups(weeks);
+  const matches = searchWeeks(weeks, thoughtView.query);
+  if (matches) {
+    const found = matches.length === 1 ? "1 week matches" : `${matches.length} weeks match`;
+    const bubbles = matches.map((entry) => thoughtBubble(entry, thoughtView.query)).join("");
+    return `<p class="thought-count">${found} “${escapeHtml(thoughtView.query.trim())}”</p>${
+      bubbles || '<p class="thought-empty">Nothing in the model\'s notes for that. Clear the search to browse by chapter.</p>'}`;
+  }
+  const index = Math.max(0, Math.min(groups.length - 1, thoughtView.group));
+  const bubbles = groups[index].map((entry) => thoughtBubble(entry, "")).join("");
+  const previous = groups[index - 1];
+  const next = groups[index + 1];
+  return `${bubbles}<div class="thought-nav">
+    <button type="button" data-step="-1" ${previous ? "" : "disabled"}>← ${previous ? groupLabel(previous) : "Start"}</button>
+    <span>Chapter ${index + 1} of ${groups.length}</span>
+    <button type="button" data-step="1" ${next ? "" : "disabled"}>${next ? groupLabel(next) : "End"} →</button>
+  </div>`;
+}
+
+function thoughtsHtml() {
+  const weeks = traceWeeks();
+  if (!weeks.length) return "";
+  const tabs = thoughtGroups(weeks).map((group, index) => `<button class="thought-tab ${
+    index === thoughtView.group ? "current" : ""}" type="button" role="tab" aria-selected="${
+    index === thoughtView.group}" data-group="${index}">${groupLabel(group)}</button>`).join("");
+  return `<section class="thoughts" aria-labelledby="thoughts-title">
+    <p class="section-label">Week by week · the model's own notes</p>
+    <div class="thoughts-head">
+      <h2 id="thoughts-title">What the model was thinking</h2>
+      <p>Every note was written in the same breath as that week's order, before the model saw how it turned out. Six weeks to a chapter.</p>
+    </div>
+    <div class="thought-controls">
+      <div class="thought-tabs" role="tablist" aria-label="Chapters of the recorded episode">${tabs}</div>
+      <label class="thought-search"><span class="visually-hidden">Search the notes</span>
+        <input id="thought-search" type="search" placeholder="Search notes or a week number" value="${escapeHtml(thoughtView.query)}" autocomplete="off"></label>
+    </div>
+    <div id="thought-stream" class="thought-stream" aria-live="polite">${thoughtStreamHtml()}</div>
+  </section>`;
+}
+
+function renderThoughtStream() {
+  const stream = document.querySelector("#thought-stream");
+  if (!stream) return;
+  stream.innerHTML = thoughtStreamHtml();
+  const browsing = !thoughtView.query.trim();
+  document.querySelectorAll(".thought-tab").forEach((tab) => {
+    const current = browsing && Number(tab.dataset.group) === thoughtView.group;
+    tab.classList.toggle("current", current);
+    tab.setAttribute("aria-selected", String(current));
+  });
+}
+
+function bindDebrief() {
+  document.querySelector("#new-game").addEventListener("click", renderBriefing);
+  const search = document.querySelector("#thought-search");
+  if (!search) return;
+  search.addEventListener("input", () => {
+    thoughtView = { ...thoughtView, query: search.value };
+    renderThoughtStream();
+  });
+  document.querySelectorAll(".thought-tab").forEach((tab) => tab.addEventListener("click", () => {
+    thoughtView = { group: Number(tab.dataset.group), query: "" };
+    search.value = "";
+    renderThoughtStream();
+  }));
+  document.querySelector("#thought-stream").addEventListener("click", (event) => {
+    const step = event.target.closest("[data-step]");
+    if (!step || step.disabled) return;
+    const groups = thoughtGroups(traceWeeks()).length;
+    thoughtView = {
+      group: Math.max(0, Math.min(groups - 1, thoughtView.group + Number(step.dataset.step))),
+      query: "",
+    };
+    search.value = "";
+    renderThoughtStream();
+  });
+}
+
 function debriefHtml() {
   const grade = active.episode.outcome.grade;
   const humanCost = grade.primary.local_total_cost;
@@ -328,6 +476,7 @@ function debriefHtml() {
     </div>
     ${graphHtml("Orders placed · fog lifted", [{ text: "You", className: "light" }, { text: modelCost === null ? "Reference unavailable" : "Recorded model", className: "blue" }, { text: "Demand", className: "muted" }], [{ values: demand, className: "muted" }, { values: comparison, className: "blue" }, { values: yours, className: "light" }], max)}
     <section class="chain-table"><p class="section-label">Full chain · your episode</p><div class="chain-row heading"><span>Node</span><span>Mean order</span><span>Peak order</span><span>Order/demand variance</span><span>Operational cost</span></div>${rows}</section>
+    ${thoughtsHtml()}
     <div class="start-row"><button id="new-game" class="primary-button" type="button">Play again</button></div>
   </section>`;
 }
@@ -398,9 +547,10 @@ function commitOrder() {
   if (result.done) {
     clearInterval(fastForwardTimer);
     sendCurrentRecord("completed");
+    thoughtView = { group: 0, query: "" };
     document.querySelector("#app").innerHTML = debriefHtml();
     setHeader("36/36", n1(active.episode.cumulativeCosts[active.role]));
-    document.querySelector("#new-game").addEventListener("click", renderBriefing);
+    bindDebrief();
     return;
   }
   shippingPulse = true;

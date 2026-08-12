@@ -467,6 +467,156 @@ h1 {
 }
 .chain-row.you { color: var(--accent); font-weight: 500; }
 
+/* —— Week-by-week thought tracker —— */
+.thoughts { padding-top: 64px; }
+.thoughts-head {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;
+  margin-top: 26px;
+}
+.thoughts-head h2 {
+  max-width: 18ch; margin: 0;
+  font-size: clamp(1.6rem, 2.6vw, 2rem); line-height: 1.15;
+  font-weight: 400; letter-spacing: -.02em; color: var(--ink);
+}
+.thoughts-head p {
+  max-width: 48ch; margin: 0; color: var(--muted);
+  font-size: 14px; line-height: 1.65;
+}
+
+.thought-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px; margin-top: 30px;
+}
+.thought-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.thought-tab {
+  padding: 9px 15px; cursor: pointer;
+  border: 1.5px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--muted);
+  font: 500 10px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .12em; text-transform: uppercase;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.thought-tab:hover { border-color: var(--accent-soft); color: var(--ink); }
+.thought-tab.current {
+  border-color: var(--accent); background: var(--accent); color: #fff;
+}
+.thought-search input {
+  width: 260px; height: 40px; padding: 0 16px;
+  border: 1.5px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--ink); font-size: 13px;
+}
+.thought-search input:focus { outline: none; border-color: var(--accent-soft); }
+
+.thought-stream {
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 940px; margin-top: 26px;
+}
+.thought {
+  display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 20px;
+  align-items: start;
+  animation: bubble-in .42s cubic-bezier(.2, .7, .3, 1) both;
+}
+/* Entrance stagger lives here, not in a style attribute: the page CSP
+   (style-src 'self') blocks inline styles outright. */
+.thought:nth-child(2) { animation-delay: 70ms; }
+.thought:nth-child(3) { animation-delay: 140ms; }
+.thought:nth-child(4) { animation-delay: 210ms; }
+.thought:nth-child(5) { animation-delay: 280ms; }
+.thought:nth-child(6) { animation-delay: 350ms; }
+.thought:nth-child(7) { animation-delay: 420ms; }
+.thought:nth-child(n+8) { animation-delay: 490ms; }
+.thought-mark { padding-top: 12px; text-align: right; }
+.thought-week {
+  display: block; color: var(--faint);
+  font: 500 10px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.thought-order {
+  display: block; margin-top: 7px; color: var(--accent);
+  font: 500 26px/1 "IBM Plex Mono", monospace; letter-spacing: -.03em;
+}
+.thought-order-note {
+  display: block; margin-top: 5px; color: var(--faint);
+  font: 400 9px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+
+.thought-bubble {
+  position: relative; padding: 18px 22px 14px;
+  border: 1.5px solid var(--line); border-radius: 16px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(201, 132, 74, 0.07), transparent 55%),
+    var(--surface);
+}
+.thought-bubble::after {
+  content: ""; position: absolute; left: -9px; top: 18px;
+  width: 14px; height: 14px;
+  background: var(--surface);
+  border-left: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line);
+  border-radius: 0 0 0 3px;
+  transform: rotate(45deg);
+}
+.thought-bubble p {
+  margin: 0; color: var(--text); font-size: 15px; line-height: 1.68;
+}
+.thought-bubble .thought-silent { color: var(--faint); font-style: italic; }
+.thought-bubble mark {
+  padding: 0 2px; border-radius: 2px;
+  background: rgba(201, 132, 74, 0.3); color: inherit;
+}
+.thought-bubble footer {
+  display: flex; flex-wrap: wrap; gap: 6px 8px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.thought-bubble footer span {
+  padding: 5px 9px; border-radius: 999px;
+  background: var(--fill); color: var(--faint);
+  font: 400 10px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .1em; text-transform: uppercase;
+}
+.thought-bubble footer b { font-weight: 500; }
+
+.thought-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 12px; padding-top: 20px; border-top: 1px solid var(--line);
+}
+.thought-nav button {
+  min-height: 40px; padding: 0 16px; cursor: pointer;
+  border: 1.5px solid var(--line); border-radius: 3px;
+  background: var(--surface); color: var(--muted);
+  font: 500 10px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.thought-nav button:hover:not(:disabled) {
+  border-color: var(--accent-soft); color: var(--ink);
+}
+.thought-nav button:disabled { opacity: .35; cursor: not-allowed; }
+.thought-nav span {
+  color: var(--faint);
+  font: 400 10px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.thought-count, .thought-empty {
+  margin: 0 0 6px; color: var(--faint);
+  font: 400 10px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.thought-empty { text-transform: none; letter-spacing: 0; font-size: 14px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+@keyframes bubble-in {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thought { animation: none; }
+}
+
 .loading-card { padding: 96px 0; }
 .loading-card p { color: var(--muted); }
 
@@ -492,4 +642,30 @@ h1 {
     grid-template-columns: 1.4fr repeat(4, 1fr); gap: .5rem; font-size: 10px;
   }
   .chain-row.heading { font-size: 8px; }
+  .thoughts { padding-top: 48px; }
+  .thoughts-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+  /* Block, not flex: a column flex line grows to the un-wrapped chip row and
+     drags the search box past the shell padding with it. */
+  .thought-controls { display: block; }
+  .thought-tabs {
+    flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .thought-tabs::-webkit-scrollbar { display: none; }
+  .thought-tab { flex: 0 0 auto; }
+  .thought-search { display: block; margin-top: 12px; }
+  .thought-search input { width: 100%; }
+  .thought { grid-template-columns: 1fr; gap: 8px; }
+  .thought-mark {
+    display: flex; align-items: baseline; gap: 10px;
+    padding-top: 0; text-align: left;
+  }
+  .thought-order { margin-top: 0; font-size: 20px; }
+  .thought-order-note { margin-top: 0; }
+  .thought-bubble { padding: 16px 16px 12px; }
+  .thought-bubble::after { display: none; }
+  .thought-bubble p { font-size: 14px; }
+  .thought-nav { flex-wrap: wrap; gap: 10px; }
+  .thought-nav button { flex: 1 1 40%; padding: 0 10px; font-size: 9px; }
+  .thought-nav span { order: -1; flex: 1 1 100%; text-align: center; }
 }

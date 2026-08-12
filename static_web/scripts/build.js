@@ -15,7 +15,45 @@ function loadJson(relative) {
   return JSON.parse(readFileSync(resolve(ROOT, relative), "utf8"));
 }
 
+/** The run that carries a per-week rationale, recorded at the public capacity. */
+export const THOUGHT_TRACE_PATH = "artifacts/public_game_llm_thoughts/traces.json";
+
+function thoughtTraceCatalog() {
+  const artifact = loadJson(THOUGHT_TRACE_PATH);
+  const seeds = artifact.episodes.map((episode) => ({
+    id: episode.id,
+    split: episode.split,
+    seed_index: episode.seed_index,
+    master_seed_hex: episode.master_seed_hex,
+    episode_id: episode.episode_id,
+    actions: episode.actions,
+    weeks: episode.weeks.map((week) => ({
+      week: week.week,
+      quantity: week.quantity,
+      thought: week.thought,
+      demand: week.demand,
+      ending_inventory: week.ending_inventory,
+      ending_backlog: week.ending_backlog,
+    })),
+    local_total_cost: episode.local_total_cost,
+    paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
+    reward: episode.reward,
+    system_total_cost: episode.system_total_cost,
+  }));
+  if (seeds.length !== 8) throw new Error(`expected 8 playable thought traces, found ${seeds.length}`);
+  return {
+    schema_version: "1.2.0",
+    environment_version: artifact.environment_version,
+    scenario_id: artifact.scenario_id,
+    controlled_role: artifact.controlled_role,
+    capacity: artifact.capacity,
+    model: artifact.model,
+    seeds,
+  };
+}
+
 function traceCatalog() {
+  if (existsSync(resolve(ROOT, THOUGHT_TRACE_PATH))) return thoughtTraceCatalog();
   const trainedPath = "artifacts/live_y_qwen35_4b_rl/eval_held_out.json";
   if (existsSync(resolve(ROOT, trainedPath))) {
     const artifact = loadJson(trainedPath);

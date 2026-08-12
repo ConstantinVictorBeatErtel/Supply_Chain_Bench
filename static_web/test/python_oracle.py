@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import json
 import sys
 
@@ -11,6 +12,9 @@ from beer_distribution_game.scenario import scenario_for
 
 def run_case(case: dict) -> dict:
     spec = scenario_for(5, case["split"], int(case["seed_index"]))
+    if case.get("capacity") is not None:
+        # Public play raises Tier-5 capacity above the research value.
+        spec = dataclasses.replace(spec, capacity=int(case["capacity"]))
     episode = BeerEpisode(spec, "wholesaler")
     observation = episode.start()
     observations = [observation]

@@ -6,17 +6,19 @@ import { dirname, resolve } from "node:path";
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const ROOT = resolve(HERE, "../..");
 
+export const THOUGHT_TRACE_PATH = "artifacts/public_game_llm_thoughts/traces.json";
+
+/** The recorded comparison run: actions plus the model's own week-by-week notes. */
+export function traceArtifact() {
+  return JSON.parse(readFileSync(resolve(ROOT, THOUGHT_TRACE_PATH), "utf8"));
+}
+
 export function artifactRows() {
-  const files = [
-    ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
-    ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
-  ];
-  return files.flatMap(([split, relative]) => {
-    const payload = JSON.parse(readFileSync(resolve(ROOT, relative), "utf8"));
-    return payload.episodes
-      .filter((row) => row.scenario_id === "t5-strategic-y-v2")
-      .map((row) => ({ ...row, split }));
-  }).sort((left, right) => ({ development: 0, validation: 1 })[left.split] - ({ development: 0, validation: 1 })[right.split] || left.seed_index - right.seed_index);
+  return [...traceArtifact().episodes].sort((left, right) => (
+    ({ development: 0, validation: 1 })[left.split]
+    - ({ development: 0, validation: 1 })[right.split]
+    || left.seed_index - right.seed_index
+  ));
 }
 
 export function pythonOracle(cases) {

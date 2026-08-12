@@ -3,10 +3,11 @@ import {
   BeerEpisode, PythonRandom, episodeId, masterSeedHex, replayActions,
   scenarioFor, stableStringify,
 } from "../src/sim/index.js";
-import { artifactRows, pythonOracle } from "./helpers.js";
+import { artifactRows, pythonOracle, traceArtifact } from "./helpers.js";
 
 function jsResult(caseRow) {
-  const spec = scenarioFor(5, caseRow.split, caseRow.seed_index);
+  const base = scenarioFor(5, caseRow.split, caseRow.seed_index);
+  const spec = caseRow.capacity === undefined ? base : { ...base, capacity: caseRow.capacity };
   const { episode, observations } = replayActions(
     spec, "wholesaler", caseRow.actions,
   );
@@ -37,8 +38,11 @@ describe("Python/JavaScript parity", () => {
 
   test("all playable seeds match the frozen Python environment", () => {
     const traces = artifactRows();
+    const { capacity } = traceArtifact();
     const cases = traces.flatMap((row, rowIndex) => [
       { split: row.split, seed_index: row.seed_index, actions: row.actions },
+      // The debrief replays the recorded model at the public capacity.
+      { split: row.split, seed_index: row.seed_index, actions: row.actions, capacity },
       {
         split: row.split,
         seed_index: row.seed_index,

@@ -1,0 +1,3055 @@
+{
+  "schema_version": "1.0.0",
+  "environment_version": "0.2.0",
+  "scenario_id": "t5-strategic-y-v2",
+  "controlled_role": "wholesaler",
+  "capacity": 400,
+  "model": "x-ai/grok-4.5",
+  "decoding": {
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "max_tokens": 768
+  },
+  "protocol": "one JSON object per week: {\"thought\": ..., \"quantity\": ...}",
+  "usage": {
+    "calls": 295,
+    "prompt_tokens": 299528,
+    "completion_tokens": 118826,
+    "cached_tokens": 79360,
+    "cost_usd": 1.1771
+  },
+  "episodes": [
+    {
+      "id": "development-0",
+      "split": "development",
+      "seed_index": 0,
+      "master_seed_hex": "e2056d6d52741a08",
+      "episode_id": "sha256:37ff15ab06aceb46b738db4650cf30916c992df8e607143cafa6d0d0b8d32ed3",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        45,
+        120,
+        50,
+        128,
+        128,
+        128,
+        40,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Saw incoming order of 8 with 8 on hand and 8 already inbound, so position sits at 16 after filling everything. Matching the 8 keeps us steady without building excess early.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 45,
+          "thought": "Backlog is already 19 with zero stock and a big incoming order of 31, so I need to replenish fast before costs climb further. Ordering 45 to cover the hole plus near-term demand.",
+          "demand": 31,
+          "ending_inventory": 0,
+          "ending_backlog": 19,
+          "local_cost": 19.0
+        },
+        {
+          "week": 3,
+          "quantity": 120,
+          "thought": "Backlog is already 42 with zero inventory and another 27 just ordered from me; on-order of 53 won't cover it soon enough, so I'm ordering near the max to rebuild position fast.",
+          "demand": 27,
+          "ending_inventory": 0,
+          "ending_backlog": 42,
+          "local_cost": 42.0
+        },
+        {
+          "week": 4,
+          "quantity": 50,
+          "thought": "Still deep in backlog at 57 with zero inventory and another 23 just in; on-order is healthy at 165 so I'll order a solid 50 to keep clearing without overshooting once shipments arrive.",
+          "demand": 23,
+          "ending_inventory": 0,
+          "ending_backlog": 57,
+          "local_cost": 57.0
+        },
+        {
+          "week": 5,
+          "quantity": 128,
+          "thought": "Backlog is still 71 with zero inventory and another 26 just ordered from me, so I am far behind. I will order the maximum to pull in more supply and start clearing the hole.",
+          "demand": 26,
+          "ending_inventory": 0,
+          "ending_backlog": 71,
+          "local_cost": 71.0
+        },
+        {
+          "week": 6,
+          "quantity": 128,
+          "thought": "Backlog is still 79 with zero inventory after only 16 arrived, and another 24 just ordered from downstream. Position looks padded by the big pipeline but I need stock sooner, so Im ordering the max again.",
+          "demand": 24,
+          "ending_inventory": 0,
+          "ending_backlog": 79,
+          "local_cost": 79.0
+        },
+        {
+          "week": 7,
+          "quantity": 128,
+          "thought": "Backlog is still 92 with zero inventory and only 6 arriving, while retailer orders keep coming in around 20-plus. On-order is already high but I need max inflow to burn down the backlog before it costs more, so ordering the full 128.",
+          "demand": 19,
+          "ending_inventory": 0,
+          "ending_backlog": 92,
+          "local_cost": 92.0
+        },
+        {
+          "week": 8,
+          "quantity": 40,
+          "thought": "Backlog sits at 76 after only 36 arrived and another 20 just ordered from me; pipeline is already fat at 529 so I am dialing the order down to 40 to avoid overshoot later.",
+          "demand": 20,
+          "ending_inventory": 0,
+          "ending_backlog": 76,
+          "local_cost": 76.0
+        },
+        {
+          "week": 9,
+          "quantity": 48,
+          "thought": "Backlog sits at 92 with zero inventory and no shipment this week; incoming orders are only 16. Pipeline is already fat so I am placing a moderate 48 to keep pressure on the backlog without flooding later weeks.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 92,
+          "local_cost": 92.0
+        },
+        {
+          "week": 10,
+          "quantity": 0,
+          "thought": "Big shipment just landed, backlog is gone and pipeline is still huge at over 500. Incoming only 16, so I'm ordering zero to work off the excess stock.",
+          "demand": 16,
+          "ending_inventory": 4,
+          "ending_backlog": 0,
+          "local_cost": 2.0
+        },
+        {
+          "week": 11,
+          "quantity": 0,
+          "thought": "Inventory just jumped to 116 with 377 still on order after clearing the backlog, so position is way over 490 against ~20 weekly demand. Ordering zero to burn down the excess and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 116,
+          "ending_backlog": 0,
+          "local_cost": 58.0
+        },
+        {
+          "week": 12,
+          "quantity": 0,
+          "thought": "Inventory sits at 228 with 249 already on order and only 16 incoming demand, so I am ordering zero to burn down the excess stock and avoid more holding cost.",
+          "demand": 16,
+          "ending_inventory": 228,
+          "ending_backlog": 0,
+          "local_cost": 114.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Inventory is already 340 with 121 more inbound and only 16 incoming orders, so I am ordering zero to burn down the excess stock and avoid more holding cost.",
+          "demand": 16,
+          "ending_inventory": 340,
+          "ending_backlog": 0,
+          "local_cost": 170.0
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 445 with zero backlog and only 16 incoming, so holding costs are already painful. On-order is empty, so I am ordering nothing this week to let stock drain.",
+          "demand": 16,
+          "ending_inventory": 445,
+          "ending_backlog": 0,
+          "local_cost": 222.5
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 429 with nothing incoming and demand only 16, so I'm ordering zero this week to burn down stock and cut the heavy holding costs.",
+          "demand": 16,
+          "ending_inventory": 429,
+          "ending_backlog": 0,
+          "local_cost": 214.5
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 413 with only 16 demand and nothing inbound, so I am ordering zero again to keep burning it down.",
+          "demand": 16,
+          "ending_inventory": 413,
+          "ending_backlog": 0,
+          "local_cost": 206.5
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 397 with steady incoming orders of only 16 and nothing in the pipeline, so I'll keep ordering zero to burn it down and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 397,
+          "ending_backlog": 0,
+          "local_cost": 198.5
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Inventory sits at 381 with zero backlog and zero on order while retailer demand stays only 16, so I am still massively overstocked and will just keep letting it drain.",
+          "demand": 16,
+          "ending_inventory": 381,
+          "ending_backlog": 0,
+          "local_cost": 190.5
+        },
+        {
+          "week": 19,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 365 with zero backlog and steady demand of only 16, so I am ordering nothing to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 365,
+          "ending_backlog": 0,
+          "local_cost": 182.5
+        },
+        {
+          "week": 20,
+          "quantity": 0,
+          "thought": "Inventory sits at 349 with zero backlog, steady inbound orders of 16, and nothing on the way, so I am ordering zero again to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 349,
+          "ending_backlog": 0,
+          "local_cost": 174.5
+        },
+        {
+          "week": 21,
+          "quantity": 0,
+          "thought": "Inventory sits at 333 with only 16 demand and nothing on order or arriving, so I am ordering zero again to keep bleeding down the costly excess.",
+          "demand": 16,
+          "ending_inventory": 333,
+          "ending_backlog": 0,
+          "local_cost": 166.5
+        },
+        {
+          "week": 22,
+          "quantity": 0,
+          "thought": "Inventory still sits at 317 with only 16 incoming demand and nothing on order or arriving, so I am ordering zero again to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 317,
+          "ending_backlog": 0,
+          "local_cost": 158.5
+        },
+        {
+          "week": 23,
+          "quantity": 0,
+          "thought": "Inventory is still sitting at 297 with zero backlog and nothing in the pipeline, while downstream only pulled 20. I\u2019ll keep ordering nothing so we can burn this excess down over the remaining weeks.",
+          "demand": 20,
+          "ending_inventory": 297,
+          "ending_backlog": 0,
+          "local_cost": 148.5
+        },
+        {
+          "week": 24,
+          "quantity": 0,
+          "thought": "Inventory sits at 266 with zero backlog and nothing inbound, still far above needs even after this week's 31-unit order. I'll keep ordering zero to burn down the excess over the remaining 13 weeks.",
+          "demand": 31,
+          "ending_inventory": 266,
+          "ending_backlog": 0,
+          "local_cost": 133.0
+        },
+        {
+          "week": 25,
+          "quantity": 0,
+          "thought": "Inventory still sits at 250 with zero backlog and nothing incoming, while retailer orders stay modest around 16. Twelve weeks left so I can safely keep burning stock down and order nothing.",
+          "demand": 16,
+          "ending_inventory": 250,
+          "ending_backlog": 0,
+          "local_cost": 125.0
+        },
+        {
+          "week": 26,
+          "quantity": 0,
+          "thought": "Inventory sits at 234 with nothing on order and only modest incoming orders around 16, so I still have far more than enough cover for the remaining 11 weeks and will just hold steady at zero.",
+          "demand": 16,
+          "ending_inventory": 234,
+          "ending_backlog": 0,
+          "local_cost": 117.0
+        },
+        {
+          "week": 27,
+          "quantity": 0,
+          "thought": "Inventory still sits at 218 with zero backlog and only ten weeks left; demand has been steady near 16, so I order nothing to keep bleeding down holding cost.",
+          "demand": 16,
+          "ending_inventory": 218,
+          "ending_backlog": 0,
+          "local_cost": 109.0
+        },
+        {
+          "week": 28,
+          "quantity": 0,
+          "thought": "Still sitting on 202 units with only 16 demand and nothing inbound. Inventory is way too high so I am ordering zero to keep burning it down.",
+          "demand": 16,
+          "ending_inventory": 202,
+          "ending_backlog": 0,
+          "local_cost": 101.0
+        },
+        {
+          "week": 29,
+          "quantity": 0,
+          "thought": "Inventory is still 186 with zero backlog and only 8 weeks left; demand is running about 16, so I have plenty of cover and will keep ordering nothing to cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 186,
+          "ending_backlog": 0,
+          "local_cost": 93.0
+        },
+        {
+          "week": 30,
+          "quantity": 0,
+          "thought": "Still sitting on 170 units with no backlog and demand only 16, plus seven weeks left. Inventory is way too high so I'll keep ordering nothing to burn it down.",
+          "demand": 16,
+          "ending_inventory": 170,
+          "ending_backlog": 0,
+          "local_cost": 85.0
+        },
+        {
+          "week": 31,
+          "quantity": 0,
+          "thought": "Inventory is still high at 154 with zero backlog and steady 16-unit demand, plus only six weeks left and nothing incoming. No need to order more and pile on holding costs.",
+          "demand": 16,
+          "ending_inventory": 154,
+          "ending_backlog": 0,
+          "local_cost": 77.0
+        },
+        {
+          "week": 32,
+          "quantity": 0,
+          "thought": "Still sitting on 138 units with only 16 coming in and nothing on order, so I'll order zero again to keep burning down this costly excess over the last five weeks.",
+          "demand": 16,
+          "ending_inventory": 138,
+          "ending_backlog": 0,
+          "local_cost": 69.0
+        },
+        {
+          "week": 33,
+          "quantity": 0,
+          "thought": "Inventory sits at 122 with steady 16 demand, zero on order and four weeks left, so I am ordering nothing to keep draining the excess stock.",
+          "demand": 16,
+          "ending_inventory": 122,
+          "ending_backlog": 0,
+          "local_cost": 61.0
+        },
+        {
+          "week": 34,
+          "quantity": 0,
+          "thought": "Inventory sits at 106 with zero backlog and steady 16-unit orders; three weeks left means roughly 48 more demand, so I am covered and will not add stock.",
+          "demand": 16,
+          "ending_inventory": 106,
+          "ending_backlog": 0,
+          "local_cost": 53.0
+        },
+        {
+          "week": 35,
+          "quantity": 0,
+          "thought": "Inventory sits at 90 with steady incoming orders of 16, nothing in the pipeline, and only two weeks left, so I am ordering zero to keep running the stock down.",
+          "demand": 16,
+          "ending_inventory": 90,
+          "ending_backlog": 0,
+          "local_cost": 45.0
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week, inventory at 74 easily covers the 16 demand with nothing incoming and no time left for new orders to arrive, so I order zero.",
+          "demand": 16,
+          "ending_inventory": 74,
+          "ending_backlog": 0,
+          "local_cost": 37.0
+        }
+      ],
+      "format_failures": 1,
+      "protocol_clean": true,
+      "local_total_cost": 3960.0,
+      "paired_base_stock_local_total_cost": 655.0,
+      "reward": 0.1419284940411701,
+      "system_total_cost": 14495.5
+    },
+    {
+      "id": "development-1",
+      "split": "development",
+      "seed_index": 1,
+      "master_seed_hex": "eb407ffb0878d586",
+      "episode_id": "sha256:bec26f4f57a515b54cbb1bcb49e8610d2fb7cac0b3c2bce7504c5c5bd2f44353",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        36,
+        48,
+        48,
+        48,
+        40,
+        28,
+        35,
+        28,
+        12,
+        12,
+        0,
+        0,
+        20,
+        0,
+        0,
+        0,
+        18,
+        20,
+        22,
+        18,
+        18,
+        16,
+        18,
+        16,
+        16,
+        16,
+        8,
+        10,
+        8,
+        8,
+        8,
+        8,
+        12,
+        10,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting week 1 with 8 on hand, zero backlog and incoming order of 8 fully filled; inventory position sits at 16. Ordering 8 to track the expected mean demand of 7.5 and keep the pipeline steady.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 36,
+          "thought": "Zero stock and backlog of 10 plus a big incoming order of 22 leave me short. Ordering 36 to clear the hole and cover a couple weeks of expected flow given the delays.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 10,
+          "local_cost": 10.0
+        },
+        {
+          "week": 3,
+          "quantity": 48,
+          "thought": "Backlog hit 22 with 16 more demand and only 4 arriving this week; on-order is 44 but I still need to dig out fast. Ordering 48 to cover the hole plus near-term pull without overshooting.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 22,
+          "local_cost": 22.0
+        },
+        {
+          "week": 4,
+          "quantity": 48,
+          "thought": "Backlog is already 30 with empty shelves and another 16 just in; pipeline of 84 will help but I still need to push hard to stop the backlog from growing further this week.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 30,
+          "local_cost": 30.0
+        },
+        {
+          "week": 5,
+          "quantity": 48,
+          "thought": "Backlog hit 40 with 22 more demand and only 12 arriving; pipeline has 120 on order so I will stick near 48 to refill without flooding once shipments catch up.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 40,
+          "local_cost": 40.0
+        },
+        {
+          "week": 6,
+          "quantity": 40,
+          "thought": "Backlog still sits at 40 after the latest receipt and another 16 just arrived. Ordering 40 to keep chipping away at it while the big pipeline arrives.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 40,
+          "local_cost": 40.0
+        },
+        {
+          "week": 7,
+          "quantity": 28,
+          "thought": "Backlog sits at 50 with zero inventory and only 6 arriving; pipeline already holds 186 so I will order a moderate 28 to cover ongoing retailer pull without flooding later weeks.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 50,
+          "local_cost": 50.0
+        },
+        {
+          "week": 8,
+          "quantity": 35,
+          "thought": "Backlog still at 30 with zero inventory, though a big shipment just arrived and plenty is already on order. Ordering 35 to cover near-term retailer pull without adding excess once the pipeline clears.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 30,
+          "local_cost": 30.0
+        },
+        {
+          "week": 9,
+          "quantity": 28,
+          "thought": "Backlog still high at 46 with zero stock and no shipment in, though position is already 167 from big prior orders. Incoming stayed at 16, so I'll order a moderate 28 to keep covering without piling more excess.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 46,
+          "local_cost": 46.0
+        },
+        {
+          "week": 10,
+          "quantity": 12,
+          "thought": "Now sitting on 24 inventory with zero backlog after a big shipment, and pipeline is already 155 against steady 16-unit orders, so I am easing off to avoid piling up holding cost.",
+          "demand": 16,
+          "ending_inventory": 24,
+          "ending_backlog": 0,
+          "local_cost": 12.0
+        },
+        {
+          "week": 11,
+          "quantity": 12,
+          "thought": "Sitting on 114 inventory with zero backlog after covering 18 demand, plus 59 already incoming. I will order light to burn down stock and avoid holding costs while demand stays near 16-18.",
+          "demand": 18,
+          "ending_inventory": 114,
+          "ending_backlog": 0,
+          "local_cost": 57.0
+        },
+        {
+          "week": 12,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 143 with another 24 already on order and only 18 coming in from downstream, so I am flush and will let stock run down rather than add more holding cost.",
+          "demand": 18,
+          "ending_inventory": 143,
+          "ending_backlog": 0,
+          "local_cost": 71.5
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Inventory is high at 133 with zero backlog and incoming demand only 22, plus a bit still on order, so I am ordering nothing this week to let the excess run down and cut holding costs.",
+          "demand": 22,
+          "ending_inventory": 133,
+          "ending_backlog": 0,
+          "local_cost": 66.5
+        },
+        {
+          "week": 14,
+          "quantity": 20,
+          "thought": "Sitting on 115 units with zero backlog and an empty pipeline after a 30-unit order came in. I'll burn some stock down but place a modest order now so lead times don't leave me short in a few weeks.",
+          "demand": 30,
+          "ending_inventory": 115,
+          "ending_backlog": 0,
+          "local_cost": 57.5
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "I've got 91 on hand and zero backlog after filling this week's 24, with only 20 still incoming, so stock is already high versus recent retailer orders around 20. Ordering nothing this week to let inventory drain and cut holding cost.",
+          "demand": 24,
+          "ending_inventory": 91,
+          "ending_backlog": 0,
+          "local_cost": 45.5
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Sitting on 74 units with only 17 demand and 20 already inbound, so stock will stay elevated. Ordering zero to burn down inventory and trim holding costs.",
+          "demand": 17,
+          "ending_inventory": 74,
+          "ending_backlog": 0,
+          "local_cost": 37.0
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Inventory sits at 78 with zero backlog and nothing already on order, while this week's pull is only 16. I'll let the stock drain and place a zero order.",
+          "demand": 16,
+          "ending_inventory": 78,
+          "ending_backlog": 0,
+          "local_cost": 39.0
+        },
+        {
+          "week": 18,
+          "quantity": 18,
+          "thought": "Inventory sits at 61 after filling 17 with nothing inbound, still healthy but pipeline empty so I am topping up modestly toward expected demand.",
+          "demand": 17,
+          "ending_inventory": 61,
+          "ending_backlog": 0,
+          "local_cost": 30.5
+        },
+        {
+          "week": 19,
+          "quantity": 20,
+          "thought": "Inventory is down to 45 with no shipment in and steady orders around 16-20 lately, so I'll place a moderate order to cover the pipeline without building excess stock.",
+          "demand": 16,
+          "ending_inventory": 45,
+          "ending_backlog": 0,
+          "local_cost": 22.5
+        },
+        {
+          "week": 20,
+          "quantity": 22,
+          "thought": "Inventory dropped to 29 with zero arrival and steady 16-order inflow, so position is thinning; I'll order 22 to cover the next few weeks without overshooting holding costs.",
+          "demand": 16,
+          "ending_inventory": 29,
+          "ending_backlog": 0,
+          "local_cost": 14.5
+        },
+        {
+          "week": 21,
+          "quantity": 18,
+          "thought": "Inventory sits at 31 with steady retailer orders near 16 and 42 already on order. I will order 18 to match recent demand and keep position healthy without excess holding.",
+          "demand": 16,
+          "ending_inventory": 31,
+          "ending_backlog": 0,
+          "local_cost": 15.5
+        },
+        {
+          "week": 22,
+          "quantity": 18,
+          "thought": "Inventory sits at 35 with zero backlog after a 16-unit order, and 40 already inbound. Demand has settled near 16, so I'll order 18 to hold a modest buffer without extra holding cost over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 35,
+          "ending_backlog": 0,
+          "local_cost": 17.5
+        },
+        {
+          "week": 23,
+          "quantity": 16,
+          "thought": "Inventory sits at 36 after filling 16, with 41 already on order and steady retailer pulls around 16; ordering 16 keeps the position healthy without extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 36,
+          "ending_backlog": 0,
+          "local_cost": 18.0
+        },
+        {
+          "week": 24,
+          "quantity": 18,
+          "thought": "Inventory dropped to 20 with zero inbound this week and steady 16-unit retailer orders, so after filling I'll be nearly stocked out. Ordering 18 to rebuild a bit of buffer given the pipeline and remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 20,
+          "ending_backlog": 0,
+          "local_cost": 10.0
+        },
+        {
+          "week": 25,
+          "quantity": 16,
+          "thought": "Inventory sits at 23 with 56 already on order and steady inbound orders of 16, so position is healthy at 79. I will order 16 to match demand and avoid excess stock over the remaining 12 weeks.",
+          "demand": 16,
+          "ending_inventory": 23,
+          "ending_backlog": 0,
+          "local_cost": 11.5
+        },
+        {
+          "week": 26,
+          "quantity": 16,
+          "thought": "Inventory sits at 37 with 42 already on order and steady incoming orders of 16, so position looks comfortable for the remaining weeks. I'll just match the recent pace to avoid extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 37,
+          "ending_backlog": 0,
+          "local_cost": 18.5
+        },
+        {
+          "week": 27,
+          "quantity": 16,
+          "thought": "Inventory sits at 42 with zero backlog and steady incoming orders of 16; pipeline already holds 37 so I will match demand to keep stock from climbing further while covering the next few weeks.",
+          "demand": 16,
+          "ending_inventory": 42,
+          "ending_backlog": 0,
+          "local_cost": 21.0
+        },
+        {
+          "week": 28,
+          "quantity": 8,
+          "thought": "Inventory sits at 46 with 33 already inbound and demand stuck at 16, so position is fat; ordering light to bleed down holding cost over the last 9 weeks.",
+          "demand": 16,
+          "ending_inventory": 46,
+          "ending_backlog": 0,
+          "local_cost": 23.0
+        },
+        {
+          "week": 29,
+          "quantity": 10,
+          "thought": "Inventory is sitting at 46 with zero backlog and steady incoming orders of 16, so holding cost is climbing. I\u2019ll order lightly to let stock drift down over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 46,
+          "ending_backlog": 0,
+          "local_cost": 23.0
+        },
+        {
+          "week": 30,
+          "quantity": 8,
+          "thought": "Inventory sits at 47 with steady 16 incoming and no backlog, so I am trimming the order to let stock drift down over the remaining weeks without risking shortage.",
+          "demand": 16,
+          "ending_inventory": 47,
+          "ending_backlog": 0,
+          "local_cost": 23.5
+        },
+        {
+          "week": 31,
+          "quantity": 8,
+          "thought": "Inventory sits at 39 with 18 already on order and steady incoming orders of 16, so I am well covered for the remaining six weeks and will keep the order small to bleed down holding costs.",
+          "demand": 16,
+          "ending_inventory": 39,
+          "ending_backlog": 0,
+          "local_cost": 19.5
+        },
+        {
+          "week": 32,
+          "quantity": 8,
+          "thought": "Inventory sits at 33 with no backlog and steady incoming orders of 16, plus 16 already on the way. I am ordering light to keep draining the excess stock over the final weeks.",
+          "demand": 16,
+          "ending_inventory": 33,
+          "ending_backlog": 0,
+          "local_cost": 16.5
+        },
+        {
+          "week": 33,
+          "quantity": 8,
+          "thought": "Inventory sits at 25 with steady 16 incoming and 16 still on order, so I am trimming the order to let stock drift down over the final four weeks without risking backlog.",
+          "demand": 16,
+          "ending_inventory": 25,
+          "ending_backlog": 0,
+          "local_cost": 12.5
+        },
+        {
+          "week": 34,
+          "quantity": 12,
+          "thought": "Inventory is down to 13 after filling a 20-unit order, with 16 still in the pipeline. Only three weeks left so I'm ordering lightly to cover near-term demand without leaving excess stock.",
+          "demand": 20,
+          "ending_inventory": 13,
+          "ending_backlog": 0,
+          "local_cost": 6.5
+        },
+        {
+          "week": 35,
+          "quantity": 10,
+          "thought": "Inventory dropped to 5 with steady 16 incoming and only two weeks left; on-order of 20 should cover most needs so Im ordering lightly to avoid ending with excess stock.",
+          "demand": 16,
+          "ending_inventory": 5,
+          "ending_backlog": 0,
+          "local_cost": 2.5
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week with zero inventory, backlog of 3 and a shipment of 8 just in; nothing I order now can arrive in time, so I place zero.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 3,
+          "local_cost": 3.0
+        }
+      ],
+      "format_failures": 0,
+      "protocol_clean": true,
+      "local_total_cost": 985.5,
+      "paired_base_stock_local_total_cost": 410.0,
+      "reward": 0.293801504836976,
+      "system_total_cost": 3945.5
+    },
+    {
+      "id": "development-2",
+      "split": "development",
+      "seed_index": 2,
+      "master_seed_hex": "28ddd0687a15373c",
+      "episode_id": "sha256:1a423cbe248b2530871ad8c4475dc5ebf1ef00b43bb0f1d39ef47beda8002b51",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        64,
+        80,
+        48,
+        55,
+        50,
+        45,
+        70,
+        35,
+        0,
+        20,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25,
+        35,
+        28,
+        18,
+        18,
+        12,
+        5,
+        12,
+        8,
+        8,
+        8,
+        0,
+        0,
+        0,
+        20,
+        0,
+        0,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting week 1 with 8 on hand, zero backlog and position 16 after filling an 8-unit order. Demand looks steady near 7-8, so I'll order 8 to keep the pipeline matched without overstocking.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 64,
+          "thought": "Backlog is already 28 with 40 more orders arriving and zero stock on hand. I need a big order to start digging out of this hole and refill the pipeline.",
+          "demand": 40,
+          "ending_inventory": 0,
+          "ending_backlog": 28,
+          "local_cost": 28.0
+        },
+        {
+          "week": 3,
+          "quantity": 80,
+          "thought": "Backlog is already 44 with only 4 arriving and another 20 just ordered from me, so position sits at 28. I need a big order to clear the hole and cover the next few weeks of demand.",
+          "demand": 20,
+          "ending_inventory": 0,
+          "ending_backlog": 44,
+          "local_cost": 44.0
+        },
+        {
+          "week": 4,
+          "quantity": 48,
+          "thought": "Backlog is already 54 with zero inventory and another 18 just in, so I need to keep pulling hard to clear it before costs mount further. On-order is decent but I am still ordering 48 to stay aggressive without overshooting.",
+          "demand": 18,
+          "ending_inventory": 0,
+          "ending_backlog": 54,
+          "local_cost": 54.0
+        },
+        {
+          "week": 5,
+          "quantity": 55,
+          "thought": "Backlog sits at 62 with another 20 ordered against us and only 12 arriving, so position is still thin. Ordering 55 to keep clearing the hole without flooding the pipeline.",
+          "demand": 20,
+          "ending_inventory": 0,
+          "ending_backlog": 62,
+          "local_cost": 62.0
+        },
+        {
+          "week": 6,
+          "quantity": 50,
+          "thought": "Backlog is stuck at 62 with zero inventory even after receiving 16, and retailers keep ordering around 20. I am ordering 50 to keep the pipeline moving without overshooting once the big on-order arrives.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 62,
+          "local_cost": 62.0
+        },
+        {
+          "week": 7,
+          "quantity": 45,
+          "thought": "Backlog sits at 75 with nothing on hand and 19 more coming in; on-order is already 263 so I am only topping up for the usual flow plus a bit of the hole.",
+          "demand": 19,
+          "ending_inventory": 0,
+          "ending_backlog": 75,
+          "local_cost": 75.0
+        },
+        {
+          "week": 8,
+          "quantity": 70,
+          "thought": "Still sitting on a 61-unit backlog after receiving 36; retailer just pulled 22 more. Ordering 70 to keep the pipeline moving and chip away at the shortage without overshooting too hard.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 61,
+          "local_cost": 61.0
+        },
+        {
+          "week": 9,
+          "quantity": 35,
+          "thought": "Backlog sits at 77 with zero stock and no shipment arriving, while on-order is already a hefty 342. I will order 35 to keep supply moving without piling on more excess.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 77,
+          "local_cost": 77.0
+        },
+        {
+          "week": 10,
+          "quantity": 0,
+          "thought": "Inventory position is already 284 with 35 on hand and zero backlog after a big shipment, while retailer orders are only around 16. I'll order nothing this week to burn down the pipeline and avoid holding costs.",
+          "demand": 16,
+          "ending_inventory": 35,
+          "ending_backlog": 0,
+          "local_cost": 17.5
+        },
+        {
+          "week": 11,
+          "quantity": 20,
+          "thought": "Big shipment cleared the backlog and left me with 147 on hand plus 121 already coming; incoming order is only 16 so I am ordering lightly to work the excess down without risking a new backlog.",
+          "demand": 16,
+          "ending_inventory": 147,
+          "ending_backlog": 0,
+          "local_cost": 73.5
+        },
+        {
+          "week": 12,
+          "quantity": 0,
+          "thought": "Sitting on 240 inventory with only 16 incoming and zero backlog after those big shipments, so I am cutting the order hard to burn stock down and stop the holding costs.",
+          "demand": 16,
+          "ending_inventory": 240,
+          "ending_backlog": 0,
+          "local_cost": 120.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Sitting on 236 units with only 16 demand this week and light pipeline, so I am ordering zero to burn down the pile and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 236,
+          "ending_backlog": 0,
+          "local_cost": 118.0
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "I've got 240 units on hand, zero backlog, and retailer orders stuck near 16 with an empty pipeline, so I'll order nothing this week to burn down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 240,
+          "ending_backlog": 0,
+          "local_cost": 120.0
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Inventory is high at 224 with zero backlog and incoming orders steady around 16, so I am ordering nothing to burn down the excess and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 224,
+          "ending_backlog": 0,
+          "local_cost": 112.0
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Sitting on 208 units with steady 16 demand and nothing on order, so ordering zero to burn down stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 208,
+          "ending_backlog": 0,
+          "local_cost": 104.0
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Sitting on 188 units with zero backlog and only 20 incoming, inventory is still way too high after weeks of zero orders. No need to add more; let it drain naturally.",
+          "demand": 20,
+          "ending_inventory": 188,
+          "ending_backlog": 0,
+          "local_cost": 94.0
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Sitting on 161 units with nothing incoming and this week's order at 27, I can safely burn down stock for many weeks without risking backlog.",
+          "demand": 27,
+          "ending_inventory": 161,
+          "ending_backlog": 0,
+          "local_cost": 80.5
+        },
+        {
+          "week": 19,
+          "quantity": 25,
+          "thought": "Inventory sits at 131 after filling 30, still healthy with nothing inbound, but demand has climbed so I am starting a modest replenishment to cover the pipeline lag.",
+          "demand": 30,
+          "ending_inventory": 131,
+          "ending_backlog": 0,
+          "local_cost": 65.5
+        },
+        {
+          "week": 20,
+          "quantity": 35,
+          "thought": "Inventory dropped to 97 after filling 34 with nothing arriving; pipeline has only my last 25. Demands keep climbing so I am matching that pace to avoid backlog while burning down the excess stock.",
+          "demand": 34,
+          "ending_inventory": 97,
+          "ending_backlog": 0,
+          "local_cost": 48.5
+        },
+        {
+          "week": 21,
+          "quantity": 28,
+          "thought": "Inventory dropped to 75 with another 22 ordered against us and nothing arriving this week, though 60 is still in the pipeline. Demands have been climbing lately so I am topping up moderately to stay ahead of backlog without overstocking.",
+          "demand": 22,
+          "ending_inventory": 75,
+          "ending_backlog": 0,
+          "local_cost": 37.5
+        },
+        {
+          "week": 22,
+          "quantity": 18,
+          "thought": "Inventory sits at 84 with 63 already on order and only 16 demand this week, so holding costs are the issue. Ordering lightly keeps the pipeline from growing while I burn down stock.",
+          "demand": 16,
+          "ending_inventory": 84,
+          "ending_backlog": 0,
+          "local_cost": 42.0
+        },
+        {
+          "week": 23,
+          "quantity": 18,
+          "thought": "Inventory sits at 103 with 46 already on order and this week's demand only 16, so I am ordering modestly to keep drawing stock down without risking a backlog later.",
+          "demand": 16,
+          "ending_inventory": 103,
+          "ending_backlog": 0,
+          "local_cost": 51.5
+        },
+        {
+          "week": 24,
+          "quantity": 12,
+          "thought": "Inventory sits at 115 with 36 already inbound and only 16 ordered from me this week, so position is comfortable. Ordering lightly to keep burning down excess stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 115,
+          "ending_backlog": 0,
+          "local_cost": 57.5
+        },
+        {
+          "week": 25,
+          "quantity": 5,
+          "thought": "Inventory sits high at 117 with 30 already inbound and only 16 demand this week, so I am ordering near zero to burn down stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 117,
+          "ending_backlog": 0,
+          "local_cost": 58.5
+        },
+        {
+          "week": 26,
+          "quantity": 12,
+          "thought": "Inventory sits high at 118 with zero backlog and demand steady at 16, so I am ordering lightly to keep drawing stock down without risking a stockout later.",
+          "demand": 16,
+          "ending_inventory": 118,
+          "ending_backlog": 0,
+          "local_cost": 59.0
+        },
+        {
+          "week": 27,
+          "quantity": 8,
+          "thought": "Inventory is still high at 115 with only light incoming orders of 16 and ten weeks left, so I am cutting the order to burn stock down gently without risking backlog.",
+          "demand": 16,
+          "ending_inventory": 115,
+          "ending_backlog": 0,
+          "local_cost": 57.5
+        },
+        {
+          "week": 28,
+          "quantity": 8,
+          "thought": "Inventory sits high at 104 with zero backlog and steady retailer orders of 16, plus 20 already on the way, so I am cutting the order hard to bleed down stock and holding cost over the last nine weeks.",
+          "demand": 16,
+          "ending_inventory": 104,
+          "ending_backlog": 0,
+          "local_cost": 52.0
+        },
+        {
+          "week": 29,
+          "quantity": 8,
+          "thought": "Inventory sits at 100 with steady incoming orders of 16 and only 16 still on the way, so I am cutting the order hard to bleed down excess stock and holding cost over the last eight weeks.",
+          "demand": 16,
+          "ending_inventory": 100,
+          "ending_backlog": 0,
+          "local_cost": 50.0
+        },
+        {
+          "week": 30,
+          "quantity": 0,
+          "thought": "Inventory sits at 92 with steady 16 demand and only 7 weeks left, so I'm nearly full and just burning holding cost. Ordering nothing lets stock drain without risking much backlog.",
+          "demand": 16,
+          "ending_inventory": 92,
+          "ending_backlog": 0,
+          "local_cost": 46.0
+        },
+        {
+          "week": 31,
+          "quantity": 0,
+          "thought": "Inventory sits at 84 with only 8 incoming and steady 16 demand, so Im still overweight after weeks of surplus. With six weeks left Ill order nothing to burn down stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 84,
+          "ending_backlog": 0,
+          "local_cost": 42.0
+        },
+        {
+          "week": 32,
+          "quantity": 0,
+          "thought": "Inventory sits at 76 with zero backlog and nothing in the pipeline, while retailer orders stay steady at 16. Five weeks left means I can burn stock down without risking shortages, so I order nothing.",
+          "demand": 16,
+          "ending_inventory": 76,
+          "ending_backlog": 0,
+          "local_cost": 38.0
+        },
+        {
+          "week": 33,
+          "quantity": 20,
+          "thought": "Sitting on 60 units with steady 16 demand and an empty pipeline, four weeks left. I'll order 20 to cover the tail without piling up excess holding cost.",
+          "demand": 16,
+          "ending_inventory": 60,
+          "ending_backlog": 0,
+          "local_cost": 30.0
+        },
+        {
+          "week": 34,
+          "quantity": 0,
+          "thought": "Inventory sits at 44 with zero backlog and 20 already on order against steady 16-unit demand; only three weeks left so I am ordering nothing to avoid leftover holding costs.",
+          "demand": 16,
+          "ending_inventory": 44,
+          "ending_backlog": 0,
+          "local_cost": 22.0
+        },
+        {
+          "week": 35,
+          "quantity": 0,
+          "thought": "Inventory is 28 with 20 already on order and steady inbound orders of 16; two weeks left so position of 48 covers remaining demand without risking leftover stock.",
+          "demand": 16,
+          "ending_inventory": 28,
+          "ending_backlog": 0,
+          "local_cost": 14.0
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week, 32 inventory covers the 16 demand with nothing inbound. Lead times mean any order arrives too late, so I order zero to avoid useless stock.",
+          "demand": 16,
+          "ending_inventory": 32,
+          "ending_backlog": 0,
+          "local_cost": 16.0
+        }
+      ],
+      "format_failures": 0,
+      "protocol_clean": true,
+      "local_total_cost": 2126.0,
+      "paired_base_stock_local_total_cost": 772.0,
+      "reward": 0.2663906142167012,
+      "system_total_cost": 7224.0
+    },
+    {
+      "id": "validation-0",
+      "split": "validation",
+      "seed_index": 0,
+      "master_seed_hex": "2b197b15184304b7",
+      "episode_id": "sha256:b736fe8c0462832db926abdfa648886d59de66ad04c7428aa6cdc2e95ba40e68",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        10,
+        96,
+        120,
+        90,
+        85,
+        128,
+        128,
+        55,
+        70,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 10,
+          "thought": "Starting week with 8 on hand and 8 incoming demand fully filled, position at 16 and light on-order. Ordering near the 7.5 mean to build a small buffer without excess holding.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 96,
+          "thought": "Huge backlog of 33 plus fresh order of 45 and zero stock leave me deep in the hole; on-order is only 14 so I am ordering hard to refill and cover the pipeline.",
+          "demand": 45,
+          "ending_inventory": 0,
+          "ending_backlog": 33,
+          "local_cost": 33.0
+        },
+        {
+          "week": 3,
+          "quantity": 120,
+          "thought": "Backlog sits at 51 with zero inventory and 22 more demand just hit; on-order is only 106 so I am still deep in the hole. Ordering near the cap to pull inventory forward and start burning down the backlog.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 51,
+          "local_cost": 51.0
+        },
+        {
+          "week": 4,
+          "quantity": 90,
+          "thought": "Backlog hit 68 with zero stock and 27 more demand just arrived, so the pipeline needs filling fast. Ordering 90 to cover the hole without maxing out and risking later excess.",
+          "demand": 27,
+          "ending_inventory": 0,
+          "ending_backlog": 68,
+          "local_cost": 68.0
+        },
+        {
+          "week": 5,
+          "quantity": 85,
+          "thought": "Still deep in backlog at 76 with zero inventory and only 10 arriving; pipeline is heavy but I need to keep replenishing against volatile retailer orders around 20-plus.",
+          "demand": 18,
+          "ending_inventory": 0,
+          "ending_backlog": 76,
+          "local_cost": 76.0
+        },
+        {
+          "week": 6,
+          "quantity": 128,
+          "thought": "Backlog is still climbing to 83 with zero inventory despite 16 arriving; retailer orders stay elevated. Placing the max 128 to pull more supply through the pipeline and start cutting that costly backlog.",
+          "demand": 23,
+          "ending_inventory": 0,
+          "ending_backlog": 83,
+          "local_cost": 83.0
+        },
+        {
+          "week": 7,
+          "quantity": 128,
+          "thought": "Backlog is already 91 with zero inventory and another 18 just in, so costs keep climbing fast. On-order is high but I still need max inbound to burn down the backlog before it gets worse.",
+          "demand": 18,
+          "ending_inventory": 0,
+          "ending_backlog": 91,
+          "local_cost": 91.0
+        },
+        {
+          "week": 8,
+          "quantity": 55,
+          "thought": "Backlog still 79 after getting 32 in, demand another 20, so we'll end deeper in the hole. Pipeline is already fat at 579 and IP 500, so I'll ease off the max orders and just cover near-term needs.",
+          "demand": 20,
+          "ending_inventory": 0,
+          "ending_backlog": 79,
+          "local_cost": 79.0
+        },
+        {
+          "week": 9,
+          "quantity": 70,
+          "thought": "Deep backlog at 90 with only 5 arriving and 16 more demand hitting. Pipeline is already huge so I will keep ordering solidly but not max to avoid later overshoot.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 90,
+          "local_cost": 90.0
+        },
+        {
+          "week": 10,
+          "quantity": 10,
+          "thought": "Big shipment cleared the backlog and left me 22 on hand with 571 already coming in; position is sky-high versus ~20 demand, so I am coasting with a tiny order.",
+          "demand": 16,
+          "ending_inventory": 22,
+          "ending_backlog": 0,
+          "local_cost": 11.0
+        },
+        {
+          "week": 11,
+          "quantity": 0,
+          "thought": "Big shipment just landed, inventory sitting at 134 with 453 already on order and zero backlog, so I'm ordering nothing to work the excess down.",
+          "demand": 16,
+          "ending_inventory": 134,
+          "ending_backlog": 0,
+          "local_cost": 67.0
+        },
+        {
+          "week": 12,
+          "quantity": 0,
+          "thought": "Inventory is already 246 with 325 more on order and only light demand around 16, so Im sitting on a huge surplus that will keep racking up holding costs. Ordering nothing this week to let it drain.",
+          "demand": 16,
+          "ending_inventory": 246,
+          "ending_backlog": 0,
+          "local_cost": 123.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Inventory is already 358 with 197 more on the way and only 16 demand this week, so I'm sitting on a huge pile. Ordering zero to let stock drain and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 358,
+          "ending_backlog": 0,
+          "local_cost": 179.0
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Sitting on 470 units with 69 more inbound and only 16 demand this week, so I am ordering nothing to burn down the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 470,
+          "ending_backlog": 0,
+          "local_cost": 235.0
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Inventory sits at 523 with zero backlog and incoming orders steady at 16, so I am ordering nothing this week to burn down the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 523,
+          "ending_backlog": 0,
+          "local_cost": 261.5
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Inventory is over 500 with zero backlog and only 16 units demanded, so I am ordering nothing to work down the huge surplus and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 507,
+          "ending_backlog": 0,
+          "local_cost": 253.5
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Sitting on 491 units with no backlog and steady inbound orders of only 16, so I'll keep ordering zero to burn down this expensive pile before it costs more.",
+          "demand": 16,
+          "ending_inventory": 491,
+          "ending_backlog": 0,
+          "local_cost": 245.5
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 475 with zero backlog and steady 16 demand, so I am ordering nothing this week to keep bleeding off the excess stock.",
+          "demand": 16,
+          "ending_inventory": 475,
+          "ending_backlog": 0,
+          "local_cost": 237.5
+        },
+        {
+          "week": 19,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 459 with zero backlog and steady incoming orders of only 16, plus nothing in the pipeline. I'll keep ordering zero to burn down the excess stock over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 459,
+          "ending_backlog": 0,
+          "local_cost": 229.5
+        },
+        {
+          "week": 20,
+          "quantity": 0,
+          "thought": "Inventory sits at 443 with zero backlog and steady 16 demand, so I am ordering nothing to keep bleeding off the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 443,
+          "ending_backlog": 0,
+          "local_cost": 221.5
+        },
+        {
+          "week": 21,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 427 with zero backlog and only 16 coming in each week, nothing on order. I'll order zero again so we can burn this stock down and stop bleeding holding cost.",
+          "demand": 16,
+          "ending_inventory": 427,
+          "ending_backlog": 0,
+          "local_cost": 213.5
+        },
+        {
+          "week": 22,
+          "quantity": 0,
+          "thought": "Inventory is still sitting at 411 with zero on order and steady 16-unit demand, so I am burning holding cost every week. No need to add more stock yet; I will let it keep draining.",
+          "demand": 16,
+          "ending_inventory": 411,
+          "ending_backlog": 0,
+          "local_cost": 205.5
+        },
+        {
+          "week": 23,
+          "quantity": 0,
+          "thought": "Inventory still sits near 400 with zero backlog and only 16 incoming each week, so I am ordering nothing again to keep draining the costly excess.",
+          "demand": 16,
+          "ending_inventory": 395,
+          "ending_backlog": 0,
+          "local_cost": 197.5
+        },
+        {
+          "week": 24,
+          "quantity": 0,
+          "thought": "Sitting on 379 units with steady orders of only 16 and nothing inbound, so I'll keep ordering zero to burn down this expensive pile over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 379,
+          "ending_backlog": 0,
+          "local_cost": 189.5
+        },
+        {
+          "week": 25,
+          "quantity": 0,
+          "thought": "Inventory sits at 363 with zero backlog and steady incoming orders of 16; twelve weeks left means I can burn stock down without ordering.",
+          "demand": 16,
+          "ending_inventory": 363,
+          "ending_backlog": 0,
+          "local_cost": 181.5
+        },
+        {
+          "week": 26,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 347 with steady incoming orders of only 16 and nothing in the pipeline, so I'll keep ordering zero to burn it down and cut holding costs over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 347,
+          "ending_backlog": 0,
+          "local_cost": 173.5
+        },
+        {
+          "week": 27,
+          "quantity": 0,
+          "thought": "Inventory sits at 331 with steady incoming orders of 16 and nothing on the way, so I am ordering zero again to keep burning down the excess stock over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 331,
+          "ending_backlog": 0,
+          "local_cost": 165.5
+        },
+        {
+          "week": 28,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 315 with steady incoming orders of only 16 and nothing on the way, so I'll keep ordering zero to burn down stock over the remaining weeks.",
+          "demand": 16,
+          "ending_inventory": 315,
+          "ending_backlog": 0,
+          "local_cost": 157.5
+        },
+        {
+          "week": 29,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 299 with steady incoming orders of 16 and nothing in the pipeline. Eight weeks left means I can easily cover demand from stock, so Im ordering zero to cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 299,
+          "ending_backlog": 0,
+          "local_cost": 149.5
+        },
+        {
+          "week": 30,
+          "quantity": 0,
+          "thought": "Still sitting on 283 units with only 16 coming in and nothing on order, so plenty of stock left for the last 7 weeks. Ordering zero to keep bleeding down this excess inventory.",
+          "demand": 16,
+          "ending_inventory": 283,
+          "ending_backlog": 0,
+          "local_cost": 141.5
+        },
+        {
+          "week": 31,
+          "quantity": 0,
+          "thought": "Sitting on 267 units with zero backlog and steady inbound orders of 16, I have far more than enough for the remaining six weeks, so I order nothing to stop the holding bleed.",
+          "demand": 16,
+          "ending_inventory": 267,
+          "ending_backlog": 0,
+          "local_cost": 133.5
+        },
+        {
+          "week": 32,
+          "quantity": 0,
+          "thought": "Sitting on 251 units with steady 16 demand and only five weeks left, so ordering zero to work off the excess and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 251,
+          "ending_backlog": 0,
+          "local_cost": 125.5
+        },
+        {
+          "week": 33,
+          "quantity": 0,
+          "thought": "Still sitting on 235 units with steady 16 demand and only four weeks left, so zero order to keep draining the excess without adding holding cost.",
+          "demand": 16,
+          "ending_inventory": 235,
+          "ending_backlog": 0,
+          "local_cost": 117.5
+        },
+        {
+          "week": 34,
+          "quantity": 0,
+          "thought": "Inventory sits at 219 with zero backlog and only three weeks left while downstream keeps ordering just 16, so I'll order nothing and let stock run down.",
+          "demand": 16,
+          "ending_inventory": 219,
+          "ending_backlog": 0,
+          "local_cost": 109.5
+        },
+        {
+          "week": 35,
+          "quantity": 0,
+          "thought": "Sitting on 203 units with steady incoming orders of 16 and zero backlog, plus only two weeks left, so I'll place nothing and just burn down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 203,
+          "ending_backlog": 0,
+          "local_cost": 101.5
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week, inventory still 187 with zero pipeline and steady 16 demand, so nothing I order can arrive in time. Ordering zero keeps holding costs from climbing further.",
+          "demand": 16,
+          "ending_inventory": 187,
+          "ending_backlog": 0,
+          "local_cost": 93.5
+        }
+      ],
+      "format_failures": 4,
+      "protocol_clean": true,
+      "local_total_cost": 5437.0,
+      "paired_base_stock_local_total_cost": 600.0,
+      "reward": 0.09938711280437303,
+      "system_total_cost": 18249.0
+    },
+    {
+      "id": "validation-1",
+      "split": "validation",
+      "seed_index": 1,
+      "master_seed_hex": "7009b5b4c57715f2",
+      "episode_id": "sha256:d42ffc3a5462169f90688975b74337d287a9de06f8173d8c06836a104a5fa52e",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        28,
+        40,
+        48,
+        36,
+        52,
+        64,
+        96,
+        128,
+        100,
+        5,
+        4,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        0,
+        16,
+        16,
+        8,
+        8,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting with 8 on hand and no backlog after filling an order of 8; position is 16 with 8 already incoming. Ordering 8 to track the expected mean demand near 7.5 and keep costs low.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 28,
+          "thought": "Backlog of 6 and incoming order of 18 with zero on hand; only 12 already on order. Ordering 28 to cover the deficit plus a couple weeks of expected demand around 15.",
+          "demand": 18,
+          "ending_inventory": 0,
+          "ending_backlog": 6,
+          "local_cost": 6.0
+        },
+        {
+          "week": 3,
+          "quantity": 40,
+          "thought": "Backlog sits at 18 with empty shelves and another 16 just ordered from me; on-order is only 36. Ordering 40 to chip away at the hole without overshooting once the delayed shipments arrive.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 18,
+          "local_cost": 18.0
+        },
+        {
+          "week": 4,
+          "quantity": 48,
+          "thought": "Backlog hit 26 with zero stock and 16 more demand just in; pipeline is 68 but I need to dig out faster. Ordering 48 to cover the hole plus near-term retailer pulls.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 26,
+          "local_cost": 26.0
+        },
+        {
+          "week": 5,
+          "quantity": 36,
+          "thought": "Still deep in backlog at 30 with zero inventory after only 12 arrived, and another 16 just ordered from me. Pipeline is 104 so I am ordering 36 to keep replenishing without overshooting too hard.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 30,
+          "local_cost": 30.0
+        },
+        {
+          "week": 6,
+          "quantity": 52,
+          "thought": "Backlog sits at 43 with nothing on hand and 29 more demand just hit; pipeline is only 124 so I am ordering up to keep chipping away at the debt over the next lead times.",
+          "demand": 29,
+          "ending_inventory": 0,
+          "ending_backlog": 43,
+          "local_cost": 43.0
+        },
+        {
+          "week": 7,
+          "quantity": 64,
+          "thought": "Backlog sits at 75 with nothing on hand and 38 more demand just hit; on-order 170 will help but I still need a solid order to keep chipping away at the hole.",
+          "demand": 38,
+          "ending_inventory": 0,
+          "ending_backlog": 75,
+          "local_cost": 75.0
+        },
+        {
+          "week": 8,
+          "quantity": 96,
+          "thought": "Backlog sits at 76 even after the 36-unit delivery, and 37 more just arrived, so I am still deep in the hole. Ordering hard again to pull inventory forward and cut the expensive backlog.",
+          "demand": 37,
+          "ending_inventory": 0,
+          "ending_backlog": 76,
+          "local_cost": 76.0
+        },
+        {
+          "week": 9,
+          "quantity": 128,
+          "thought": "Backlog is already 98 with zero inventory and nothing arriving this week, while retailers keep ordering over 20. I need to pull hard on the pipeline to start clearing that expensive backlog.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 98,
+          "local_cost": 98.0
+        },
+        {
+          "week": 10,
+          "quantity": 100,
+          "thought": "Backlog is still 66 after receiving 62, with another 30 just ordered from me. Pipeline looks heavy but I have to keep filling hard to burn down this debt before it costs more.",
+          "demand": 30,
+          "ending_inventory": 0,
+          "ending_backlog": 66,
+          "local_cost": 66.0
+        },
+        {
+          "week": 11,
+          "quantity": 5,
+          "thought": "Backlog finally cleared with a bit of stock left and a massive pipeline already coming, so Im ordering almost nothing to avoid piling up holding costs.",
+          "demand": 18,
+          "ending_inventory": 3,
+          "ending_backlog": 0,
+          "local_cost": 1.5
+        },
+        {
+          "week": 12,
+          "quantity": 4,
+          "thought": "Inventory is 78 with zero backlog and 286 already on order after big recent receipts, while retailer orders sit around 17. Pipeline will cover demand for weeks, so Im ordering near zero to bleed down stock and holding cost.",
+          "demand": 17,
+          "ending_inventory": 78,
+          "ending_backlog": 0,
+          "local_cost": 39.0
+        },
+        {
+          "week": 13,
+          "quantity": 8,
+          "thought": "Sitting on 111 units with 240 already coming in and only light retailer orders around 17, so I'm flush and will just top up lightly to keep the pipeline from drying later.",
+          "demand": 17,
+          "ending_inventory": 111,
+          "ending_backlog": 0,
+          "local_cost": 55.5
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Sitting on 185 units with another 158 already inbound and retailer orders only around 16, so inventory will keep climbing if I keep ordering. Cutting to zero this week to burn down the excess and stop the holding costs.",
+          "demand": 16,
+          "ending_inventory": 185,
+          "ending_backlog": 0,
+          "local_cost": 92.5
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Sitting on 285 units with zero backlog and only 16 incoming, plus 42 already on order. Demand has been soft lately so I'm ordering nothing to let the pile run down.",
+          "demand": 16,
+          "ending_inventory": 285,
+          "ending_backlog": 0,
+          "local_cost": 142.5
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Inventory is already at 311 with only 16 incoming demand and zero on order, so I am ordering nothing this week to burn down stock and stop the holding-cost bleed.",
+          "demand": 16,
+          "ending_inventory": 311,
+          "ending_backlog": 0,
+          "local_cost": 155.5
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Sitting on 295 units with zero backlog and only 16 incoming demand, so ordering nothing to burn down this excess inventory and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 295,
+          "ending_backlog": 0,
+          "local_cost": 147.5
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 279 with no backlog and steady incoming orders around 16, so I'll order nothing this week to let the stock drain down.",
+          "demand": 16,
+          "ending_inventory": 279,
+          "ending_backlog": 0,
+          "local_cost": 139.5
+        },
+        {
+          "week": 19,
+          "quantity": 0,
+          "thought": "Inventory is still huge at 263 with zero backlog and incoming orders steady around 16, so I'm ordering nothing to burn down the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 263,
+          "ending_backlog": 0,
+          "local_cost": 131.5
+        },
+        {
+          "week": 20,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 247 with zero backlog and steady incoming orders around 16, so I am ordering nothing again to keep burning down the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 247,
+          "ending_backlog": 0,
+          "local_cost": 123.5
+        },
+        {
+          "week": 21,
+          "quantity": 0,
+          "thought": "Inventory is still sitting at 231 with zero on order and steady 16-unit demand, so holding costs keep piling up. I\u2019ll order nothing again to burn it down.",
+          "demand": 16,
+          "ending_inventory": 231,
+          "ending_backlog": 0,
+          "local_cost": 115.5
+        },
+        {
+          "week": 22,
+          "quantity": 0,
+          "thought": "Still sitting on 215 units with zero incoming shipments and steady 16 demand, so inventory will keep drifting down slowly. No need to add more stock and pile on holding costs.",
+          "demand": 16,
+          "ending_inventory": 215,
+          "ending_backlog": 0,
+          "local_cost": 107.5
+        },
+        {
+          "week": 23,
+          "quantity": 0,
+          "thought": "Inventory still sits at 199 with no backlog and zero on order while demand stays a steady 16, so I am ordering nothing to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 199,
+          "ending_backlog": 0,
+          "local_cost": 99.5
+        },
+        {
+          "week": 24,
+          "quantity": 0,
+          "thought": "Inventory is still high at 183 with steady incoming orders of 16 and nothing in the pipeline, so I am letting stock keep draining to cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 183,
+          "ending_backlog": 0,
+          "local_cost": 91.5
+        },
+        {
+          "week": 25,
+          "quantity": 0,
+          "thought": "Inventory sits at 167 with steady incoming orders of 16 and nothing in the pipeline, so I am still overstocked for the remaining 12 weeks and will let it run down.",
+          "demand": 16,
+          "ending_inventory": 167,
+          "ending_backlog": 0,
+          "local_cost": 83.5
+        },
+        {
+          "week": 26,
+          "quantity": 0,
+          "thought": "Inventory still sits at 151 with steady incoming orders of 16 and nothing in the pipeline; plenty of cover left for the remaining weeks so I will keep ordering zero to burn down holding cost.",
+          "demand": 16,
+          "ending_inventory": 151,
+          "ending_backlog": 0,
+          "local_cost": 75.5
+        },
+        {
+          "week": 27,
+          "quantity": 0,
+          "thought": "Inventory sits at 135 with zero pipeline and steady inbound orders of 16, so it will cover most of the remaining 10 weeks; no need to add stock and pay more holding.",
+          "demand": 16,
+          "ending_inventory": 135,
+          "ending_backlog": 0,
+          "local_cost": 67.5
+        },
+        {
+          "week": 28,
+          "quantity": 0,
+          "thought": "Inventory still sits at 119 with steady 16-unit demand and nothing in the pipeline; nine weeks left so I can safely keep draining stock another week before ordering.",
+          "demand": 16,
+          "ending_inventory": 119,
+          "ending_backlog": 0,
+          "local_cost": 59.5
+        },
+        {
+          "week": 29,
+          "quantity": 0,
+          "thought": "Sitting on 103 units with steady 16 demand and nothing incoming, plenty of cover for the next several weeks, so I'm letting stock run down rather than add holding cost.",
+          "demand": 16,
+          "ending_inventory": 103,
+          "ending_backlog": 0,
+          "local_cost": 51.5
+        },
+        {
+          "week": 30,
+          "quantity": 16,
+          "thought": "Inventory still sits at 87 with steady 16-unit orders and an empty pipeline, so I am starting a modest replenishment now to cover the remaining seven weeks without letting stock run out or balloon again.",
+          "demand": 16,
+          "ending_inventory": 87,
+          "ending_backlog": 0,
+          "local_cost": 43.5
+        },
+        {
+          "week": 31,
+          "quantity": 0,
+          "thought": "Inventory still sits at 71 with only six weeks left and steady orders of 16; the one shipment already in the pipeline should cover us, so I am ordering nothing to burn down stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 71,
+          "ending_backlog": 0,
+          "local_cost": 35.5
+        },
+        {
+          "week": 32,
+          "quantity": 16,
+          "thought": "Inventory sits at 55 after filling 16, with 16 already on order and five weeks left. Steady retailer pull of 16 means I only need a small top-up to avoid backlog without piling on holding cost.",
+          "demand": 16,
+          "ending_inventory": 55,
+          "ending_backlog": 0,
+          "local_cost": 27.5
+        },
+        {
+          "week": 33,
+          "quantity": 16,
+          "thought": "Inventory is still high at 55 with steady 16 demand and only 4 weeks left, plus 16 already on order, so I will just match the usual inflow to avoid extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 55,
+          "ending_backlog": 0,
+          "local_cost": 27.5
+        },
+        {
+          "week": 34,
+          "quantity": 8,
+          "thought": "Inventory is 39 with 32 already on order and steady demand of 16; three weeks left so I will just top up lightly to cover the pipeline without leftover stock.",
+          "demand": 16,
+          "ending_inventory": 39,
+          "ending_backlog": 0,
+          "local_cost": 19.5
+        },
+        {
+          "week": 35,
+          "quantity": 8,
+          "thought": "Inventory sits at 39 with 24 already on order and steady downstream pulls of 16; only two weeks left so I am keeping the pipeline light to avoid leftover holding cost.",
+          "demand": 16,
+          "ending_inventory": 39,
+          "ending_backlog": 0,
+          "local_cost": 19.5
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week with 39 on hand, zero backlog and steady incoming orders of 16; on-order already covers the pipeline so I order nothing to avoid extra holding.",
+          "demand": 16,
+          "ending_inventory": 39,
+          "ending_backlog": 0,
+          "local_cost": 19.5
+        }
+      ],
+      "format_failures": 1,
+      "protocol_clean": true,
+      "local_total_cost": 2488.5,
+      "paired_base_stock_local_total_cost": 669.0,
+      "reward": 0.21187648456057007,
+      "system_total_cost": 10852.0
+    },
+    {
+      "id": "validation-2",
+      "split": "validation",
+      "seed_index": 2,
+      "master_seed_hex": "26e0e4a9457e6ee4",
+      "episode_id": "sha256:6a0ff1649510b4e5126aa756a8116a3330d4ee396ec390b449a2cfb36cd1e4ca",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        48,
+        36,
+        60,
+        64,
+        128,
+        128,
+        90,
+        45,
+        8,
+        8,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting week 1 with 8 on hand, no backlog, and IP at 16 after filling an order of 8. Demand looks steady near the long-run mean so I will match it to keep the pipeline from growing.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 48,
+          "thought": "Backlog is already 20 with zero inventory and a hefty 32-unit order just hit; on-order is only 12. Ordering 48 to dig out of the hole without overshooting.",
+          "demand": 32,
+          "ending_inventory": 0,
+          "ending_backlog": 20,
+          "local_cost": 20.0
+        },
+        {
+          "week": 3,
+          "quantity": 36,
+          "thought": "Backlog hit 32 with only 4 arriving and 16 more demand this week; pipeline has 56 coming but I need to keep chipping away at the hole without overshooting later.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 32,
+          "local_cost": 32.0
+        },
+        {
+          "week": 4,
+          "quantity": 60,
+          "thought": "Backlog is already 45 with zero stock and another 21 just ordered from me; on-order of 84 will not clear it fast enough so I am stepping up to 60 to start digging out.",
+          "demand": 21,
+          "ending_inventory": 0,
+          "ending_backlog": 45,
+          "local_cost": 45.0
+        },
+        {
+          "week": 5,
+          "quantity": 64,
+          "thought": "Backlog sits at 49 with nothing on hand and just 12 arriving this week against an incoming order of 16. I need a solid order to chew down the hole and keep the pipeline from starving.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 49,
+          "local_cost": 49.0
+        },
+        {
+          "week": 6,
+          "quantity": 128,
+          "thought": "Backlog is still 54 with zero inventory and another 21 just ordered from me; on-order of 180 will take time to arrive so I need to keep pushing hard upstream to dig out.",
+          "demand": 21,
+          "ending_inventory": 0,
+          "ending_backlog": 54,
+          "local_cost": 54.0
+        },
+        {
+          "week": 7,
+          "quantity": 128,
+          "thought": "Backlog sits at 77 with zero inventory and 29 more just ordered from retailers; pipeline is large but I still need to keep the pressure on to burn down the expensive backlog, so max order again.",
+          "demand": 29,
+          "ending_inventory": 0,
+          "ending_backlog": 77,
+          "local_cost": 77.0
+        },
+        {
+          "week": 8,
+          "quantity": 90,
+          "thought": "Backlog sits at 61 with zero on hand after the 36 received; pipeline is already heavy at 394 so I am ordering a solid but not max amount to keep clearing without huge later overshoot.",
+          "demand": 20,
+          "ending_inventory": 0,
+          "ending_backlog": 61,
+          "local_cost": 61.0
+        },
+        {
+          "week": 9,
+          "quantity": 45,
+          "thought": "Backlog is still 96 with zero inventory and nothing arriving this week, while retailer orders jumped to 35. On-order is already heavy at 484 so I'm just topping up modestly to keep chipping away without flooding later.",
+          "demand": 35,
+          "ending_inventory": 0,
+          "ending_backlog": 96,
+          "local_cost": 96.0
+        },
+        {
+          "week": 10,
+          "quantity": 8,
+          "thought": "Inventory position is already 409 with 406 on order and only light incoming demand of 24, so I am nearly clear of backlog. Ordering near zero keeps holding costs from ballooning while the pipeline empties.",
+          "demand": 24,
+          "ending_inventory": 3,
+          "ending_backlog": 0,
+          "local_cost": 1.5
+        },
+        {
+          "week": 11,
+          "quantity": 8,
+          "thought": "Big shipment just landed, clearing the backlog with 37 on hand and a huge 352 still in the pipeline, so I'm ordering almost nothing to let inventory drain toward normal demand.",
+          "demand": 28,
+          "ending_inventory": 37,
+          "ending_backlog": 0,
+          "local_cost": 18.5
+        },
+        {
+          "week": 12,
+          "quantity": 10,
+          "thought": "Sitting on 136 inventory and 232 already on order after covering this week's 29, so position is fat at 368. I'll order light to burn down stock and avoid holding costs.",
+          "demand": 29,
+          "ending_inventory": 136,
+          "ending_backlog": 0,
+          "local_cost": 68.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 237 with 125 already on order and only 16 demand this week, so I am ordering zero to burn down the excess stock and avoid more holding cost.",
+          "demand": 16,
+          "ending_inventory": 237,
+          "ending_backlog": 0,
+          "local_cost": 118.5
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Sitting on 336 units with zero backlog and only light incoming orders around 16, so holding costs are already painful. I'll order nothing this week to burn down the pile.",
+          "demand": 16,
+          "ending_inventory": 336,
+          "ending_backlog": 0,
+          "local_cost": 168.0
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Sitting on 330 units with zero backlog and light demand of 16, so I order nothing to burn down this excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 330,
+          "ending_backlog": 0,
+          "local_cost": 165.0
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Sitting on 314 units with zero backlog and no pipeline, demand only 16 this week. Inventory is way too high so I'm ordering nothing to burn it down and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 314,
+          "ending_backlog": 0,
+          "local_cost": 157.0
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Inventory is still high at 298 with zero backlog and incoming orders stuck around 16, so I am ordering nothing this week to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 298,
+          "ending_backlog": 0,
+          "local_cost": 149.0
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Sitting on 282 units with zero backlog and only 16 demand this week, nothing on order. Inventory is way too high so I am ordering zero to burn it down.",
+          "demand": 16,
+          "ending_inventory": 282,
+          "ending_backlog": 0,
+          "local_cost": 141.0
+        },
+        {
+          "week": 19,
+          "quantity": 0,
+          "thought": "Inventory sits at 266 with steady 16 demand and nothing inbound, so costs keep piling from holding; ordering zero lets it drain safely.",
+          "demand": 16,
+          "ending_inventory": 266,
+          "ending_backlog": 0,
+          "local_cost": 133.0
+        },
+        {
+          "week": 20,
+          "quantity": 0,
+          "thought": "Inventory sits at 250 with zero backlog and steady incoming orders of 16, so I am ordering nothing to keep drawing it down and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 250,
+          "ending_backlog": 0,
+          "local_cost": 125.0
+        },
+        {
+          "week": 21,
+          "quantity": 0,
+          "thought": "Inventory sits at 234 with steady incoming orders of 16 and an empty pipeline, so I am ordering zero again to keep drawing down the excess and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 234,
+          "ending_backlog": 0,
+          "local_cost": 117.0
+        },
+        {
+          "week": 22,
+          "quantity": 0,
+          "thought": "Inventory is still high at 218 with zero backlog and steady incoming orders of 16, plus nothing in the pipeline, so I am ordering zero again to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 218,
+          "ending_backlog": 0,
+          "local_cost": 109.0
+        },
+        {
+          "week": 23,
+          "quantity": 0,
+          "thought": "Inventory is still high at 202 with steady inbound orders of 16 and nothing in the pipeline, so I will keep ordering zero to burn down stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 202,
+          "ending_backlog": 0,
+          "local_cost": 101.0
+        },
+        {
+          "week": 24,
+          "quantity": 24,
+          "thought": "Inventory sits at 186 with steady inbound orders of 16 and an empty pipeline, so it will cover most of the remaining 13 weeks; placing a modest order now starts the pipeline without adding much holding cost.",
+          "demand": 16,
+          "ending_inventory": 186,
+          "ending_backlog": 0,
+          "local_cost": 93.0
+        },
+        {
+          "week": 25,
+          "quantity": 0,
+          "thought": "Inventory still sits at 170 with steady 16 demand and 24 already on order, so I am ordering nothing this week to keep burning down the excess and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 170,
+          "ending_backlog": 0,
+          "local_cost": 85.0
+        },
+        {
+          "week": 26,
+          "quantity": 0,
+          "thought": "Inventory sits at 154 with steady incoming orders of 16 and 24 already on the way, so I am ordering zero to keep drawing down the excess and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 154,
+          "ending_backlog": 0,
+          "local_cost": 77.0
+        },
+        {
+          "week": 27,
+          "quantity": 0,
+          "thought": "Inventory sits at 162 after receiving 24 with steady 16 demand and nothing on order; ten weeks left means roughly 160 more demand so I can coast down without adding stock.",
+          "demand": 16,
+          "ending_inventory": 162,
+          "ending_backlog": 0,
+          "local_cost": 81.0
+        },
+        {
+          "week": 28,
+          "quantity": 0,
+          "thought": "Inventory sits at 146 with zero backlog and steady incoming orders of 16, so I will keep draining stock over the last 9 weeks and order nothing.",
+          "demand": 16,
+          "ending_inventory": 146,
+          "ending_backlog": 0,
+          "local_cost": 73.0
+        },
+        {
+          "week": 29,
+          "quantity": 0,
+          "thought": "Inventory sits at 130 with steady incoming orders of 16 and nothing in the pipeline, so I am ordering zero to keep burning down the excess over the last eight weeks.",
+          "demand": 16,
+          "ending_inventory": 130,
+          "ending_backlog": 0,
+          "local_cost": 65.0
+        },
+        {
+          "week": 30,
+          "quantity": 0,
+          "thought": "Inventory sits at 114 with steady 16 demand and nothing in the pipeline, enough to cover the last 7 weeks without stockouts, so I'm ordering zero to avoid extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 114,
+          "ending_backlog": 0,
+          "local_cost": 57.0
+        },
+        {
+          "week": 31,
+          "quantity": 0,
+          "thought": "Inventory sits at 98 with steady 16 demand, nothing on order or arriving, and only six weeks left, so I am ordering zero to keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 98,
+          "ending_backlog": 0,
+          "local_cost": 49.0
+        },
+        {
+          "week": 32,
+          "quantity": 0,
+          "thought": "Inventory sits at 82 against steady 16 demand and zero on order, enough to cover the last five weeks, so I order nothing to avoid extra holding.",
+          "demand": 16,
+          "ending_inventory": 82,
+          "ending_backlog": 0,
+          "local_cost": 41.0
+        },
+        {
+          "week": 33,
+          "quantity": 0,
+          "thought": "Inventory sits at 66 with zero backlog and steady 16 incoming; after filling I'll still hold ~50 and only four weeks remain with nothing in the pipeline, so I'm ordering zero to burn down stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 66,
+          "ending_backlog": 0,
+          "local_cost": 33.0
+        },
+        {
+          "week": 34,
+          "quantity": 0,
+          "thought": "Inventory sits at 50 against steady 16 demand and only three weeks left, so I am fully covered and will not order anything that could leave excess stock.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 35,
+          "quantity": 0,
+          "thought": "Inventory sits at 34 with steady 16 incoming and nothing in the pipeline. Two weeks left so I only need about 32 more units total; current stock covers it without risking extra holding, so I order zero.",
+          "demand": 16,
+          "ending_inventory": 34,
+          "ending_backlog": 0,
+          "local_cost": 17.0
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week, inventory 18 covers the 16 demand with a bit left; any order placed now cannot arrive in time. Ordering zero to avoid useless stock.",
+          "demand": 16,
+          "ending_inventory": 18,
+          "ending_backlog": 0,
+          "local_cost": 9.0
+        }
+      ],
+      "format_failures": 1,
+      "protocol_clean": true,
+      "local_total_cost": 2718.5,
+      "paired_base_stock_local_total_cost": 622.5,
+      "reward": 0.1863214606405268,
+      "system_total_cost": 11814.0
+    },
+    {
+      "id": "validation-3",
+      "split": "validation",
+      "seed_index": 3,
+      "master_seed_hex": "7a1131dddf614d9c",
+      "episode_id": "sha256:22d514b43ad10b750a5ce2ba0858f354ea9c9e89990e111ebe88b8cc2f10b14f",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        48,
+        52,
+        96,
+        90,
+        110,
+        64,
+        55,
+        70,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25,
+        0,
+        0,
+        0,
+        20,
+        12,
+        15,
+        16,
+        15,
+        12,
+        10,
+        12,
+        10,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting week 1 with 8 on hand, no backlog, and incoming order of 8; on-order is already 8 so I'll match the observed demand to keep position steady around the 7.5 mean.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 48,
+          "thought": "Backlog is already 22 with a big incoming order of 34 and zero stock, so I need to order aggressively to dig out before costs pile up more.",
+          "demand": 34,
+          "ending_inventory": 0,
+          "ending_backlog": 22,
+          "local_cost": 22.0
+        },
+        {
+          "week": 3,
+          "quantity": 52,
+          "thought": "Backlog is already 46 with zero inventory and another 28 coming in, while only 4 arrived and 56 is still pipeline. I need a solid order to start digging out without overshooting later.",
+          "demand": 28,
+          "ending_inventory": 0,
+          "ending_backlog": 46,
+          "local_cost": 46.0
+        },
+        {
+          "week": 4,
+          "quantity": 96,
+          "thought": "Backlog sits at 71 with nothing on hand and 33 more demand just hit, so I am ordering heavily to pull inventory position up and start burning down the backlog before costs keep climbing.",
+          "demand": 33,
+          "ending_inventory": 0,
+          "ending_backlog": 71,
+          "local_cost": 71.0
+        },
+        {
+          "week": 5,
+          "quantity": 90,
+          "thought": "Big backlog of 81 and zero inventory after only 12 arrived; position is still just 103 with heavy on-order. Ordering 90 to keep pressure on the factory and cut the costly backlog without maxing out.",
+          "demand": 22,
+          "ending_inventory": 0,
+          "ending_backlog": 81,
+          "local_cost": 81.0
+        },
+        {
+          "week": 6,
+          "quantity": 110,
+          "thought": "Backlog sits at 81 after only 16 arrived and another 16 just hit; pipeline is still thin relative to that debt. Ordering near the cap to burn down backlog fast while demand stays elevated.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 81,
+          "local_cost": 81.0
+        },
+        {
+          "week": 7,
+          "quantity": 64,
+          "thought": "Backlog still sits at 91 with zero stock and only 6 arriving; incoming orders keep coming in around the mid-teens. On-order is already heavy so I am easing off the prior 110 but still ordering solidly to chew down the debt.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 91,
+          "local_cost": 91.0
+        },
+        {
+          "week": 8,
+          "quantity": 55,
+          "thought": "Backlog still high at 71 after filling only part of the latest orders, nothing on the shelf, but a solid 36-unit shipment arrived and the pipeline is already thick. Ordering enough to keep chipping away without flooding later weeks.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 71,
+          "local_cost": 71.0
+        },
+        {
+          "week": 9,
+          "quantity": 70,
+          "thought": "Backlog sits at 87 with zero on hand and nothing arriving this week, while pipeline is already heavy at 445. Incoming order is only 16, so I am placing a moderate 70 to keep chipping at the backlog without flooding later inventory.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 87,
+          "local_cost": 87.0
+        },
+        {
+          "week": 10,
+          "quantity": 0,
+          "thought": "Inventory position is already 412 with 392 on order and only modest retailer demand around 16, so I am cutting the order hard to bleed down excess stock and avoid holding costs.",
+          "demand": 16,
+          "ending_inventory": 20,
+          "ending_backlog": 0,
+          "local_cost": 10.0
+        },
+        {
+          "week": 11,
+          "quantity": 0,
+          "thought": "Sitting on 115 inventory plus 281 already inbound after clearing the backlog, with demand steady at 16. I'll order nothing this week so the pipeline can drain without piling up holding cost.",
+          "demand": 16,
+          "ending_inventory": 115,
+          "ending_backlog": 0,
+          "local_cost": 57.5
+        },
+        {
+          "week": 12,
+          "quantity": 0,
+          "thought": "Sitting on 226 inventory plus 153 already incoming against only ~17 demand, so position is bloated at 379. Ordering zero this week to burn down the excess and cut holding costs.",
+          "demand": 17,
+          "ending_inventory": 226,
+          "ending_backlog": 0,
+          "local_cost": 113.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Sitting on 338 units with only 16 incoming demand and 25 already on order, so inventory will stay high for a while. Ordering nothing this week to keep burning down the pile and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 338,
+          "ending_backlog": 0,
+          "local_cost": 169.0
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Sitting on 347 units with zero backlog and only 16 incoming demand, plus nothing already on order. Inventory is way too high so I am ordering nothing this week to let it drain.",
+          "demand": 16,
+          "ending_inventory": 347,
+          "ending_backlog": 0,
+          "local_cost": 173.5
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Sitting on 327 units with zero backlog and nothing on order, so I will let stock keep draining against the ~20 weekly orders and place nothing.",
+          "demand": 20,
+          "ending_inventory": 327,
+          "ending_backlog": 0,
+          "local_cost": 163.5
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 311 with zero backlog and nothing in the pipeline, while retailer orders stay around 16. I will order nothing this week to burn down the excess stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 311,
+          "ending_backlog": 0,
+          "local_cost": 155.5
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Inventory is sitting at 295 with zero backlog and only 16 incoming demand, so holding costs are already painful. Nothing is on order and shipments are dry; I'll place zero to let stock drain over the next weeks.",
+          "demand": 16,
+          "ending_inventory": 295,
+          "ending_backlog": 0,
+          "local_cost": 147.5
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Inventory sits at 263 with zero on order and only modest retailer demand around 16-32, so holding costs keep piling up. I'll order nothing again to burn down the excess stock.",
+          "demand": 32,
+          "ending_inventory": 263,
+          "ending_backlog": 0,
+          "local_cost": 131.5
+        },
+        {
+          "week": 19,
+          "quantity": 0,
+          "thought": "Inventory sits at 240 with nothing incoming and zero backlog after filling 23. Still way above the ~15 average pull, so I keep ordering nothing to bleed down holding cost.",
+          "demand": 23,
+          "ending_inventory": 240,
+          "ending_backlog": 0,
+          "local_cost": 120.0
+        },
+        {
+          "week": 20,
+          "quantity": 0,
+          "thought": "Sitting on 203 inventory with zero backlog and another 37 just filled, so still loaded after that. Demands have been modest lately and nothing is incoming, so I am ordering zero again to keep burning down the pile and cut holding cost.",
+          "demand": 37,
+          "ending_inventory": 203,
+          "ending_backlog": 0,
+          "local_cost": 101.5
+        },
+        {
+          "week": 21,
+          "quantity": 0,
+          "thought": "Inventory is still sitting at 180 with zero backlog and nothing in the pipeline, while recent orders from downstream hover around 20-25. Ill keep ordering zero this week to burn down the excess stock and cut holding costs.",
+          "demand": 23,
+          "ending_inventory": 180,
+          "ending_backlog": 0,
+          "local_cost": 90.0
+        },
+        {
+          "week": 22,
+          "quantity": 0,
+          "thought": "Still sitting on 157 units with zero incoming shipments and no backlog, while recent orders from downstream stay in the 20s. Burning down this excess inventory, so ordering nothing again.",
+          "demand": 23,
+          "ending_inventory": 157,
+          "ending_backlog": 0,
+          "local_cost": 78.5
+        },
+        {
+          "week": 23,
+          "quantity": 25,
+          "thought": "Inventory is still high at 138 with zero backlog and nothing in the pipeline, while retailer orders hover around 20. I'll order a modest 25 to start refilling without piling on more holding cost.",
+          "demand": 19,
+          "ending_inventory": 138,
+          "ending_backlog": 0,
+          "local_cost": 69.0
+        },
+        {
+          "week": 24,
+          "quantity": 0,
+          "thought": "Inventory sits at 122 with zero backlog and only 16 incoming, still comfortably high after weeks of drawdown. Ill order nothing this week to keep burning stock and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 122,
+          "ending_backlog": 0,
+          "local_cost": 61.0
+        },
+        {
+          "week": 25,
+          "quantity": 0,
+          "thought": "Inventory still sits at 105 with 25 already on order and no backlog, so demand is covered for several weeks. I'll order nothing this week to keep burning down stock and cut holding costs.",
+          "demand": 17,
+          "ending_inventory": 105,
+          "ending_backlog": 0,
+          "local_cost": 52.5
+        },
+        {
+          "week": 26,
+          "quantity": 0,
+          "thought": "Inventory sits at 110 with no backlog and only 20 incoming this week, plus nothing already on order. Still burning down excess stock from earlier, so I am ordering nothing again.",
+          "demand": 20,
+          "ending_inventory": 110,
+          "ending_backlog": 0,
+          "local_cost": 55.0
+        },
+        {
+          "week": 27,
+          "quantity": 20,
+          "thought": "Inventory is still high at 93 with zero on order and only 10 weeks left, so demand of 17 leaves me comfortable. I'll order a modest 20 to keep the pipeline from drying up without adding much holding cost.",
+          "demand": 17,
+          "ending_inventory": 93,
+          "ending_backlog": 0,
+          "local_cost": 46.5
+        },
+        {
+          "week": 28,
+          "quantity": 12,
+          "thought": "Sitting on 73 units with zero backlog and another 20 already inbound, while retailer orders hover near 20. Nine weeks left so I'm bleeding down the pile gently and only topping up a little.",
+          "demand": 20,
+          "ending_inventory": 73,
+          "ending_backlog": 0,
+          "local_cost": 36.5
+        },
+        {
+          "week": 29,
+          "quantity": 15,
+          "thought": "Inventory sits at 57 with 32 already on order and only 16 incoming this week, so position is healthy at 89. Ordering a modest 15 keeps pipeline topped up for the last 8 weeks without piling on holding cost.",
+          "demand": 16,
+          "ending_inventory": 57,
+          "ending_backlog": 0,
+          "local_cost": 28.5
+        },
+        {
+          "week": 30,
+          "quantity": 16,
+          "thought": "Inventory sits at 61 with zero backlog after filling 16, plus 27 still on order. Demand has been steady near 18, so I will order 16 to match it and avoid extra holding in the final weeks.",
+          "demand": 16,
+          "ending_inventory": 61,
+          "ending_backlog": 0,
+          "local_cost": 30.5
+        },
+        {
+          "week": 31,
+          "quantity": 15,
+          "thought": "Inventory sits at 57 with 31 already on order and zero backlog, demand steady near 16. Six weeks left so I will order modestly to avoid excess holding cost.",
+          "demand": 16,
+          "ending_inventory": 57,
+          "ending_backlog": 0,
+          "local_cost": 28.5
+        },
+        {
+          "week": 32,
+          "quantity": 12,
+          "thought": "Inventory sits at 56 with no backlog and 31 already on order, while retailer orders stay near 16. Five weeks left, so I am tapering a bit to burn down stock without risking shortages.",
+          "demand": 16,
+          "ending_inventory": 56,
+          "ending_backlog": 0,
+          "local_cost": 28.0
+        },
+        {
+          "week": 33,
+          "quantity": 10,
+          "thought": "Inventory sits at 56 with zero backlog and 27 already on order; demand is steady near 16. With only four weeks left I will order lightly to keep holding costs down.",
+          "demand": 16,
+          "ending_inventory": 56,
+          "ending_backlog": 0,
+          "local_cost": 28.0
+        },
+        {
+          "week": 34,
+          "quantity": 12,
+          "thought": "Inventory is still healthy at 55 with steady inbound demand near 16 and only three weeks left, so I am ordering lightly to keep holding costs down.",
+          "demand": 16,
+          "ending_inventory": 55,
+          "ending_backlog": 0,
+          "local_cost": 27.5
+        },
+        {
+          "week": 35,
+          "quantity": 10,
+          "thought": "Inventory sits at 51 with 22 already on order and only two weeks left, while retailer orders stay near 16. I will order just enough to cover the last stretch without piling up extra stock.",
+          "demand": 16,
+          "ending_inventory": 51,
+          "ending_backlog": 0,
+          "local_cost": 25.5
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Last week with 45 on hand, zero backlog and steady 16 demand; nothing I order now can arrive, so I take zero to avoid useless pipeline.",
+          "demand": 16,
+          "ending_inventory": 45,
+          "ending_backlog": 0,
+          "local_cost": 22.5
+        }
+      ],
+      "format_failures": 0,
+      "protocol_clean": true,
+      "local_total_cost": 2701.5,
+      "paired_base_stock_local_total_cost": 898.5,
+      "reward": 0.24958333333333332,
+      "system_total_cost": 11250.5
+    },
+    {
+      "id": "validation-4",
+      "split": "validation",
+      "seed_index": 4,
+      "master_seed_hex": "74f790ffcdb71fcc",
+      "episode_id": "sha256:dbd214facbbb1aef9ddfec971b5275cbe7dfa00de6e16f521ea8f969135f72a0",
+      "scenario_id": "t5-strategic-y-v2",
+      "capacity": 400,
+      "actions": [
+        8,
+        20,
+        28,
+        64,
+        32,
+        36,
+        48,
+        22,
+        48,
+        36,
+        18,
+        12,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        16,
+        16,
+        12,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        12,
+        0,
+        0
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "quantity": 8,
+          "thought": "Starting week 1 with 8 on hand, 8 incoming order fully filled, and 8 already on order. Inventory position looks healthy at 16 against mean demand near 7.5, so I am ordering a steady 8 to keep flow without excess stock.",
+          "demand": 8,
+          "ending_inventory": 8,
+          "ending_backlog": 0,
+          "local_cost": 4.0
+        },
+        {
+          "week": 2,
+          "quantity": 20,
+          "thought": "I see zero inventory, a backlog of 4 and a big incoming order of 16, so position is thin at 8 with only 12 already on order. Ordering 20 to cover the surge and start rebuilding without overshooting too hard.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 4,
+          "local_cost": 4.0
+        },
+        {
+          "week": 3,
+          "quantity": 28,
+          "thought": "Zero stock and 16 backlog with another 16 order arriving; pipeline is thin so I am ordering 28 to cover the hole and keep pace with recent demand.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 16,
+          "local_cost": 16.0
+        },
+        {
+          "week": 4,
+          "quantity": 64,
+          "thought": "Backlog is already 24 with zero inventory and another 16 just ordered from downstream, so I need a big replenishment to stop the penalty snowball while the pipeline catches up.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 24,
+          "local_cost": 24.0
+        },
+        {
+          "week": 5,
+          "quantity": 32,
+          "thought": "Backlog hit 28 with 16 more demand and zero stock; pipeline of 100 should help soon so Im ordering 32 to clear arrears without building excess.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 28,
+          "local_cost": 28.0
+        },
+        {
+          "week": 6,
+          "quantity": 36,
+          "thought": "Backlog is still 28 with zero stock after filling 16, and another 16 just arrived as demand. Pipeline looks healthy at 116 so I'm topping up moderately to keep chipping away without overshooting.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 28,
+          "local_cost": 28.0
+        },
+        {
+          "week": 7,
+          "quantity": 48,
+          "thought": "Backlog is still 38 with zero inventory and only 6 arriving, while retailer orders keep hitting 16. Raising the order a bit to 48 to keep chipping away at the hole without overshooting once the pipeline catches up.",
+          "demand": 16,
+          "ending_inventory": 0,
+          "ending_backlog": 38,
+          "local_cost": 38.0
+        },
+        {
+          "week": 8,
+          "quantity": 22,
+          "thought": "Backlog still at 29 with zero on hand after receiving 27; retailer orders running ~16-18. IP is already 138 so I am easing off to 22 to cover flow without overshooting once pipeline arrives.",
+          "demand": 18,
+          "ending_inventory": 0,
+          "ending_backlog": 29,
+          "local_cost": 29.0
+        },
+        {
+          "week": 9,
+          "quantity": 48,
+          "thought": "Backlog is already 41 with zero stock and another 21 just arrived, so I need a solid order to start clearing it while the pipeline catches up over the next couple of weeks.",
+          "demand": 21,
+          "ending_inventory": 0,
+          "ending_backlog": 41,
+          "local_cost": 41.0
+        },
+        {
+          "week": 10,
+          "quantity": 36,
+          "thought": "Still sitting on a 28-unit backlog with nothing on hand after the 37 that just arrived, and the retailer just ordered 24. On-order is already hefty at 191 so I am only placing 36 to keep pressure on the backlog without flooding myself later.",
+          "demand": 24,
+          "ending_inventory": 0,
+          "ending_backlog": 28,
+          "local_cost": 28.0
+        },
+        {
+          "week": 11,
+          "quantity": 18,
+          "thought": "Just cleared the backlog with 10 on hand after a big 57-unit shipment, but face a 19-unit order so will dip slightly. Pipeline is already fat at 170, so ordering lightly to avoid excess stock.",
+          "demand": 19,
+          "ending_inventory": 10,
+          "ending_backlog": 0,
+          "local_cost": 5.0
+        },
+        {
+          "week": 12,
+          "quantity": 12,
+          "thought": "Sitting on 104 units with zero backlog after a big shipment, and only 16 incoming this week, so I'm ordering light to burn down stock and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 104,
+          "ending_backlog": 0,
+          "local_cost": 52.0
+        },
+        {
+          "week": 13,
+          "quantity": 0,
+          "thought": "Sitting on 148 units with zero backlog and only 16 incoming, so inventory is way too fat after those big receipts. I'll order nothing this week to burn it down and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 148,
+          "ending_backlog": 0,
+          "local_cost": 74.0
+        },
+        {
+          "week": 14,
+          "quantity": 0,
+          "thought": "Inventory is still very high at 145 with only light incoming orders around 16 and 17 already on the way, so I am ordering nothing this week to let stock keep draining without extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 145,
+          "ending_backlog": 0,
+          "local_cost": 72.5
+        },
+        {
+          "week": 15,
+          "quantity": 0,
+          "thought": "Inventory is still high at 146 with zero backlog and only 16 incoming demand, so I'll keep ordering nothing to work the stock down and cut holding costs.",
+          "demand": 16,
+          "ending_inventory": 146,
+          "ending_backlog": 0,
+          "local_cost": 73.0
+        },
+        {
+          "week": 16,
+          "quantity": 0,
+          "thought": "Inventory is still high at 130 with zero backlog and incoming orders steady near 16, so I am ordering nothing this week to let stock run down and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 130,
+          "ending_backlog": 0,
+          "local_cost": 65.0
+        },
+        {
+          "week": 17,
+          "quantity": 0,
+          "thought": "Sitting on 114 units with zero backlog and nothing incoming, demand is steady at 16 so inventory will stay high for a while. No need to add more stock yet.",
+          "demand": 16,
+          "ending_inventory": 114,
+          "ending_backlog": 0,
+          "local_cost": 57.0
+        },
+        {
+          "week": 18,
+          "quantity": 0,
+          "thought": "Sitting on 98 units with nothing in the pipeline and demand stuck at 16, so I can safely order nothing this week and keep burning down the excess stock.",
+          "demand": 16,
+          "ending_inventory": 98,
+          "ending_backlog": 0,
+          "local_cost": 49.0
+        },
+        {
+          "week": 19,
+          "quantity": 16,
+          "thought": "Inventory sits at 82 with steady 16 demand and an empty pipeline, so five-plus weeks of cover remain. Ordering 16 now starts the refill without adding much holding cost.",
+          "demand": 16,
+          "ending_inventory": 82,
+          "ending_backlog": 0,
+          "local_cost": 41.0
+        },
+        {
+          "week": 20,
+          "quantity": 16,
+          "thought": "Inventory sits at 66 with steady 16 incoming and only 16 still on order, so position is comfortable but draining. I\u2019ll match the demand pace to keep holding costs from climbing while covering the pipeline.",
+          "demand": 16,
+          "ending_inventory": 66,
+          "ending_backlog": 0,
+          "local_cost": 33.0
+        },
+        {
+          "week": 21,
+          "quantity": 16,
+          "thought": "Inventory sits at 50 with 32 already on order and steady 16 demand, so position is healthy at 82. I\u2019ll match the inflow with another 16 to avoid backlog without building extra stock.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 22,
+          "quantity": 16,
+          "thought": "Inventory sits at 50 with steady incoming orders of 16 and 32 already on the way, so I will just match demand to keep the position stable without building extra stock.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 23,
+          "quantity": 12,
+          "thought": "Inventory is still at 50 with steady incoming orders of 16 and 32 already on order, so I am trimming a bit to 12 to bleed down holding cost while covering the pipeline.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 24,
+          "quantity": 16,
+          "thought": "Inventory sits at 50 with steady 16 incoming and 28 already on order, so position is healthy at 78. Matching the flow with 16 keeps us from building more holding cost while covering the pipeline.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 25,
+          "quantity": 16,
+          "thought": "Inventory holding steady at 50 against consistent 16-unit orders, with 28 already on the way. Ordering 16 keeps the pipeline matched to demand and avoids extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 50,
+          "ending_backlog": 0,
+          "local_cost": 25.0
+        },
+        {
+          "week": 26,
+          "quantity": 16,
+          "thought": "Demand steady at 16 with 46 on hand and 32 already inbound, so inventory position looks healthy at 78. Ordering 16 keeps the pipeline matched without building extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 46,
+          "ending_backlog": 0,
+          "local_cost": 23.0
+        },
+        {
+          "week": 27,
+          "quantity": 16,
+          "thought": "Inventory dropped to 37 after a light shipment of 7 while retailer orders stay steady at 16. On-order is 41 and position 78, so I will just match the usual 16 to hold the cushion without building extra stock.",
+          "demand": 16,
+          "ending_inventory": 37,
+          "ending_backlog": 0,
+          "local_cost": 18.5
+        },
+        {
+          "week": 28,
+          "quantity": 16,
+          "thought": "Inventory sits at 40 with zero backlog and steady incoming orders of 16; on-order pipeline looks healthy at 38 so I will just match the usual pace to avoid extra holding cost.",
+          "demand": 16,
+          "ending_inventory": 40,
+          "ending_backlog": 0,
+          "local_cost": 20.0
+        },
+        {
+          "week": 29,
+          "quantity": 16,
+          "thought": "Inventory sits at 35 after filling the usual 16, with 43 already on order, so matching demand at 16 keeps us covered without building extra stock over the last 8 weeks.",
+          "demand": 16,
+          "ending_inventory": 35,
+          "ending_backlog": 0,
+          "local_cost": 17.5
+        },
+        {
+          "week": 30,
+          "quantity": 16,
+          "thought": "Inventory sits at 38 with no backlog and steady 16 incoming; on-order 40 should cover the next few weeks, so I will match demand to avoid excess holding as we near the end.",
+          "demand": 16,
+          "ending_inventory": 38,
+          "ending_backlog": 0,
+          "local_cost": 19.0
+        },
+        {
+          "week": 31,
+          "quantity": 16,
+          "thought": "Inventory sits at 40 with 38 already on order against steady incoming orders of 16, so I will match that pace to hold the buffer without excess stock as we near the end.",
+          "demand": 16,
+          "ending_inventory": 40,
+          "ending_backlog": 0,
+          "local_cost": 20.0
+        },
+        {
+          "week": 32,
+          "quantity": 16,
+          "thought": "Inventory sits at 42 with zero backlog and steady incoming orders of 16; on-order cover looks fine for the last five weeks so I will just match the demand pace.",
+          "demand": 16,
+          "ending_inventory": 42,
+          "ending_backlog": 0,
+          "local_cost": 21.0
+        },
+        {
+          "week": 33,
+          "quantity": 16,
+          "thought": "Inventory sits at 43 with steady 16-unit orders and 35 already inbound, so I\u2019m just matching the usual pace to ride out the last four weeks without extra stock or stockouts.",
+          "demand": 16,
+          "ending_inventory": 43,
+          "ending_backlog": 0,
+          "local_cost": 21.5
+        },
+        {
+          "week": 34,
+          "quantity": 12,
+          "thought": "Inventory sits at 44 with no backlog and steady inbound orders of 16; on-order is already 34. Only three weeks left so I am tapering the order to 12 to let stock drift down without risking backlog.",
+          "demand": 16,
+          "ending_inventory": 44,
+          "ending_backlog": 0,
+          "local_cost": 22.0
+        },
+        {
+          "week": 35,
+          "quantity": 0,
+          "thought": "Inventory sits at 45 with 29 already inbound and only two weeks left; demand has been a steady 16, so I order zero to stop the pile-up and cut holding cost.",
+          "demand": 16,
+          "ending_inventory": 45,
+          "ending_backlog": 0,
+          "local_cost": 22.5
+        },
+        {
+          "week": 36,
+          "quantity": 0,
+          "thought": "Inventory sits at 45 with zero backlog and this is the final week, so any order would just sit unused. Ordering zero keeps the holding cost from climbing further.",
+          "demand": 16,
+          "ending_inventory": 45,
+          "ending_backlog": 0,
+          "local_cost": 22.5
+        }
+      ],
+      "format_failures": 0,
+      "protocol_clean": true,
+      "local_total_cost": 1198.0,
+      "paired_base_stock_local_total_cost": 285.0,
+      "reward": 0.19217801753202968,
+      "system_total_cost": 5456.5
+    }
+  ]
+}
