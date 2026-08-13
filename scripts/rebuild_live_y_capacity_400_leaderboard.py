@@ -90,7 +90,15 @@ def main() -> None:
         ("DeepSeek V4 Flash", "deepseek_deepseek-v4-flash-0731", "openrouter_deepseek_deepseek-v4-flash-0731.json"),
         ("Nemotron 3 Ultra (free)", "nvidia_nemotron-3-ultra-550b-a55b_free", "openrouter_nvidia_nemotron-3-ultra-550b-a55b_free.json"),
         ("Qwen3.5-4B (untrained)", "untrained_qwen_capacity_400", "untrained_qwen_capacity_400.json"),
-        ("Qwen3.5-4B GRPO", "trained_qwen_grpo_capacity_400", "trained_qwen_grpo_capacity_400.json"),
+        # The board tracks the current adapter.  The superseded two-update run
+        # stays on disk as `trained_qwen_grpo_capacity_400.json` for provenance
+        # (it scored 7.48 and was statistically indistinguishable from the
+        # untrained base); see docs/LIVE_Y_RL_POSTMORTEM.md.
+        (
+            "Qwen3.5-4B GRPO",
+            "trained_qwen_grpo_v3_capacity_400",
+            "trained_qwen_grpo_v3_capacity_400.json",
+        ),
     ]
 
     models: dict[str, dict] = {}

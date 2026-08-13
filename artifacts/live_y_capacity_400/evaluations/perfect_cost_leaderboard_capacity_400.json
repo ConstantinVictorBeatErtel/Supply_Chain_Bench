@@ -600,129 +600,129 @@
     },
     "Qwen3.5-4B GRPO": {
       "hindsight_perfect_mean_on_clean": 287.21875,
-      "inline_adaptive_score_mean": 10.083987245499031,
-      "model_id": "trained_qwen_grpo_capacity_400",
+      "inline_adaptive_score_mean": 26.963744264680027,
+      "model_id": "trained_qwen_grpo_v3_capacity_400",
       "n_episodes": 16,
       "n_protocol_clean": 16,
       "per_seed": [
         {
           "bucket": "burst_and_collapse",
-          "local_total_cost": 4134.5,
+          "local_total_cost": 1248.5,
           "perfect_local_cost": 146.5,
-          "score": 3.543354698270649,
+          "score": 11.734080897076492,
           "seed": "3385fc1772a83c0f"
         },
         {
           "bucket": "burst_and_collapse",
-          "local_total_cost": 4147.5,
+          "local_total_cost": 1387.5,
           "perfect_local_cost": 238.5,
-          "score": 5.750452079566004,
+          "score": 17.18918918918919,
           "seed": "6004dde3fcee7f67"
         },
         {
           "bucket": "burst_and_collapse",
-          "local_total_cost": 3489.0,
+          "local_total_cost": 1434.5,
           "perfect_local_cost": 174.5,
-          "score": 5.001433075379765,
+          "score": 12.164517253398397,
           "seed": "b7c3c42c06605a25"
         },
         {
           "bucket": "burst_and_collapse",
-          "local_total_cost": 2252.5,
+          "local_total_cost": 1439.5,
           "perfect_local_cost": 256.0,
-          "score": 11.365149833518313,
+          "score": 17.783952761375478,
           "seed": "f0cd8b5418cd1e55"
         },
         {
           "bucket": "canonical_held_out_step",
-          "local_total_cost": 4504.0,
+          "local_total_cost": 1319.5,
           "perfect_local_cost": 146.5,
-          "score": 3.252664298401421,
+          "score": 11.10269041303524,
           "seed": "0fa94b60e8eb54e2"
         },
         {
           "bucket": "canonical_held_out_step",
-          "local_total_cost": 3213.5,
+          "local_total_cost": 1303.5,
           "perfect_local_cost": 146.5,
-          "score": 4.558892173642446,
+          "score": 11.238971998465669,
           "seed": "2b5eae5b998e4f1d"
         },
         {
           "bucket": "canonical_held_out_step",
-          "local_total_cost": 5208.5,
+          "local_total_cost": 1289.5,
           "perfect_local_cost": 146.5,
-          "score": 2.812709993280215,
+          "score": 11.360992632803413,
           "seed": "6ad00ac691773fce"
         },
         {
           "bucket": "canonical_held_out_step",
-          "local_total_cost": 1666.0,
+          "local_total_cost": 1436.0,
           "perfect_local_cost": 146.5,
-          "score": 8.793517406962785,
+          "score": 10.201949860724234,
           "seed": "722ad6103d9490ad"
         },
         {
           "bucket": "in_distribution",
-          "local_total_cost": 3197.5,
+          "local_total_cost": 1452.5,
           "perfect_local_cost": 198.5,
-          "score": 6.207974980453479,
+          "score": 13.666092943201377,
           "seed": "1e594a5f4f13c914"
         },
         {
           "bucket": "in_distribution",
-          "local_total_cost": 2672.5,
+          "local_total_cost": 1222.0,
           "perfect_local_cost": 160.5,
-          "score": 6.005612722170253,
+          "score": 13.134206219312603,
           "seed": "1ef97b9065013134"
         },
         {
           "bucket": "in_distribution",
-          "local_total_cost": 2436.0,
+          "local_total_cost": 1214.5,
           "perfect_local_cost": 160.5,
-          "score": 6.588669950738916,
+          "score": 13.215314944421573,
           "seed": "60014380abcd0c62"
         },
         {
           "bucket": "in_distribution",
-          "local_total_cost": 5791.5,
+          "local_total_cost": 1331.0,
           "perfect_local_cost": 146.5,
-          "score": 2.529569196235863,
+          "score": 11.006761833208115,
           "seed": "ba0eef18cf04ad40"
         },
         {
           "bucket": "shifted_mean_doubled_variance",
-          "local_total_cost": 5215.0,
+          "local_total_cost": 1526.5,
           "perfect_local_cost": 629.5,
-          "score": 12.070949185043144,
+          "score": 41.2381264330167,
           "seed": "98155973e5223d05"
         },
         {
           "bucket": "shifted_mean_doubled_variance",
-          "local_total_cost": 4195.5,
+          "local_total_cost": 1708.0,
           "perfect_local_cost": 626.5,
-          "score": 14.932665951614826,
+          "score": 36.68032786885246,
           "seed": "a01e69edae32256e"
         },
         {
           "bucket": "shifted_mean_doubled_variance",
-          "local_total_cost": 4075.5,
+          "local_total_cost": 1680.0,
           "perfect_local_cost": 727.0,
-          "score": 17.838302048828364,
+          "score": 43.273809523809526,
           "seed": "ba32f821074ddb20"
         },
         {
           "bucket": "shifted_mean_doubled_variance",
-          "local_total_cost": 5223.0,
+          "local_total_cost": 1276.0,
           "perfect_local_cost": 545.0,
-          "score": 10.434616121003256,
+          "score": 42.711598746081506,
           "seed": "d9e921eb4abf1311"
         }
       ],
-      "policy_mean_local_cost": 3838.875,
+      "policy_mean_local_cost": 1391.8125,
       "protocol_failure_rate": 0.0,
-      "score": 7.48184689524926,
-      "score_mean_of_per_seed": 7.6054083571943565,
-      "score_stderr_per_seed": 1.1385719185365455
+      "score": 20.636310566258025,
+      "score_mean_of_per_seed": 19.856411469873247,
+      "score_stderr_per_seed": 3.207867853279346
     }
   },
   "n_seeds": 16,

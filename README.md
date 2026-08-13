@@ -30,7 +30,14 @@ Protocol-failed episodes are dropped from each model mean.
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v2.png)
 
+For reference on the same seeds: hindsight-perfect scores 100, an adaptive
+base-stock heuristic 73.9, and a blind constant-order policy that never reads
+the observation 19.8.
+
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).
+The chart is generated from the leaderboard JSON by
+[`scripts/render_capacity_400_scoreboard.py`](scripts/render_capacity_400_scoreboard.py),
+so it cannot drift from the evaluations.
 
 ### Scoring
 
@@ -147,12 +154,29 @@ with $\varepsilon = 0.2$ and dual-clip $c = 3$. Only the digits of
 `{"quantity": N}` are scored — averaging over the whole completion let seven
 boilerplate tokens outvote the one token carrying the decision.
 
-### Status
+### Result
 
-The published capacity-400 adapter is from a two-update, 64-trajectory run that
-predates the credit-window and token-level fixes and did **not** improve
-measurably over the untrained base (7.48 vs 6.73). The postmortem documents why
-and what changed; the corrected run has not been executed yet.
+| | untrained | trained |
+|---|---:|---:|
+| capacity-400 score (16 held-out seeds) | 6.73 | **20.64** |
+| mean local cost | 4264.7 | **1391.8** |
+| protocol-clean episodes | 16/16 | **16/16** |
+
+A 3.1× score improvement over the same base model, better on all four demand
+buckets including the three never trained on. Mean weekly order fell from ~22.9
+to ~17.5 against an obligation near 16/week — the over-ordering habit that
+dominates cost in this game.
+
+Two caveats worth stating up front: this clears a blind constant-order baseline
+(19.80) by only 0.84 points, and both training runs used the same seed, so
+run-to-run variance is unmeasured.
+
+Full recipe in [`docs/TRAINING.md`](docs/TRAINING.md). An earlier two-update run
+scored 7.48 — indistinguishable from the untrained base — and
+[`docs/LIVE_Y_RL_POSTMORTEM.md`](docs/LIVE_Y_RL_POSTMORTEM.md) documents why it
+could not have worked.
+
+Weights: [`artifacts/live_y_best_adapter/`](artifacts/live_y_best_adapter/).
 
 ## Hyperefficient compute
 
