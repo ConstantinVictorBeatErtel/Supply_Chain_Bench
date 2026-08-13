@@ -2,10 +2,9 @@
 
 [▶ Play](https://beer-distribution-game.pages.dev/)
 
-A stochastic Y-network beer game for ordering agents under delayed shipments and
-fog-of-war. Public play and the live-Y research board use factory capacity
-400 with the wholesaler seat locked; fixed held-out seeds score policies
-against a hindsight-perfect cost reference.
+A stochastic supply chain game to teach the bullwhip effect. The human and/or LLM play one of two wholesalers. 
+It is a y-topology so that the human can play directly against the LLM in one of the positions that experience the bullwhip 
+effect. 
 
 ```mermaid
 flowchart LR
@@ -18,15 +17,13 @@ flowchart LR
   style WM fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-The playable board highlights two wholesalers: you and the sealed recorded-model
-companion on the same seed (same station pair as the static game UI). Underneath,
-the Y DAG still has one wholesaler seat feeding Retailer A/B; the second card is
+The playable board highlights two wholesalers: A human and the sealed recorded-model
+companion on the same seed. Underneath, the Y DAG still has one wholesaler seat feeding Retailer A/B; the second card is
 the parallel comparison episode, not a second live seat.
 
-## Benchmark (capacity 400)
+## Benchmark 
 
-Sixteen fixed live-Y seeds; research prompt withholds demand law and capacity.
-Protocol-failed episodes are dropped from each model mean.
+36 weeks. LLM prompt withholds demand law and capacity. 
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
 
