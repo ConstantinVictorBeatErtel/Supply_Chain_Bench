@@ -20,12 +20,16 @@ Weights: `artifacts/live_y_best_adapter/` and the Hugging Face Hub
 
 Improvement on every bucket, including the three never trained on:
 
-| bucket | untrained-era adapter | this adapter |
-|---|---:|---:|
-| `in_distribution` | 3524 | 1305 |
-| `canonical_held_out_step` | 3648 | 1337 |
-| `burst_and_collapse` | 3506 | 1378 |
-| `shifted_mean_doubled_variance` | 4677 | 1548 |
+Mean local cost per bucket. The middle column is the archived two-update run,
+which scored 7.48 — near the untrained base, but it is a trained adapter, not
+the base model:
+
+| bucket | untrained base | two-update adapter | this adapter |
+|---|---:|---:|---:|
+| `in_distribution` | 3786 | 3524 | 1305 |
+| `canonical_held_out_step` | 3524 | 3648 | 1337 |
+| `burst_and_collapse` | 4766 | 3506 | 1378 |
+| `shifted_mean_doubled_variance` | 4984 | 4677 | 1548 |
 
 ## What the policy learns
 
@@ -189,9 +193,10 @@ Practical consequences, both now enforced in the trainer:
 - **Single seed.** Both runs used `20260808`, so run-to-run variance is
   unmeasured. Two runs at one seed are not two samples.
 - **The margin over a blind baseline is narrow.** The best constant-order policy
-  that never reads the observation scores **19.80**; this adapter scores 20.64.
-  It beats its own base model 3×, but "it reasons about the supply chain" is not
-  established by 0.84 points.
+  that never reads the observation — order 18 every week, mean local cost
+  1449.2 — scores **19.82**; this adapter scores 20.64. It beats its own base
+  model 3×, but "it reasons about the supply chain" is not established by 0.82
+  points.
 - **The training distribution is partly degenerate.** Scripted retailers carry a
   +8/week ordering floor exceeding per-retailer demand across the whole training
   λ range, so the wholesaler's incoming orders sit near a constant ~16/week and

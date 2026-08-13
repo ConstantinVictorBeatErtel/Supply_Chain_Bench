@@ -28,8 +28,8 @@ the parallel comparison episode, not a second live seat.
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
 
 For reference on the same seeds: hindsight-perfect scores 100, an adaptive
-base-stock heuristic 73.9, and a blind constant-order policy that never reads
-the observation 19.8.
+base-stock heuristic 73.9, and the best blind constant-order policy — order 18
+every week, never reading the observation — 19.8.
 
 Artifacts: [`artifacts/live_y_capacity_400/evaluations/`](artifacts/live_y_capacity_400/evaluations/).
 The chart is generated from the leaderboard JSON by
@@ -56,7 +56,7 @@ C &= \sum_{t=1}^{H} c_t + \sum_{t=H+1}^{H+3} c_t + c^{\mathrm{term}}
 $$
 
 Hindsight-perfect $C^{\star}$ is a feasible open-loop upper bound on each CRN seed.
-Across the 16 seeds, the reference means are:
+Across all 16 seeds the reference means are:
 
 $$
 \overline{C^{\star}} = 287.22,
@@ -64,11 +64,20 @@ $$
 \text{adaptive base-stock average} = 388.84
 $$
 
-Score on protocol-valid episodes:
+Both means are taken over the same protocol-clean subset $S$ of the 16 seeds, so
+a model that fails episodes is scored against the perfect reference for the
+seeds it actually finished:
 
 $$
-\mathrm{score} = 100 \times \frac{\overline{C^{\star}}}{\overline{C_{\mathrm{policy}}}}
+\mathrm{score} = 100 \times
+\frac{\frac{1}{|S|}\sum_{s \in S} C^{\star}_{s}}
+     {\frac{1}{|S|}\sum_{s \in S} C^{\mathrm{policy}}_{s}}
 $$
+
+For every model that finished all 16 the numerator is the 287.22 above; the two
+free models did not, so their references are re-based (Laguna 7/16 clean,
+$\overline{C^{\star}} = 362.36$; Nemotron 2/16, $352.75$). Read those two bars
+as small-sample.
 
 ## Qwen fine-tune (live-Y GRPO v1)
 
@@ -130,6 +139,12 @@ A_{i,t} = \frac{G_{i,t} - \mu_{g,t}}{\sigma_{g,t}},
 \mu_{g,t} = \frac{1}{|g|}\sum_{j \in g} G_{j,t}
 $$
 
+then clamped to $\pm 10$. A decision whose window caught a protocol failure
+skips normalization and takes a fixed $A = -5$: normalizing the raw $-10^{5}$
+against its groupmates would rescale it to roughly $-1.7$, indistinguishable
+from an ordinary bad week, while leaving it raw would let one record own the
+update.
+
 **Objective.** The ratio is per-token over the tokens that encode the order,
 not a mean over the whole completion, and the clip is double-sided so a badly
 off-policy token with a negative advantage cannot dominate a minibatch.
@@ -160,13 +175,14 @@ boilerplate tokens outvote the one token carrying the decision.
 | protocol-clean episodes | 16/16 | **16/16** |
 
 A 3.1× score improvement over the same base model, better on all four demand
-buckets including the three never trained on. Mean weekly order fell from ~22.9
-to ~17.5 against an obligation near 16/week — the over-ordering habit that
-dominates cost in this game.
+buckets including the three never trained on. Over training, mean weekly order
+in the rollouts fell from ~22.9 at update 1 to ~17.5 by the last, against an
+obligation near 16/week — the over-ordering habit that dominates cost in this
+game.
 
-Two caveats worth stating up front: this clears a blind constant-order baseline
-(19.80) by only 0.84 points, and both training runs used the same seed, so
-run-to-run variance is unmeasured.
+Two caveats worth stating up front: this clears the best blind constant-order
+baseline (19.82) by only 0.82 points, and both training runs used the same seed
+(`20260808`), so run-to-run variance is unmeasured.
 
 Full recipe in [`docs/TRAINING.md`](docs/TRAINING.md). An earlier two-update run
 scored 7.48 — indistinguishable from the untrained base — and
