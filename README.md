@@ -2,28 +2,34 @@
 
 [▶ Play](https://beer-distribution-game.pages.dev/)
 
-A stochastic supply chain game to teach the bullwhip effect. The human and/or LLM play one of two wholesalers. 
-It is a y-topology so that the human can play directly against the LLM in one of the positions that experience the bullwhip 
-effect. 
+A stochastic supply chain game to teach the bullwhip effect. Human and LLM play
+the same seat — the wholesaler — on the same seed, and the debrief puts the two
+runs side by side.
+
+The chain is a Y: **one** wholesaler splitting a single inventory pool between
+**two** retailers who compete for it. That fork is what generates the bullwhip
+here. When stock runs short the pool is rationed proportionally, so a claimant
+that inflates its order captures a larger share — and the wholesaler's incoming
+orders stop being an honest demand signal.
 
 ```mermaid
 flowchart LR
-  F[Factory] --> D[Distributor]
-  D --> WH["Wholesaler · you"]
-  D --> WM["Wholesaler · recorded model"]
+  F[Factory] --> D[Distributor] --> WH["Wholesaler · your seat"]
   WH --> RA[Retailer A] --> CA[Customer A]
-  WM --> RB[Retailer B] --> CB[Customer B]
+  WH --> RB[Retailer B] --> CB[Customer B]
   style WH fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
-  style WM fill:#C9844A,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-The playable board highlights two wholesalers: A human and the sealed recorded-model
-companion on the same seed. Underneath, the Y DAG still has one wholesaler seat feeding Retailer A/B; the second card is
-the parallel comparison episode, not a second live seat.
+You and the recorded model each play that one wholesaler seat in your own sealed
+episode, on the same seed against the same scripted counterparties — two runs of
+the same chain, not two live seats in one chain. The playable board shows both
+as a station pair so you can watch them diverge.
 
-## Benchmark 
+## Benchmark
 
-36 weeks. LLM prompt withholds demand law and capacity. 
+Sixteen fixed seeds, 36 weeks each, factory capacity 400. The LLM prompt
+withholds the demand law and the capacity. Protocol-failed episodes are dropped
+from each model mean.
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
 
