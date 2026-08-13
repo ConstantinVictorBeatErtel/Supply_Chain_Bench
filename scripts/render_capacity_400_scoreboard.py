@@ -21,12 +21,21 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "artifacts/live_y_capacity_400/evaluations/perfect_cost_leaderboard_capacity_400.json"
 SVG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark.svg"
-PNG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark-v2.png"
+PNG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark-v3.png"
 
-W, H = 1120, 680
+W = 1120
 TRACK_X0, TRACK_X1 = 142, 1040
 TRACK_W = TRACK_X1 - TRACK_X0          # 100 score points span the full track
-ROW_Y0, ROW_STEP = 239, 56
+TITLE_Y = 56
+RULE_Y = 116
+HDR_Y = 130
+ROW_Y0, ROW_STEP = 158, 56
+CARD_PAD = 41                          # breathing room under the last bar
+
+
+def canvas_height(n_rows: int) -> int:
+    """Height follows the row count so the card is never mostly empty."""
+    return ROW_Y0 + (n_rows - 1) * ROW_STEP + 41 + CARD_PAD + 24
 
 BG = "#F2F5F4"; CARD = "#FCFDFC"; EDGE = "#D8E2E2"
 INK = "#172B35"; MUTED = "#52666C"; FAINT = "#829196"
@@ -90,27 +99,23 @@ def short(name: str) -> str:
 
 
 def render_png(rows: list[tuple[str, float]], out: Path, scale: int = 2) -> None:
+    H = canvas_height(len(rows))
     im = Image.new("RGB", (W * scale, H * scale), BG)
     d = ImageDraw.Draw(im)
     s = scale
 
-    d.rounded_rectangle([40 * s, 24 * s, 1080 * s, 656 * s], radius=14 * s,
+    d.rounded_rectangle([40 * s, 24 * s, 1080 * s, (H - 24) * s], radius=14 * s,
                         fill=CARD, outline=EDGE, width=max(1, int(1.5 * s)))
 
-    d.text((80 * s, 58 * s), "L I V E - Y   /   C A P A C I T Y   4 0 0",
-           font=font("mono", 12, s), fill=TEAL_DARK)
-    d.text((80 * s, 96 * s), "Benchmark scoreboard", font=font("serif", 43, s), fill=INK)
-    d.text((80 * s, 142 * s),
-           "Protocol-valid mean score  ·  16 fixed held-out seeds  ·  higher is better",
-           font=font("sans", 16, s), fill=MUTED)
+    d.text((80 * s, TITLE_Y * s), "Benchmark scoreboard", font=font("serif", 43, s), fill=INK)
 
-    d.line([80 * s, 184 * s, 1040 * s, 184 * s], fill=EDGE, width=max(1, s))
+    d.line([80 * s, RULE_Y * s, 1040 * s, RULE_Y * s], fill=EDGE, width=max(1, s))
     hdr = font("mono", 11, s)
     # Centre RANK over its badge column; the tracked-out labels are wide enough
     # to collide with MODEL if they are both left-aligned.
-    d.text((96 * s, 203 * s), "R A N K", font=hdr, fill=FAINT, anchor="ma")
-    d.text((142 * s, 203 * s), "M O D E L", font=hdr, fill=FAINT)
-    d.text((1040 * s, 203 * s), "S C O R E", font=hdr, fill=FAINT, anchor="ra")
+    d.text((96 * s, HDR_Y * s), "R A N K", font=hdr, fill=FAINT, anchor="ma")
+    d.text((142 * s, HDR_Y * s), "M O D E L", font=hdr, fill=FAINT)
+    d.text((1040 * s, HDR_Y * s), "S C O R E", font=hdr, fill=FAINT, anchor="ra")
 
     for i, (name, score) in enumerate(rows):
         y = ROW_Y0 + i * ROW_STEP
@@ -149,12 +154,13 @@ def render_png(rows: list[tuple[str, float]], out: Path, scale: int = 2) -> None
 
 
 def render_svg(rows: list[tuple[str, float]], out: Path) -> None:
+    H = canvas_height(len(rows))
     p = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
         f'viewBox="0 0 {W} {H}" role="img" aria-labelledby="title">',
         '  <title id="title">Live-Y benchmark scoreboard</title>',
         f'  <rect width="{W}" height="{H}" fill="{BG}"/>',
-        f'  <rect x="40" y="24" width="1040" height="632" rx="14" fill="{CARD}" '
+        f'  <rect x="40" y="24" width="1040" height="{H - 48}" rx="14" fill="{CARD}" '
         f'stroke="{EDGE}" stroke-width="1.5"/>',
         '  <defs>',
         f'    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" '
@@ -162,17 +168,14 @@ def render_svg(rows: list[tuple[str, float]], out: Path) -> None:
         f'    <linearGradient id="ours" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" '
         f'stop-color="{OURS_DARK}"/><stop offset="100%" stop-color="{OURS_LIGHT}"/></linearGradient>',
         '  </defs>',
-        f'  <g fill="{TEAL_DARK}" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" '
-        f'font-weight="600" letter-spacing="2.2"><text x="80" y="70">LIVE-Y / CAPACITY 400</text></g>',
-        f'  <text x="80" y="124" fill="{INK}" font-family="Georgia, serif" font-size="43">'
-        f'Benchmark scoreboard</text>',
-        f'  <text x="80" y="153" fill="{MUTED}" font-family="IBM Plex Sans, Arial, sans-serif" '
-        f'font-size="17">Protocol-valid mean score · 16 fixed held-out seeds · higher is better</text>',
-        f'  <line x1="80" y1="184" x2="1040" y2="184" stroke="{EDGE}" stroke-width="1"/>',
+        f'  <text x="80" y="{TITLE_Y + 38}" fill="{INK}" font-family="Georgia, serif" '
+        f'font-size="43">Benchmark scoreboard</text>',
+        f'  <line x1="80" y1="{RULE_Y}" x2="1040" y2="{RULE_Y}" stroke="{EDGE}" stroke-width="1"/>',
         f'  <g fill="{FAINT}" font-family="IBM Plex Mono, Menlo, monospace" font-size="13" '
-        f'font-weight="600" letter-spacing="1.6"><text x="96" y="213" text-anchor="middle">RANK</text>'
-        f'<text x="142" y="213">MODEL</text>'
-        f'<text x="1040" y="213" text-anchor="end">SCORE</text></g>',
+        f'font-weight="600" letter-spacing="1.6">'
+        f'<text x="96" y="{HDR_Y + 10}" text-anchor="middle">RANK</text>'
+        f'<text x="142" y="{HDR_Y + 10}">MODEL</text>'
+        f'<text x="1040" y="{HDR_Y + 10}" text-anchor="end">SCORE</text></g>',
         '  <g font-family="IBM Plex Sans, Arial, sans-serif" fill="%s">' % INK,
     ]
     for i, (name, score) in enumerate(rows):

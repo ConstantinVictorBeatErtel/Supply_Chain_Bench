@@ -28,7 +28,7 @@ the parallel comparison episode, not a second live seat.
 Sixteen fixed live-Y seeds; research prompt withholds demand law and capacity.
 Protocol-failed episodes are dropped from each model mean.
 
-![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v2.png)
+![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
 
 For reference on the same seeds: hindsight-perfect scores 100, an adaptive
 base-stock heuristic 73.9, and a blind constant-order policy that never reads
