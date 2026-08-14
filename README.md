@@ -2,15 +2,10 @@
 
 [▶ Play](https://beer-distribution-game.pages.dev/)
 
-A stochastic supply chain game to teach the bullwhip effect. Human and LLM play
-the same seat — the wholesaler — on the same seed, and the debrief puts the two
-runs side by side.
+A stochastic supply chain game to teach the bullwhip effect. Human and LLM both play as the wholesaler since that one sits in the middle and experiences the bullwhip effect.
 
 The chain is a Y: **one** wholesaler splitting a single inventory pool between
-**two** retailers who compete for it. That fork is what generates the bullwhip
-here. When stock runs short the pool is rationed proportionally, so a claimant
-that inflates its order captures a larger share — and the wholesaler's incoming
-orders stop being an honest demand signal.
+**two** retailers who compete for it. 
 
 ```mermaid
 flowchart LR
@@ -27,9 +22,8 @@ as a station pair so you can watch them diverge.
 
 ## Benchmark
 
-Sixteen fixed seeds, 36 weeks each, factory capacity 400. The LLM prompt
-withholds the demand law and the capacity. Protocol-failed episodes are dropped
-from each model mean.
+36 weeks each, factory capacity 400. The LLM prompt
+withholds the demand law and the capacity. 
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
 
