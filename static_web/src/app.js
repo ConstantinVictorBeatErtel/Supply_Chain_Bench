@@ -28,6 +28,8 @@ function publicScenario(spec) {
 const THOUGHT_GROUP_SIZE = 6;
 
 let catalog = null;
+let replayCatalog = null;
+let replayTimer = null;
 let active = null;
 let selectedRole = "wholesaler";
 let logSent = false;
@@ -590,9 +592,46 @@ async function loadCatalog() {
   return payload;
 }
 
+function replayHtml() {
+  const week = Number(replayCatalog?.week || 0);
+  const maxWeek = Math.max(1, ...replayCatalog.models.map((model) => model.frames.length - 1));
+  const cards = replayCatalog.models.map((model) => {
+    const frame = model.frames[Math.min(week, model.frames.length - 1)];
+    return `<article class="replay-card"><span class="section-label">${escapeHtml(model.label)}</span>
+      <strong>Week ${n0(frame.week)}</strong><p>Order ${frame.order == null ? "—" : n0(frame.order)} · Inventory ${n0(frame.inventory)} · Backlog ${n0(frame.backlog)}</p>
+      <p class="replay-cost">Running local cost ${n1(frame.cost)}</p><p>Final cost ${n1(model.local_total_cost)}</p></article>`;
+  }).join("");
+  return `<section class="replay" aria-labelledby="replay-title"><div class="hero"><p class="section-label">Deterministic standard replay</p><h1 id="replay-title">Three policies, one hidden supply chain.</h1><p>Every card is replayed on seed ${escapeHtml(replayCatalog.seed)}. Move through the same delayed consequences together.</p></div>
+    <div class="replay-controls"><button id="replay-play" class="primary-button" type="button">${replayTimer ? "Pause" : "Play"}</button><label for="replay-week">Week <output id="replay-week-value">${week}</output></label><input id="replay-week" type="range" min="0" max="${maxWeek}" value="${week}" step="1" aria-label="Replay week"></div>
+    <div class="replay-grid">${cards}</div><div class="start-row"><button id="replay-back" class="primary-button" type="button">Back to game</button></div></section>`;
+}
+
+function renderReplay() {
+  if (!replayCatalog) return;
+  document.querySelector("#app").innerHTML = replayHtml();
+  const slider = document.querySelector("#replay-week");
+  slider.addEventListener("input", () => { replayCatalog.week = Number(slider.value); renderReplay(); });
+  document.querySelector("#replay-play").addEventListener("click", () => {
+    if (replayTimer) { clearInterval(replayTimer); replayTimer = null; renderReplay(); return; }
+    replayTimer = setInterval(() => {
+      const max = Math.max(...replayCatalog.models.map((model) => model.frames.length - 1));
+      replayCatalog.week = replayCatalog.week >= max ? 0 : replayCatalog.week + 1;
+      renderReplay();
+    }, 550);
+    renderReplay();
+  });
+  document.querySelector("#replay-back").addEventListener("click", () => { if (replayTimer) clearInterval(replayTimer); replayTimer = null; renderBriefing(); });
+}
+
 export async function initialize() {
   configureTelemetry(globalThis.BEER_GAME_CONFIG?.loggingEndpoint || "");
-  try { catalog = await loadCatalog(); renderBriefing(); } catch (error) {
+  try {
+    catalog = await loadCatalog();
+    const replayResponse = await fetch("./data/benchmark-replay.json", { cache: "no-cache" });
+    if (replayResponse.ok) replayCatalog = { ...(await replayResponse.json()), week: 0 };
+    if (new URLSearchParams(window.location.search).get("view") === "replay" && replayCatalog) renderReplay();
+    else renderBriefing();
+  } catch (error) {
     console.error(error);
     document.querySelector("#app").innerHTML = '<section class="loading-card"><p class="section-label">Unable to start</p><h1>Scenario data could not be loaded.</h1><p>Reload the page to try again.</p></section>';
   }

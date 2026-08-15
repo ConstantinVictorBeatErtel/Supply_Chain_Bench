@@ -1,0 +1,916 @@
+{
+  "models": [
+    {
+      "actions": [
+        24,
+        18,
+        18,
+        17,
+        17,
+        17,
+        16,
+        16,
+        17,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "frames": [
+        {
+          "backlog": 0,
+          "cost": 0.0,
+          "inventory": 8,
+          "order": null,
+          "week": 0
+        },
+        {
+          "backlog": 0,
+          "cost": 4.0,
+          "inventory": 8,
+          "order": 24,
+          "week": 1
+        },
+        {
+          "backlog": 4,
+          "cost": 8.0,
+          "inventory": 0,
+          "order": 18,
+          "week": 2
+        },
+        {
+          "backlog": 16,
+          "cost": 24.0,
+          "inventory": 0,
+          "order": 18,
+          "week": 3
+        },
+        {
+          "backlog": 16,
+          "cost": 40.0,
+          "inventory": 0,
+          "order": 17,
+          "week": 4
+        },
+        {
+          "backlog": 28,
+          "cost": 68.0,
+          "inventory": 0,
+          "order": 17,
+          "week": 5
+        },
+        {
+          "backlog": 28,
+          "cost": 96.0,
+          "inventory": 0,
+          "order": 17,
+          "week": 6
+        },
+        {
+          "backlog": 23,
+          "cost": 119.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 7
+        },
+        {
+          "backlog": 18,
+          "cost": 137.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 8
+        },
+        {
+          "backlog": 2,
+          "cost": 139.0,
+          "inventory": 0,
+          "order": 17,
+          "week": 9
+        },
+        {
+          "backlog": 1,
+          "cost": 140.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 10
+        },
+        {
+          "backlog": 1,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 11
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 12
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 13
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 14
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 15
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 16
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 17
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 18
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 19
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 20
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 21
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 22
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 23
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 24
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 25
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 26
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 27
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 28
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 29
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 30
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 31
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 32
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 33
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 34
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 35
+        },
+        {
+          "backlog": 0,
+          "cost": 141.0,
+          "inventory": 0,
+          "order": 16,
+          "week": 36
+        }
+      ],
+      "label": "adaptive baseline",
+      "local_total_cost": 181.0
+    },
+    {
+      "actions": [
+        4,
+        12,
+        20,
+        32,
+        40,
+        32,
+        40,
+        32,
+        40,
+        40,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        32,
+        32,
+        0,
+        32,
+        0,
+        48,
+        0,
+        48,
+        32,
+        32,
+        32,
+        0,
+        48,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "frames": [
+        {
+          "backlog": 0,
+          "cost": 0.0,
+          "inventory": 8,
+          "order": null,
+          "week": 0
+        },
+        {
+          "backlog": 0,
+          "cost": 4.0,
+          "inventory": 8,
+          "order": 4,
+          "week": 1
+        },
+        {
+          "backlog": 4,
+          "cost": 8.0,
+          "inventory": 0,
+          "order": 12,
+          "week": 2
+        },
+        {
+          "backlog": 16,
+          "cost": 24.0,
+          "inventory": 0,
+          "order": 20,
+          "week": 3
+        },
+        {
+          "backlog": 28,
+          "cost": 52.0,
+          "inventory": 0,
+          "order": 32,
+          "week": 4
+        },
+        {
+          "backlog": 32,
+          "cost": 84.0,
+          "inventory": 0,
+          "order": 40,
+          "week": 5
+        },
+        {
+          "backlog": 28,
+          "cost": 112.0,
+          "inventory": 0,
+          "order": 32,
+          "week": 6
+        },
+        {
+          "backlog": 43,
+          "cost": 155.0,
+          "inventory": 0,
+          "order": 40,
+          "week": 7
+        },
+        {
+          "backlog": 48,
+          "cost": 203.0,
+          "inventory": 0,
+          "order": 32,
+          "week": 8
+        },
+        {
+          "backlog": 37,
+          "cost": 240.0,
+          "inventory": 0,
+          "order": 40,
+          "week": 9
+        },
+        {
+          "backlog": 49,
+          "cost": 289.0,
+          "inventory": 0,
+          "order": 40,
+          "week": 10
+        },
+        {
+          "backlog": 25,
+          "cost": 314.0,
+          "inventory": 0,
+          "order": 48,
+          "week": 11
+        },
+        {
+          "backlog": 0,
+          "cost": 329.0,
+          "inventory": 30,
+          "order": 0,
+          "week": 12
+        },
+        {
+          "backlog": 0,
+          "cost": 375.0,
+          "inventory": 92,
+          "order": 0,
+          "week": 13
+        },
+        {
+          "backlog": 0,
+          "cost": 430.0,
+          "inventory": 110,
+          "order": 0,
+          "week": 14
+        },
+        {
+          "backlog": 0,
+          "cost": 496.0,
+          "inventory": 132,
+          "order": 0,
+          "week": 15
+        },
+        {
+          "backlog": 0,
+          "cost": 554.0,
+          "inventory": 116,
+          "order": 0,
+          "week": 16
+        },
+        {
+          "backlog": 0,
+          "cost": 604.0,
+          "inventory": 100,
+          "order": 16,
+          "week": 17
+        },
+        {
+          "backlog": 0,
+          "cost": 646.0,
+          "inventory": 84,
+          "order": 16,
+          "week": 18
+        },
+        {
+          "backlog": 0,
+          "cost": 680.0,
+          "inventory": 68,
+          "order": 32,
+          "week": 19
+        },
+        {
+          "backlog": 0,
+          "cost": 714.0,
+          "inventory": 68,
+          "order": 32,
+          "week": 20
+        },
+        {
+          "backlog": 0,
+          "cost": 748.0,
+          "inventory": 68,
+          "order": 0,
+          "week": 21
+        },
+        {
+          "backlog": 0,
+          "cost": 790.0,
+          "inventory": 84,
+          "order": 32,
+          "week": 22
+        },
+        {
+          "backlog": 0,
+          "cost": 840.0,
+          "inventory": 100,
+          "order": 0,
+          "week": 23
+        },
+        {
+          "backlog": 0,
+          "cost": 882.0,
+          "inventory": 84,
+          "order": 48,
+          "week": 24
+        },
+        {
+          "backlog": 0,
+          "cost": 926.0,
+          "inventory": 88,
+          "order": 0,
+          "week": 25
+        },
+        {
+          "backlog": 0,
+          "cost": 968.0,
+          "inventory": 84,
+          "order": 48,
+          "week": 26
+        },
+        {
+          "backlog": 0,
+          "cost": 1017.5,
+          "inventory": 99,
+          "order": 32,
+          "week": 27
+        },
+        {
+          "backlog": 0,
+          "cost": 1067.5,
+          "inventory": 100,
+          "order": 32,
+          "week": 28
+        },
+        {
+          "backlog": 0,
+          "cost": 1115.5,
+          "inventory": 96,
+          "order": 32,
+          "week": 29
+        },
+        {
+          "backlog": 0,
+          "cost": 1184.5,
+          "inventory": 138,
+          "order": 0,
+          "week": 30
+        },
+        {
+          "backlog": 0,
+          "cost": 1245.5,
+          "inventory": 122,
+          "order": 48,
+          "week": 31
+        },
+        {
+          "backlog": 0,
+          "cost": 1325.0,
+          "inventory": 159,
+          "order": 0,
+          "week": 32
+        },
+        {
+          "backlog": 0,
+          "cost": 1405.0,
+          "inventory": 160,
+          "order": 0,
+          "week": 33
+        },
+        {
+          "backlog": 0,
+          "cost": 1503.0,
+          "inventory": 196,
+          "order": 0,
+          "week": 34
+        },
+        {
+          "backlog": 0,
+          "cost": 1593.0,
+          "inventory": 180,
+          "order": 0,
+          "week": 35
+        },
+        {
+          "backlog": 0,
+          "cost": 1675.0,
+          "inventory": 164,
+          "order": 0,
+          "week": 36
+        }
+      ],
+      "label": "untrained Qwen",
+      "local_total_cost": 1971.0
+    },
+    {
+      "actions": [
+        16,
+        24,
+        24,
+        48,
+        48,
+        48,
+        48,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        32,
+        32,
+        0,
+        48,
+        0,
+        48,
+        0,
+        0,
+        0,
+        32,
+        0,
+        48,
+        0,
+        32,
+        0,
+        0,
+        48,
+        0,
+        48,
+        0,
+        0,
+        0,
+        32
+      ],
+      "frames": [
+        {
+          "backlog": 0,
+          "cost": 0.0,
+          "inventory": 8,
+          "order": null,
+          "week": 0
+        },
+        {
+          "backlog": 0,
+          "cost": 4.0,
+          "inventory": 8,
+          "order": 16,
+          "week": 1
+        },
+        {
+          "backlog": 4,
+          "cost": 8.0,
+          "inventory": 0,
+          "order": 24,
+          "week": 2
+        },
+        {
+          "backlog": 16,
+          "cost": 24.0,
+          "inventory": 0,
+          "order": 24,
+          "week": 3
+        },
+        {
+          "backlog": 16,
+          "cost": 40.0,
+          "inventory": 0,
+          "order": 48,
+          "week": 4
+        },
+        {
+          "backlog": 28,
+          "cost": 68.0,
+          "inventory": 0,
+          "order": 48,
+          "week": 5
+        },
+        {
+          "backlog": 28,
+          "cost": 96.0,
+          "inventory": 0,
+          "order": 48,
+          "week": 6
+        },
+        {
+          "backlog": 24,
+          "cost": 120.0,
+          "inventory": 0,
+          "order": 48,
+          "week": 7
+        },
+        {
+          "backlog": 18,
+          "cost": 138.0,
+          "inventory": 0,
+          "order": 9,
+          "week": 8
+        },
+        {
+          "backlog": 11,
+          "cost": 149.0,
+          "inventory": 0,
+          "order": 0,
+          "week": 9
+        },
+        {
+          "backlog": 0,
+          "cost": 158.0,
+          "inventory": 18,
+          "order": 0,
+          "week": 10
+        },
+        {
+          "backlog": 0,
+          "cost": 178.0,
+          "inventory": 40,
+          "order": 0,
+          "week": 11
+        },
+        {
+          "backlog": 0,
+          "cost": 230.5,
+          "inventory": 105,
+          "order": 0,
+          "week": 12
+        },
+        {
+          "backlog": 0,
+          "cost": 275.0,
+          "inventory": 89,
+          "order": 0,
+          "week": 13
+        },
+        {
+          "backlog": 0,
+          "cost": 311.5,
+          "inventory": 73,
+          "order": 32,
+          "week": 14
+        },
+        {
+          "backlog": 0,
+          "cost": 340.0,
+          "inventory": 57,
+          "order": 32,
+          "week": 15
+        },
+        {
+          "backlog": 0,
+          "cost": 360.5,
+          "inventory": 41,
+          "order": 0,
+          "week": 16
+        },
+        {
+          "backlog": 0,
+          "cost": 389.0,
+          "inventory": 57,
+          "order": 48,
+          "week": 17
+        },
+        {
+          "backlog": 0,
+          "cost": 425.5,
+          "inventory": 73,
+          "order": 0,
+          "week": 18
+        },
+        {
+          "backlog": 0,
+          "cost": 454.0,
+          "inventory": 57,
+          "order": 48,
+          "week": 19
+        },
+        {
+          "backlog": 0,
+          "cost": 496.0,
+          "inventory": 84,
+          "order": 0,
+          "week": 20
+        },
+        {
+          "backlog": 0,
+          "cost": 532.5,
+          "inventory": 73,
+          "order": 0,
+          "week": 21
+        },
+        {
+          "backlog": 0,
+          "cost": 564.5,
+          "inventory": 64,
+          "order": 0,
+          "week": 22
+        },
+        {
+          "backlog": 0,
+          "cost": 609.0,
+          "inventory": 89,
+          "order": 32,
+          "week": 23
+        },
+        {
+          "backlog": 0,
+          "cost": 645.5,
+          "inventory": 73,
+          "order": 0,
+          "week": 24
+        },
+        {
+          "backlog": 0,
+          "cost": 674.0,
+          "inventory": 57,
+          "order": 48,
+          "week": 25
+        },
+        {
+          "backlog": 0,
+          "cost": 710.5,
+          "inventory": 73,
+          "order": 0,
+          "week": 26
+        },
+        {
+          "backlog": 0,
+          "cost": 739.0,
+          "inventory": 57,
+          "order": 32,
+          "week": 27
+        },
+        {
+          "backlog": 0,
+          "cost": 780.5,
+          "inventory": 83,
+          "order": 0,
+          "week": 28
+        },
+        {
+          "backlog": 0,
+          "cost": 817.0,
+          "inventory": 73,
+          "order": 0,
+          "week": 29
+        },
+        {
+          "backlog": 0,
+          "cost": 845.5,
+          "inventory": 57,
+          "order": 48,
+          "week": 30
+        },
+        {
+          "backlog": 0,
+          "cost": 882.0,
+          "inventory": 73,
+          "order": 0,
+          "week": 31
+        },
+        {
+          "backlog": 0,
+          "cost": 910.5,
+          "inventory": 57,
+          "order": 48,
+          "week": 32
+        },
+        {
+          "backlog": 0,
+          "cost": 955.0,
+          "inventory": 89,
+          "order": 0,
+          "week": 33
+        },
+        {
+          "backlog": 0,
+          "cost": 991.5,
+          "inventory": 73,
+          "order": 0,
+          "week": 34
+        },
+        {
+          "backlog": 0,
+          "cost": 1026.0,
+          "inventory": 69,
+          "order": 0,
+          "week": 35
+        },
+        {
+          "backlog": 0,
+          "cost": 1070.5,
+          "inventory": 89,
+          "order": 32,
+          "week": 36
+        }
+      ],
+      "label": "trained Qwen",
+      "local_total_cost": 1248.5
+    }
+  ],
+  "schema_version": "1.0.0",
+  "seed": "3385fc1772a83c0f",
+  "suite": "standard"
+}

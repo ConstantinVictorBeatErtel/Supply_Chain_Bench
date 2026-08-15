@@ -194,10 +194,16 @@ def _allocate(
 class BeerGameCore:
     """Two-phase simulator: prepare observations, then atomically commit all orders."""
 
-    def __init__(self, spec: ScenarioSpec):
+    def __init__(self, spec: ScenarioSpec, runtime: object | None = None):
         self.spec = spec
+        # Optional benchmark-only hooks.  The frozen Hub protocol does not
+        # pass a runtime object, so its state transitions and serialized
+        # scenarios remain unchanged.  The duck-typed interface is deliberate:
+        # the canonical environment must not import the benchmark package.
+        self.runtime = runtime
         self.upstream, self.downstream, self.customers = _topology(spec)
-        self.demand = DemandGenerator(spec)
+        supplied_demand = getattr(runtime, "demand", None) if runtime is not None else None
+        self.demand = supplied_demand if supplied_demand is not None else DemandGenerator(spec)
         self.week = 0
         self.prepared: PreparedWeek | None = None
         self.states: dict[Role, RoleState] = {}
@@ -393,8 +399,11 @@ class BeerGameCore:
             upstream = self.upstream[role]
             if upstream is None:
                 production = quantity
-                if self.spec.capacity is not None and production > self.spec.capacity:
-                    production = self.spec.capacity
+                capacity = self.spec.capacity
+                if self.runtime is not None and hasattr(self.runtime, "capacity_for_week"):
+                    capacity = self.runtime.capacity_for_week(prepared.week, capacity)
+                if capacity is not None and production > capacity:
+                    production = capacity
                     capacity_bound = True
                 state.shipment_pipeline.append(production)
             else:
@@ -431,4 +440,8 @@ class BeerGameCore:
     def research_exogenous_manifest(self) -> dict[str, object] | None:
         """Expose only the additive research trace; frozen scenarios are unchanged."""
 
-        return self.demand.research_manifest()
+        manifest = getattr(self.demand, "research_manifest", None)
+        if callable(manifest):
+            return manifest()
+        manifest = getattr(self.demand, "manifest", None)
+        return manifest() if callable(manifest) else None

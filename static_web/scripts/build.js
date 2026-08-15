@@ -17,6 +17,7 @@ function loadJson(relative) {
 
 /** The run that carries a per-week rationale, recorded at the public capacity. */
 export const THOUGHT_TRACE_PATH = "artifacts/public_game_llm_thoughts/traces.json";
+export const BENCHMARK_REPLAY_PATH = "static_web/public/data/benchmark-replay.json";
 
 function thoughtTraceCatalog() {
   const artifact = loadJson(THOUGHT_TRACE_PATH);
@@ -125,6 +126,9 @@ function buildTarget(target) {
   cpSync(resolve(STATIC, "src/styles.css"), resolve(target, "styles.css"));
   cpSync(resolve(STATIC, "src/sim"), resolve(target, "sim"), { recursive: true });
   mkdirSync(resolve(target, "data"), { recursive: true });
+  if (existsSync(resolve(ROOT, BENCHMARK_REPLAY_PATH))) {
+    cpSync(resolve(ROOT, BENCHMARK_REPLAY_PATH), resolve(target, "data/benchmark-replay.json"));
+  }
   writeFileSync(
     resolve(target, "data/llm-comparison.json"),
     `${JSON.stringify(traceCatalog(), null, 2)}\n`,

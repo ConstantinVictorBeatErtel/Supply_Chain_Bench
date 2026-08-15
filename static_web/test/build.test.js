@@ -22,7 +22,7 @@ describe("static build", () => {
     for (const output of [PAGES, SPACE]) {
       for (const file of [
         "index.html", "app.js", "styles.css", "telemetry.js", "config.js",
-        "sim/index.js", "data/llm-comparison.json",
+        "sim/index.js", "data/llm-comparison.json", "data/benchmark-replay.json",
       ]) {
         expect(existsSync(resolve(output, file)), `${output}/${file}`).toBe(true);
       }
@@ -81,6 +81,19 @@ describe("static build", () => {
       .join("\n");
     expect(allText).not.toMatch(/(?:OPENROUTER_API_KEY|AKASH_API_KEY|HF_TOKEN|CLOUDFLARE_API_TOKEN)/);
     expect(allText).not.toMatch(/\b(?:sk|hf)_[A-Za-z0-9_-]{16,}\b/);
+  });
+
+  test("ships the deterministic three-policy standard replay", () => {
+    const replay = JSON.parse(readFileSync(
+      resolve(PAGES, "data/benchmark-replay.json"), "utf8",
+    ));
+    expect(replay.suite).toBe("standard");
+    expect(replay.seed).toMatch(/^[0-9a-f]{16}$/);
+    expect(replay.models.map((model) => model.label)).toEqual([
+      "adaptive baseline", "untrained Qwen", "trained Qwen",
+    ]);
+    expect(replay.models.every((model) => model.actions.length === 36)).toBe(true);
+    expect(replay.models.every((model) => model.frames.length === 37)).toBe(true);
   });
 
   test("keeps the public UI seed-opaque and local-only", () => {

@@ -20,6 +20,16 @@
   font-weight: 400;
 }
 
+.replay { max-width: 1120px; margin: 0 auto; padding: 42px 28px 72px; }
+.replay-controls { display: flex; align-items: center; gap: 16px; margin: 24px 0; flex-wrap: wrap; }
+.replay-controls input { flex: 1 1 360px; accent-color: var(--accent); }
+.replay-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.replay-card { background: var(--panel, #fff); border: 1px solid var(--line, #d8e2e2); border-radius: 14px; padding: 22px; box-shadow: 0 12px 30px rgba(23,43,53,.06); }
+.replay-card strong { display: block; margin-top: 10px; font-size: 28px; }
+.replay-card p { margin: 10px 0 0; color: var(--muted, #52666c); }
+.replay-card .replay-cost { color: var(--ink, #172b35); font-weight: 650; }
+@media (max-width: 760px) { .replay-grid { grid-template-columns: 1fr; } .replay { padding-inline: 18px; } }
+
 * { box-sizing: border-box; }
 html, body { min-height: 100%; margin: 0; background: var(--bg); }
 body { color: var(--text); -webkit-font-smoothing: antialiased; }

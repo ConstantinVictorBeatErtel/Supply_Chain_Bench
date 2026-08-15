@@ -17,6 +17,15 @@ dev = [
     "pytest>=7.4",
     "hypothesis>=6.90",
     "pyyaml>=6.0",
+    "matplotlib>=3.7",
+]
+benchmark = [
+    "matplotlib>=3.7",
+]
+hf = [
+    "torch>=2.0",
+    "transformers>=4.40",
+    "peft>=0.10",
 ]
 wrappers = [
     "pettingzoo>=1.24",
@@ -32,11 +41,12 @@ web = [
     "certifi>=2024.0.0",
 ]
 all = [
-    "beer_distribution_rl[dev,wrappers,marl,web]",
+    "beer_distribution_rl[dev,benchmark,hf,wrappers,marl,web]",
 ]
 
 [tool.setuptools.packages.find]
-include = ["beer_distribution_rl*"]
+where = [".", "environments/beer_distribution_game"]
+include = ["beer_distribution_rl*", "supplychainbench*", "beer_distribution_game*"]
 
 [tool.setuptools.package-data]
 beer_distribution_rl = ["web/static/*", "web/assets/**/*"]

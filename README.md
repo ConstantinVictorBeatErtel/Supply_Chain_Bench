@@ -1,8 +1,58 @@
-# Beer Distribution Game
+# SupplyChainBench
 
-[▶ Play](https://beer-distribution-game.pages.dev/)
+## Beer Distribution
 
-A stochastic supply chain game to teach the bullwhip effect. Human and LLM both play as the wholesaler since that one sits in the middle and experiences the bullwhip effect.
+A long-horizon decision-making benchmark for LLM agents, where actions have
+delayed consequences and models must reason about hidden supply-chain dynamics.
+
+[▶ Play in browser](https://beer-distribution-game.pages.dev/) · [Leaderboard](results/leaderboard.md) · [Train with GRPO](docs/TRAINING.md) · [Continual-learning track](docs/CONTINUAL_LEARNING.md)
+
+The first environment is a five-node Y-shaped beer supply chain. You control one
+wholesaler seat, place one order each week, and wait through multiple delays
+before learning whether that decision helped. The demand law and factory
+capacity are hidden, and shortages couple your local cost to a rival retailer.
+
+![SupplyChainBench leaderboard](docs/assets/supplychainbench-leaderboard.png)
+
+### Current standard result
+
+| Model | Score | Mean local cost | Protocol-clean |
+| --- | ---: | ---: | ---: |
+| Qwen3.5-4B (untrained) | 6.73 | 4264.7 | 16/16 |
+| Qwen3.5-4B + GRPO LoRA | **20.64** | **1391.8** | 16/16 |
+| Blind constant order 18 | 19.82 | 1449.2 | 16/16 |
+
+The trained adapter narrowly clears the strongest blind constant-order baseline
+by 0.82 points. This is evidence of a reproducible improvement, not proof that
+the model has learned general supply-chain reasoning. Both training runs used a
+single training seed; see the full caveats in [`docs/TRAINING.md`](docs/TRAINING.md).
+
+### Quick start
+
+```bash
+python -m pip install -e ".[dev,benchmark]"
+python -m supplychainbench.eval --model agent:constant-18 --suite standard
+python -m supplychainbench.leaderboard
+python -m pytest -q
+npm ci && npm run test:all && npm run build
+```
+
+Model providers are lazy: baseline evaluation needs no API key; OpenRouter and
+OpenAI-compatible providers require their corresponding environment variable;
+HF/LoRA evaluation requires the optional `hf` extra. No benchmark result is
+claimed until the command has produced a validated result file.
+
+### Benchmark tracks
+
+`standard` freezes the existing capacity-400 live-Y research board. The hidden
+dynamics suites (`demand_shift`, `unknown_lead_time`, `capacity_shock`,
+`supply_disruption`, and `held_out_dynamics`) measure adaptation and recovery
+with separate deterministic seed manifests. RESET, MEMORY, and LEARN compare
+what persists across episodes; they are not mixed into the standard leaderboard.
+
+The browser demo includes a deterministic replay view comparing a baseline,
+untrained model, and trained model on one shared seed: [open the replay](https://beer-distribution-game.pages.dev/?view=replay).
+It uses JSON replay data, not a committed binary animation.
 
 The chain is a Y: **one** wholesaler splitting a single inventory pool between
 **two** retailers who compete for it. 
@@ -20,7 +70,7 @@ episode, on the same seed against the same scripted counterparties — two runs 
 the same chain, not two live seats in one chain. The playable board shows both
 as a station pair so you can watch them diverge.
 
-## Benchmark
+## Technical benchmark details
 
 36 weeks each, factory capacity 400. The LLM prompt
 withholds the demand law and the capacity. 

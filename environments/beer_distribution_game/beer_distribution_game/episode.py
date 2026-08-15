@@ -17,6 +17,7 @@ class BeerEpisode:
         controlled_role: Role,
         *,
         include_reference: bool = True,
+        runtime: object | None = None,
     ):
         if controlled_role not in spec.roles:
             raise ValueError(f"role {controlled_role!r} is not in {spec.topology}")
@@ -24,7 +25,8 @@ class BeerEpisode:
         self.controlled_role = controlled_role
         self.episode_id = spec.episode_id(controlled_role)
         self.include_reference = include_reference
-        self.core = BeerGameCore(spec)
+        self.runtime = runtime
+        self.core = BeerGameCore(spec, runtime=runtime)
         self.counterparties = counterparty_policies(spec, controlled_role)
         self.histories: dict[Role, list[dict[str, Any]]] = {
             role: [] for role in spec.roles
