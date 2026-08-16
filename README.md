@@ -1,5 +1,7 @@
 # SupplyChainBench: Beer Distribution
 
+**[▶ Play the game](https://beer-distribution-game.pages.dev)**
+
 **Can an AI agent learn to control a delayed, partially observed system—not
 just produce a good one-shot answer?**
 
