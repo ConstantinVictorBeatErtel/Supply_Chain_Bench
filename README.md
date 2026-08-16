@@ -1,16 +1,21 @@
-# SupplyChainBench
+# SupplyChainBench: Beer Distribution
 
-## Beer Distribution
+**Can an AI agent learn to control a delayed, partially observed system—not
+just produce a good one-shot answer?**
 
-A long-horizon decision-making benchmark for LLM agents, where actions have
-delayed consequences and models must reason about hidden supply-chain dynamics.
+SupplyChainBench measures long-horizon decision-making under hidden and changing
+dynamics. In Beer Distribution, an agent runs the wholesaler for 36 weeks.
+Orders and shipments take time, mistakes are only visible weeks later, and the
+agent is not told the demand law or supply limits.
+
+The project measures three things:
+
+- **Control:** can the agent keep inventory and backlog costs low?
+- **Adaptation:** can it recover when demand, delays, or supply change?
+- **Learning:** does improvement come from a bounded notebook or real LoRA
+  weight updates across episodes?
 
 [▶ Play in browser](https://beer-distribution-game.pages.dev/) · [Leaderboard](results/leaderboard.md) · [Train with GRPO](docs/TRAINING.md) · [Continual-learning track](docs/CONTINUAL_LEARNING.md)
-
-The first environment is a five-node Y-shaped beer supply chain. You control one
-wholesaler seat, place one order each week, and wait through multiple delays
-before learning whether that decision helped. The demand law and factory
-capacity are hidden, and shortages couple your local cost to a rival retailer.
 
 ![SupplyChainBench leaderboard](docs/assets/supplychainbench-leaderboard.png)
 
