@@ -15,49 +15,18 @@ The project measures three things:
 - **Learning:** does improvement come from a bounded notebook or real LoRA
   weight updates across episodes?
 
-[▶ Play in browser](https://beer-distribution-game.pages.dev/) · [Leaderboard](results/leaderboard.md) · [Train with GRPO](docs/TRAINING.md) · [Continual-learning track](docs/CONTINUAL_LEARNING.md)
+## Benchmark
 
-![SupplyChainBench leaderboard](docs/assets/supplychainbench-leaderboard.png)
+The main test uses 16 fixed supply chains. The agent controls the wholesaler
+without being told the demand pattern or supply limit.
 
-### Current standard result
+Five additional tests change demand, delivery times, or supply to see whether
+the agent notices and recovers. Separate experiments compare starting fresh,
+carrying short notes between games, and updating model weights. Their scores
+stay separate so unlike tests are not compared directly.
 
-| Model | Score | Mean local cost | Protocol-clean |
-| --- | ---: | ---: | ---: |
-| Qwen3.5-4B (untrained) | 6.73 | 4264.7 | 16/16 |
-| Qwen3.5-4B + GRPO LoRA | **20.64** | **1391.8** | 16/16 |
-| Blind constant order 18 | 19.82 | 1449.2 | 16/16 |
-
-The trained adapter narrowly clears the strongest blind constant-order baseline
-by 0.82 points. This is evidence of a reproducible improvement, not proof that
-the model has learned general supply-chain reasoning. Both training runs used a
-single training seed; see the full caveats in [`docs/TRAINING.md`](docs/TRAINING.md).
-
-### Quick start
-
-```bash
-python -m pip install -e ".[dev,benchmark]"
-python -m supplychainbench.eval --model agent:constant-18 --suite standard
-python -m supplychainbench.leaderboard
-python -m pytest -q
-npm ci && npm run test:all && npm run build
-```
-
-Model providers are lazy: baseline evaluation needs no API key; OpenRouter and
-OpenAI-compatible providers require their corresponding environment variable;
-HF/LoRA evaluation requires the optional `hf` extra. No benchmark result is
-claimed until the command has produced a validated result file.
-
-### Benchmark tracks
-
-`standard` freezes the existing capacity-400 live-Y research board. The hidden
-dynamics suites (`demand_shift`, `unknown_lead_time`, `capacity_shock`,
-`supply_disruption`, and `held_out_dynamics`) measure adaptation and recovery
-with separate deterministic seed manifests. RESET, MEMORY, and LEARN compare
-what persists across episodes; they are not mixed into the standard leaderboard.
-
-The browser demo includes a deterministic replay view comparing a baseline,
-untrained model, and trained model on one shared seed: [open the replay](https://beer-distribution-game.pages.dev/?view=replay).
-It uses JSON replay data, not a committed binary animation.
+The browser replay shows a simple baseline, the untrained model, and the trained
+model facing the same supply chain.
 
 The chain is a Y: **one** wholesaler splitting a single inventory pool between
 **two** retailers who compete for it. 
@@ -265,14 +234,14 @@ Documented in [`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md):
 | [`beer_distribution_rl/`](beer_distribution_rl/) | Research protocol, agents, GRPO / eval harness |
 | [`environments/beer_distribution_game/`](environments/beer_distribution_game/) | Verifiers Hub package (Tier-5 capacity 22) |
 
-## Links
-
-[Hugging Face Space](https://constantinertel-beer-distribution-game.static.hf.space/) · [Deploy](DEPLOY.md)
-
 ## Run locally
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,benchmark]"
 python -m pytest -q
-npm ci && npm run test:all && npm run build
+python -m supplychainbench.eval --model agent:constant-18 --suite standard
+python -m supplychainbench.leaderboard
+npm ci
+npm run test:all
+npm run build
 ```
