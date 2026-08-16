@@ -36,6 +36,15 @@ artifacts/hub_llm/**/traces.jsonl
 artifacts/hub_llm/**/config.toml
 artifacts/**/*.csv
 
+# In-flight eval scratch: partial dumps, backups, PIDs and agent handoff notes.
+# The finished results JSON next to them is what stays in git.
+artifacts/**/*.partial_from_log.json
+artifacts/**/*.bak
+artifacts/**/*.pid
+artifacts/**/COORDINATION.md
+artifacts/**/*HANDOFF*.txt
+artifacts/**/*STATUS*.txt
+
 # Local web checkpoints may still ship with the FastAPI UI
 !beer_distribution_rl/web/assets/
 !beer_distribution_rl/web/assets/**/
