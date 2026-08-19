@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A visual, code-grounded explanation of how LoRA and GRPO trained the Qwen3.5-4B wholesaler policy in SupplyChainBench.">
+    <meta name="theme-color" content="#f7f5f1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'">
+    <meta property="og:title" content="Inside the LoRA + GRPO Learning Loop">
+    <meta property="og:description" content="What the wholesaler sees, how six matched rollouts are compared, and which parameters actually change.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Inside the LoRA + GRPO Learning Loop">
+    <meta name="twitter:description" content="A visual walkthrough of one real SupplyChainBench policy update.">
+    <meta name="twitter:image" content="https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/og.png">
+    <title>Inside the LoRA + GRPO Learning Loop · SupplyChainBench</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to explainer</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="SupplyChainBench home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>SupplyChainBench</span>
+      </a>
+      <nav aria-label="Page navigation">
+        <a href="https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL/blob/main/docs/TRAINING.md">Training recipe</a>
+        <a class="play-link" href="../">Play the benchmark</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">QWEN3.5-4B · LORA R16 · LIVE-Y GRPO</p>
+        <h1 id="page-title">Inside one reinforcement-learning update</h1>
+        <p class="dek">The base model is never rewritten. Six sampled policies face matched randomness; delayed local cost decides which order tokens become more or less likely; gradients update only low-rank LoRA branches.</p>
+        <div class="hero-rule" aria-hidden="true">
+          <span>observe</span><i></i><span>sample</span><i></i><span>compare</span><i></i><span>update</span><i></i><span>repeat</span>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="forward-title">
+        <div class="section-heading">
+          <span class="number">01</span>
+          <div><p class="section-kicker">FORWARD PASS</p><h2 id="forward-title">What the wholesaler sees—and what it does not</h2></div>
+        </div>
+
+        <div class="forward-grid">
+          <article class="observation-pane">
+            <p class="pane-kicker">ROLE-LOCAL JSON OBSERVATION</p>
+            <h3>Visible every week</h3>
+            <div class="observation-list">
+              <span>inventory on hand</span><span>backlog</span>
+              <span>inventory position</span><span>units on order</span>
+              <span>incoming retailer orders</span><span>shipment received</span>
+              <span>units filled</span><span>last 8 weeks</span>
+            </div>
+            <div class="hidden-list">
+              <strong>Hidden</strong>
+              <span>demand law</span><span>factory capacity</span><span>other roles’ private state and policy</span>
+            </div>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true">→</div>
+
+          <article class="model-pane">
+            <p class="pane-kicker">POLICY FORWARD</p>
+            <h3>Frozen knowledge + a trainable correction</h3>
+            <div class="weights" aria-label="Frozen base weights and trainable LoRA branch">
+              <div class="weight-row"><span>Base <code>W</code></span><div class="base-weight"></div><b>frozen</b></div>
+              <div class="weight-row"><span>LoRA <code>BA</code></span><div class="lora-weight"></div><b>train</b></div>
+            </div>
+            <p class="equation"><code>h′ = hW + h · (α/r)BA</code> &nbsp; with &nbsp; <code>r=16, α=16</code></p>
+            <p class="projection-note">The LoRA residual is injected into <code>q/k/v/o</code> attention and <code>gate/up/down</code> MLP projections.</p>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true">→</div>
+
+          <article class="action-pane">
+            <p class="pane-kicker">SAMPLED ACTION</p>
+            <h3>One strict JSON order</h3>
+            <div class="json-output" aria-label="JSON output with decision digits highlighted"><code>{</code><code>"quantity"</code><code>:</code><code class="decision">48</code><code>}</code></div>
+            <p class="action-settings">temperature .7 · top-p .95<br>32-token cap · integer 0…128</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="comparison-title">
+        <div class="section-heading">
+          <span class="number">02</span>
+          <div><p class="section-kicker">MATCHED ROLLOUTS</p><h2 id="comparison-title">What one decision is compared against</h2></div>
+        </div>
+
+        <div class="shared-conditions">
+          <strong>Shared across all six:</strong>
+          <span>scenario seed</span><span>demand draws</span><span>counterparty RNG</span><span>same week</span>
+          <em>Sampled actions diverge, so later states differ.</em>
+        </div>
+
+        <div class="members" aria-label="Six real group members from update 16, week 16">
+          <article class="member negative"><span>member 1</span><code>order 32</code><strong>G −217.5</strong><b>A −1.76</b></article>
+          <article class="member positive"><span>member 2</span><code>order 0</code><strong>G −195.5</strong><b>A +0.74</b></article>
+          <article class="member selected positive"><span>member 3</span><code>order 48</code><strong>G −194.0</strong><b>A +0.91</b></article>
+          <article class="member positive"><span>member 4</span><code>order 48</code><strong>G −200.0</strong><b>A +0.23</b></article>
+          <article class="member positive"><span>member 5</span><code>order 48</code><strong>G −195.0</strong><b>A +0.80</b></article>
+          <article class="member negative"><span>member 6</span><code>order 0</code><strong>G −210.0</strong><b>A −0.91</b></article>
+        </div>
+        <p class="artifact-note">Actual artifact · update 16 · training seed 8 · week 16 · same-timestep group mean <strong>μ = −202.0</strong></p>
+      </section>
+
+      <section class="section" aria-labelledby="credit-title">
+        <div class="section-heading">
+          <span class="number">03</span>
+          <div><p class="section-kicker">DELAYED CREDIT</p><h2 id="credit-title">Check the six weeks this order can affect</h2></div>
+        </div>
+
+        <div class="credit-grid">
+          <article>
+            <p class="pane-kicker">MEMBER 3 · ORDER 48 AT WEEK 16</p>
+            <div class="timeline" aria-label="Six-week downstream local-cost window">
+              <div><span>w16</span><b>27</b></div><div><span>w17</span><b>19</b></div><div><span>w18</span><b>27</b></div>
+              <div><span>w19</span><b>43</b></div><div><span>w20</span><b>35</b></div><div><span>w21</span><b>43</b></div>
+            </div>
+            <div class="timeline-footer"><span>local cost = <code>0.5·inventory + 1.0·backlog</code></span><strong>G = −194</strong></div>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true">→</div>
+
+          <article class="advantage-calc">
+            <p class="pane-kicker">SAME-TIMESTEP NORMALIZATION</p>
+            <div><span>member return</span><strong>−194.0</strong></div>
+            <div><span>group mean μ</span><strong>−202.0</strong></div>
+            <div><span>group spread σ</span><strong>8.79</strong></div>
+            <div class="answer"><span>advantage <code>(G−μ)/σ</code></span><strong>+0.91</strong></div>
+            <p>Protocol failure inside the window bypasses normalization and receives fixed <code>A = −5</code>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="update-title">
+        <div class="section-heading">
+          <span class="number">04</span>
+          <div><p class="section-kicker">TOKEN CHECK + OPTIMIZER</p><h2 id="update-title">Only the part that carries the decision receives credit</h2></div>
+        </div>
+
+        <div class="optimizer-grid">
+          <article>
+            <p class="pane-kicker">DECISION-TOKEN MASK</p>
+            <h3>JSON boilerplate gets zero loss weight</h3>
+            <div class="tokens" aria-label="Only digit-bearing completion tokens are scored">
+              <div><code>{</code><span>0</span></div><div><code>quantity</code><span>0</span></div><div><code>:</code><span>0</span></div><div class="active"><code>48</code><strong>1</strong></div><div><code>}</code><span>0</span></div>
+            </div>
+            <div class="ratio"><span>rollout token likelihood <code>ℓold</code></span><i>vs</i><span>current <code>ℓθ</code></span></div>
+            <p class="equation"><code>r = exp(ℓθ − ℓold)</code> · PPO clip <code>[0.8, 1.2]</code> · dual clip <code>3</code></p>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true">→</div>
+
+          <article>
+            <p class="pane-kicker">BACKPROPAGATION</p>
+            <h3>Positive A raises this order’s probability; negative A lowers it</h3>
+            <div class="modules" aria-label="Trainable LoRA targets"><code>q_proj</code><code>k_proj</code><code>v_proj</code><code>o_proj</code><code>gate_proj</code><code>up_proj</code><code>down_proj</code></div>
+            <p class="freeze-note"><b>Base 4B parameters:</b> no update. <b>LoRA A/B:</b> AdamW update at 1e−5, global gradient norm clipped to 1.0.</p>
+            <div class="repeat-line"><span>Weights moved → clear stale prefix KV cache</span><strong>↺ next rollout</strong></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section comparisons" aria-labelledby="levels-title">
+        <div class="section-heading">
+          <span class="number">05</span>
+          <div><p class="section-kicker">THREE LEVELS</p><h2 id="levels-title">Three comparisons, kept separate</h2></div>
+        </div>
+
+        <div class="comparison-grid">
+          <article>
+            <p class="pane-kicker">CREDIT COMPARISON</p>
+            <h3>Trajectory vs groupmates</h3>
+            <dl><div><dt>matched on</dt><dd>seed + week</dd></div><div><dt>compare</dt><dd>6-week return</dd></div><div><dt>produces</dt><dd>advantage A</dd></div></dl>
+          </article>
+          <article>
+            <p class="pane-kicker">POLICY COMPARISON</p>
+            <h3>Current vs rollout likelihood</h3>
+            <dl><div><dt>compare</dt><dd>token log-prob</dd></div><div><dt>stabilize</dt><dd>ratio clipping</dd></div><div><dt>updates</dt><dd>LoRA only</dd></div></dl>
+          </article>
+          <article class="scoreboard">
+            <p class="pane-kicker">HELD-OUT EVALUATION</p>
+            <h3>Final adapter vs untouched base + baselines</h3>
+            <div class="score-row score-base"><span>Qwen base</span><b>6.73</b><i></i></div>
+            <div class="score-row score-constant"><span>blind constant-18</span><b>19.82</b><i></i></div>
+            <div class="score-row score-trained trained"><span>LoRA + GRPO</span><b>20.64</b><i></i></div>
+            <div class="score-row score-adaptive"><span>adaptive base-stock</span><b>73.9</b><i></i></div>
+            <div class="score-row score-perfect"><span>hindsight-perfect</span><b>100</b><i></i></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="run-strip" aria-label="Full training run summary">
+        <div><span>16</span><small>updates</small></div><b>×</b><div><span>8</span><small>seeds / update</small></div><b>×</b><div><span>6</span><small>group members</small></div><b>=</b><div><span>768</span><small>trajectories</small></div>
+        <p>1× A40 · 15.4 hours · ≈$7.50</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Held-out board: 16 seeds across four demand buckets. Evaluation results never feed gradients back into training.</p>
+      <a href="https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL">View the source and artifacts on GitHub →</a>
+    </footer>
+  </body>
+</html>

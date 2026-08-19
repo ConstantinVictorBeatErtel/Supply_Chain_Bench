@@ -107,6 +107,10 @@ as small-sample.
 
 ## Qwen fine-tune (live-Y GRPO v1)
 
+**[▶ Explore the LoRA + GRPO learning loop](https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/)**
+
+[![Inside the LoRA and GRPO learning loop: a frozen base model, six matched rollouts, a six-week credit window, and a trainable low-rank adapter](static_web/public/lora-grpo/og.png)](https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/)
+
 [`scripts/train_live_y_domain_randomized_grpo_v1.py`](scripts/train_live_y_domain_randomized_grpo_v1.py)
 trains a LoRA adapter on `Qwen/Qwen3.5-4B` with critic-free multi-turn
 group-relative updates (GRPO-style). Research capacity is 400; Hub Tier-5

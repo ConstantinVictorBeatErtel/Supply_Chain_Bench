@@ -23,6 +23,7 @@ describe("static build", () => {
       for (const file of [
         "index.html", "app.js", "styles.css", "telemetry.js", "config.js",
         "sim/index.js", "data/llm-comparison.json", "data/benchmark-replay.json",
+        "lora-grpo/index.html", "lora-grpo/styles.css", "lora-grpo/og.png",
       ]) {
         expect(existsSync(resolve(output, file)), `${output}/${file}`).toBe(true);
       }
