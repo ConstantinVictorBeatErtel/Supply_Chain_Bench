@@ -1,12 +1,11 @@
-# SupplyChainBench: Beer Distribution
+# Supply Chain RL Benchmark & Environment (SupplyChainBench)
 
 **[▶ Play the game](https://beer-distribution-game.pages.dev)**
 
-**Can an AI agent learn to control a delayed, partially observed system—not
-just produce a good one-shot answer?**
+**Can an AI agent learn to control a delayed, partially observed system?**
 
 SupplyChainBench measures long-horizon decision-making under hidden and changing
-dynamics. In Beer Distribution, an agent runs the wholesaler for 36 weeks.
+dynamics through the beer distribution game. In the beer supply chain distribution game, an agent runs the wholesaler for 36 weeks.
 Orders and shipments take time, mistakes are only visible weeks later, and the
 agent is not told the demand law or supply limits.
 
