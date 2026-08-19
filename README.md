@@ -1,4 +1,4 @@
-# Supply Chain RL Benchmark & Environment (SupplyChainBench)
+# Supply Chain RL Environment & Benchmark (SupplyChainBench)
 
 **[▶ Play the game](https://beer-distribution-game.pages.dev)**
 
