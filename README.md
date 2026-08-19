@@ -30,8 +30,8 @@ stay separate so unlike tests are not compared directly.
 The browser replay shows a simple baseline, the untrained model, and the trained
 model facing the same supply chain.
 
-The chain is a Y: **one** wholesaler splitting a single inventory pool between
-**two** retailers who compete for it. 
+The chain is a Y: one wholesaler splitting a single inventory pool between
+two retailers who compete for it.
 
 ```mermaid
 flowchart LR
@@ -121,113 +121,18 @@ stays frozen.*
 
 [`scripts/train_live_y_domain_randomized_grpo_v1.py`](scripts/train_live_y_domain_randomized_grpo_v1.py)
 trains a LoRA adapter on `Qwen/Qwen3.5-4B` with critic-free multi-turn
-group-relative updates (GRPO-style). Research capacity is 400; Hub Tier-5
-stays 22.
+group-relative updates (GRPO-style). The Qwen base stays frozen; only a rank-16
+LoRA adapter on the attention and MLP projections is optimized.
 
-### What LoRA trains
+Each update rolls out 8 matched seeds 6 times, scores every order against its
+groupmates using a 6-week downstream-cost window, and applies a clipped
+token-level update to the digits in `{"quantity": N}`. In short, GRPO decides
+which sampled actions were better; LoRA is the small set of weights changed to
+make those actions more likely.
 
-The 4B base weights stay frozen in bf16. A rank-16 / alpha-16 LoRA adapter
-(dropout 0) is attached to `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`,
-`up_proj`, `down_proj`, and it is the only thing the optimizer touches. The
-target behaviour — order roughly what you sold, and count the units already in
-the pipeline — is a small behavioural adjustment rather than new knowledge, so
-rank 16 across all seven projections is ample. It also keeps rollouts and
-training on one GPU, since the frozen base is shared.
-
-### What RL does with it
-
-One update is: roll out, grade each decision, reweight the tokens that carried
-it.
-
-1. **Roll out.** Pick training seeds; play each one `group_size` times. Group
-   members share a scenario, a demand seed, and counterparty streams (CRN), so
-   they differ only through sampling. Each week the policy sees the role-local
-   observation and emits `{"quantity": N}`.
-2. **Grade.** Every decision gets a windowed return-to-go, group-normalized at
-   the same timestep.
-3. **Update.** A token-level clipped importance-ratio step on the LoRA
-   parameters only.
-
-Demand is `episode_randomized_y_poisson_v1`: per episode,
-$\lambda \sim \mathcal{U}[2,8]$, then independent Poisson draws for each retailer.
-
-**Credit window.** An order clears the order delay (1 week) and shipment delay
-(2 weeks) within ~3 weeks and washes out by ~6, so a decision is charged for
-$W = 6$ weeks of downstream local cost, not the whole remaining episode.
-Settlement and terminal exposure are attributed only to decisions whose window
-reaches the horizon $H$; a protocol failure inside the window contributes
-$-10^{5}$:
-
-$$
-G_{i,t} = -\sum_{u=t}^{\min(t+W,\,H)-1} \gamma^{\,u-t} c_{i,u}
-\;+\; \mathbf{1}[t + W \ge H]\;\gamma^{\,H-t}\,r^{\mathrm{term}}_{i}
-$$
-
-with $\gamma = 1$ by default. Unbounded return-to-go
-($W \to \infty$, the archived setting) left only ~10% of the advantage variance
-genuinely per-turn — see
-[`docs/LIVE_Y_RL_POSTMORTEM.md`](docs/LIVE_Y_RL_POSTMORTEM.md).
-
-**Advantage.** Same-timestep group mean and standard deviation, so the
-surrogate sees a unit-scale signal rather than raw cost units:
-
-$$
-A_{i,t} = \frac{G_{i,t} - \mu_{g,t}}{\sigma_{g,t}},
-\qquad
-\mu_{g,t} = \frac{1}{|g|}\sum_{j \in g} G_{j,t}
-$$
-
-then clamped to $\pm 10$. A decision whose window caught a protocol failure
-skips normalization and takes a fixed $A = -5$: normalizing the raw $-10^{5}$
-against its groupmates would rescale it to roughly $-1.7$, indistinguishable
-from an ordinary bad week, while leaving it raw would let one record own the
-update.
-
-**Objective.** The ratio is per-token over the tokens that encode the order,
-not a mean over the whole completion, and the clip is double-sided so a badly
-off-policy token with a negative advantage cannot dominate a minibatch.
-For each scored token $k$ of decision $(i,t)$, with
-$r_k = \exp\big(\ell_\theta(y_k) - \ell_{\mathrm{old}}(y_k)\big)$ and
-$s_k = \min\big(r_k A_{i,t},\; \mathrm{clip}(r_k, 1-\varepsilon, 1+\varepsilon)\,A_{i,t}\big)$:
-
-$$
-\mathcal{L} = -\,\mathbb{E}_{k}\big[\tilde{s}_k\big],
-\qquad
-\tilde{s}_k =
-\begin{cases}
-\max\big(s_k,\; c\,A_{i,t}\big) & A_{i,t} < 0\\[2pt]
-s_k & A_{i,t} \ge 0
-\end{cases}
-$$
-
-with $\varepsilon = 0.2$ and dual-clip $c = 3$. Only the digits of
-`{"quantity": N}` are scored — averaging over the whole completion let seven
-boilerplate tokens outvote the one token carrying the decision.
-
-### Result
-
-| | untrained | trained |
-|---|---:|---:|
-| capacity-400 score (16 held-out seeds) | 6.73 | **20.64** |
-| mean local cost | 4264.7 | **1391.8** |
-| protocol-clean episodes | 16/16 | **16/16** |
-
-A 3.1× score improvement over the same base model, better on all four demand
-buckets including the three never trained on. Over training, mean weekly order
-in the rollouts fell from ~22.9 at update 1 to ~17.5 by the last, against an
-obligation near 16/week — the over-ordering habit that dominates cost in this
-game.
-
-Two caveats worth stating up front: this clears the best blind constant-order
-baseline (19.82) by only 0.82 points, and both training runs used the same seed
-(`20260808`), so run-to-run variance is unmeasured.
-
-Full recipe in [`docs/TRAINING.md`](docs/TRAINING.md). An earlier two-update run
-scored 7.48 — indistinguishable from the untrained base — and
-[`docs/LIVE_Y_RL_POSTMORTEM.md`](docs/LIVE_Y_RL_POSTMORTEM.md) documents why it
-could not have worked.
-
-Weights: [`artifacts/live_y_best_adapter/`](artifacts/live_y_best_adapter/).
+Full details: [`docs/TRAINING.md`](docs/TRAINING.md) ·
+[`docs/LIVE_Y_RL_POSTMORTEM.md`](docs/LIVE_Y_RL_POSTMORTEM.md) ·
+[`artifacts/live_y_best_adapter/`](artifacts/live_y_best_adapter/)
 
 ## Hyperefficient compute
 
