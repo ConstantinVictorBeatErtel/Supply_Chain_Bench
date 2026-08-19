@@ -109,7 +109,15 @@ as small-sample.
 
 **[▶ Explore the LoRA + GRPO learning loop](https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/)**
 
-[![Inside the LoRA and GRPO learning loop: a frozen base model, six matched rollouts, a six-week credit window, and a trainable low-rank adapter](static_web/public/lora-grpo/og.png)](https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/)
+<p align="center">
+  <a href="https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/">
+    <img src="static_web/public/lora-grpo/og.png" width="720" alt="GRPO compares six matched rollouts and assigns delayed credit; the resulting optimizer step updates only the LoRA adapter while the Qwen base model remains frozen">
+  </a>
+</p>
+
+*GRPO supplies the comparison and credit-assignment objective; LoRA is the
+trainable parameterization that receives those gradients while the base model
+stays frozen.*
 
 [`scripts/train_live_y_domain_randomized_grpo_v1.py`](scripts/train_live_y_domain_randomized_grpo_v1.py)
 trains a LoRA adapter on `Qwen/Qwen3.5-4B` with critic-free multi-turn
