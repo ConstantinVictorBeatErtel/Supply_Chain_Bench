@@ -50,7 +50,7 @@ as a station pair so you can watch them diverge.
 36 weeks each, factory capacity 400. The LLM prompt
 withholds the demand law and the capacity. 
 
-![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v3.png)
+![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v4.png)
 
 For reference on the same seeds: hindsight-perfect scores 100, an adaptive
 base-stock heuristic 73.9, and the best blind constant-order policy — order 18

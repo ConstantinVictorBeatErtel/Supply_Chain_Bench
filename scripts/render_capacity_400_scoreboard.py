@@ -21,7 +21,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "artifacts/live_y_capacity_400/evaluations/perfect_cost_leaderboard_capacity_400.json"
 SVG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark.svg"
-PNG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark-v3.png"
+PNG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark-v4.png"
 
 W = 1120
 TRACK_X0, TRACK_X1 = 142, 1040
