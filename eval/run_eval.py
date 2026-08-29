@@ -152,7 +152,7 @@ class OpenRouterPolicy:
             headers={
                 "Authorization": f"Bearer {key}",
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL",
+                "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/Supply_Chain_Bench",
                 "X-Title": "Beer Distribution Benchmark",
             },
             method="POST",

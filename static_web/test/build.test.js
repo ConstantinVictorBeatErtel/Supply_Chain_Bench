@@ -37,6 +37,23 @@ describe("static build", () => {
     }
   });
 
+  test("uses the canonical repository and GitHub Pages URLs", () => {
+    const read = (path) => readFileSync(resolve(ROOT, path), "utf8");
+    const publicFiles = [
+      read("README.md"),
+      read("static_web/public/lora-grpo/index.html"),
+      read("dist/cloudflare-pages/lora-grpo/index.html"),
+    ].join("\n");
+
+    expect(publicFiles).not.toContain("beer_distribution_RL");
+    expect(publicFiles).toContain(
+      "https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/lora-grpo/",
+    );
+    expect(publicFiles).toContain(
+      "https://github.com/ConstantinVictorBeatErtel/Supply_Chain_Bench",
+    );
+  });
+
   test("generates exactly the recorded comparison catalog", () => {
     const catalog = JSON.parse(readFileSync(
       resolve(PAGES, "data/llm-comparison.json"), "utf8",

@@ -173,7 +173,7 @@ class Client:
             headers={
                 "Authorization": f"Bearer {self.key}",
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL",
+                "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/Supply_Chain_Bench",
                 "X-Title": "Beer Distribution Claude Opus 5 Efficient Evaluation",
             },
             method="POST",

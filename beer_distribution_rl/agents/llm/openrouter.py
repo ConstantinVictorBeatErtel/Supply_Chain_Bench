@@ -94,7 +94,7 @@ class OpenRouterOrderDecoder:
     max_parse_retries: int = 2
     temperature: float = 0.0
     timeout_s: float = 45.0
-    site_url: str = "https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL"
+    site_url: str = "https://github.com/ConstantinVictorBeatErtel/Supply_Chain_Bench"
     site_name: str = "Beer Distribution Game"
 
     def __post_init__(self) -> None:

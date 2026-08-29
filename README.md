@@ -110,10 +110,10 @@ small-sample diagnostics.
 
 ## Qwen fine-tune (live-Y GRPO v1)
 
-**[▶ Explore the LoRA + GRPO learning loop](https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/)**
+**[▶ Explore the LoRA + GRPO learning loop](https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/lora-grpo/)**
 
 <p align="center">
-  <a href="https://constantinvictorbeatertel.github.io/beer_distribution_RL/lora-grpo/">
+  <a href="https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/lora-grpo/">
     <img src="static_web/public/lora-grpo/og.png" width="720" alt="GRPO compares six matched rollouts and assigns delayed credit; the resulting optimizer step updates only the LoRA adapter while the Qwen base model remains frozen">
   </a>
 </p>

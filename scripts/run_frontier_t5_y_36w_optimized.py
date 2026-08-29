@@ -128,7 +128,7 @@ class OptimizedClient:
         headers = {
             "Authorization": f"Bearer {self.key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/beer_distribution_RL",
+            "HTTP-Referer": "https://github.com/ConstantinVictorBeatErtel/Supply_Chain_Bench",
             "X-Title": "Beer Distribution Tier-5 Frontier Evaluation (cached)",
             "X-OpenRouter-Cache": "true",
             "X-OpenRouter-Cache-TTL": "86400",
