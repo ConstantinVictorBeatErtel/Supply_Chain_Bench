@@ -3,6 +3,7 @@ import {
 } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { replayActions, standardResearchScenario } from "../src/sim/index.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "../..");
@@ -15,97 +16,61 @@ function loadJson(relative) {
   return JSON.parse(readFileSync(resolve(ROOT, relative), "utf8"));
 }
 
-/** The run that carries a per-week rationale, recorded at the public capacity. */
-export const THOUGHT_TRACE_PATH = "artifacts/public_game_llm_thoughts/traces.json";
+/** Frozen 16-seed capacity-400 evaluation of the trained Qwen policy. */
+export const QWEN_TRACE_PATH = "results/standard/qwen3.5-4b-grpo.json";
 export const BENCHMARK_REPLAY_PATH = "static_web/public/data/benchmark-replay.json";
 
-function thoughtTraceCatalog() {
-  const artifact = loadJson(THOUGHT_TRACE_PATH);
-  const seeds = artifact.episodes.map((episode) => ({
-    id: episode.id,
-    split: episode.split,
-    seed_index: episode.seed_index,
-    master_seed_hex: episode.master_seed_hex,
-    episode_id: episode.episode_id,
-    actions: episode.actions,
-    weeks: episode.weeks.map((week) => ({
-      week: week.week,
-      quantity: week.quantity,
-      thought: week.thought,
-      demand: week.demand,
-      ending_inventory: week.ending_inventory,
-      ending_backlog: week.ending_backlog,
-    })),
-    local_total_cost: episode.local_total_cost,
-    paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
-    reward: episode.reward,
-    system_total_cost: episode.system_total_cost,
-  }));
-  if (seeds.length !== 8) throw new Error(`expected 8 playable thought traces, found ${seeds.length}`);
-  return {
-    schema_version: "1.2.0",
-    environment_version: artifact.environment_version,
-    scenario_id: artifact.scenario_id,
-    controlled_role: artifact.controlled_role,
-    capacity: artifact.capacity,
-    model: artifact.model,
-    seeds,
-  };
-}
-
 function traceCatalog() {
-  if (existsSync(resolve(ROOT, THOUGHT_TRACE_PATH))) return thoughtTraceCatalog();
-  const trainedPath = "artifacts/live_y_qwen35_4b_rl/eval_held_out.json";
-  if (existsSync(resolve(ROOT, trainedPath))) {
-    const artifact = loadJson(trainedPath);
-    const seeds = artifact.episodes.map((episode) => ({
-      id: episode.id,
-      split: episode.split,
-      seed_set: episode.seed_set,
-      seed_index: episode.seed_index,
-      master_seed_hex: episode.master_seed_hex,
-      episode_id: episode.episode_id,
-      actions: episode.actions,
-      local_total_cost: episode.local_total_cost,
-      paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
-      reward: episode.reward,
-    })).sort((left, right) => left.seed_index - right.seed_index);
-    if (seeds.length !== 10) throw new Error(`expected 10 trained-Qwen traces, found ${seeds.length}`);
+  const artifact = loadJson(QWEN_TRACE_PATH);
+  const bucketIndexes = new Map();
+  const seeds = artifact.episodes.map((episode) => {
+    const seedIndex = bucketIndexes.get(episode.bucket) || 0;
+    bucketIndexes.set(episode.bucket, seedIndex + 1);
+    if (!episode.protocol_clean || episode.actions.length !== 36) {
+      throw new Error(`trained-Qwen trace ${episode.seed} is not a clean 36-week episode`);
+    }
+    const scenario = standardResearchScenario(episode.bucket, episode.seed, seedIndex);
+    const replay = replayActions(scenario, "wholesaler", episode.actions).episode;
+    const localTotal = replay.outcome.grade.primary.local_total_cost;
+    if (localTotal !== episode.local_total_cost) {
+      throw new Error(`trained-Qwen replay ${episode.seed} drifted: ${localTotal} != ${episode.local_total_cost}`);
+    }
+    let runningCost = 0;
+    const costsOverTime = replay.histories.wholesaler.map((week) => {
+      runningCost += Number(week.local_cost);
+      return runningCost;
+    });
     return {
-      schema_version: "1.1.0",
-      environment_version: "0.2.0",
-      scenario_id: "t5-strategic-y-v2",
-      controlled_role: "wholesaler",
-      model: artifact.model,
-      evaluation_summary: artifact.summary,
-      seeds,
-    };
-  }
-  const sources = [
-    ["development", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_development/results.json"],
-    ["validation", "artifacts/hub_llm/deepseek_v4_flash/v0_2_wholesaler_y_validation_controls/results.json"],
-  ];
-  const seeds = sources.flatMap(([split, path]) => loadJson(path).episodes
-    .filter((episode) => episode.scenario_id === "t5-strategic-y-v2")
-    .map((episode) => ({
-      id: `${split}-${episode.seed_index}`,
-      split,
-      seed_index: episode.seed_index,
-      master_seed_hex: episode.master_seed_hex,
-      episode_id: episode.episode_id,
+      id: `${episode.bucket}-${seedIndex}`,
+      split: scenario.split,
+      seed_set: "supplychainbench-standard-v1",
+      seed_index: seedIndex,
+      master_seed_hex: episode.seed,
+      episode_id: replay.episodeId,
+      scenario_id: scenario.scenario_id,
+      bucket: episode.bucket,
+      scenario,
       actions: episode.actions,
-      local_total_cost: episode.local_total_cost,
-      paired_base_stock_local_total_cost: episode.paired_base_stock_local_total_cost,
-      reward: episode.reward,
-    })));
-  seeds.sort((left, right) => ({ development: 0, validation: 1 })[left.split] - ({ development: 0, validation: 1 })[right.split] || left.seed_index - right.seed_index);
-  if (seeds.length !== 8) throw new Error(`expected 8 recorded fallback traces, found ${seeds.length}`);
+      costs_over_time: costsOverTime,
+      local_total_cost: localTotal,
+      paired_base_stock_local_total_cost: replay.outcome.grade.primary.paired_base_stock_local_total_cost,
+      reward: replay.outcome.grade.episode_reward,
+      benchmark_reference_cost: episode.reference_cost,
+      benchmark_score: episode.score,
+      system_total_cost: replay.outcome.grade.costs.system_total_cost,
+    };
+  });
+  if (seeds.length !== 16) throw new Error(`expected 16 trained-Qwen traces, found ${seeds.length}`);
   return {
-    schema_version: "1.0.0",
-    environment_version: "0.2.0",
-    scenario_id: "t5-strategic-y-v2",
+    schema_version: "2.0.0",
+    environment_version: "live-y-domain-randomized-grpo-v1",
+    scenario_id: "supplychainbench-standard-v1",
     controlled_role: "wholesaler",
-    model: "Recorded LLM",
+    capacity: 400,
+    model: artifact.model.identifier,
+    model_label: artifact.model.label,
+    adapter: artifact.configuration.adapter,
+    evaluation_summary: artifact.aggregate,
     seeds,
   };
 }

@@ -8,6 +8,13 @@ export const PLAYABLE_SEEDS = [
   ...Array.from({ length: 5 }, (_, seedIndex) => ({ split: "validation", seedIndex })),
 ];
 
+export const STANDARD_RESEARCH_BUCKETS = {
+  in_distribution: "episode_randomized_y_poisson_v1",
+  canonical_held_out_step: "canonical_y_step_4_to_8_v1",
+  shifted_mean_doubled_variance: "overdispersed_y_nb_mean10_var20_v1",
+  burst_and_collapse: "burst_collapse_y_poisson_v1",
+};
+
 function assertSplit(split, seedIndex) {
   if (!(split in SPLIT_SIZES)) throw new RangeError(`unknown split ${split}`);
   if (!Number.isInteger(seedIndex) || seedIndex < 0 || seedIndex >= SPLIT_SIZES[split]) {
@@ -117,11 +124,52 @@ export function scenarioFor(tier, split, seedIndex, variant = "headline") {
   };
 }
 
+export function standardResearchScenario(bucket, seedHex, seedIndex) {
+  const demandProcess = STANDARD_RESEARCH_BUCKETS[bucket];
+  if (!demandProcess) throw new RangeError(`unknown standard research bucket '${bucket}'`);
+  if (!/^[0-9a-f]{16}$/.test(seedHex)) throw new RangeError("research seed must be 16 lowercase hex characters");
+  if (!Number.isInteger(seedIndex) || seedIndex < 0 || seedIndex > 3) {
+    throw new RangeError("research seed index must be in 0..3");
+  }
+  return {
+    schema_version: "1.0.0",
+    environment_version: "live-y-domain-randomized-grpo-v1",
+    scenario_id: `live-y-domain-randomized-grpo-v1:${bucket}`,
+    tier: 5,
+    variant: "headline",
+    split: `research_${bucket}`,
+    seed_index: seedIndex,
+    master_seed_hex: seedHex,
+    horizon: 36,
+    order_delay: 1,
+    shipment_delay: 2,
+    order_cap: 128,
+    holding_cost: 0.5,
+    backlog_cost: 1.0,
+    initial_inventory: 12,
+    initial_shipment_pipeline: 4,
+    initial_order_pipeline: 4,
+    history_window: 8,
+    topology: "y",
+    roles: [...Y_ROLES],
+    observation_mode: "aggregate_supply_line",
+    demand_process: demandProcess,
+    demand_parameters: demandProcess === "episode_randomized_y_poisson_v1"
+      ? { lambda_low: 2, lambda_high: 8, demand_seed: seedHex }
+      : { process_id: demandProcess },
+    capacity: 400,
+    rationing: "proportional",
+    counterparty_policy: "adaptive_base_stock_v2",
+    aggressive_retailers: true,
+  };
+}
+
 // Python's json module retains .0 for values created as floats. These paths are
 // the only integral floats in ScenarioSpec and therefore affect episode_id.
 const FLOAT_PATHS = new Set([
   "backlog_cost", "holding_cost",
   "demand_parameters.common0", "demand_parameters.mu",
+  "demand_parameters.lambda_high", "demand_parameters.lambda_low",
   "demand_parameters.mu_after", "demand_parameters.mu_before",
   "demand_parameters.phi", "demand_parameters.sigma",
   "demand_parameters.sigma_common", "demand_parameters.sigma_idiosyncratic",

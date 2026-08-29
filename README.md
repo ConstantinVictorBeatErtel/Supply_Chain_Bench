@@ -27,7 +27,9 @@ carrying short notes between games, and updating model weights. Their scores
 stay separate so unlike tests are not compared directly.
 
 The browser replay shows a simple baseline, the untrained model, and the trained
-model facing the same supply chain.
+model facing the same supply chain. In the playable game, the human is compared
+directly with the trained Qwen3.5-4B GRPO policy on one of its 16 frozen,
+protocol-clean capacity-400 benchmark traces.
 
 The chain is a Y: one wholesaler splitting a single inventory pool between
 two retailers who compete for it.
@@ -40,10 +42,10 @@ flowchart LR
   style WH fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-You and the recorded model each play that one wholesaler seat in your own sealed
+You and the trained Qwen policy each play that one wholesaler seat in your own sealed
 episode, on the same seed against the same scripted counterparties — two runs of
-the same chain, not two live seats in one chain. The playable board shows both
-as a station pair so you can watch them diverge.
+the same chain, not two live seats in one chain. The end screen compares total
+cost, cumulative operational cost week by week, and orders on that exact trace.
 
 ## Technical benchmark details
 

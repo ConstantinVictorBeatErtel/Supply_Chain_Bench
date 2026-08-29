@@ -11,7 +11,18 @@ from beer_distribution_game.scenario import scenario_for
 
 
 def run_case(case: dict) -> dict:
-    spec = scenario_for(5, case["split"], int(case["seed_index"]))
+    if case.get("research_bucket"):
+        from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment import (
+            research_spec,
+        )
+
+        spec = research_spec(
+            case["seed"],
+            bucket=case["research_bucket"],
+            index=int(case["seed_index"]),
+        )
+    else:
+        spec = scenario_for(5, case["split"], int(case["seed_index"]))
     if case.get("capacity") is not None:
         # Public play raises Tier-5 capacity above the research value.
         spec = dataclasses.replace(spec, capacity=int(case["capacity"]))

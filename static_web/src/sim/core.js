@@ -1,5 +1,8 @@
 import { deepCopy, pythonRound, stableStringify } from "./canonical.js";
 import { PythonRandom } from "./python_random.js";
+import {
+  negativeBinomialR10P05, researchDigest, researchPoisson, researchUniform,
+} from "./research_random.js";
 import { deriveSeed } from "./scenario.js";
 
 export function topology(spec) {
@@ -36,6 +39,18 @@ export class DemandGenerator {
     const params = spec.demand_parameters;
     this.x = Number(params.x0 || params.mu || params.mu_before || 0);
     this.common = Number(params.common0 || 0);
+    this.researchLambda = null;
+    this.burstStart = null;
+    if (spec.demand_process === "episode_randomized_y_poisson_v1") {
+      const demandSeed = String(params.demand_seed || spec.master_seed_hex);
+      this.researchLambda = Number(params.lambda_low ?? 2)
+        + (Number(params.lambda_high ?? 8) - Number(params.lambda_low ?? 2))
+          * researchUniform(demandSeed, "episode/lambda");
+    }
+    if (spec.demand_process === "burst_collapse_y_poisson_v1") {
+      const digest = researchDigest(spec.master_seed_hex, "burst-window");
+      this.burstStart = 8 + ((digest[0] << 8) | digest[1]) % 9;
+    }
   }
 
   sample(week, customers) {
@@ -60,6 +75,46 @@ export class DemandGenerator {
           + this.rng.gauss(0, Number(params.sigma_idiosyncratic)),
         )),
       ]));
+    }
+    if (process === "episode_randomized_y_poisson_v1") {
+      const demandSeed = String(params.demand_seed || this.spec.master_seed_hex);
+      return Object.fromEntries(customers.map((role) => [
+        role,
+        researchPoisson(
+          demandSeed,
+          `customer-demand/week-${week}/${role}`,
+          this.researchLambda,
+        ),
+      ]));
+    }
+    if (process === "canonical_y_step_4_to_8_v1") {
+      return Object.fromEntries(customers.map((role) => [role, week < 5 ? 4 : 8]));
+    }
+    if (process === "overdispersed_y_nb_mean10_var20_v1") {
+      return Object.fromEntries(customers.map((role, roleIndex) => [
+        role,
+        negativeBinomialR10P05(
+          this.spec.master_seed_hex,
+          `${process}/week-${week}/${role}`,
+          roleIndex,
+        ),
+      ]));
+    }
+    if (process === "burst_collapse_y_poisson_v1") {
+      return Object.fromEntries(customers.map((role, roleIndex) => {
+        const burst = this.burstStart <= week && week < this.burstStart + 4;
+        const collapse = this.burstStart + 4 <= week && week < this.burstStart + 8;
+        const rate = burst ? 12 : collapse ? 1 : 4;
+        return [
+          role,
+          researchPoisson(
+            this.spec.master_seed_hex,
+            `${process}/week-${week}/${role}`,
+            rate,
+            roleIndex,
+          ),
+        ];
+      }));
     }
     throw new RangeError(`unsupported demand process '${process}'`);
   }

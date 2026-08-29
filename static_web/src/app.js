@@ -61,6 +61,9 @@ function n1(value) {
 }
 
 function scenarioForTrace(trace) {
+  if (trace?.scenario && typeof trace.scenario === "object") {
+    return structuredClone(trace.scenario);
+  }
   const split = trace.seed_set === "live_y_research_eval" ? "test" : trace.split;
   const spec = scenarioFor(TIER, split, trace.seed_index);
   if (trace.seed_set === "live_y_research_eval") spec.split = "research_eval";
@@ -201,7 +204,7 @@ function chainHtml({ briefing = false } = {}) {
       ? "<p>The same seat, same seed, played in a sealed parallel episode.</p>"
       : inventoryMeter({ visible: false });
     return `<div class="chain-pair chain-${node}">${playerCard}
-      <div class="chain-card companion"><span class="chain-tag">RECORDED MODEL</span>${buildingSvg(node)}<strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
+      <div class="chain-card companion"><span class="chain-tag">TRAINED QWEN</span>${buildingSvg(node)}<strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
   });
   return `<div class="chain-board" aria-label="Five-node Y supply chain">
     <div class="orders-rail">${ordersRailSvg()}<span class="rail-label">Orders</span></div>
@@ -219,7 +222,7 @@ function briefingHtml() {
     <div class="hero">
       <h1 id="briefing-title">You hold one seat in a five-node supply chain.</h1>
       <p>Every week you see your own inventory, your own backlog, and the order that arrived from downstream. Nothing else. You place one order upstream and it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
-      <p>A language model plays the same seat, on the same seed, against the same counterparties, in a separate sealed episode. Neither of you sees the other until week 36.</p>
+      <p>The trained Qwen3.5-4B GRPO policy plays the same seat, on the same benchmark seed, against the same counterparties, in a separate sealed episode. Neither of you sees the other until week 36.</p>
     </div>
     <p class="section-label seat-label">Choose your seat</p>
     ${chainHtml({ briefing: true })}
@@ -453,11 +456,13 @@ function debriefHtml() {
   const humanCost = grade.primary.local_total_cost;
   const baseCost = grade.primary.paired_base_stock_local_total_cost;
   let modelCost = null;
+  let modelEpisode = null;
   if (active.role === "wholesaler" && active.trace) {
     const replay = replayActions(publicScenario(scenarioForTrace(active.seed)), active.role, active.trace.actions).episode;
+    modelEpisode = replay;
     modelCost = replay.outcome.grade.primary.local_total_cost;
   }
-  const lead = modelCost === null ? "Your 36-week episode is complete." : humanCost <= modelCost ? "You beat the recorded model." : "The recorded model finished lower.";
+  const lead = modelCost === null ? "Your 36-week episode is complete." : humanCost <= modelCost ? "You beat trained Qwen." : "Trained Qwen finished lower.";
   const rows = ROLES.map((role) => {
     const history = active.episode.histories[role];
     const orders = history.map((row) => row.order_placed);
@@ -469,14 +474,30 @@ function debriefHtml() {
   const demand = active.episode.histories[active.role].map((row) => row.incoming_demand_or_order);
   const comparison = modelCost === null ? [] : active.trace.actions;
   const max = Math.max(8, ...yours, ...demand, ...comparison);
+  const cumulativeCosts = (history) => {
+    let running = 0;
+    return history.map((row) => {
+      running += Number(row.local_cost);
+      return running;
+    });
+  };
+  const humanCosts = cumulativeCosts(active.episode.histories[active.role]);
+  const modelCosts = Array.isArray(active.trace?.costs_over_time)
+    ? active.trace.costs_over_time
+    : modelEpisode ? cumulativeCosts(modelEpisode.histories[active.role]) : [];
+  const costMax = Math.max(1, ...humanCosts, ...modelCosts);
+  const headToHeadScore = modelCost === null
+    ? null
+    : humanCost + modelCost > 0 ? 100 * modelCost / (humanCost + modelCost) : 50;
   return `<section class="debrief" aria-labelledby="debrief-title">
     <div class="hero"><h1 id="debrief-title">${lead}</h1><p>Totals include the 36 operational weeks, deterministic settlement, and terminal inventory-position exposure.</p></div>
     <div class="final-cards">
-      <article><span>YOUR COST</span><strong>${n1(humanCost)}</strong><p>Local total cost at ${ROLE_LABEL[active.role]}.</p></article>
-      <article><span>${modelCost === null ? "REFERENCE COST" : "RECORDED MODEL"}</span><strong>${n1(modelCost ?? baseCost)}</strong><p>${modelCost === null ? "Adaptive base-stock comparison." : "Same seat and same deterministic seed."}</p></article>
-      <article><span>BASE-STOCK</span><strong>${n1(baseCost)}</strong><p>Adaptive policy reference · score ${(grade.episode_reward * 100).toFixed(1)}.</p></article>
+      <article><span>YOUR COST</span><strong>${n1(humanCost)}</strong><p>Local total cost at ${ROLE_LABEL[active.role]}. Adaptive base-stock cost: ${n1(baseCost)}.</p></article>
+      <article><span>${modelCost === null ? "REFERENCE COST" : "TRAINED QWEN"}</span><strong>${n1(modelCost ?? baseCost)}</strong><p>${modelCost === null ? "Adaptive base-stock comparison." : "Qwen3.5-4B GRPO on your exact benchmark seed."}</p></article>
+      <article><span>HEAD-TO-HEAD SCORE</span><strong>${headToHeadScore === null ? "—" : headToHeadScore.toFixed(1)}</strong><p>50 is a tie. Higher means you finished with lower cost than trained Qwen.</p></article>
     </div>
-    ${graphHtml("Orders placed · fog lifted", [{ text: "You", className: "light" }, { text: modelCost === null ? "Reference unavailable" : "Recorded model", className: "blue" }, { text: "Demand", className: "muted" }], [{ values: demand, className: "muted" }, { values: comparison, className: "blue" }, { values: yours, className: "light" }], max)}
+    ${graphHtml("Cumulative local cost · operational weeks", [{ text: "You", className: "light" }, { text: modelCost === null ? "Qwen unavailable" : "Trained Qwen", className: "blue" }], [{ values: humanCosts, className: "light" }, { values: modelCosts, className: "blue" }], costMax)}
+    ${graphHtml("Orders placed · fog lifted", [{ text: "You", className: "light" }, { text: modelCost === null ? "Qwen unavailable" : "Trained Qwen", className: "blue" }, { text: "Demand", className: "muted" }], [{ values: demand, className: "muted" }, { values: comparison, className: "blue" }, { values: yours, className: "light" }], max)}
     <section class="chain-table"><p class="section-label">Full chain · your episode</p><div class="chain-row heading"><span>Node</span><span>Mean order</span><span>Peak order</span><span>Order/demand variance</span><span>Operational cost</span></div>${rows}</section>
     ${thoughtsHtml()}
     <div class="start-row"><button id="new-game" class="primary-button" type="button">Play again</button></div>
@@ -487,7 +508,8 @@ function recordFor(status) {
   const completed = status === "completed";
   const grade = completed ? active.episode.outcome.grade : null;
   return {
-    session_uuid: active.sessionUuid, timestamp: active.timestamp, env_version: "0.2.0",
+    session_uuid: active.sessionUuid, timestamp: active.timestamp,
+    env_version: active.episode.spec.environment_version,
     tier: TIER, role: active.role, split: active.episode.spec.split,
     seed_index: active.seed.seed_index, seed: active.episode.spec.master_seed_hex,
     scenario_id: active.episode.spec.scenario_id, variant: VARIANT, status, completed,
@@ -588,7 +610,7 @@ async function loadCatalog() {
   const response = await fetch("./data/llm-comparison.json", { cache: "no-cache" });
   if (!response.ok) throw new Error(`trace catalog returned ${response.status}`);
   const payload = await response.json();
-  if (!Array.isArray(payload.seeds) || ![8, 10].includes(payload.seeds.length)) throw new Error("trace catalog must contain replayable model traces");
+  if (!Array.isArray(payload.seeds) || payload.seeds.length !== 16) throw new Error("trace catalog must contain all 16 trained-Qwen benchmark traces");
   return payload;
 }
 

@@ -3,7 +3,6 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
-import { traceArtifact } from "./helpers.js";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const PAGES = resolve(ROOT, "dist/cloudflare-pages");
@@ -58,37 +57,39 @@ describe("static build", () => {
     const catalog = JSON.parse(readFileSync(
       resolve(PAGES, "data/llm-comparison.json"), "utf8",
     ));
-    const artifact = traceArtifact();
-    expect(catalog.environment_version).toBe("0.2.0");
-    expect(catalog.scenario_id).toBe("t5-strategic-y-v2");
+    const artifact = JSON.parse(readFileSync(
+      resolve(ROOT, "results/standard/qwen3.5-4b-grpo.json"), "utf8",
+    ));
+    expect(catalog.environment_version).toBe("live-y-domain-randomized-grpo-v1");
+    expect(catalog.scenario_id).toBe("supplychainbench-standard-v1");
     expect(catalog.controlled_role).toBe("wholesaler");
     expect(catalog.capacity).toBe(400);
-    expect(catalog.model).toBe(artifact.model);
-    expect(catalog.seeds).toHaveLength(8);
+    expect(catalog.model).toBe("hf:Qwen/Qwen3.5-4B");
+    expect(catalog.model_label).toBe("Qwen3.5-4B GRPO");
+    expect(catalog.seeds).toHaveLength(16);
 
     for (const row of catalog.seeds) {
       const recorded = artifact.episodes.find(
-        (candidate) => candidate.split === row.split && candidate.seed_index === row.seed_index,
+        (candidate) => candidate.seed === row.master_seed_hex,
       );
-      expect(recorded).toMatchObject({ ...row, weeks: expect.anything() });
-      expect(row.weeks.map((week) => week.thought))
-        .toEqual(recorded.weeks.map((week) => week.thought));
+      expect(recorded).toBeTruthy();
+      expect(row.actions).toEqual(recorded.actions);
+      expect(row.local_total_cost).toBe(recorded.local_total_cost);
+      expect(row.scenario.capacity).toBe(400);
+      expect(row.scenario.master_seed_hex).toBe(recorded.seed);
     }
   });
 
-  test("ships the model's week-by-week notes to the client", () => {
+  test("ships the trained Qwen cost trace for every benchmark episode", () => {
     const catalog = JSON.parse(readFileSync(
       resolve(PAGES, "data/llm-comparison.json"), "utf8",
     ));
     for (const seed of catalog.seeds) {
-      expect(seed.weeks).toHaveLength(36);
-      for (const week of seed.weeks) {
-        expect(Object.keys(week).sort()).toEqual([
-          "demand", "ending_backlog", "ending_inventory", "quantity", "thought", "week",
-        ]);
-      }
-      // A tracker with nothing to show would be worse than no tracker.
-      expect(seed.weeks.filter((week) => week.thought.trim()).length).toBeGreaterThan(30);
+      expect(seed.actions).toHaveLength(36);
+      expect(seed.costs_over_time).toHaveLength(36);
+      expect(seed.costs_over_time.every((cost, index, all) => (
+        Number.isFinite(cost) && (index === 0 || cost >= all[index - 1])
+      ))).toBe(true);
     }
   });
 
@@ -121,5 +122,7 @@ describe("static build", () => {
     expect(app).toContain("graphHtml");
     expect(app).toContain('graphHtml("Stock"');
     expect(app).toContain('graphHtml("Flow"');
+    expect(app).toContain('graphHtml("Cumulative local cost · operational weeks"');
+    expect(app).toContain("Trained Qwen");
   });
 });

@@ -7,10 +7,15 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 export const ROOT = resolve(HERE, "../..");
 
 export const THOUGHT_TRACE_PATH = "artifacts/public_game_llm_thoughts/traces.json";
+export const QWEN_TRACE_PATH = "results/standard/qwen3.5-4b-grpo.json";
 
 /** The recorded comparison run: actions plus the model's own week-by-week notes. */
 export function traceArtifact() {
   return JSON.parse(readFileSync(resolve(ROOT, THOUGHT_TRACE_PATH), "utf8"));
+}
+
+export function qwenTraceArtifact() {
+  return JSON.parse(readFileSync(resolve(ROOT, QWEN_TRACE_PATH), "utf8"));
 }
 
 export function artifactRows() {

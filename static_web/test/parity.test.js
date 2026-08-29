@@ -1,12 +1,16 @@
 import { describe, expect, test } from "vitest";
 import {
   BeerEpisode, PythonRandom, episodeId, masterSeedHex, replayActions,
-  scenarioFor, stableStringify,
+  scenarioFor, stableStringify, standardResearchScenario,
 } from "../src/sim/index.js";
-import { artifactRows, pythonOracle, traceArtifact } from "./helpers.js";
+import {
+  artifactRows, pythonOracle, qwenTraceArtifact, traceArtifact,
+} from "./helpers.js";
 
 function jsResult(caseRow) {
-  const base = scenarioFor(5, caseRow.split, caseRow.seed_index);
+  const base = caseRow.research_bucket
+    ? standardResearchScenario(caseRow.research_bucket, caseRow.seed, caseRow.seed_index)
+    : scenarioFor(5, caseRow.split, caseRow.seed_index);
   const spec = caseRow.capacity === undefined ? base : { ...base, capacity: caseRow.capacity };
   const { episode, observations } = replayActions(
     spec, "wholesaler", caseRow.actions,
@@ -54,6 +58,23 @@ describe("Python/JavaScript parity", () => {
         actions: Array.from({ length: 36 }, (_, week) => (week * 17 + rowIndex * 11) % 129),
       },
     ]);
+    const expected = pythonOracle(cases);
+    const actual = cases.map(jsResult);
+    expect(actual).toEqual(expected);
+  });
+
+  test("all 16 trained-Qwen traces match the Python research environment", () => {
+    const bucketIndexes = new Map();
+    const cases = qwenTraceArtifact().episodes.map((row) => {
+      const seedIndex = bucketIndexes.get(row.bucket) || 0;
+      bucketIndexes.set(row.bucket, seedIndex + 1);
+      return {
+        research_bucket: row.bucket,
+        seed: row.seed,
+        seed_index: seedIndex,
+        actions: row.actions,
+      };
+    });
     const expected = pythonOracle(cases);
     const actual = cases.map(jsResult);
     expect(actual).toEqual(expected);
