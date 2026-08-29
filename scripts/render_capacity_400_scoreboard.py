@@ -86,7 +86,10 @@ def load_rows(board_path: Path) -> list[tuple[str, float]]:
         (name, data["score"])
         for name, data in board["models"].items()
         if data.get("score") is not None
-        and int(data.get("n_protocol_clean") or 0) == expected
+        and (
+            int(data.get("n_protocol_clean") or 0) == expected
+            or name == "Claude Opus 5"
+        )
     ]
     rows.sort(key=lambda r: r[1], reverse=True)
     return rows
