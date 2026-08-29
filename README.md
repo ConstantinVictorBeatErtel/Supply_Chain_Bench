@@ -99,10 +99,14 @@ $$
      {\frac{1}{|S|}\sum_{s \in S} C^{\mathrm{policy}}_{s}}
 $$
 
-For every model that finished all 16 the numerator is the 287.22 above; the two
-free models did not, so their references are re-based (Laguna 7/16 clean,
-$\overline{C^{\star}} = 362.36$; Nemotron 2/16, $352.75$). Read those two bars
-as small-sample.
+For every model that finished all 16 the numerator is the 287.22 above. The
+latest fully clean API runs score 43.61 for GPT-5.6 Sol and 42.09 for Grok 4.6.
+Runs with any protocol failure are diagnostic and remain unranked on the
+canonical board: Claude Opus 5 completed 15/16 clean (diagnostic score 51.28),
+the DeepSeek V4 Flash 0731 rerun completed 11/16 (7.28), and Muse Spark 1.2
+completed 0/16 (no score). The previously published fully clean DeepSeek run
+remains ranked at 7.12. Laguna (7/16 clean) and Nemotron (2/16) are likewise
+small-sample diagnostics.
 
 ## Qwen fine-tune (live-Y GRPO v1)
 

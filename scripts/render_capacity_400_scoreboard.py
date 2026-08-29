@@ -81,10 +81,12 @@ def hgrad(draw: ImageDraw.ImageDraw, box, c0: str, c1: str, scale: int) -> None:
 
 def load_rows(board_path: Path) -> list[tuple[str, float]]:
     board = json.loads(board_path.read_text())
+    expected = int(board["n_seeds"])
     rows = [
         (name, data["score"])
         for name, data in board["models"].items()
         if data.get("score") is not None
+        and int(data.get("n_protocol_clean") or 0) == expected
     ]
     rows.sort(key=lambda r: r[1], reverse=True)
     return rows

@@ -85,9 +85,18 @@ def main() -> None:
 
     sources = [
         ("GPT-5.6 Luna", "openai_gpt-5.6-luna", "openrouter_openai_gpt-5.6-luna.json"),
+        ("GPT-5.6 Sol", "openai_gpt-5.6-sol", "openrouter_openai_gpt-5.6-sol.json"),
         ("Grok 4.5", "x-ai_grok-4.5", "openrouter_x-ai_grok-4.5.json"),
+        ("Grok 4.6", "x-ai_grok-4.6", "openrouter_x-ai_grok-4.6.json"),
+        ("Claude Opus 5", "anthropic_claude-opus-5", "openrouter_anthropic_claude-opus-5.json"),
+        ("Muse Spark 1.2", "meta_muse-spark-1.2", "openrouter_meta_muse-spark-1.2.json"),
         ("Laguna S 2.1 (free)", "poolside_laguna-s-2.1_free", "openrouter_poolside_laguna-s-2.1_free.json"),
         ("DeepSeek V4 Flash", "deepseek_deepseek-v4-flash-0731", "openrouter_deepseek_deepseek-v4-flash-0731.json"),
+        (
+            "DeepSeek V4 Flash 0731 (rerun)",
+            "deepseek_deepseek-v4-flash-0731_rerun-20260829",
+            "openrouter_deepseek_deepseek-v4-flash-0731_rerun-20260829.json",
+        ),
         ("Nemotron 3 Ultra (free)", "nvidia_nemotron-3-ultra-550b-a55b_free", "openrouter_nvidia_nemotron-3-ultra-550b-a55b_free.json"),
         ("Qwen3.5-4B (untrained)", "untrained_qwen_capacity_400", "untrained_qwen_capacity_400.json"),
         # The board tracks the current adapter.  The superseded two-update run

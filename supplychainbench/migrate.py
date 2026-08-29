@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 import subprocess
 
-from supplychainbench.eval import ROOT, _standard_references
+from supplychainbench.eval import ROOT, _git_commit, _standard_references
 from supplychainbench.providers import model_slug
-from supplychainbench.results import METRIC_DEFINITIONS, aggregate_episode_rows, validate_result, write_atomic
+from supplychainbench.results import METRIC_DEFINITIONS, aggregate_episode_rows, now_utc, validate_result, write_atomic
 from supplychainbench.suites import DEFINITIONS, expected_seeds
 
 SOURCE_DIR = ROOT / "artifacts/live_y_capacity_400/evaluations"
@@ -19,7 +19,12 @@ MIGRATIONS = (
     ("trained_qwen_grpo_capacity_400.json", "hf:Qwen/Qwen3.5-4B", "Qwen3.5-4B GRPO (two-update, superseded)", "artifacts/live_y_best_adapter_u15", "superseded"),
     ("openrouter_openai_gpt-5.6-luna.json", "openrouter:openai/gpt-5.6-luna", "GPT-5.6 Luna", None, "active"),
     ("openrouter_x-ai_grok-4.5.json", "openrouter:x-ai/grok-4.5", "Grok 4.5", None, "active"),
+    ("openrouter_x-ai_grok-4.6.json", "openrouter:x-ai/grok-4.6", "Grok 4.6", None, "active"),
+    ("openrouter_anthropic_claude-opus-5.json", "openrouter:anthropic/claude-opus-5", "Claude Opus 5", None, "active"),
+    ("openrouter_openai_gpt-5.6-sol.json", "openrouter:openai/gpt-5.6-sol", "GPT-5.6 Sol", None, "active"),
+    ("openrouter_meta_muse-spark-1.2.json", "openrouter:meta/muse-spark-1.2", "Muse Spark 1.2", None, "active"),
     ("openrouter_deepseek_deepseek-v4-flash-0731.json", "openrouter:deepseek/deepseek-v4-flash-0731", "DeepSeek V4 Flash", None, "active"),
+    ("openrouter_deepseek_deepseek-v4-flash-0731_rerun-20260829.json", "openrouter:deepseek/deepseek-v4-flash-0731", "DeepSeek V4 Flash 0731 (2026-08-29 rerun)", None, "active"),
     ("openrouter_poolside_laguna-s-2.1_free.json", "openrouter:poolside/laguna-s-2.1:free", "Laguna S 2.1 (free)", None, "active"),
     ("openrouter_nvidia_nemotron-3-ultra-550b-a55b_free.json", "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free", "Nemotron 3 Ultra (free)", None, "active"),
 )
@@ -52,6 +57,8 @@ def migrate_one(source: Path, model_id: str, label: str, adapter: str | None, pu
         })
     aggregate = aggregate_episode_rows(rows)
     commit, timestamp = _commit_time(source)
+    commit = commit or _git_commit()
+    timestamp = timestamp or source_payload.get("timestamp") or now_utc()
     payload = {
         "schema_version": "1.0.0",
         "benchmark": {"id": "supplychainbench", "version": "1.0.0", "environment": "beer-distribution"},
@@ -61,7 +68,7 @@ def migrate_one(source: Path, model_id: str, label: str, adapter: str | None, pu
         "protocol_clean_seeds": list(aggregate.get("protocol_clean_seeds", [])),
         "failures": [row for row in rows if not row.get("protocol_clean")],
         "metric_definitions": METRIC_DEFINITIONS,
-        "run": {"status": "complete", "timestamp": timestamp or source_payload.get("timestamp") or "unknown", "git_commit": commit, "run_kind": "migrated"},
+        "run": {"status": "complete", "timestamp": timestamp, "git_commit": commit, "run_kind": "migrated"},
         "configuration": {"adapter": adapter, "legacy_model": source_payload.get("model"), "legacy_model_name": source_payload.get("model_name"), "reference": "frozen_feasible_hindsight"},
         "provenance": {"legacy": True, "source_path": str(source.relative_to(ROOT)), "source_git_commit": commit, "source_commit_timestamp": timestamp, "publication_status": publication_status},
     }

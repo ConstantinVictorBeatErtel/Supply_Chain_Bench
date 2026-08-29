@@ -1,0 +1,1677 @@
+{
+  "cache": {
+    "openrouter_cache_headers": true,
+    "session_id_per_episode": true,
+    "system_cache_control": {
+      "ttl": "1h",
+      "type": "ephemeral"
+    }
+  },
+  "client_totals": {
+    "cached_tokens": 9735,
+    "completion_tokens": 73366,
+    "prompt_tokens": 92518,
+    "spent_usd": 0.4167445000000002
+  },
+  "decoding": {
+    "max_completion_tokens": 768,
+    "reasoning_effort": "minimal",
+    "temperature": 0.7,
+    "top_p": 0.95
+  },
+  "evaluation_kind": "fixed research evaluation",
+  "model": "meta_muse-spark-1.2",
+  "model_id": "meta/muse-spark-1.2",
+  "prompt": "research_observation_user_message",
+  "rows": [
+    {
+      "actions": [
+        8,
+        20,
+        36,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 7,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 354,
+      "completed_weeks": 6,
+      "completion_tokens": 2819,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 14,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 7
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 3758,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        ""
+      ],
+      "score": null,
+      "seed": "3385fc1772a83c0f",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01628885
+    },
+    {
+      "actions": [
+        8,
+        24
+      ],
+      "attempted_actions": 3,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 531,
+      "completed_weeks": 2,
+      "completion_tokens": 1536,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 9,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 3
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 281.5,
+      "prompt_tokens": 1352,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        ""
+      ],
+      "score": null,
+      "seed": "6004dde3fcee7f67",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.007633900000000001
+    },
+    {
+      "actions": [
+        8,
+        32,
+        32,
+        24,
+        20,
+        16,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        18,
+        18,
+        22,
+        22,
+        16,
+        16,
+        16,
+        12,
+        8,
+        4
+      ],
+      "attempted_actions": 24,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1770,
+      "completed_weeks": 23,
+      "completion_tokens": 11586,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 13,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 9
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 10,
+            "week": 14
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 16
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 17
+          },
+          {
+            "retailer_a": 2,
+            "retailer_b": 0,
+            "week": 18
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 0,
+            "week": 19
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 2,
+            "week": 20
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 21
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 24
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 206.0,
+      "prompt_tokens": 16307,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 18}",
+        "{\"quantity\": 18}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 8}",
+        "{\"quantity\": 4}",
+        ""
+      ],
+      "score": null,
+      "seed": "b7c3c42c06605a25",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.06767725000000001
+    },
+    {
+      "actions": [
+        8,
+        28,
+        30,
+        32,
+        16,
+        30,
+        16,
+        0,
+        24,
+        10,
+        16,
+        16,
+        16,
+        18,
+        38,
+        0
+      ],
+      "attempted_actions": 17,
+      "bucket": "burst_and_collapse",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1947,
+      "completed_weeks": 16,
+      "completion_tokens": 8809,
+      "demand": {
+        "burst_length": 4,
+        "burst_start": 11,
+        "process_id": "burst_collapse_y_poisson_v1",
+        "trace": [
+          {
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "retailer_a": 7,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 7
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 11,
+            "week": 8
+          },
+          {
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 10
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 11,
+            "week": 11
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 15,
+            "week": 12
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 16,
+            "week": 13
+          },
+          {
+            "retailer_a": 17,
+            "retailer_b": 12,
+            "week": 14
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 16
+          },
+          {
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 17
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 321.5,
+      "prompt_tokens": 11069,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 10}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 18}",
+        "{\"quantity\": 38}",
+        "{\"quantity\": 0}",
+        ""
+      ],
+      "score": null,
+      "seed": "f0cd8b5418cd1e55",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.04913279999999999
+    },
+    {
+      "actions": [
+        8,
+        20,
+        36,
+        24
+      ],
+      "attempted_actions": 5,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 354,
+      "completed_weeks": 4,
+      "completion_tokens": 2716,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 2479,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 24}",
+        ""
+      ],
+      "score": null,
+      "seed": "0fa94b60e8eb54e2",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01425235
+    },
+    {
+      "actions": [
+        8,
+        20,
+        36,
+        32,
+        16,
+        16
+      ],
+      "attempted_actions": 7,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 6,
+      "completion_tokens": 4003,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 3758,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        ""
+      ],
+      "score": null,
+      "seed": "2b5eae5b998e4f1d",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.021710249999999997
+    },
+    {
+      "actions": [
+        8,
+        20,
+        32,
+        20
+      ],
+      "attempted_actions": 5,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 4,
+      "completion_tokens": 2345,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 2464,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 20}",
+        ""
+      ],
+      "score": null,
+      "seed": "6ad00ac691773fce",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01304625
+    },
+    {
+      "actions": [
+        8,
+        20,
+        36,
+        16,
+        32,
+        16
+      ],
+      "attempted_actions": 7,
+      "bucket": "canonical_held_out_step",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 6,
+      "completion_tokens": 3048,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "canonical_y_step_4_to_8_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 7
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 3716,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\":16}",
+        ""
+      ],
+      "score": null,
+      "seed": "722ad6103d9490ad",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.017599
+    },
+    {
+      "actions": [
+        8,
+        36,
+        39,
+        20,
+        20,
+        28,
+        16,
+        18,
+        16,
+        0,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 26,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1593,
+      "completed_weeks": 25,
+      "completion_tokens": 11642,
+      "demand": {
+        "demand_seed": "1e594a5f4f13c914",
+        "lambda": 6.967595256762656,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 3
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 15,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 8
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 2,
+            "retailer_b": 9,
+            "week": 9
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 10
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 5,
+            "retailer_b": 8,
+            "week": 11
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 12,
+            "week": 13
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 14
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 6,
+            "week": 15
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 16
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 17
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 11,
+            "week": 18
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 12,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 10,
+            "retailer_b": 8,
+            "week": 20
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 3,
+            "retailer_b": 9,
+            "week": 21
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 22
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 13,
+            "retailer_b": 7,
+            "week": 23
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 4,
+            "retailer_b": 10,
+            "week": 25
+          },
+          {
+            "lambda": 6.967595256762656,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 26
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 245.0,
+      "prompt_tokens": 17659,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 39}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 18}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\":16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\":16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        ""
+      ],
+      "score": null,
+      "seed": "1e594a5f4f13c914",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.06979995
+    },
+    {
+      "actions": [
+        8,
+        24,
+        34,
+        32
+      ],
+      "attempted_actions": 5,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 4,
+      "completion_tokens": 2181,
+      "demand": {
+        "demand_seed": "1ef97b9065013134",
+        "lambda": 4.195066463922865,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 4
+          },
+          {
+            "lambda": 4.195066463922865,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "prompt_tokens": 2439,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 32}",
+        ""
+      ],
+      "score": null,
+      "seed": "1ef97b9065013134",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.012317999999999999
+    },
+    {
+      "actions": [
+        8,
+        30,
+        34,
+        42,
+        0
+      ],
+      "attempted_actions": 6,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 5,
+      "completion_tokens": 3081,
+      "demand": {
+        "demand_seed": "60014380abcd0c62",
+        "lambda": 2.3949633454999293,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 0,
+            "week": 3
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 1,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.3949633454999293,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 193.0,
+      "prompt_tokens": 3080,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 42}",
+        "{\"quantity\": 0}",
+        ""
+      ],
+      "score": null,
+      "seed": "60014380abcd0c62",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01694425
+    },
+    {
+      "actions": [
+        8,
+        20,
+        36,
+        32,
+        16,
+        16,
+        24,
+        16,
+        16,
+        16,
+        12,
+        12,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "attempted_actions": 24,
+      "bucket": "in_distribution",
+      "bullwhip_ratio": null,
+      "cached_tokens": 1239,
+      "completed_weeks": 23,
+      "completion_tokens": 11073,
+      "demand": {
+        "demand_seed": "ba0eef18cf04ad40",
+        "lambda": 2.186076986281477,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 2
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 3
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 0,
+            "week": 6
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 10
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 11
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 12
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 7,
+            "week": 13
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 14
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 15
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 17
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 18
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 19
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 20
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 0,
+            "retailer_b": 1,
+            "week": 21
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 22
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 23
+          },
+          {
+            "lambda": 2.186076986281477,
+            "retailer_a": 2,
+            "retailer_b": 2,
+            "week": 24
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 181.0,
+      "prompt_tokens": 16235,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 12}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\":16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        ""
+      ],
+      "score": null,
+      "seed": "ba0eef18cf04ad40",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0659911
+    },
+    {
+      "actions": [
+        8,
+        46,
+        88
+      ],
+      "attempted_actions": 4,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "cached_tokens": 531,
+      "completed_weeks": 3,
+      "completion_tokens": 1966,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 15,
+            "week": 2
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 14,
+            "week": 3
+          },
+          {
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 4
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 812.0,
+      "prompt_tokens": 1889,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 46}",
+        "{\"quantity\": 88}",
+        ""
+      ],
+      "score": null,
+      "seed": "98155973e5223d05",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01013265
+    },
+    {
+      "actions": [
+        8,
+        60,
+        68
+      ],
+      "attempted_actions": 4,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "cached_tokens": 531,
+      "completed_weeks": 3,
+      "completion_tokens": 1950,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 4,
+            "retailer_b": 15,
+            "week": 1
+          },
+          {
+            "retailer_a": 12,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "retailer_a": 9,
+            "retailer_b": 11,
+            "week": 3
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 13,
+            "week": 4
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 908.0,
+      "prompt_tokens": 1913,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 60}",
+        "{\"quantity\": 68}",
+        ""
+      ],
+      "score": null,
+      "seed": "a01e69edae32256e",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.01009465
+    },
+    {
+      "actions": [
+        8,
+        84,
+        85
+      ],
+      "attempted_actions": 4,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "cached_tokens": 354,
+      "completed_weeks": 3,
+      "completion_tokens": 1923,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 14,
+            "retailer_b": 12,
+            "week": 1
+          },
+          {
+            "retailer_a": 13,
+            "retailer_b": 11,
+            "week": 2
+          },
+          {
+            "retailer_a": 18,
+            "retailer_b": 9,
+            "week": 3
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 12,
+            "week": 4
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 935.5,
+      "prompt_tokens": 1901,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 84}",
+        "{\"quantity\": 85}",
+        ""
+      ],
+      "score": null,
+      "seed": "ba32f821074ddb20",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.010159600000000001
+    },
+    {
+      "actions": [
+        8,
+        56,
+        22,
+        40
+      ],
+      "attempted_actions": 5,
+      "bucket": "shifted_mean_doubled_variance",
+      "bullwhip_ratio": null,
+      "cached_tokens": 531,
+      "completed_weeks": 4,
+      "completion_tokens": 2688,
+      "demand": {
+        "burst_length": null,
+        "burst_start": null,
+        "process_id": "overdispersed_y_nb_mean10_var20_v1",
+        "trace": [
+          {
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "retailer_a": 6,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "retailer_a": 11,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "retailer_a": 10,
+            "retailer_b": 9,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "local_total_cost": null,
+      "model": "meta_muse-spark-1.2",
+      "model_id": "meta/muse-spark-1.2",
+      "normalized_order_volatility": null,
+      "optimal_reference_local_cost": 1040.0,
+      "prompt_tokens": 2499,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 56}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 40}",
+        ""
+      ],
+      "score": null,
+      "seed": "d9e921eb4abf1311",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.013963650000000001
+    }
+  ],
+  "summary": {
+    "bullwhip_ratio": {
+      "mean": null,
+      "stderr": null
+    },
+    "cache_hit_fraction": 0.10522276746146696,
+    "cached_tokens": 9735,
+    "format_failure_rate": 0.10457516339869281,
+    "local_total_cost": {
+      "mean": null,
+      "stderr": null
+    },
+    "n": 16,
+    "normalized_order_volatility": {
+      "mean": null,
+      "stderr": null
+    },
+    "prompt_tokens": 92518,
+    "protocol_failure_rate": 1.0,
+    "score": {
+      "mean": null,
+      "stderr": null
+    },
+    "system_total_cost": {
+      "mean": null,
+      "stderr": null
+    },
+    "usage_cost_usd": 0.4167445
+  }
+}

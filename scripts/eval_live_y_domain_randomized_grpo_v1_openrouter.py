@@ -50,8 +50,10 @@ DEFAULT_MODELS = (
 
 # Models that reject reasoning.effort=none and spend completion budget on
 # hidden reasoning tokens. Leave headroom so the JSON action still fits.
-REASONING_REQUIRED_MODELS = {
-    "x-ai/grok-4.5",
+REASONING_EFFORT_BY_MODEL = {
+    "x-ai/grok-4.5": "low",
+    "x-ai/grok-4.6": "low",
+    "meta/muse-spark-1.2": "minimal",
 }
 REASONING_MAX_TOKENS = 768
 DEFAULT_MAX_TOKENS = 192
@@ -80,7 +82,8 @@ _IPV4_LOCK = threading.Lock()
 
 
 def _open_url(request: urllib.request.Request, *, timeout: float):
-    # Prefer IPv4: some local networks leave IPv6 SYN_SENT hanging.
+    # Prefer IPv4: some local networks leave IPv6 SYN_SENT hanging. The lock
+    # keeps the process-global resolver override isolated from sibling threads.
     import socket
 
     with _IPV4_LOCK:
@@ -176,7 +179,8 @@ class OpenRouterClient:
                 )
 
     def complete(self, *, system: str, user: str, session_id: str, week: int) -> tuple[str, dict[str, Any]]:
-        reasoning_required = self.model_id in REASONING_REQUIRED_MODELS
+        reasoning_effort = REASONING_EFFORT_BY_MODEL.get(self.model_id)
+        reasoning_required = reasoning_effort is not None
         max_tokens = REASONING_MAX_TOKENS if reasoning_required else DEFAULT_MAX_TOKENS
         body: dict[str, Any] = {
             "model": self.model_id,
@@ -200,8 +204,8 @@ class OpenRouterClient:
             "usage": {"include": True},
         }
         if reasoning_required:
-            # Grok-4.5 rejects effort=none; low keeps hidden reasoning short.
-            body["reasoning"] = {"effort": "low"}
+            # Use the least supported effort so hidden reasoning stays short.
+            body["reasoning"] = {"effort": reasoning_effort}
         else:
             body["reasoning"] = {"effort": "none"}
         headers = {
@@ -331,18 +335,37 @@ def run_model(
     output: Path,
     workers: int,
     budget_usd: float,
+    resume: bool = False,
 ) -> dict[str, Any]:
     label = model_id.replace("/", "_").replace(":", "_")
     manifest = json.loads(
         (ROOT / "experiments/live_y_domain_randomized_grpo_v1/seed_manifest.json").read_text()
     )
+    prior_rows: list[dict[str, Any]] = []
+    prior_totals: dict[str, Any] = {}
+    if resume and output.exists():
+        prior_payload = json.loads(output.read_text())
+        if prior_payload.get("model_id") != model_id:
+            raise RuntimeError(
+                f"cannot resume {model_id}: {output} belongs to {prior_payload.get('model_id')}"
+            )
+        prior_rows = [
+            row for row in prior_payload.get("rows", []) if row.get("protocol_clean")
+        ]
+        prior_totals = prior_payload.get("client_totals") or {}
     client = OpenRouterClient(model_id, budget_usd=budget_usd)
+    client.spent = float(prior_totals.get("spent_usd") or 0.0)
+    client.prompt_tokens = int(prior_totals.get("prompt_tokens") or 0)
+    client.completion_tokens = int(prior_totals.get("completion_tokens") or 0)
+    client.cached_tokens = int(prior_totals.get("cached_tokens") or 0)
+    completed_seeds = {str(row["seed"]) for row in prior_rows}
     jobs = [
         (seed, bucket)
         for bucket, seeds in manifest["evaluation"].items()
         for seed in seeds
+        if seed not in completed_seeds
     ]
-    rows: list[dict[str, Any]] = []
+    rows: list[dict[str, Any]] = list(prior_rows)
     with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
         futures = {
             pool.submit(evaluate_episode, client, seed, bucket, label): (bucket, seed)
@@ -410,9 +433,9 @@ def run_model(
             "temperature": 0.7,
             "top_p": 0.95,
             "max_completion_tokens": (
-                REASONING_MAX_TOKENS if model_id in REASONING_REQUIRED_MODELS else DEFAULT_MAX_TOKENS
+                REASONING_MAX_TOKENS if model_id in REASONING_EFFORT_BY_MODEL else DEFAULT_MAX_TOKENS
             ),
-            "reasoning_effort": "low" if model_id in REASONING_REQUIRED_MODELS else "none",
+            "reasoning_effort": REASONING_EFFORT_BY_MODEL.get(model_id, "none"),
         },
         "summary": aggregate(rows),
         "client_totals": {
@@ -435,6 +458,11 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=4, help="Episode parallelism per model")
     parser.add_argument("--budget-usd", type=float, default=25.0)
     parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Keep protocol-clean rows from an existing output and rerun only failed or missing seeds",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         default=ROOT / "artifacts/live_y_domain_randomized_grpo_v1/evaluations",
@@ -453,6 +481,7 @@ def main() -> None:
             output=args.output_dir / f"openrouter_{slug}.json",
             workers=args.workers,
             budget_usd=args.budget_usd,
+            resume=args.resume,
         )
 
     if args.parallel_models and len(args.models) > 1:
