@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node static_web/scripts/build.js",
-    "dev": "npm run build && wrangler pages dev --config static_web/wrangler.pages.jsonc",
+    "dev": "npm run build && wrangler pages dev dist/cloudflare-pages --compatibility-date=2026-07-25",
     "test": "npm run build && vitest run --config static_web/vitest.config.js",
     "test:worker": "vitest run --config static_web/worker/vitest.config.js",
     "test:all": "npm run test && npm run test:worker",

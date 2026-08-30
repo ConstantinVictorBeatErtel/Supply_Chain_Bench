@@ -2,13 +2,16 @@ import { describe, expect, test } from "vitest";
 import {
   BeerEpisode, PythonRandom, episodeId, masterSeedHex, replayActions,
   scenarioFor, stableStringify, standardResearchScenario,
+  trainingScenario,
 } from "../src/sim/index.js";
 import {
   artifactRows, pythonOracle, qwenTraceArtifact, traceArtifact,
 } from "./helpers.js";
 
 function jsResult(caseRow) {
-  const base = caseRow.research_bucket
+  const base = caseRow.training_v2
+    ? trainingScenario(caseRow.seed, caseRow.seed_index)
+    : caseRow.research_bucket
     ? standardResearchScenario(caseRow.research_bucket, caseRow.seed, caseRow.seed_index)
     : scenarioFor(5, caseRow.split, caseRow.seed_index);
   const spec = caseRow.capacity === undefined ? base : { ...base, capacity: caseRow.capacity };
@@ -78,6 +81,16 @@ describe("Python/JavaScript parity", () => {
     const expected = pythonOracle(cases);
     const actual = cases.map(jsResult);
     expect(actual).toEqual(expected);
+  });
+
+  test("the corrected stochastic training/play scenario matches Python", () => {
+    const cases = ["0123456789abcdef", "fedcba9876543210"].map((seed, seed_index) => ({
+      training_v2: true,
+      seed,
+      seed_index,
+      actions: Array.from({ length: 36 }, (_, week) => (week * 19 + seed_index * 7) % 129),
+    }));
+    expect(cases.map(jsResult)).toEqual(pythonOracle(cases));
   });
 });
 

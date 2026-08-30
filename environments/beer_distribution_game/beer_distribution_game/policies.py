@@ -57,6 +57,28 @@ class ScarcityAggressivePolicy:
 
 
 @dataclass
+class DemandTrackingScarcityPolicy:
+    """Retailer policy whose replenishment follows its weekly customer demand.
+
+    The archived Tier-5 policy added a fixed scarcity increment to a base-stock
+    order.  Once that retailer accumulated enough inventory, its base order fell
+    to zero and the wholesaler saw the same ``increment`` every week.  This
+    replacement preserves the intentional scarcity pressure while ensuring that
+    the retailer order received by the wholesaler carries the current stochastic
+    demand signal.
+    """
+
+    increment: int = 8
+    order_cap: int = 128
+    policy_id: str = "demand_tracking_scarcity"
+    policy_version: str = "1"
+
+    def act(self, observation: dict) -> int:
+        demand = int(observation["state"]["incoming_demand_or_order"])
+        return min(self.order_cap, max(0, demand + self.increment))
+
+
+@dataclass
 class RandomPolicy:
     rng: random.Random
     order_cap: int = 128
@@ -84,7 +106,12 @@ def counterparty_policies(
         if role == controlled_role:
             continue
         base = adaptive_policy(spec, role)
-        if spec.aggressive_retailers and role in ("retailer_a", "retailer_b"):
+        if (
+            spec.counterparty_policy == "demand_tracking_scarcity_v1"
+            and role in ("retailer_a", "retailer_b")
+        ):
+            policies[role] = DemandTrackingScarcityPolicy(order_cap=spec.order_cap)
+        elif spec.aggressive_retailers and role in ("retailer_a", "retailer_b"):
             policies[role] = ScarcityAggressivePolicy(base)
         else:
             policies[role] = base

@@ -36,6 +36,20 @@ export class ScarcityAggressivePolicy {
   }
 }
 
+export class DemandTrackingScarcityPolicy {
+  constructor({ increment = 8, orderCap = 128 } = {}) {
+    this.increment = increment;
+    this.orderCap = orderCap;
+    this.policy_id = "demand_tracking_scarcity";
+    this.policy_version = "1";
+  }
+
+  act(observation) {
+    const demand = Number(observation.state.incoming_demand_or_order);
+    return Math.min(this.orderCap, Math.max(0, Math.trunc(demand) + this.increment));
+  }
+}
+
 export function adaptivePolicy(spec, role) {
   return new AdaptiveBaseStockPolicy(spec, role);
 }
@@ -43,6 +57,10 @@ export function adaptivePolicy(spec, role) {
 export function counterpartyPolicies(spec, controlledRole) {
   return Object.fromEntries(spec.roles.filter((role) => role !== controlledRole).map((role) => {
     const base = adaptivePolicy(spec, role);
+    if (spec.counterparty_policy === "demand_tracking_scarcity_v1"
+        && ["retailer_a", "retailer_b"].includes(role)) {
+      return [role, new DemandTrackingScarcityPolicy({ orderCap: spec.order_cap })];
+    }
     return [
       role,
       spec.aggressive_retailers && ["retailer_a", "retailer_b"].includes(role)

@@ -261,3 +261,15 @@ Logged defaults for the v1 research codebase. Change only with a dated note.
 | Claude policy | `anthropic/claude-opus-5`, zero-shot | Provides a current frontier reference on exactly the Qwen held-out split. |
 | Claude result | Mean total cost 1,754.48 ± 61.14; score 49.66; 0.0% format failures | Same frozen seeds and score formula as Qwen; result is recorded in `results/baseline.json`. |
 | Cost controls | Compact state tuple, strict JSON, reasoning disabled, 16-token cap, same-week deduplication, response cache, checkpoint resume | A warm rerun completed 1,512 requests with 1,500 cache hits for $0.02, without GPU infrastructure or changing the decision condition. |
+
+## Corrected live stochastic training/play protocol (2026-08-29)
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Protocol version | `live-y-domain-randomized-grpo-v2` | The archived v1 model traces must remain exactly replayable; changed counterparty dynamics require a new environment identity. |
+| Weekly customer demand | Episode-randomized Poisson rate, with independent counter-based draws for every retailer/week | A fixed episode rate defines the regime, while the realized customer demand is newly sampled every week and remains replayable from the seed. |
+| Retailer policy | `demand_tracking_scarcity_v1`: current customer demand + 8, capped at 128 | The v1 base-stock +8 wrapper collapsed to 8 per retailer after inventory accumulated, making 93.4% of wholesaler training observations equal 16. The corrected policy preserves scarcity pressure and transmits weekly variation. |
+| Upstream counterparties | Existing `adaptive_base_stock_v2` | Changes only the mechanism that erased the demand signal. |
+| Human play seeds | Fresh random 64-bit seed for every new browser game | Prevents a small public seed catalog from becoming a memorization surface; every episode remains exactly replayable. |
+| Human/model parity | Browser `trainingScenario()` and Python `training_spec()` are byte-level parity tested | Future model training and current human play use the same horizon, delays, costs, demand process, policy IDs, capacity, observations, and grading. |
+| Model comparison | Removed from v2 live play until retraining | Replaying v1 model actions under changed observations would not be a valid model comparison. The paired adaptive baseline remains available on the exact v2 seed. |

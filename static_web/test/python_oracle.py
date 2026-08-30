@@ -11,7 +11,13 @@ from beer_distribution_game.scenario import scenario_for
 
 
 def run_case(case: dict) -> dict:
-    if case.get("research_bucket"):
+    if case.get("training_v2"):
+        from beer_distribution_rl.research.live_y_domain_randomized_grpo_v2.environment import (
+            training_spec,
+        )
+
+        spec = training_spec(case["seed"], index=int(case["seed_index"]))
+    elif case.get("research_bucket"):
         from beer_distribution_rl.research.live_y_domain_randomized_grpo_v1.environment import (
             research_spec,
         )

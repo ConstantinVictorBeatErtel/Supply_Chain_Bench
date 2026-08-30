@@ -1,5 +1,5 @@
 import {
-  BeerEpisode, PLAYABLE_SEEDS, scenarioFor, stableStringify,
+  BeerEpisode, TRAINING_PROTOCOL_ID, stableStringify, trainingScenario,
 } from "../../src/sim/index.js";
 
 const MAX_BODY_BYTES = 64 * 1024;
@@ -49,10 +49,6 @@ function isNullableNumber(value) {
   return value === null || isFiniteNumber(value);
 }
 
-function isPlayableSeed(split, seedIndex) {
-  return PLAYABLE_SEEDS.some((seed) => seed.split === split && seed.seedIndex === seedIndex);
-}
-
 function validateShape(record) {
   if (!exactKeys(record, ALLOWED_FIELDS)
       || Object.keys(record).length !== ALLOWED_FIELDS.size) {
@@ -63,11 +59,15 @@ function validateShape(record) {
       || !UTC_TIMESTAMP.test(record.timestamp)
       || !Number.isFinite(Date.parse(record.timestamp))
       || new Date(record.timestamp).toISOString() !== record.timestamp
-      || record.env_version !== "0.2.0"
+      || record.env_version !== TRAINING_PROTOCOL_ID
       || record.tier !== 5
       || record.role !== "wholesaler"
       || record.variant !== "headline"
-      || !isPlayableSeed(record.split, record.seed_index)
+      || record.split !== "training"
+      || !Number.isInteger(record.seed_index)
+      || record.seed_index < 0
+      || typeof record.seed !== "string"
+      || !/^[0-9a-f]{16}$/.test(record.seed)
       || !["yes", "no", "unsure"].includes(record.prior_beer_game_experience)
       || !["completed", "abandoned"].includes(record.status)
       || typeof record.completed !== "boolean"
@@ -97,9 +97,8 @@ function validateShape(record) {
 }
 
 function replay(record) {
-  const spec = scenarioFor(5, record.split, record.seed_index);
-  if (record.seed !== spec.master_seed_hex
-      || record.scenario_id !== spec.scenario_id) {
+  const spec = trainingScenario(record.seed, record.seed_index);
+  if (record.scenario_id !== spec.scenario_id) {
     throw new Error("scenario identifiers do not match");
   }
   const episode = new BeerEpisode(spec, "wholesaler", {
@@ -166,7 +165,7 @@ async function writeRecord(env, record, verified) {
   await env.DB.prepare(statement).bind(
     record.session_uuid,
     new Date(record.timestamp).toISOString(),
-    "0.2.0",
+    TRAINING_PROTOCOL_ID,
     5,
     "wholesaler",
     record.split,

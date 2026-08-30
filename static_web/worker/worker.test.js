@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import { env } from "cloudflare:workers";
 import { applyD1Migrations, SELF } from "cloudflare:test";
-import { BeerEpisode, scenarioFor } from "../src/sim/index.js";
+import { BeerEpisode, TRAINING_PROTOCOL_ID, trainingScenario } from "../src/sim/index.js";
 
 const ORIGIN = "https://game.example";
 
 function makeRecord(actions, status = "completed") {
-  const spec = scenarioFor(5, "development", 0);
+  const spec = trainingScenario("0123456789abcdef", 0);
   const episode = new BeerEpisode(spec, "wholesaler", {
     includeReference: status === "completed",
   });
@@ -27,10 +27,10 @@ function makeRecord(actions, status = "completed") {
   return {
     session_uuid: "018f9bc3-0feb-4ca2-b395-a7c1e0779877",
     timestamp: "2026-07-25T20:00:00.000Z",
-    env_version: "0.2.0",
+    env_version: TRAINING_PROTOCOL_ID,
     tier: 5,
     role: "wholesaler",
-    split: "development",
+    split: "training",
     seed_index: 0,
     seed: spec.master_seed_hex,
     scenario_id: spec.scenario_id,
@@ -69,14 +69,14 @@ describe("anonymous logging Worker", () => {
     ).bind(record.session_uuid).first();
     expect(row).toMatchObject({
       session_uuid: record.session_uuid,
-      env_version: "0.2.0",
+      env_version: TRAINING_PROTOCOL_ID,
       tier: 5,
       role: "wholesaler",
       status: "completed",
       completed: 1,
-      final_total_cost: 8615,
-      base_stock_cost: 1015.5,
     });
+    expect(row.final_total_cost).toBe(record.final_total_cost);
+    expect(row.base_stock_cost).toBe(record.base_stock_cost);
     expect(JSON.parse(row.actions_json)).toEqual(record.actions);
     expect(JSON.parse(row.weekly_json)).toEqual(record.weekly);
   });

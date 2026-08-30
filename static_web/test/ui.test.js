@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import {
-  highlight, parseOrderInput, searchWeeks, thoughtGroups,
+  freshTrainingSeed, highlight, parseOrderInput, searchWeeks, thoughtGroups,
 } from "../src/app.js";
 import {
   configureTelemetry, createSessionUuid, sendTelemetry,
@@ -18,6 +18,14 @@ describe("order input", () => {
     for (const invalid of ["", " ", "-1", "129", "1.0", "1e2", "+8", "08", "true", "NaN"]) {
       expect(parseOrderInput(invalid).ok).toBe(false);
     }
+  });
+});
+
+describe("fresh stochastic episodes", () => {
+  test("creates valid independent replay seeds for new games", () => {
+    const seeds = Array.from({ length: 16 }, () => freshTrainingSeed());
+    expect(seeds.every((seed) => /^[0-9a-f]{16}$/.test(seed))).toBe(true);
+    expect(new Set(seeds).size).toBe(seeds.length);
   });
 });
 

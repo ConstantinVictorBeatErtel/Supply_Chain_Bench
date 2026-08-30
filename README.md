@@ -1,6 +1,6 @@
 # Supply Chain RL Environment & Benchmark (SupplyChainBench)
 
-**[▶ Play the game](https://beer-distribution-game.pages.dev)**
+**[▶ Play the corrected stochastic v2 game](https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/)**
 
 **Can an AI agent learn to control a delayed, partially observed system?**
 
@@ -26,10 +26,12 @@ the agent notices and recovers. Separate experiments compare starting fresh,
 carrying short notes between games, and updating model weights. Their scores
 stay separate so unlike tests are not compared directly.
 
-The browser replay shows a simple baseline, the untrained model, and the trained
-model facing the same supply chain. In the playable game, the human is compared
-directly with the trained Qwen3.5-4B GRPO policy on one of its 16 frozen,
-protocol-clean capacity-400 benchmark traces.
+The browser replay preserves the historical baseline, untrained-model, and
+trained-model comparison. The playable game now runs the corrected stochastic
+v2 training scenario: every new game gets a fresh seed, customer demand is
+sampled each retailer/week, and retailer orders carry that demand variation to
+the wholesaler. Until a model is retrained on v2, the end screen compares the
+human only with an adaptive base-stock policy on the exact same episode seed.
 
 The chain is a Y: one wholesaler splitting a single inventory pool between
 two retailers who compete for it.
@@ -42,10 +44,14 @@ flowchart LR
   style WH fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
 ```
 
-You and the trained Qwen policy each play that one wholesaler seat in your own sealed
-episode, on the same seed against the same scripted counterparties — two runs of
-the same chain, not two live seats in one chain. The end screen compares total
-cost, cumulative operational cost week by week, and orders on that exact trace.
+The playable wholesaler sees the combined orders placed by the two retailers,
+not privileged end-customer demand. In v2, each retailer orders its newly sampled
+customer demand plus the fixed scarcity increment. That preserves fog of war
+without collapsing the wholesaler's incoming signal to a constant value.
+
+The archived v1 model results remain reproducible and are not presented as v2
+game comparisons. A new model comparison will require retraining and evaluation
+on `live-y-domain-randomized-grpo-v2`.
 
 ## Technical benchmark details
 

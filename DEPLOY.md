@@ -104,8 +104,8 @@ Open both public game URLs in a private browser window. On each:
 2. Confirm the scorecard / factory note (if shown) reflects **capacity 400**,
    not Hub Tier-5 capacity 22.
 3. Start a game and verify an invalid order does not advance the week.
-4. Finish 36 decisions and confirm the three comparison totals appear only at
-   the end.
+4. Finish 36 decisions and confirm the human and adaptive-baseline totals appear
+   only at the end. Archived trained-model totals must not appear in live v2 play.
 5. In Cloudflare D1, confirm the anonymous completed row was written:
 
 ```bash

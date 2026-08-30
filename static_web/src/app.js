@@ -1,11 +1,10 @@
-import { BeerEpisode, replayActions, scenarioFor } from "./sim/index.js";
+import { BeerEpisode, sha256Hex, trainingScenario } from "./sim/index.js";
 import {
   configureTelemetry, createSessionUuid, sendTelemetry,
 } from "./telemetry.js";
 
 const TIER = 5;
 const VARIANT = "headline";
-/** Public play capacity: research Tier 5 stays at 22 in scenario.js; live play uses 400. */
 const PUBLIC_FACTORY_CAPACITY = 400;
 const ROLES = ["retailer_a", "retailer_b", "wholesaler", "distributor", "factory"];
 const ROLE_LABEL = {
@@ -20,14 +19,9 @@ const ROLE_NOTE = {
   factory: `Produces to order, capped at ${PUBLIC_FACTORY_CAPACITY} units a week.`,
 };
 
-function publicScenario(spec) {
-  return { ...spec, capacity: PUBLIC_FACTORY_CAPACITY };
-}
-
 /** Weeks per chapter in the debrief thought tracker. 36 weeks / 6 = six chapters. */
 const THOUGHT_GROUP_SIZE = 6;
 
-let catalog = null;
 let replayCatalog = null;
 let replayTimer = null;
 let active = null;
@@ -60,15 +54,13 @@ function n1(value) {
   });
 }
 
-function scenarioForTrace(trace) {
-  if (trace?.scenario && typeof trace.scenario === "object") {
-    return structuredClone(trace.scenario);
+export function freshTrainingSeed(sessionUuid = createSessionUuid()) {
+  const bytes = new Uint8Array(8);
+  if (globalThis.crypto?.getRandomValues) {
+    globalThis.crypto.getRandomValues(bytes);
+    return Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("");
   }
-  const split = trace.seed_set === "live_y_research_eval" ? "test" : trace.split;
-  const spec = scenarioFor(TIER, split, trace.seed_index);
-  if (trace.seed_set === "live_y_research_eval") spec.split = "research_eval";
-  spec.master_seed_hex = trace.master_seed_hex;
-  return spec;
+  return sha256Hex(sessionUuid).slice(0, 16);
 }
 
 function setHeader(_week = "—", _cost = "—") {
@@ -197,15 +189,7 @@ function chainHtml({ briefing = false } = {}) {
   const transition = active?.episode.operationalTransitions.at(-1);
   const states = transition?.states_after_fulfillment || {};
   const ctx = { briefing, role, states };
-  const cards = ROLES.map((node) => {
-    const playerCard = stationCard(node, ctx);
-    if (node !== role) return playerCard;
-    const modelDetail = briefing
-      ? "<p>The same seat, same seed, played in a sealed parallel episode.</p>"
-      : inventoryMeter({ visible: false });
-    return `<div class="chain-pair chain-${node}">${playerCard}
-      <div class="chain-card companion"><span class="chain-tag">TRAINED QWEN</span>${buildingSvg(node)}<strong>${ROLE_LABEL[node]}</strong>${modelDetail}</div></div>`;
-  });
+  const cards = ROLES.map((node) => stationCard(node, ctx));
   return `<div class="chain-board" aria-label="Five-node Y supply chain">
     <div class="orders-rail">${ordersRailSvg()}<span class="rail-label">Orders</span></div>
     <div class="chain">
@@ -221,8 +205,8 @@ function briefingHtml() {
   return `<section class="briefing" aria-labelledby="briefing-title">
     <div class="hero">
       <h1 id="briefing-title">You hold one seat in a five-node supply chain.</h1>
-      <p>Every week you see your own inventory, your own backlog, and the order that arrived from downstream. Nothing else. You place one order upstream and it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
-      <p>The trained Qwen3.5-4B GRPO policy plays the same seat, on the same benchmark seed, against the same counterparties, in a separate sealed episode. Neither of you sees the other until week 36.</p>
+      <p>Every week, each retailer receives a fresh stochastic customer-demand draw and sends you a demand-responsive order. You see the two retailer orders combined, your own inventory, and your own backlog. You place one order upstream and it lands three weeks later. Thirty-six weeks. Holding costs 0.5 per unit per week, backlog costs 1.0.</p>
+      <p>Each new game uses a fresh episode seed. This is the same versioned scenario and role-local observation contract that future model training uses.</p>
     </div>
     <p class="section-label seat-label">Choose your seat</p>
     ${chainHtml({ briefing: true })}
@@ -278,7 +262,7 @@ function gameHtml() {
             ${statHtml("Backlog", n0(state.backlog), state.backlog > 0)}
             ${statHtml("On order", n0(state.on_order))}
             ${statHtml("Incoming", n0(state.shipment_received))}
-            ${statHtml("Demand", n0(state.incoming_demand_or_order))}
+            ${statHtml("Retailer orders", n0(state.incoming_demand_or_order))}
             ${statHtml("Week cost", n1(costs.current_inventory_backlog_cost))}
           </div>
         </section>
@@ -294,7 +278,7 @@ function gameHtml() {
       </div>
       <div class="graphs">
         ${graphHtml("Stock", [{ text: "On hand", className: "blue" }, { text: "Backlog", className: "red" }], [{ values: inventory, className: "blue", fill: true }, { values: backlog, className: "red", fill: true }], stateMax)}
-        ${graphHtml("Flow", [{ text: "You ordered", className: "accent" }, { text: "Demand", className: "muted" }], [{ values: incoming, className: "muted", fill: true }, { values: orders, className: "accent", fill: true }], orderMax)}
+        ${graphHtml("Flow", [{ text: "You ordered", className: "accent" }, { text: "Retailer orders", className: "muted" }], [{ values: incoming, className: "muted", fill: true }, { values: orders, className: "accent", fill: true }], orderMax)}
       </div>
     </div>
   </section>`;
@@ -455,14 +439,7 @@ function debriefHtml() {
   const grade = active.episode.outcome.grade;
   const humanCost = grade.primary.local_total_cost;
   const baseCost = grade.primary.paired_base_stock_local_total_cost;
-  let modelCost = null;
-  let modelEpisode = null;
-  if (active.role === "wholesaler" && active.trace) {
-    const replay = replayActions(publicScenario(scenarioForTrace(active.seed)), active.role, active.trace.actions).episode;
-    modelEpisode = replay;
-    modelCost = replay.outcome.grade.primary.local_total_cost;
-  }
-  const lead = modelCost === null ? "Your 36-week episode is complete." : humanCost <= modelCost ? "You beat trained Qwen." : "Trained Qwen finished lower.";
+  const lead = humanCost <= baseCost ? "You beat the adaptive baseline." : "Your 36-week episode is complete.";
   const rows = ROLES.map((role) => {
     const history = active.episode.histories[role];
     const orders = history.map((row) => row.order_placed);
@@ -472,8 +449,7 @@ function debriefHtml() {
   }).join("");
   const yours = active.episode.histories[active.role].map((row) => row.order_placed);
   const demand = active.episode.histories[active.role].map((row) => row.incoming_demand_or_order);
-  const comparison = modelCost === null ? [] : active.trace.actions;
-  const max = Math.max(8, ...yours, ...demand, ...comparison);
+  const max = Math.max(8, ...yours, ...demand);
   const cumulativeCosts = (history) => {
     let running = 0;
     return history.map((row) => {
@@ -482,24 +458,18 @@ function debriefHtml() {
     });
   };
   const humanCosts = cumulativeCosts(active.episode.histories[active.role]);
-  const modelCosts = Array.isArray(active.trace?.costs_over_time)
-    ? active.trace.costs_over_time
-    : modelEpisode ? cumulativeCosts(modelEpisode.histories[active.role]) : [];
-  const costMax = Math.max(1, ...humanCosts, ...modelCosts);
-  const headToHeadScore = modelCost === null
-    ? null
-    : humanCost + modelCost > 0 ? 100 * modelCost / (humanCost + modelCost) : 50;
+  const costMax = Math.max(1, ...humanCosts);
+  const baselineScore = humanCost + baseCost > 0 ? 100 * baseCost / (humanCost + baseCost) : 50;
   return `<section class="debrief" aria-labelledby="debrief-title">
     <div class="hero"><h1 id="debrief-title">${lead}</h1><p>Totals include the 36 operational weeks, deterministic settlement, and terminal inventory-position exposure.</p></div>
     <div class="final-cards">
       <article><span>YOUR COST</span><strong>${n1(humanCost)}</strong><p>Local total cost at ${ROLE_LABEL[active.role]}. Adaptive base-stock cost: ${n1(baseCost)}.</p></article>
-      <article><span>${modelCost === null ? "REFERENCE COST" : "TRAINED QWEN"}</span><strong>${n1(modelCost ?? baseCost)}</strong><p>${modelCost === null ? "Adaptive base-stock comparison." : "Qwen3.5-4B GRPO on your exact benchmark seed."}</p></article>
-      <article><span>HEAD-TO-HEAD SCORE</span><strong>${headToHeadScore === null ? "—" : headToHeadScore.toFixed(1)}</strong><p>50 is a tie. Higher means you finished with lower cost than trained Qwen.</p></article>
+      <article><span>ADAPTIVE BASELINE</span><strong>${n1(baseCost)}</strong><p>Replayed on your exact stochastic episode seed.</p></article>
+      <article><span>HEAD-TO-HEAD SCORE</span><strong>${baselineScore.toFixed(1)}</strong><p>50 is a tie. Higher means you finished with lower cost than the adaptive baseline.</p></article>
     </div>
-    ${graphHtml("Cumulative local cost · operational weeks", [{ text: "You", className: "light" }, { text: modelCost === null ? "Qwen unavailable" : "Trained Qwen", className: "blue" }], [{ values: humanCosts, className: "light" }, { values: modelCosts, className: "blue" }], costMax)}
-    ${graphHtml("Orders placed · fog lifted", [{ text: "You", className: "light" }, { text: modelCost === null ? "Qwen unavailable" : "Trained Qwen", className: "blue" }, { text: "Demand", className: "muted" }], [{ values: demand, className: "muted" }, { values: comparison, className: "blue" }, { values: yours, className: "light" }], max)}
-    <section class="chain-table"><p class="section-label">Full chain · your episode</p><div class="chain-row heading"><span>Node</span><span>Mean order</span><span>Peak order</span><span>Order/demand variance</span><span>Operational cost</span></div>${rows}</section>
-    ${thoughtsHtml()}
+    ${graphHtml("Cumulative local cost · operational weeks", [{ text: "You", className: "light" }], [{ values: humanCosts, className: "light" }], costMax)}
+    ${graphHtml("Orders placed · fog lifted", [{ text: "You", className: "light" }, { text: "Retailer orders", className: "muted" }], [{ values: demand, className: "muted" }, { values: yours, className: "light" }], max)}
+    <section class="chain-table"><p class="section-label">Full chain · your episode</p><div class="chain-row heading"><span>Node</span><span>Mean order</span><span>Peak order</span><span>Order/incoming variance</span><span>Operational cost</span></div>${rows}</section>
     <div class="start-row"><button id="new-game" class="primary-button" type="button">Play again</button></div>
   </section>`;
 }
@@ -513,6 +483,7 @@ function recordFor(status) {
     tier: TIER, role: active.role, split: active.episode.spec.split,
     seed_index: active.seed.seed_index, seed: active.episode.spec.master_seed_hex,
     scenario_id: active.episode.spec.scenario_id, variant: VARIANT, status, completed,
+    prior_beer_game_experience: "unsure",
     actions: [...active.actions], weekly: [...active.weekly],
     final_total_cost: completed ? grade.primary.local_total_cost : null,
     base_stock_cost: completed ? grade.primary.paired_base_stock_local_total_cost : null,
@@ -533,13 +504,12 @@ function bindBriefing() {
   }));
   document.querySelector("#start-game").addEventListener("click", () => {
     selectedRole = "wholesaler";
-    const random = new Uint32Array(1);
-    globalThis.crypto?.getRandomValues?.(random);
-    const catalogIndex = random[0] % catalog.seeds.length;
-    const seed = catalog.seeds[catalogIndex];
-    const spec = publicScenario(scenarioForTrace(seed));
+    const sessionUuid = createSessionUuid();
+    const seedHex = freshTrainingSeed(sessionUuid);
+    const spec = trainingScenario(seedHex);
+    const seed = { split: spec.split, seed_index: spec.seed_index, master_seed_hex: seedHex };
     const episode = new BeerEpisode(spec, "wholesaler");
-    active = { seed, episode, role: "wholesaler", observation: episode.start(), order: 8, actions: [], weekly: [], sessionUuid: createSessionUuid(), timestamp: new Date().toISOString(), trace: seed };
+    active = { seed, episode, role: "wholesaler", observation: episode.start(), order: 8, actions: [], weekly: [], sessionUuid, timestamp: new Date().toISOString(), trace: null };
     logSent = false;
     renderGame();
   });
@@ -606,14 +576,6 @@ function renderGame() {
   ["pointerup", "pointerleave", "pointercancel"].forEach((event) => hold.addEventListener(event, stop));
 }
 
-async function loadCatalog() {
-  const response = await fetch("./data/llm-comparison.json", { cache: "no-cache" });
-  if (!response.ok) throw new Error(`trace catalog returned ${response.status}`);
-  const payload = await response.json();
-  if (!Array.isArray(payload.seeds) || payload.seeds.length !== 16) throw new Error("trace catalog must contain all 16 trained-Qwen benchmark traces");
-  return payload;
-}
-
 function replayHtml() {
   const week = Number(replayCatalog?.week || 0);
   const maxWeek = Math.max(1, ...replayCatalog.models.map((model) => model.frames.length - 1));
@@ -648,7 +610,6 @@ function renderReplay() {
 export async function initialize() {
   configureTelemetry(globalThis.BEER_GAME_CONFIG?.loggingEndpoint || "");
   try {
-    catalog = await loadCatalog();
     const replayResponse = await fetch("./data/benchmark-replay.json", { cache: "no-cache" });
     if (replayResponse.ok) replayCatalog = { ...(await replayResponse.json()), week: 0 };
     if (new URLSearchParams(window.location.search).get("view") === "replay" && replayCatalog) renderReplay();

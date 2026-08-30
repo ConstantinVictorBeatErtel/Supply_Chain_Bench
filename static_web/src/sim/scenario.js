@@ -15,6 +15,9 @@ export const STANDARD_RESEARCH_BUCKETS = {
   burst_and_collapse: "burst_collapse_y_poisson_v1",
 };
 
+export const TRAINING_PROTOCOL_ID = "live-y-domain-randomized-grpo-v2";
+export const TRAINING_COUNTERPARTY_POLICY = "demand_tracking_scarcity_v1";
+
 function assertSplit(split, seedIndex) {
   if (!(split in SPLIT_SIZES)) throw new RangeError(`unknown split ${split}`);
   if (!Number.isInteger(seedIndex) || seedIndex < 0 || seedIndex >= SPLIT_SIZES[split]) {
@@ -160,6 +163,44 @@ export function standardResearchScenario(bucket, seedHex, seedIndex) {
     capacity: 400,
     rationing: "proportional",
     counterparty_policy: "adaptive_base_stock_v2",
+    aggressive_retailers: true,
+  };
+}
+
+export function trainingScenario(seedHex, seedIndex = 0) {
+  if (!/^[0-9a-f]{16}$/.test(seedHex)) {
+    throw new RangeError("training seed must be 16 lowercase hex characters");
+  }
+  if (!Number.isInteger(seedIndex) || seedIndex < 0) {
+    throw new RangeError("training seed index must be a non-negative integer");
+  }
+  return {
+    schema_version: "1.0.0",
+    environment_version: TRAINING_PROTOCOL_ID,
+    scenario_id: `${TRAINING_PROTOCOL_ID}:in_distribution`,
+    tier: 5,
+    variant: "headline",
+    split: "training",
+    seed_index: seedIndex,
+    master_seed_hex: seedHex,
+    horizon: 36,
+    order_delay: 1,
+    shipment_delay: 2,
+    order_cap: 128,
+    holding_cost: 0.5,
+    backlog_cost: 1.0,
+    initial_inventory: 12,
+    initial_shipment_pipeline: 4,
+    initial_order_pipeline: 4,
+    history_window: 8,
+    topology: "y",
+    roles: [...Y_ROLES],
+    observation_mode: "aggregate_supply_line",
+    demand_process: "episode_randomized_y_poisson_v1",
+    demand_parameters: { lambda_low: 2, lambda_high: 8, demand_seed: seedHex },
+    capacity: 400,
+    rationing: "proportional",
+    counterparty_policy: TRAINING_COUNTERPARTY_POLICY,
     aggressive_retailers: true,
   };
 }

@@ -123,6 +123,8 @@ describe("static build", () => {
     expect(app).toContain('graphHtml("Stock"');
     expect(app).toContain('graphHtml("Flow"');
     expect(app).toContain('graphHtml("Cumulative local cost · operational weeks"');
-    expect(app).toContain("Trained Qwen");
+    expect(app).toContain("trainingScenario");
+    expect(app).toContain("Retailer orders");
+    expect(app).not.toContain("TRAINED QWEN");
   });
 });
