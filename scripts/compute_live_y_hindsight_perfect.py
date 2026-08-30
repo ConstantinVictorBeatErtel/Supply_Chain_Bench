@@ -43,6 +43,7 @@ WARM_START_FILES = (
     "openrouter_openai_gpt-5.6-luna.json",
     "openrouter_deepseek_deepseek-v4-flash-0731.json",
     "openrouter_poolside_laguna-s-2.1_free.json",
+    "openrouter_z-ai_glm-5.3-flash.json",
 )
 
 

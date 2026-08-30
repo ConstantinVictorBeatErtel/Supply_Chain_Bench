@@ -1,0 +1,1632 @@
+{
+  "decoding": {
+    "max_completion_tokens": 192,
+    "reasoning_effort": "none",
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "visible_protocol_limit": 192
+  },
+  "environment_constructor": "training_spec",
+  "evaluation_kind": "fixed held-out v2 in-distribution evaluation",
+  "model_id": "poolside/laguna-s-2.1:free",
+  "prompt": "v1 research prompt contract (unchanged role-local inputs), applied to v2 observations",
+  "protocol_id": "live-y-domain-randomized-grpo-v2",
+  "reference_artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/hindsight_reference.json",
+  "reference_caveat": "Best-found feasible hindsight; not a proof of the mathematical optimum.",
+  "rows": [
+    {
+      "actions": [
+        8,
+        16,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        19,
+        25,
+        24,
+        24,
+        24,
+        25,
+        25,
+        30
+      ],
+      "adaptive_local_cost": 553.5,
+      "attempted_actions": 17,
+      "best_found_hindsight_local_cost": 391.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 1152,
+      "completed_weeks": 16,
+      "completion_tokens": 303,
+      "demand": {
+        "demand_seed": "4bcc33b98dd6ffda",
+        "lambda": 3.015222820455263,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 4
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 5
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 10
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 11
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 1,
+            "week": 12
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 7,
+            "retailer_b": 2,
+            "week": 13
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 14
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 15
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 17
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 0,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 12454,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 19}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 30}",
+        "Looking at the current state:\n\n- Backlog: 35 units\n- Inventory on hand: 0\n- Inventory position: 25 (which is inventory_on_hand + on_order - backlog = 0 + 60 - 35 = 25)\n- Incoming demand/order: 24\n- Last order placed: 30\n- On order: 60 (expected to arrive in coming weeks)\n- Shipment received last week: 25\n\nRecent history shows demand ranging from 19-25 units per week. The backlog has been growing because shipments (16-32) haven't been keeping up with demand plus existing backlog.\n\nCurrent inventory position is 25, but we have a backlog of 35. We need to cover the backlog plus upcoming demand. \n\nGiven the recent demand pattern (around 20-25 per week) and"
+      ],
+      "seed": "4bcc33b98dd6ffda",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=6: {'status': 429, 'body': {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Poolside', 'is_byok': False, 'limit_source': 'upstream_provider_shared_pool', 'remedy_hint': 'Retry shortly, add your own provider key (https://openrouter.ai/settings/integrations), or route to another provider with provider routing: https://openrouter.ai/docs/features/provider-routing'}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 1,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "protocol_clean": false,
+      "seed": "3065aa77a626a097"
+    },
+    {
+      "actions": [
+        4,
+        26,
+        14,
+        40,
+        29,
+        50,
+        78,
+        100,
+        128,
+        128
+      ],
+      "adaptive_local_cost": 815.5,
+      "attempted_actions": 11,
+      "best_found_hindsight_local_cost": 522.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 384,
+      "completed_weeks": 10,
+      "completion_tokens": 264,
+      "demand": {
+        "demand_seed": "ab1d3ed7c9624443",
+        "lambda": 6.2751900781469345,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 2
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 4
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 6
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 7
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 9
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 11
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 2,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 7382,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 4}",
+        "{\"quantity\": 26}",
+        "{\"quantity\": 14}",
+        "{\"quantity\": 40}",
+        "{\"quantity\": 29}",
+        "{\"quantity\": 50}",
+        "{\"quantity\": 78}",
+        "{\"quantity\": 100}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "Looking at the current state:\n- Backlog: 127 units\n- Inventory on hand: 0\n- Inventory position: 335 (includes on-order inventory of 462)\n- Incoming demand: 28\n- Last order placed: 128 (max)\n- Shipment received this week: 12\n- Weeks remaining: 26\n\nThe backlog is high (127) and inventory is zero. The inventory position of 335 includes 462 on order, so there's significant pipeline inventory coming. The demand has been relatively stable around 26-33 units per week.\n\nGiven the high backlog and upcoming shipments, I should continue ordering aggressively to clear the backlog. The inventory position suggests future shipments will arrive, but with a 3-week lead time (1 week order + 2 weeks shipment), I need to keep ordering to meet"
+      ],
+      "seed": "ab1d3ed7c9624443",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        27
+      ],
+      "adaptive_local_cost": 870.0,
+      "attempted_actions": 3,
+      "best_found_hindsight_local_cost": 607.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 384,
+      "completed_weeks": 2,
+      "completion_tokens": 205,
+      "demand": {
+        "demand_seed": "45ee25d1d9f7772b",
+        "lambda": 6.164142048633423,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 3,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 9,
+            "retailer_b": 10,
+            "week": 3
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 3,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 1476,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 27}",
+        "Looking at the current state:\n\n- Backlog: 38 units\n- Inventory on hand: 0\n- On order: 35 (last order was 27, with 4 received this week)\n- Incoming demand/order: 27\n- Holding cost: 0.5/unit-week, Backlog cost: 1.0/unit-week\n\nI need to clear the backlog and meet current demand. With 35 units coming in next week (from the order of 27 placed in week 2), that should cover most of the 38 backlog plus the 27 incoming demand. But shipments take 2 weeks, so I need to place an order now for delivery in week 5.\n\nTo minimize backlog costs (which are double holding costs), I should order enough to clear the backlog and cover expected demand. The backlog of 38 plus incoming demand of 27 = 65"
+      ],
+      "seed": "45ee25d1d9f7772b",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        14,
+        29,
+        23,
+        30,
+        30,
+        30,
+        29,
+        27,
+        128,
+        30,
+        34,
+        67,
+        67,
+        67,
+        67,
+        26,
+        67,
+        67,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        28,
+        26,
+        33,
+        32,
+        35,
+        0
+      ],
+      "adaptive_local_cost": 766.5,
+      "attempted_actions": 36,
+      "best_found_hindsight_local_cost": 546.5,
+      "bullwhip_ratio": 95.46370800497719,
+      "cached_tokens": 4032,
+      "completed_weeks": 36,
+      "completion_tokens": 241,
+      "demand": {
+        "demand_seed": "0b55376f78813683",
+        "lambda": 4.606785089850993,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 6
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 8,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 1,
+            "retailer_b": 4,
+            "week": 9
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 10
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 11
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 12
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 13
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 14
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 1,
+            "week": 15
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 16
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 17
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 18
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 9,
+            "retailer_b": 5,
+            "week": 19
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 20
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 21
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 22
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 24
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 8,
+            "week": 25
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 7,
+            "retailer_b": 0,
+            "week": 26
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 0,
+            "retailer_b": 7,
+            "week": 27
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 28
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 30
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 31
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 32
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 33
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 34
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 35
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "index": 4,
+      "local_total_cost": 2785.5,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.5775490487514864,
+      "per_episode_adaptive_relative_score": 27.517501346257404,
+      "per_episode_hindsight_score": 19.61945790701849,
+      "prompt_tokens": 28663,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 14}",
+        "{\"quantity\": 29}",
+        "{\"quantity\": 23}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 29}",
+        "{\"quantity\": 27}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 26}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 67}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 23}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 26}",
+        "{\"quantity\": 33}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 35}",
+        "{\"quantity\": 0}"
+      ],
+      "seed": "0b55376f78813683",
+      "system_total_cost": 12668.5,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=29: {'status': 429, 'body': {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Poolside', 'is_byok': False, 'limit_source': 'upstream_provider_shared_pool', 'remedy_hint': 'Retry shortly, add your own provider key (https://openrouter.ai/settings/integrations), or route to another provider with provider routing: https://openrouter.ai/docs/features/provider-routing'}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 5,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "protocol_clean": false,
+      "seed": "633b9d234865a0fe"
+    },
+    {
+      "actions": [
+        8
+      ],
+      "adaptive_local_cost": 915.5,
+      "attempted_actions": 2,
+      "best_found_hindsight_local_cost": 589.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 224,
+      "completed_weeks": 1,
+      "completion_tokens": 181,
+      "demand": {
+        "demand_seed": "52dae45101f84b7d",
+        "lambda": 6.662759585592678,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 2
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 6,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 948,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "Looking at this problem, I need to minimize holding and backlog costs as a wholesaler.\n\nCurrent state:\n- Backlog: 14 units (needs to be filled)\n- Inventory on hand: 0\n- On order: 12 units (will arrive)\n- Incoming demand/order: 26 units\n- Current inventory position: -2\n\nWith 26 units of demand coming in and only 12 units on order, I need to cover the backlog of 14 plus the incoming demand. I should order enough to cover the backlog and upcoming demand while considering the 2-week shipment delay.\n\nGiven the backlog and incoming demand, I'll place a substantial order to catch up and prepare for future demand. I'll order 26 units to cover the immediate demand plus backlog.</think>{\"quantity\": 26}"
+      ],
+      "seed": "52dae45101f84b7d",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=7: {'status': 429, 'body': {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Poolside', 'is_byok': False, 'limit_source': 'upstream_provider_shared_pool', 'remedy_hint': 'Retry shortly, add your own provider key (https://openrouter.ai/settings/integrations), or route to another provider with provider routing: https://openrouter.ai/docs/features/provider-routing'}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 7,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "protocol_clean": false,
+      "seed": "a1d890624c4e57ee"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=9: {'status': 429, 'body': {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Poolside', 'is_byok': False, 'limit_source': 'upstream_provider_shared_pool', 'remedy_hint': 'Retry shortly, add your own provider key (https://openrouter.ai/settings/integrations), or route to another provider with provider routing: https://openrouter.ai/docs/features/provider-routing'}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 8,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "protocol_clean": false,
+      "seed": "a4d94f0e4ac948ae"
+    },
+    {
+      "actions": [
+        4,
+        25,
+        29,
+        26,
+        30,
+        31,
+        35
+      ],
+      "adaptive_local_cost": 726.5,
+      "attempted_actions": 8,
+      "best_found_hindsight_local_cost": 526.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 1376,
+      "completed_weeks": 7,
+      "completion_tokens": 240,
+      "demand": {
+        "demand_seed": "0f12ce53421126f9",
+        "lambda": 4.454503999385687,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 2
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 3
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 4
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 9,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 6
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 10,
+            "retailer_b": 2,
+            "week": 7
+          },
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 8
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 9,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 4892,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 4}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 29}",
+        "{\"quantity\": 26}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 31}",
+        "{\"quantity\": 35}",
+        "Looking at this problem, I need to determine the optimal order quantity for the wholesaler to minimize holding and backlog costs.\n\nKey observations:\n- Current backlog: 98 units\n- Incoming demand this week: 28 units\n- Inventory on hand: 0\n- On order (pipeline): 109 units\n- Shipment expected this week: 34 units\n- Last order placed: 35 units\n- Week: 8 of 36 (29 weeks remaining)\n\nThe backlog is substantial (98 units) and growing, indicating chronic under-ordering. The backlog cost (1.0/unit) is twice the holding cost (0.5/unit), so I should prioritize clearing the backlog.\n\nRecent history shows orders of 25-35 units while demand ranges from 23-31 units, but the 2-week lead time means orders placed weeks ago are still arriving"
+      ],
+      "seed": "0f12ce53421126f9",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8
+      ],
+      "adaptive_local_cost": 546.5,
+      "attempted_actions": 2,
+      "best_found_hindsight_local_cost": 372.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 384,
+      "completed_weeks": 1,
+      "completion_tokens": 198,
+      "demand": {
+        "demand_seed": "ff53fc9041e715da",
+        "lambda": 3.8634037949849205,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 2
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 10,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 939,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "Looking at this problem, I need to determine the optimal order quantity for the wholesaler to minimize local holding and backlog costs.\n\n**Current State Analysis:**\n- Backlog: 9 units (costs 1.0 per unit-week)\n- Inventory on hand: 0 units\n- On order: 12 units (will arrive in 2 weeks due to shipment time)\n- Incoming demand/order this week: 21 units\n- Last order placed: 8 units\n\n**Supply Line Considerations:**\n- Orders take 1 week to be received by the next stage\n- Shipments take 2 weeks to arrive back to wholesaler\n- The 12 units on order should arrive in 2 weeks\n\n**Cost Structure:**\n- Holding cost: 0.5 per unit-week\n- Backlog cost: 1.0 per unit-week\n- Backlog is twice as costly as holding, so I should prioritize avoiding"
+      ],
+      "seed": "ff53fc9041e715da",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        16,
+        16,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        64,
+        128,
+        0,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        64,
+        32,
+        64,
+        34,
+        0,
+        28,
+        30,
+        27,
+        0,
+        30,
+        25,
+        28,
+        25,
+        36,
+        30,
+        0,
+        0
+      ],
+      "adaptive_local_cost": 844.0,
+      "attempted_actions": 36,
+      "best_found_hindsight_local_cost": 589.0,
+      "bullwhip_ratio": 71.92795334838225,
+      "cached_tokens": 6144,
+      "completed_weeks": 36,
+      "completion_tokens": 247,
+      "demand": {
+        "demand_seed": "a1408b1d8e802647",
+        "lambda": 6.573113932983972,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 1
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 4
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 5
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 6
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 7
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 9
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 6,
+            "week": 11
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 9,
+            "week": 12
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 13
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 4,
+            "week": 14
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 15
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 16
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 17
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 18
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 19
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 20
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 21
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 12,
+            "week": 22
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 12,
+            "retailer_b": 4,
+            "week": 23
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 24
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 8,
+            "retailer_b": 6,
+            "week": 25
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 26
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 27
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 5,
+            "week": 28
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 29
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 30
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 31
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 13,
+            "week": 32
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 33
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 34
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 9,
+            "week": 35
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 8,
+            "retailer_b": 9,
+            "week": 36
+          }
+        ]
+      },
+      "format_failures": 0,
+      "index": 11,
+      "local_total_cost": 4679.5,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": 0.619408945686901,
+      "per_episode_adaptive_relative_score": 18.036114969548027,
+      "per_episode_hindsight_score": 12.5868148306443,
+      "prompt_tokens": 29003,
+      "protocol_clean": true,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 16}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 64}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 27}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 0}",
+        "{\"quantity\": 0}"
+      ],
+      "seed": "a1408b1d8e802647",
+      "system_total_cost": 12842.5,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=5: {'status': 429, 'body': {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'poolside/laguna-s-2.1:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations', 'provider_name': 'Poolside', 'is_byok': False, 'limit_source': 'upstream_provider_shared_pool', 'remedy_hint': 'Retry shortly, add your own provider key (https://openrouter.ai/settings/integrations), or route to another provider with provider routing: https://openrouter.ai/docs/features/provider-routing'}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 12,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "protocol_clean": false,
+      "seed": "3a21b63b6f41c058"
+    },
+    {
+      "actions": [
+        8,
+        23,
+        25,
+        34,
+        37,
+        28,
+        53,
+        24,
+        32,
+        31,
+        37,
+        60,
+        30,
+        60,
+        30
+      ],
+      "adaptive_local_cost": 847.5,
+      "attempted_actions": 16,
+      "best_found_hindsight_local_cost": 619.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 2944,
+      "completed_weeks": 15,
+      "completion_tokens": 296,
+      "demand": {
+        "demand_seed": "845424a5afb5aac3",
+        "lambda": 5.905772590323238,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 3
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 4
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 5
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 6,
+            "retailer_b": 14,
+            "week": 6
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 7
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 10,
+            "retailer_b": 2,
+            "week": 8
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 6,
+            "retailer_b": 9,
+            "week": 9
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 10
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 2,
+            "retailer_b": 7,
+            "week": 11
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 12
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 9,
+            "retailer_b": 5,
+            "week": 13
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 14
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 4,
+            "retailer_b": 2,
+            "week": 15
+          },
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 16
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 13,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 11681,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 23}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 37}",
+        "{\"quantity\": 28}",
+        "{\"quantity\": 53}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 32}",
+        "{\"quantity\": 31}",
+        "{\"quantity\": 37}",
+        "{\"quantity\": 60}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 60}",
+        "{\"quantity\": 30}",
+        "Looking at the current state:\n- Backlog: 16 units\n- Inventory on hand: 0\n- Inventory position: 108 (on hand + on order - backlog = 0 + 124 - 16)\n- Incoming demand/order: 22\n- Last order placed: 30\n- On order: 124\n- Shipment received: 31\n\nRecent demand has been 22-31 units per week. The backlog needs to be cleared (16 units), and we need to cover incoming demand of 22 units. \n\nWith inventory position at 108 and on-order of 124, there's significant inventory in the pipeline. The recent pattern shows shipments of 29-64 units arriving.\n\nTo clear the backlog and cover current demand while maintaining some buffer given the pipeline inventory already in transit, I'll"
+      ],
+      "seed": "845424a5afb5aac3",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        24,
+        22,
+        25,
+        28
+      ],
+      "adaptive_local_cost": 690.0,
+      "attempted_actions": 6,
+      "best_found_hindsight_local_cost": 465.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 960,
+      "completed_weeks": 5,
+      "completion_tokens": 226,
+      "demand": {
+        "demand_seed": "514980a6c68e06f3",
+        "lambda": 5.722705750983893,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 0,
+            "retailer_b": 6,
+            "week": 2
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 9,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 6
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 14,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 3388,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 22}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 28}",
+        "Looking at the current state:\n\n- Backlog: 72 units\n- Inventory on hand: 0\n- On order: 71 units (will arrive in 1 week)\n- Incoming demand: 25 units\n- Last order placed: 28 units\n\nThe backlog is significant (72 units) and growing. The on-order 71 units will partially clear the backlog next week. To minimize backlog costs (which are double holding costs at 1.0 vs 0.5), I should order enough to clear the backlog and cover upcoming demand while avoiding excessive future inventory.\n\nWith 71 units arriving next week, that leaves 72 - 71 = 1 unit still in backlog. Then week 6 demand of 25 will add more backlog.\n\nOrdering a large quantity now to clear backlog and build some inventory buffer makes sense given the cost structure. I'll order the maximum"
+      ],
+      "seed": "514980a6c68e06f3",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        20,
+        20,
+        25,
+        25,
+        30,
+        25,
+        31
+      ],
+      "adaptive_local_cost": 591.5,
+      "attempted_actions": 9,
+      "best_found_hindsight_local_cost": 404.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 1536,
+      "completed_weeks": 8,
+      "completion_tokens": 239,
+      "demand": {
+        "demand_seed": "095049b38cd283bf",
+        "lambda": 4.583108321142454,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 4,
+            "retailer_b": 0,
+            "week": 2
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 3
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 5,
+            "retailer_b": 3,
+            "week": 5
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 2,
+            "retailer_b": 8,
+            "week": 7
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 8
+          },
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 2,
+            "retailer_b": 5,
+            "week": 9
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 15,
+      "local_total_cost": null,
+      "model_id": "poolside/laguna-s-2.1:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 5737,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 31}",
+        "Looking at the current state:\n\n- Backlog: 101 units\n- Inventory on hand: 0\n- Inventory position: 5\n- On order: 106\n- Incoming demand: 28 units\n- Shipment received this week: 9 units\n\nThe backlog is very high (101 units) and growing. I need to place an aggressive order to clear the backlog and cover upcoming demand. With 28 units of incoming demand and 101 units of backlog, I need to cover at least 129 units. Given the high backlog cost (1.0 per unit-week) vs holding cost (0.5 per unit-week), I should prioritize clearing the backlog.\n\nI'll place the maximum order of 128 units to aggressively reduce the backlog while also covering near-term demand.\n\n{\"quantity\": 128}"
+      ],
+      "seed": "095049b38cd283bf",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    }
+  ],
+  "seed_manifest": "experiments/live_y_domain_randomized_grpo_v2/seed_manifest.json",
+  "summary": {
+    "adaptive_score": 70.50605402049054,
+    "adaptive_total_cost": 1610.5,
+    "best_found_hindsight_total_cost": 1135.5,
+    "bootstrap_resamples": 100000,
+    "bootstrap_seed": 20260829,
+    "cached_tokens": 19520,
+    "completion_tokens": 2640,
+    "coverage": 0.125,
+    "mean_per_episode_hindsight_score": 16.103136368831393,
+    "model_mean_cost": 3732.5,
+    "model_total_cost": 7465.0,
+    "model_vs_adaptive": 21.574012056262557,
+    "n_protocol_clean": 2,
+    "n_scheduled": 16,
+    "primary_score": 15.210984594775619,
+    "primary_score_bootstrap_95_ci": [
+      12.5868148306443,
+      19.61945790701849
+    ],
+    "primary_score_definition": "100 * sum(best_found_hindsight_cost) / sum(model_cost), paired on clean seeds",
+    "prompt_tokens": 106563,
+    "protocol_failure_rate": 0.875,
+    "usage_cost_usd": 0.0
+  }
+}

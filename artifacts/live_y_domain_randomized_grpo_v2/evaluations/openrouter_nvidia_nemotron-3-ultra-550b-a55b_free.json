@@ -1,0 +1,1190 @@
+{
+  "decoding": {
+    "max_completion_tokens": 192,
+    "reasoning_effort": "none",
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "visible_protocol_limit": 192
+  },
+  "environment_constructor": "training_spec",
+  "evaluation_kind": "fixed held-out v2 in-distribution evaluation",
+  "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "prompt": "v1 research prompt contract (unchanged role-local inputs), applied to v2 observations",
+  "protocol_id": "live-y-domain-randomized-grpo-v2",
+  "reference_artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/hindsight_reference.json",
+  "reference_caveat": "Best-found feasible hindsight; not a proof of the mathematical optimum.",
+  "rows": [
+    {
+      "actions": [
+        8,
+        24,
+        24,
+        24,
+        24,
+        39,
+        60,
+        43,
+        40
+      ],
+      "adaptive_local_cost": 553.5,
+      "attempted_actions": 10,
+      "best_found_hindsight_local_cost": 391.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 9,
+      "completion_tokens": 71,
+      "demand": {
+        "demand_seed": "4bcc33b98dd6ffda",
+        "lambda": 3.015222820455263,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 5,
+            "week": 2
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 3
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 2,
+            "retailer_b": 1,
+            "week": 4
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 5,
+            "retailer_b": 2,
+            "week": 5
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 3,
+            "retailer_b": 4,
+            "week": 6
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 0,
+            "retailer_b": 4,
+            "week": 7
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 0,
+            "retailer_b": 3,
+            "week": 8
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 9
+          },
+          {
+            "lambda": 3.015222820455263,
+            "retailer_a": 1,
+            "retailer_b": 2,
+            "week": 10
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 0,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 6090,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 24}",
+        "{\"quantity\": 39}",
+        "{\"quantity\": 60}",
+        "{\"quantity\": 43}",
+        "{\"quantity\": 40}",
+        ""
+      ],
+      "seed": "4bcc33b98dd6ffda",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        36,
+        48,
+        48,
+        60
+      ],
+      "adaptive_local_cost": 709.0,
+      "attempted_actions": 6,
+      "best_found_hindsight_local_cost": 467.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 5,
+      "completion_tokens": 39,
+      "demand": {
+        "demand_seed": "3065aa77a626a097",
+        "lambda": 4.575553394189454,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 2
+          },
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 3
+          },
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 7,
+            "retailer_b": 6,
+            "week": 4
+          },
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 1,
+            "retailer_b": 3,
+            "week": 5
+          },
+          {
+            "lambda": 4.575553394189454,
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 6
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 1,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 2860,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 36}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 48}",
+        "{\"quantity\": 60}",
+        ""
+      ],
+      "seed": "3065aa77a626a097",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        30
+      ],
+      "adaptive_local_cost": 815.5,
+      "attempted_actions": 3,
+      "best_found_hindsight_local_cost": 522.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 2,
+      "completion_tokens": 15,
+      "demand": {
+        "demand_seed": "ab1d3ed7c9624443",
+        "lambda": 6.2751900781469345,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 2
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 3
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 2,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 991,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 30}",
+        ""
+      ],
+      "seed": "ab1d3ed7c9624443",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        42,
+        52,
+        93
+      ],
+      "adaptive_local_cost": 870.0,
+      "attempted_actions": 5,
+      "best_found_hindsight_local_cost": 607.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 4,
+      "completion_tokens": 31,
+      "demand": {
+        "demand_seed": "45ee25d1d9f7772b",
+        "lambda": 6.164142048633423,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 3,
+            "retailer_b": 8,
+            "week": 2
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 9,
+            "retailer_b": 10,
+            "week": 3
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "lambda": 6.164142048633423,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 3,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 2189,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 42}",
+        "{\"quantity\": 52}",
+        "{\"quantity\": 93}",
+        ""
+      ],
+      "seed": "45ee25d1d9f7772b",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8
+      ],
+      "adaptive_local_cost": 766.5,
+      "attempted_actions": 2,
+      "best_found_hindsight_local_cost": 546.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 1,
+      "completion_tokens": 7,
+      "demand": {
+        "demand_seed": "0b55376f78813683",
+        "lambda": 4.606785089850993,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 4.606785089850993,
+            "retailer_a": 9,
+            "retailer_b": 4,
+            "week": 2
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 4,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 473,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        ""
+      ],
+      "seed": "0b55376f78813683",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        35,
+        100,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "adaptive_local_cost": 1023.5,
+      "attempted_actions": 12,
+      "best_found_hindsight_local_cost": 683.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 11,
+      "completion_tokens": 96,
+      "demand": {
+        "demand_seed": "633b9d234865a0fe",
+        "lambda": 6.822431450834166,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 12,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 7,
+            "retailer_b": 3,
+            "week": 2
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 3
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 3,
+            "retailer_b": 8,
+            "week": 5
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 10,
+            "retailer_b": 8,
+            "week": 6
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 8,
+            "retailer_b": 10,
+            "week": 7
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 8
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 9
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 9,
+            "retailer_b": 7,
+            "week": 10
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 11,
+            "retailer_b": 2,
+            "week": 11
+          },
+          {
+            "lambda": 6.822431450834166,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 12
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 5,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 7927,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 35}",
+        "{\"quantity\": 100}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        "{\"quantity\": 128}",
+        ""
+      ],
+      "seed": "633b9d234865a0fe",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        26,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "adaptive_local_cost": 915.5,
+      "attempted_actions": 12,
+      "best_found_hindsight_local_cost": 589.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 11,
+      "completion_tokens": 87,
+      "demand": {
+        "demand_seed": "52dae45101f84b7d",
+        "lambda": 6.662759585592678,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 6,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 6,
+            "retailer_b": 6,
+            "week": 2
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 3
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 11,
+            "retailer_b": 4,
+            "week": 4
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 3,
+            "retailer_b": 6,
+            "week": 5
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 5,
+            "retailer_b": 10,
+            "week": 6
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 7
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 14,
+            "retailer_b": 8,
+            "week": 8
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 9
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 10
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 2,
+            "retailer_b": 7,
+            "week": 11
+          },
+          {
+            "lambda": 6.662759585592678,
+            "retailer_a": 2,
+            "retailer_b": 3,
+            "week": 12
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 6,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 7952,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 26}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        "{\"quantity\": 70}",
+        ""
+      ],
+      "seed": "52dae45101f84b7d",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        46
+      ],
+      "adaptive_local_cost": 968.5,
+      "attempted_actions": 3,
+      "best_found_hindsight_local_cost": 718.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 2,
+      "completion_tokens": 15,
+      "demand": {
+        "demand_seed": "a1d890624c4e57ee",
+        "lambda": 6.965548293361546,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.965548293361546,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 1
+          },
+          {
+            "lambda": 6.965548293361546,
+            "retailer_a": 9,
+            "retailer_b": 9,
+            "week": 2
+          },
+          {
+            "lambda": 6.965548293361546,
+            "retailer_a": 4,
+            "retailer_b": 12,
+            "week": 3
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 7,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 997,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 46}",
+        ""
+      ],
+      "seed": "a1d890624c4e57ee",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        46,
+        100,
+        100
+      ],
+      "adaptive_local_cost": 962.5,
+      "attempted_actions": 5,
+      "best_found_hindsight_local_cost": 742.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 4,
+      "completion_tokens": 33,
+      "demand": {
+        "demand_seed": "a4d94f0e4ac948ae",
+        "lambda": 6.054034546661884,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.054034546661884,
+            "retailer_a": 12,
+            "retailer_b": 6,
+            "week": 1
+          },
+          {
+            "lambda": 6.054034546661884,
+            "retailer_a": 9,
+            "retailer_b": 13,
+            "week": 2
+          },
+          {
+            "lambda": 6.054034546661884,
+            "retailer_a": 10,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 6.054034546661884,
+            "retailer_a": 8,
+            "retailer_b": 8,
+            "week": 4
+          },
+          {
+            "lambda": 6.054034546661884,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 8,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 2197,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 46}",
+        "{\"quantity\": 100}",
+        "{\"quantity\": 100}",
+        ""
+      ],
+      "seed": "a4d94f0e4ac948ae",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [],
+      "adaptive_local_cost": 726.5,
+      "attempted_actions": 1,
+      "best_found_hindsight_local_cost": 526.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 0,
+      "completion_tokens": 0,
+      "demand": {
+        "demand_seed": "0f12ce53421126f9",
+        "lambda": 4.454503999385687,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.454503999385687,
+            "retailer_a": 6,
+            "retailer_b": 3,
+            "week": 1
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 9,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 0,
+      "protocol_clean": false,
+      "raw_outputs": [
+        ""
+      ],
+      "seed": "0f12ce53421126f9",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        30,
+        30,
+        25,
+        30
+      ],
+      "adaptive_local_cost": 546.5,
+      "attempted_actions": 6,
+      "best_found_hindsight_local_cost": 372.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 5,
+      "completion_tokens": 39,
+      "demand": {
+        "demand_seed": "ff53fc9041e715da",
+        "lambda": 3.8634037949849205,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 2
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 1,
+            "retailer_b": 1,
+            "week": 4
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 2,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 3.8634037949849205,
+            "retailer_a": 2,
+            "retailer_b": 6,
+            "week": 6
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 10,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 2870,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 30}",
+        "{\"quantity\": 25}",
+        "{\"quantity\": 30}",
+        ""
+      ],
+      "seed": "ff53fc9041e715da",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        34,
+        77
+      ],
+      "adaptive_local_cost": 844.0,
+      "attempted_actions": 4,
+      "best_found_hindsight_local_cost": 589.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 3,
+      "completion_tokens": 23,
+      "demand": {
+        "demand_seed": "a1408b1d8e802647",
+        "lambda": 6.573113932983972,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 1
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 2
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 4,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 6.573113932983972,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 4
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 11,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 1578,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 34}",
+        "{\"quantity\": 77}",
+        ""
+      ],
+      "seed": "a1408b1d8e802647",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8
+      ],
+      "adaptive_local_cost": 1010.0,
+      "attempted_actions": 2,
+      "best_found_hindsight_local_cost": 689.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 1,
+      "completion_tokens": 7,
+      "demand": {
+        "demand_seed": "3a21b63b6f41c058",
+        "lambda": 7.35550271576226,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 7.35550271576226,
+            "retailer_a": 6,
+            "retailer_b": 5,
+            "week": 1
+          },
+          {
+            "lambda": 7.35550271576226,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 2
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 12,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 473,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        ""
+      ],
+      "seed": "3a21b63b6f41c058",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [],
+      "adaptive_local_cost": 847.5,
+      "attempted_actions": 1,
+      "best_found_hindsight_local_cost": 619.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 0,
+      "completion_tokens": 0,
+      "demand": {
+        "demand_seed": "845424a5afb5aac3",
+        "lambda": 5.905772590323238,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 5.905772590323238,
+            "retailer_a": 4,
+            "retailer_b": 3,
+            "week": 1
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 13,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 0,
+      "protocol_clean": false,
+      "raw_outputs": [
+        ""
+      ],
+      "seed": "845424a5afb5aac3",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [
+        8,
+        20,
+        42,
+        50
+      ],
+      "adaptive_local_cost": 690.0,
+      "attempted_actions": 5,
+      "best_found_hindsight_local_cost": 465.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 4,
+      "completion_tokens": 31,
+      "demand": {
+        "demand_seed": "514980a6c68e06f3",
+        "lambda": 5.722705750983893,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 1
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 0,
+            "retailer_b": 6,
+            "week": 2
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 3
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 9,
+            "retailer_b": 3,
+            "week": 4
+          },
+          {
+            "lambda": 5.722705750983893,
+            "retailer_a": 5,
+            "retailer_b": 4,
+            "week": 5
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 14,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 2192,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "{\"quantity\": 20}",
+        "{\"quantity\": 42}",
+        "{\"quantity\": 50}",
+        ""
+      ],
+      "seed": "514980a6c68e06f3",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    },
+    {
+      "actions": [],
+      "adaptive_local_cost": 591.5,
+      "attempted_actions": 1,
+      "best_found_hindsight_local_cost": 404.0,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 0,
+      "completion_tokens": 0,
+      "demand": {
+        "demand_seed": "095049b38cd283bf",
+        "lambda": 4.583108321142454,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 4.583108321142454,
+            "retailer_a": 3,
+            "retailer_b": 3,
+            "week": 1
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 15,
+      "local_total_cost": null,
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 0,
+      "protocol_clean": false,
+      "raw_outputs": [
+        ""
+      ],
+      "seed": "095049b38cd283bf",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.0
+    }
+  ],
+  "seed_manifest": "experiments/live_y_domain_randomized_grpo_v2/seed_manifest.json",
+  "summary": {
+    "adaptive_score": null,
+    "adaptive_total_cost": 0,
+    "best_found_hindsight_total_cost": 0,
+    "bootstrap_resamples": 100000,
+    "bootstrap_seed": 20260829,
+    "cached_tokens": 0,
+    "completion_tokens": 494,
+    "coverage": 0.0,
+    "mean_per_episode_hindsight_score": null,
+    "model_mean_cost": null,
+    "model_total_cost": 0,
+    "model_vs_adaptive": null,
+    "n_protocol_clean": 0,
+    "n_scheduled": 16,
+    "primary_score": null,
+    "primary_score_bootstrap_95_ci": null,
+    "primary_score_definition": "100 * sum(best_found_hindsight_cost) / sum(model_cost), paired on clean seeds",
+    "prompt_tokens": 38789,
+    "protocol_failure_rate": 1.0,
+    "usage_cost_usd": 0.0
+  }
+}

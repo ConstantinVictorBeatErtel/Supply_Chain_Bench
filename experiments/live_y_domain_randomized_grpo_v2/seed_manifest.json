@@ -1,0 +1,25 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v2",
+  "evaluation": {
+    "in_distribution": [
+      "4bcc33b98dd6ffda",
+      "3065aa77a626a097",
+      "ab1d3ed7c9624443",
+      "45ee25d1d9f7772b",
+      "0b55376f78813683",
+      "633b9d234865a0fe",
+      "52dae45101f84b7d",
+      "a1d890624c4e57ee",
+      "a4d94f0e4ac948ae",
+      "0f12ce53421126f9",
+      "ff53fc9041e715da",
+      "a1408b1d8e802647",
+      "3a21b63b6f41c058",
+      "845424a5afb5aac3",
+      "514980a6c68e06f3",
+      "095049b38cd283bf"
+    ]
+  },
+  "derivation": "SHA-256(live-y-domain-randomized-grpo-v2|evaluation|index:08d)[:16]",
+  "note": "Held-out v2 seeds. Dynamics are constructed by training_spec, exactly as in model training and browser play."
+}

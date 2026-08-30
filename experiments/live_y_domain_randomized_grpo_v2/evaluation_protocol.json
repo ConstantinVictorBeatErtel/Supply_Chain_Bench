@@ -1,0 +1,28 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v2",
+  "primary_metric": {
+    "name": "paired_hindsight_score",
+    "formula": "100 * sum(best_found_hindsight_cost_s) / sum(model_cost_s)",
+    "direction": "higher_is_better",
+    "reference_score": 100,
+    "pairing": "Model and hindsight reference use the exact same held-out episode seeds.",
+    "coverage_requirement": "Report the primary result as complete only when every scheduled episode is protocol-clean."
+  },
+  "uncertainty": {
+    "method": "paired nonparametric bootstrap over episode seeds",
+    "resamples": 100000,
+    "confidence_interval": 0.95,
+    "seed": 20260829
+  },
+  "reference": {
+    "name": "best_found_feasible_hindsight_v1",
+    "caveat": "The integer 36-step search is not exhaustively enumerated. The saved reference is the lowest feasible cost found by policy grids, model warm starts, and coordinate descent, not a mathematical optimality proof."
+  },
+  "diagnostics": [
+    "mean model local cost",
+    "mean adaptive-controller local cost",
+    "mean best-found hindsight local cost",
+    "mean per-episode hindsight score",
+    "protocol coverage and failure rate"
+  ]
+}

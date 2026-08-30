@@ -1,0 +1,479 @@
+{
+  "decoding": {
+    "max_completion_tokens": 192,
+    "reasoning_effort": "none",
+    "temperature": 0.7,
+    "top_p": 0.95,
+    "visible_protocol_limit": 192
+  },
+  "environment_constructor": "training_spec",
+  "evaluation_kind": "fixed held-out v2 in-distribution evaluation",
+  "model_id": "anthropic/claude-opus-5",
+  "prompt": "v1 research prompt contract (unchanged role-local inputs), applied to v2 observations",
+  "protocol_id": "live-y-domain-randomized-grpo-v2",
+  "reference_artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/hindsight_reference.json",
+  "reference_caveat": "Best-found feasible hindsight; not a proof of the mathematical optimum.",
+  "rows": [
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=32: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 0,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "4bcc33b98dd6ffda"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=34: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 1,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "3065aa77a626a097"
+    },
+    {
+      "actions": [
+        8,
+        28,
+        56,
+        64,
+        34,
+        18,
+        20,
+        28,
+        32,
+        30,
+        28,
+        28,
+        34,
+        33,
+        32,
+        33,
+        34,
+        33,
+        36,
+        33,
+        29,
+        32,
+        30,
+        32,
+        30,
+        28,
+        27,
+        26,
+        20
+      ],
+      "adaptive_local_cost": 815.5,
+      "attempted_actions": 30,
+      "best_found_hindsight_local_cost": 522.5,
+      "bullwhip_ratio": null,
+      "cached_tokens": 0,
+      "completed_weeks": 29,
+      "completion_tokens": 3124,
+      "demand": {
+        "demand_seed": "ab1d3ed7c9624443",
+        "lambda": 6.2751900781469345,
+        "lambda_high": 8.0,
+        "lambda_low": 2.0,
+        "process_id": "episode_randomized_y_poisson_v1",
+        "trace": [
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 2,
+            "week": 1
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 3,
+            "retailer_b": 7,
+            "week": 2
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 3
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 6,
+            "retailer_b": 7,
+            "week": 4
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 4,
+            "week": 5
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 5,
+            "retailer_b": 6,
+            "week": 6
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 9,
+            "week": 7
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 4,
+            "week": 8
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 11,
+            "retailer_b": 6,
+            "week": 9
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 10
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 5,
+            "retailer_b": 5,
+            "week": 11
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 12,
+            "retailer_b": 8,
+            "week": 12
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 7,
+            "week": 13
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 14
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 9,
+            "retailer_b": 8,
+            "week": 15
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 5,
+            "week": 16
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 6,
+            "retailer_b": 10,
+            "week": 17
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 13,
+            "retailer_b": 5,
+            "week": 18
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 9,
+            "retailer_b": 5,
+            "week": 19
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 20
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 21
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 7,
+            "week": 22
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 12,
+            "retailer_b": 9,
+            "week": 23
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 8,
+            "week": 24
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 4,
+            "retailer_b": 6,
+            "week": 25
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 5,
+            "retailer_b": 7,
+            "week": 26
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 6,
+            "week": 27
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 3,
+            "retailer_b": 2,
+            "week": 28
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 8,
+            "retailer_b": 5,
+            "week": 29
+          },
+          {
+            "lambda": 6.2751900781469345,
+            "retailer_a": 7,
+            "retailer_b": 8,
+            "week": 30
+          }
+        ]
+      },
+      "format_failures": 1,
+      "index": 2,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "normalized_order_volatility": null,
+      "per_episode_adaptive_relative_score": null,
+      "per_episode_hindsight_score": null,
+      "prompt_tokens": 33079,
+      "protocol_clean": false,
+      "raw_outputs": [
+        "{\"quantity\": 8}",
+        "<think>Demand jumped to 26, backlog 14. Need to cover. Order enough to cover demand plus backlog: ~26+14 minus on_order 12 = 28. Order ~28.</think>{\"quantity\": 28}",
+        "<think>Demand ~26/week, backlog 36, on_order 36. Need pipeline to cover demand ~26/week over 3 weeks lead \u2248 78 plus backlog 36 = 114 minus on_order 36 = ~78. But avoid overshoot; order ~50.</think>{\"quantity\": 56}",
+        "<think>Demand ~26-28/week. Backlog 56, on order 84. Need to cover backlog plus pipeline demand. Target inventory position ~ demand*(lead 3)+backlog = 84+56=140; current position 28. Order ~ 112 but avoid overshoot; order 64.</think>{\"quantity\": 64}",
+        "<think>Demand ~28/week. Backlog 73, on_order 136. Inventory position 63. Need pipeline to cover ~28/week over 3 weeks lead ~84 plus backlog 73 = ~157. On order 136 already, so order modest ~28-40. Avoid over-ordering bullwhip.</think>{\"quantity\": 34}",
+        "<think>Backlog 81, on_order 154, demand ~25-28/week. Inventory position 73 (=154-81). Pipeline is large relative to demand (~27/wk, need ~3 weeks coverage ~81 plus backlog). On order 154 already covers backlog 81 plus ~73 for future. That's adequate; risk of overshoot. Order modest ~20.</think>{\"quantity\": 18}",
+        "<think>Backlog 102, on order 166, demand ~27/week. Inventory position 64 (=166-102). Need coverage for ~3 weeks pipeline: 27*3\u224881 plus clear backlog. On order 166 already substantial; shipments received have been small (6), suggesting upstream constrained. Ordering more may worsen later. Moderate order ~20-25.</think>{\"quantity\": 20}",
+        "<think>Backlog 95, on order 150, inventory position 55. Demand ~27/week. Pipeline 150 covers backlog plus ~2 weeks. Need to avoid over-ordering. Demand over lead time (3 weeks) ~81. Target IP ~ 81 + small buffer. IP=55, so order ~30.</think>{\"quantity\": 28}",
+        "<think>Backlog 123, on_order 178, demand ~28/week. Inventory position 55 (=178-123). Need pipeline to cover backlog plus lead time demand. Demand ~28/wk, lead ~3 weeks \u2192 need ~84 plus backlog 123 = 207 vs on_order 178. Gap ~30. But upstream seems unreliable. Order moderately ~30-35.</think>{\"quantity\": 32}",
+        "<think>Backlog 94, on order 148, demand ~30/wk. Inventory position 54. Pipeline is decent; need to cover backlog 94 plus ~3 weeks demand 90 = 184 vs 54+... on_order 148 already. Order moderate ~30.</think>{\"quantity\": 30}",
+        "<think>Backlog now only 6, big shipment arrived. Demand ~28/week. On order 62, inventory position 56. Need ~28*3=84 pipeline. Order ~28.</think>{\"quantity\": 28}",
+        "<think>Demand ~28/week. Backlog cleared. On order 58, roughly 2 weeks of demand pipeline. Target pipeline+inventory ~ 3*28 = 84. Order ~28-30.</think>{\"quantity\": 28}",
+        "<think>Demand ~28-36/week. Backlog 12, on order 62, inventory position 50. Need coverage of ~3 weeks demand (~90-100) plus buffer. Order ~30-35.</think>{\"quantity\": 34}",
+        "<think>Demand ~30/week. Backlog 11, on_order 68, inventory position 57. Pipeline needs ~3 weeks demand \u2248 90 plus buffer. Order ~32-34.</think>{\"quantity\": 33}",
+        "<think>Demand ~28-33/week. Backlog 8, on_order 67, inventory position 59. Pipeline needs ~3 weeks of demand ~90 plus buffer. Order ~32.</think>{\"quantity\": 32}",
+        "<think>Demand ~30/week. Backlog 9, on_order 67, inventory position 58. Pipeline needs ~3 weeks*30=90 coverage. Order ~32-34.</think>{\"quantity\": 33}",
+        "<think>Demand ~30/week. Backlog 10, on_order 73, inventory position 63. Pipeline covers ~2.4 weeks of demand plus small backlog. Target inventory position ~ 3 weeks demand + safety ~ 100? Currently 63. Order slightly above demand: ~34.</think>{\"quantity\": 34}",
+        "<think>Demand ~30/week. Backlog 14, on_order 79, inventory position 65. Pipeline covers ~2.6 weeks of demand plus backlog. Target roughly 3 weeks demand + backlog \u2248 90+14... inventory position 65 already includes backlog? Order ~32 to keep steady, slightly more to clear backlog.</think>{\"quantity\": 33}",
+        "<think>Demand ~30/week. Backlog 10, on_order 74, inventory position 64. Pipeline coverage needs ~3 weeks demand + small buffer \u2248 90-100. Position 64 minus backlog... order ~36 to close gap gradually.</think>{\"quantity\": 36}",
+        "<think>Demand ~30/week. Backlog 5, on_order 75, inventory position 70. Pipeline needs ~3 weeks demand ~90 plus small buffer. Slightly increase order.</think>{\"quantity\": 33}",
+        "<think>Demand ~30/week. Inventory position 77, on order 75, on hand 2. Pipeline covers ~2.5 weeks of demand. Target ~3 weeks demand + safety \u2248 100? But backlog nearly cleared. Order roughly demand ~28-30.</think>{\"quantity\": 29}",
+        "<think>Demand ~30/week. Inventory position 75, on_order 70, inventory 5. Pipeline covers ~2-3 weeks of demand. Target IP ~ demand*(lead 3)+safety ~ 100? But currently backlog gone, inventory small. Order ~30 keeps steady. IP 75 vs target ~95 suggests order slightly more: 30.</think>{\"quantity\": 32}",
+        "<think>Demand ~30/week. Inventory position 76, on order 66, on hand 10. Pipeline covers ~3 weeks of demand (needed ~90 for 3 weeks lead coverage). Slightly low but fine. Order ~30.</think>{\"quantity\": 30}",
+        "<think>Demand ~30-37. Inventory position 69, on order 62, inventory 7. Pipeline covers ~2 weeks demand plus. Target maybe 3x30=90? Current IP 69 seems slightly low but okay. Order ~32.</think>{\"quantity\": 32}",
+        "<think>Demand ~30/week. Inventory position 73, on order 62, inventory 11. Pipeline covers ~3 weeks demand (90 needed for lead 3). Slightly low but fine. Order ~30.</think>{\"quantity\": 30}",
+        "<think>Demand ~30/week. Inventory position 77, on order 62, inventory 15. Pipeline covers ~3 weeks demand (90 needed for lead ~3). Slightly low but fine. Order ~28-30. Horizon ending soon, keep modest.</think>{\"quantity\": 28}",
+        "<think>Demand ~30. Inventory position 77 vs need ~3 weeks*30=90ish. But horizon ending in 10 weeks; avoid excess. Order ~28.</think>{\"quantity\": 27}",
+        "<think>Demand ~30/week. Inventory position 74, pipeline 55, inventory 19. Target ~3 weeks demand \u2248 90ish, but horizon ending in 9 weeks \u2014 reduce. Order slightly below demand to draw down inventory.</think>{\"quantity\": 26}",
+        "<think>Inventory 26, on order 53, position 79. Demand ~28/week. Pipeline covers ~3 weeks of demand. With 8 weeks left, want to reduce inventory toward end. Target position ~ demand*3 = 84, slightly above. Order modestly below demand to draw down.</think>{\"quantity\": 20}",
+        "<think>Demand ~28/week. Inventory 24, on order 46, position 70. Need coverage for ~3 weeks lead = ~84. But only 7 weeks remain; end-game reduce ordering. Orders placed now arrive week 33. Remaining demand weeks 30-36 \u2248 28*7=196. Already have 70 which covers through ~week 32. Need ~ demand weeks 33-36 = 112, but pipeline arrivals later than week 36 useless. Orders now (week30) arrive week33; week31\u219234, 32\u219235, 33\u219236. So ~"
+      ],
+      "seed": "ab1d3ed7c9624443",
+      "system_total_cost": null,
+      "usage_cost_usd": 0.243495
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=31: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 3,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "45ee25d1d9f7772b"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=2: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 4,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "0b55376f78813683"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=3: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 5,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "633b9d234865a0fe"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=2: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 6,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "52dae45101f84b7d"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 7,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "a1d890624c4e57ee"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 8,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "a4d94f0e4ac948ae"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 9,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "0f12ce53421126f9"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 10,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "ff53fc9041e715da"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 11,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "a1408b1d8e802647"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=2: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 12,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "3a21b63b6f41c058"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 13,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "845424a5afb5aac3"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 14,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "514980a6c68e06f3"
+    },
+    {
+      "attempted_actions": 0,
+      "completed_weeks": 0,
+      "error": "OpenRouter request failed week=1: {'status': 402, 'body': {'error': {'message': 'This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.', 'code': 402, 'metadata': {'reason': 'in_flight_budget_exhausted', 'limit_source': 'openrouter_in_flight_budget', 'remedy_hint': 'Retry after your in-flight requests settle (see the Retry-After header). Adding credits at https://openrouter.ai/settings/credits raises your in-flight budget, up to a capped ceiling.', 'headers': {'Retry-After': '120'}, 'provider_name': None}}, 'user_id': 'user_31EUZb6Vux3UPxKYW1eaFnq7gai'}}",
+      "format_failures": 1,
+      "index": 15,
+      "local_total_cost": null,
+      "model_id": "anthropic/claude-opus-5",
+      "protocol_clean": false,
+      "seed": "095049b38cd283bf"
+    }
+  ],
+  "seed_manifest": "experiments/live_y_domain_randomized_grpo_v2/seed_manifest.json",
+  "summary": {
+    "adaptive_score": null,
+    "adaptive_total_cost": 0,
+    "best_found_hindsight_total_cost": 0,
+    "bootstrap_resamples": 100000,
+    "bootstrap_seed": 20260829,
+    "cached_tokens": 0,
+    "completion_tokens": 3124,
+    "coverage": 0.0,
+    "mean_per_episode_hindsight_score": null,
+    "model_mean_cost": null,
+    "model_total_cost": 0,
+    "model_vs_adaptive": null,
+    "n_protocol_clean": 0,
+    "n_scheduled": 16,
+    "primary_score": null,
+    "primary_score_bootstrap_95_ci": null,
+    "primary_score_definition": "100 * sum(best_found_hindsight_cost) / sum(model_cost), paired on clean seeds",
+    "prompt_tokens": 33079,
+    "protocol_failure_rate": 1.0,
+    "usage_cost_usd": 0.243495
+  }
+}

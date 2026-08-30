@@ -11,7 +11,52 @@ one wholesaler seat; retailers, distributor, and factory are deterministic
 counterparties. A result is attributable to the controlled model rather than to
 sampling from several independently failing model agents.
 
-## Frozen standard protocol
+## Current stochastic v2 protocol
+
+`live-y-domain-randomized-grpo-v2` is the current playable and model-evaluation
+protocol:
+
+- Y topology, wholesaler control, 36 decision weeks, and three settlement weeks.
+- Order delay 1, shipment delay 2, order range 0–128, and factory capacity 400.
+- Customer demand is newly sampled for every retailer and operational week.
+  Retailer orders carry that variation to the wholesaler rather than collapsing
+  its incoming signal to a constant.
+- Each game receives a fresh seed. The model benchmark uses 16 fixed, held-out,
+  SHA-derived v2 seeds. Training and evaluation both construct the game with
+  `training_spec`; browser play is parity-tested against the same v2 dynamics.
+- The model receives only its local state, delayed incoming order, supply-line
+  summary, and bounded own history. It never receives the demand law, capacity,
+  evaluator traces, hindsight actions, or another role's private state.
+
+The action is exactly one JSON object, `{"quantity": INTEGER}`, with an integer
+from 0 through 128. A malformed action terminates the episode as a protocol
+failure; it is never clamped or silently repaired. Ranked results require all
+16 expected seeds and 16 protocol-clean episodes.
+
+The v2 normalized score is paired by seed:
+
+`100 × sum_s(C_best-found,s) / sum_s(C_policy,s)`.
+
+The saved reference is the lowest feasible cost found through policy grids,
+model warm starts, and coordinate descent. It is not a claim of exact global
+optimality. Uncertainty is a 100,000-resample paired bootstrap over the 16 seeds
+with a fixed bootstrap seed.
+
+| Rank | Model | Score | 95% CI | Clean episodes |
+| ---: | --- | ---: | ---: | ---: |
+| 1 | Muse Spark 1.2 | 51.37 | 46.39–55.93 | 16/16 |
+| 2 | Grok 4.6 | 46.78 | 44.56–48.95 | 16/16 |
+| 3 | GLM-5.3-Flash | 44.17 | 39.18–49.47 | 16/16 |
+| 4 | GPT-5.6 Sol | 43.81 | 37.61–50.62 | 16/16 |
+| 5 | Qwen3.5-4B GRPO (v1-trained) | 38.42 | 35.66–41.69 | 16/16 |
+| 6 | GPT-5.6 Luna | 18.51 | 15.31–23.21 | 16/16 |
+| 7 | Qwen3.5-4B (untrained) | 11.78 | 9.41–14.72 | 16/16 |
+
+The committed leaderboard, coverage failures, action traces, and hindsight
+reference are in
+[`artifacts/live_y_domain_randomized_grpo_v2/evaluations/`](../artifacts/live_y_domain_randomized_grpo_v2/evaluations/).
+
+## Archived standard protocol
 
 `standard` is the existing live-Y capacity-400 research protocol:
 
@@ -28,7 +73,7 @@ The committed standard seeds and source artifacts are unchanged. The Verifiers
 Hub Tier-5 capacity-22 protocol and the older 100-seed serial benchmark are
 legacy tracks and must not be combined with this board.
 
-## Interface and score
+## Archived standard interface and score
 
 The action is exactly one JSON object, `{"quantity": INTEGER}`, with an integer
 from 0 through 128. A malformed action terminates the episode as a protocol

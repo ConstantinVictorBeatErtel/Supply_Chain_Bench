@@ -1,0 +1,59 @@
+{
+  "protocol_id": "live-y-domain-randomized-grpo-v1",
+  "model_id": "z-ai/glm-5.3-flash",
+  "primary_metric": "100 * sum(best_found_hindsight_cost) / sum(model_cost), paired by bucket and seed",
+  "primary_score": 41.52435167615433,
+  "primary_score_bootstrap_95_ci": [
+    34.60373692931832,
+    47.51575917009977
+  ],
+  "bootstrap_resamples": 100000,
+  "bootstrap_seed": 20260829,
+  "coverage": {
+    "protocol_clean_episodes": 16,
+    "scheduled_episodes": 16,
+    "strict_actions": 576
+  },
+  "costs": {
+    "model_total": 11067.0,
+    "model_mean": 691.6875,
+    "adaptive_total": 6221.5,
+    "adaptive_mean": 388.84375,
+    "best_found_hindsight_total": 4595.5,
+    "best_found_hindsight_mean": 287.21875
+  },
+  "comparators": {
+    "adaptive_score": 73.86482359559592,
+    "model_vs_adaptive": 56.21668022047529,
+    "mean_per_episode_hindsight_score": 38.52607603686807
+  },
+  "by_bucket": {
+    "burst_and_collapse": {
+      "n": 4,
+      "score": 43.19385593220339,
+      "model_mean_cost": 472.0,
+      "best_found_hindsight_mean_cost": 203.875
+    },
+    "canonical_held_out_step": {
+      "n": 4,
+      "score": 28.37772397094431,
+      "model_mean_cost": 516.25,
+      "best_found_hindsight_mean_cost": 146.5
+    },
+    "in_distribution": {
+      "n": 4,
+      "score": 30.027051397655544,
+      "model_mean_cost": 554.5,
+      "best_found_hindsight_mean_cost": 166.5
+    },
+    "shifted_mean_doubled_variance": {
+      "n": 4,
+      "score": 51.63398692810458,
+      "model_mean_cost": 1224.0,
+      "best_found_hindsight_mean_cost": 632.0
+    }
+  },
+  "reference_artifact": "hindsight_reference_glm53_augmented.json",
+  "gameplay_artifact": "openrouter_z-ai_glm-5.3-flash.json",
+  "reference_caveat": "Best-found feasible hindsight after adding this model's traces as warm starts; not a mathematical optimality proof."
+}

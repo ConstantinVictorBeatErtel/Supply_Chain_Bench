@@ -29,7 +29,11 @@ SupplyChainBench turns that idea into an RL environment and benchmark. An agent 
 
 For training, I use **GRPO + LoRA**. GRPO compares sampled actions against other rollouts, while LoRA efficiently updates the policy without changing the frozen Qwen3.5-4B base model. Because an order's effects are delayed, each decision is scored using a six-week downstream cost window.
 
-The result is a substantial improvement. On the same 16 held-out benchmark seeds, Qwen3.5-4B improves from a score of **6.73 untrained to 20.64 after training**, while mean cost falls from **4,264.7 to 1,391.8**.
+The v1-trained adapter also transfers substantially better than its base model
+to v2. On the same 16 held-out v2 benchmark seeds, Qwen3.5-4B improves from a
+score of **11.78 untrained to 38.42 with the v1-trained adapter**, while mean
+cost falls from **4,742.3 to 1,453.6**. The earlier **6.73 to 20.64** result
+remains archived as a v1 result; the adapter has not yet been retrained on v2.
 
 The broader goal is not only to benchmark supply-chain reasoning, but to explore whether environments with **delayed consequences and long horizons can train more general decision-making abilities.**
 
@@ -47,8 +51,9 @@ The browser replay preserves the historical baseline, untrained-model, and
 trained-model comparison. The playable game now runs the corrected stochastic
 v2 training scenario: every new game gets a fresh seed, customer demand is
 sampled each retailer/week, and retailer orders carry that demand variation to
-the wholesaler. Until a model is retrained on v2, the end screen compares the
-human only with an adaptive base-stock policy on the exact same episode seed.
+the wholesaler. The end screen compares the human with an adaptive base-stock
+policy on the exact same episode seed; model results are evaluated separately
+on the frozen v2 benchmark seeds.
 
 The chain is a Y: one wholesaler splitting a single inventory pool between
 two retailers who compete for it.
@@ -67,13 +72,44 @@ customer demand plus the fixed scarcity increment. That preserves fog of war
 without collapsing the wholesaler's incoming signal to a constant value.
 
 The archived v1 model results remain reproducible and are not presented as v2
-game comparisons. A new model comparison will require retraining and evaluation
-on `live-y-domain-randomized-grpo-v2`.
+game comparisons. The current model comparison uses
+`live-y-domain-randomized-grpo-v2`: evaluation calls the same `training_spec`
+constructor as training, while browser play is parity-tested against those v2
+dynamics. Evaluation uses separate held-out seeds.
 
 ## Technical benchmark details
 
-36 weeks each, factory capacity 400. The LLM prompt
-withholds the demand law and the capacity. 
+36 weeks each, factory capacity 400. Every v2 episode resamples customer demand,
+and the LLM prompt withholds the demand law and the capacity.
+
+Official v2 scores require all 16 held-out episodes to finish protocol-clean.
+The primary score pairs every model episode with the best feasible hindsight
+cost found for the exact same seed:
+
+$$
+\mathrm{score} = 100 \times
+\frac{\sum_s C^{\mathrm{best\ found}}_s}
+     {\sum_s C^{\mathrm{policy}}_s}
+$$
+
+| Rank | Model | Score | 95% paired-bootstrap CI | Mean cost |
+| ---: | --- | ---: | ---: | ---: |
+| 1 | Muse Spark 1.2 | **51.37** | 46.39–55.93 | 1,087.2 |
+| 2 | Grok 4.6 | **46.78** | 44.56–48.95 | 1,193.8 |
+| 3 | GLM-5.3-Flash | **44.17** | 39.18–49.47 | 1,264.4 |
+| 4 | GPT-5.6 Sol | **43.81** | 37.61–50.62 | 1,274.8 |
+| 5 | Qwen3.5-4B GRPO (v1-trained) | **38.42** | 35.66–41.69 | 1,453.6 |
+| 6 | GPT-5.6 Luna | **18.51** | 15.31–23.21 | 3,016.2 |
+| 7 | Qwen3.5-4B (untrained) | **11.78** | 9.41–14.72 | 4,742.3 |
+
+The v2 best-found hindsight mean cost is 558.44 and the adaptive base-stock
+mean is 802.53 (score 69.58). The hindsight search is a feasible reference, not
+a proof of mathematical optimality. DeepSeek V4 Flash and Grok 4.5 each had one
+protocol failure and remain unranked; incomplete Claude, Laguna, and Nemotron
+runs are also unranked. Full replayable artifacts and coverage are in
+[`artifacts/live_y_domain_randomized_grpo_v2/evaluations/`](artifacts/live_y_domain_randomized_grpo_v2/evaluations/).
+
+### Archived v1 benchmark
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v4.png)
 
@@ -86,7 +122,7 @@ The chart is generated from the leaderboard JSON by
 [`scripts/render_capacity_400_scoreboard.py`](scripts/render_capacity_400_scoreboard.py),
 so it cannot drift from the evaluations.
 
-### Scoring
+### Archived v1 scoring
 
 Weekly local cost (holding $0.5$, backlog $1.0$):
 
