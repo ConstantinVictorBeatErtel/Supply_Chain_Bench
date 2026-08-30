@@ -16,6 +16,23 @@ The project measures three things:
 - **Learning:** does improvement come from a bounded notebook or real LoRA
   weight updates across episodes?
 
+## Motivation
+
+One central pillar that our personal lives, as well as society, rest on is the ability to forecast the future.
+This is inherently difficult because the future is unknown. Doing it well requires pulling together context, determining what information matters, and understanding how actions today can affect outcomes much later.
+
+I wanted to build a task that could both **test and teach** this kind of long-horizon reasoning. I thought back to the Beer Distribution Game from a supply chain class I had taken.
+
+The game is particularly useful because of its delays. Orders and shipments take time to arrive, so an action that looks reasonable today may create excess inventory or backlog several weeks later. To perform well, an agent has to think ahead while simultaneously accounting for decisions already moving through the supply chain.
+
+SupplyChainBench turns that idea into an RL environment and benchmark. An agent controls the wholesaler for 36 weeks without being told the underlying demand law or supply limits, and is evaluated on its ability to control costs, adapt when the environment changes, and learn across episodes.
+
+For training, I use **GRPO + LoRA**. GRPO compares sampled actions against other rollouts, while LoRA efficiently updates the policy without changing the frozen Qwen3.5-4B base model. Because an order's effects are delayed, each decision is scored using a six-week downstream cost window.
+
+The result is a substantial improvement. On the same 16 held-out benchmark seeds, Qwen3.5-4B improves from a score of **6.73 untrained to 20.64 after training**, while mean cost falls from **4,264.7 to 1,391.8**.
+
+The broader goal is not only to benchmark supply-chain reasoning, but to explore whether environments with **delayed consequences and long horizons can train more general decision-making abilities.**
+
 ## Benchmark
 
 The main test uses 16 fixed supply chains. The agent controls the wholesaler
