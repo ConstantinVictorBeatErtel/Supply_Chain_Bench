@@ -10,63 +10,64 @@
   <line x1="80" y1="116" x2="1040" y2="116" stroke="#D8E2E2" stroke-width="1"/>
   <g fill="#829196" font-family="IBM Plex Mono, Menlo, monospace" font-size="13" font-weight="600" letter-spacing="1.6"><text x="96" y="140" text-anchor="middle">RANK</text><text x="142" y="140">MODEL</text><text x="1040" y="140" text-anchor="end">SCORE</text></g>
   <g font-family="IBM Plex Sans, Arial, sans-serif" fill="#172B35">
-    <!-- 1 · Claude Opus 5 · 51.28 -->
+    <!-- 1 · Muse Spark 1.2 · 51.37 -->
     <rect x="80" y="158" width="32" height="32" rx="9" fill="#E5A64E"/>
     <text x="96" y="179" text-anchor="middle" fill="#FFFFFF" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">1</text>
-    <text x="142" y="177" font-size="19" font-weight="600">Claude Opus 5</text>
-    <text x="1040" y="177" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">51.28</text>
+    <text x="142" y="177" font-size="19" font-weight="600">Muse Spark 1.2</text>
+    <text x="1040" y="177" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">51.37</text>
     <rect x="142" y="187" width="898" height="12" rx="6" fill="#E6EEED"/>
     <rect x="142" y="187" width="461" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 2 · GPT-5.6 Sol · 43.61 -->
+    <!-- 2 · Grok 4.6 · 46.78 -->
     <rect x="80" y="214" width="32" height="32" rx="9" fill="#C7D4D5"/>
     <text x="96" y="235" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">2</text>
-    <text x="142" y="233" font-size="19" font-weight="600">GPT-5.6 Sol</text>
-    <text x="1040" y="233" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">43.61</text>
+    <text x="142" y="233" font-size="19" font-weight="600">Grok 4.6</text>
+    <text x="1040" y="233" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">46.78</text>
     <rect x="142" y="243" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="243" width="392" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 3 · Grok 4.6 · 42.09 -->
+    <rect x="142" y="243" width="420" height="12" rx="6" fill="url(#bar)"/>
+    <!-- 3 · GLM-5.3-Flash · 44.17 -->
     <rect x="80" y="270" width="32" height="32" rx="9" fill="#D38A62"/>
     <text x="96" y="291" text-anchor="middle" fill="#FFFFFF" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">3</text>
-    <text x="142" y="289" font-size="19" font-weight="600">Grok 4.6</text>
-    <text x="1040" y="289" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">42.09</text>
+    <text x="142" y="289" font-size="19" font-weight="600">GLM-5.3-Flash</text>
+    <text x="1040" y="289" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">44.17</text>
     <rect x="142" y="299" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="299" width="378" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 4 · Grok 4.5 · 29.78 -->
+    <rect x="142" y="299" width="397" height="12" rx="6" fill="url(#bar)"/>
+    <!-- 4 · GPT-5.6 Sol · 43.81 -->
     <rect x="80" y="326" width="32" height="32" rx="9" fill="#E2EBEA"/>
     <text x="96" y="347" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">4</text>
-    <text x="142" y="345" font-size="19" font-weight="600">Grok 4.5</text>
-    <text x="1040" y="345" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">29.78</text>
+    <text x="142" y="345" font-size="19" font-weight="600">GPT-5.6 Sol</text>
+    <text x="1040" y="345" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">43.81</text>
     <rect x="142" y="355" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="355" width="267" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 5 · Qwen3.5-4B GRPO · 20.64 -->
+    <rect x="142" y="355" width="393" height="12" rx="6" fill="url(#bar)"/>
+    <!-- 5 · Qwen3.5-4B GRPO · 38.42 -->
     <rect x="80" y="382" width="32" height="32" rx="9" fill="#E2EBEA"/>
     <text x="96" y="403" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">5</text>
     <text x="142" y="401" font-size="19" font-weight="600">Qwen3.5-4B GRPO</text>
     <text x="306" y="401" font-size="13" fill="#8A4B1F" font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">TRAINED HERE</text>
-    <text x="1040" y="401" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">20.64</text>
+    <text x="1040" y="401" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">38.42</text>
     <rect x="142" y="411" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="411" width="185" height="12" rx="6" fill="url(#ours)"/>
-    <!-- 6 · GPT-5.6 Luna · 14.80 -->
+    <rect x="142" y="411" width="345" height="12" rx="6" fill="url(#ours)"/>
+    <!-- 6 · GPT-5.6 Luna · 18.51 -->
     <rect x="80" y="438" width="32" height="32" rx="9" fill="#E2EBEA"/>
     <text x="96" y="459" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">6</text>
     <text x="142" y="457" font-size="19" font-weight="600">GPT-5.6 Luna</text>
-    <text x="1040" y="457" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">14.80</text>
+    <text x="1040" y="457" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">18.51</text>
     <rect x="142" y="467" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="467" width="133" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 7 · DeepSeek V4 Flash · 7.12 -->
+    <rect x="142" y="467" width="166" height="12" rx="6" fill="url(#bar)"/>
+    <!-- 7 · Qwen3.5-4B (untrained) · 11.78 -->
     <rect x="80" y="494" width="32" height="32" rx="9" fill="#E2EBEA"/>
     <text x="96" y="515" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">7</text>
-    <text x="142" y="513" font-size="19" font-weight="600">DeepSeek V4 Flash</text>
-    <text x="1040" y="513" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">7.12</text>
+    <text x="142" y="513" font-size="19" font-weight="600">Qwen3.5-4B</text>
+    <text x="256" y="513" font-size="13" fill="#829196" font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">UNTRAINED BASE</text>
+    <text x="1040" y="513" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">11.78</text>
     <rect x="142" y="523" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="523" width="64" height="12" rx="6" fill="url(#bar)"/>
-    <!-- 8 · Qwen3.5-4B (untrained) · 6.73 -->
+    <rect x="142" y="523" width="106" height="12" rx="6" fill="url(#bar)"/>
+    <!-- — · Claude Opus 5 [unranked 15/16] · 54.81 -->
     <rect x="80" y="550" width="32" height="32" rx="9" fill="#E2EBEA"/>
-    <text x="96" y="571" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">8</text>
-    <text x="142" y="569" font-size="19" font-weight="600">Qwen3.5-4B</text>
-    <text x="256" y="569" font-size="13" fill="#829196" font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">UNTRAINED BASE</text>
-    <text x="1040" y="569" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">6.73</text>
+    <text x="96" y="571" text-anchor="middle" fill="#2B454B" font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">—</text>
+    <text x="142" y="569" font-size="19" font-weight="600">Claude Opus 5</text>
+    <text x="286" y="569" font-size="13" fill="#829196" font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">UNRANKED · 15/16</text>
+    <text x="1040" y="569" text-anchor="end" fill="#172B35" font-family="IBM Plex Mono, Menlo, monospace" font-size="19">54.81*</text>
     <rect x="142" y="579" width="898" height="12" rx="6" fill="#E6EEED"/>
-    <rect x="142" y="579" width="60" height="12" rx="6" fill="url(#bar)"/>
+    <rect x="142" y="579" width="492" height="12" rx="6" fill="url(#bar)"/>
   </g>
 </svg>

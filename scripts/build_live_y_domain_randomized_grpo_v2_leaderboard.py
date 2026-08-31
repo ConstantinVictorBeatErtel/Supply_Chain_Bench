@@ -35,7 +35,7 @@ SOURCES = (
     ("Muse Spark 1.2", "openrouter_meta_muse-spark-1.2.json"),
     ("Nemotron 3 Ultra (free)", "openrouter_nvidia_nemotron-3-ultra-550b-a55b_free.json"),
     ("Qwen3.5-4B (untrained)", "untrained_qwen_v2.json"),
-    ("Qwen3.5-4B GRPO (v1-trained)", "trained_qwen_grpo_v2.json"),
+    ("Qwen3.5-4B GRPO", "trained_qwen_grpo_v2.json"),
 )
 
 
@@ -97,6 +97,7 @@ def score_source(
     best_total = sum(row["best"] for row in paired)
     adaptive_total = sum(row["adaptive"] for row in paired)
     clean_subset_score = 100.0 * best_total / model_total if model_total else None
+    clean_subset_ci = bootstrap_ci(paired) if paired else None
     full_coverage = len(clean) == EXPECTED_N
     return {
         "model_id": payload.get("model_id") or payload.get("model"),
@@ -109,8 +110,9 @@ def score_source(
         ),
         "coverage": len(clean) / len(rows),
         "official_score": clean_subset_score if full_coverage else None,
-        "official_score_bootstrap_95_ci": bootstrap_ci(paired) if full_coverage else None,
+        "official_score_bootstrap_95_ci": clean_subset_ci if full_coverage else None,
         "clean_subset_score_diagnostic": clean_subset_score,
+        "clean_subset_score_bootstrap_95_ci_diagnostic": clean_subset_ci,
         "model_mean_cost_on_clean": statistics.mean(row["model"] for row in paired) if paired else None,
         "adaptive_score_on_clean": 100.0 * best_total / adaptive_total if adaptive_total else None,
         "status": "scored" if full_coverage else "unscored_incomplete_protocol_coverage",

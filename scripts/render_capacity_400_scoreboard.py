@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Render the capacity-400 scoreboard from the leaderboard JSON.
+"""Render the current capacity-400 scoreboard from the leaderboard JSON.
 
 The scoreboard used to be a hand-authored SVG, so every re-evaluation meant
 editing bar widths by hand and the picture could silently disagree with the
-numbers. This reads `perfect_cost_leaderboard_capacity_400.json` and emits both
-the SVG and the PNG, so the chart is always whatever the evaluations actually
-say.
+numbers. This reads the current frozen leaderboard and emits both the SVG and
+the PNG, so the chart is always whatever the evaluations actually say.
 
     python scripts/render_capacity_400_scoreboard.py
 """
@@ -19,7 +18,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-BOARD = ROOT / "artifacts/live_y_capacity_400/evaluations/perfect_cost_leaderboard_capacity_400.json"
+BOARD = ROOT / "artifacts/live_y_domain_randomized_grpo_v2/evaluations/leaderboard_v2.json"
 SVG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark.svg"
 PNG_OUT = ROOT / "docs/assets/live-y-capacity-400-benchmark-v4.png"
 
@@ -53,6 +52,7 @@ FONTS = {
 # The repository's own adapter, flagged so a reader can tell it from an API model.
 OURS = "Qwen3.5-4B GRPO"
 BASE = "Qwen3.5-4B (untrained)"
+OPUS_DIAGNOSTIC = "Claude Opus 5 [unranked 15/16]"
 
 
 def font(kind: str, size: int, scale: int, bold: bool = False):
@@ -81,23 +81,18 @@ def hgrad(draw: ImageDraw.ImageDraw, box, c0: str, c1: str, scale: int) -> None:
 
 def load_rows(board_path: Path) -> list[tuple[str, float]]:
     board = json.loads(board_path.read_text())
-    expected = int(board["n_seeds"])
-    rows = [
-        (name, data["score"])
-        for name, data in board["models"].items()
-        if data.get("score") is not None
-        and (
-            int(data.get("n_protocol_clean") or 0) == expected
-            or name == "Claude Opus 5"
-        )
-    ]
-    rows.sort(key=lambda r: r[1], reverse=True)
+    rows = [(row["model"], float(row["score"])) for row in board["ranking"]]
+    opus = board["models"].get("Claude Opus 5") or {}
+    diagnostic = opus.get("clean_subset_score_diagnostic")
+    if opus.get("official_score") is None and diagnostic is not None:
+        rows.append((OPUS_DIAGNOSTIC, float(diagnostic)))
     return rows
 
 
 def short(name: str) -> str:
     return {
         "Qwen3.5-4B (untrained)": "Qwen3.5-4B",
+        OPUS_DIAGNOSTIC: "Claude Opus 5",
         "Laguna S 2.1 (free)": "Laguna S 2.1",
         "Nemotron 3 Ultra (free)": "Nemotron 3 Ultra",
     }.get(name, name)
@@ -125,20 +120,28 @@ def render_png(rows: list[tuple[str, float]], out: Path, scale: int = 2) -> None
     for i, (name, score) in enumerate(rows):
         y = ROW_Y0 + i * ROW_STEP
         ours = name == OURS
+        diagnostic = name == OPUS_DIAGNOSTIC
         d.rounded_rectangle([80 * s, y * s, 112 * s, (y + 32) * s], radius=9 * s,
-                            fill=BADGE[i] if i < 3 else BADGE_REST)
-        d.text((96 * s, (y + 16) * s), str(i + 1), font=font("mono", 14, s),
-               fill="#FFFFFF" if i in (0, 2) else "#2B454B", anchor="mm")
+                            fill=BADGE[i] if i < 3 and not diagnostic else BADGE_REST)
+        rank_text = "—" if diagnostic else str(i + 1)
+        d.text((96 * s, (y + 16) * s), rank_text, font=font("mono", 14, s),
+               fill="#FFFFFF" if i in (0, 2) and not diagnostic else "#2B454B", anchor="mm")
 
         label = short(name)
         d.text((142 * s, (y + 12) * s), label, font=font("sans", 19, s, bold=True),
                fill=INK, anchor="lm")
-        tag = "TRAINED HERE" if ours else ("UNTRAINED BASE" if name == BASE else None)
+        tag = (
+            "UNRANKED · 15/16" if diagnostic
+            else "TRAINED HERE" if ours
+            else "UNTRAINED BASE" if name == BASE
+            else None
+        )
         if tag:
             wlab = d.textlength(label, font=font("sans", 19, s, bold=True))
             d.text((142 * s + wlab + 14 * s, (y + 13) * s), tag, font=font("mono", 11, s),
                    fill=OURS_DARK if ours else FAINT, anchor="lm")
-        d.text((1040 * s, (y + 12) * s), f"{score:.2f}", font=font("mono", 19, s),
+        score_text = f"{score:.2f}*" if diagnostic else f"{score:.2f}"
+        d.text((1040 * s, (y + 12) * s), score_text, font=font("mono", 19, s),
                fill=INK, anchor="rm")
 
         ty0, ty1 = (y + 29) * s, (y + 41) * s
@@ -186,21 +189,29 @@ def render_svg(rows: list[tuple[str, float]], out: Path) -> None:
     for i, (name, score) in enumerate(rows):
         y = ROW_Y0 + i * ROW_STEP
         ours = name == OURS
-        badge = BADGE[i] if i < 3 else BADGE_REST
-        num_fill = "#FFFFFF" if i in (0, 2) else "#2B454B"
+        diagnostic = name == OPUS_DIAGNOSTIC
+        badge = BADGE[i] if i < 3 and not diagnostic else BADGE_REST
+        num_fill = "#FFFFFF" if i in (0, 2) and not diagnostic else "#2B454B"
         label = short(name)
-        p.append(f'    <!-- {i+1} · {name} · {score:.2f} -->')
+        rank_text = "—" if diagnostic else str(i + 1)
+        p.append(f'    <!-- {rank_text} · {name} · {score:.2f} -->')
         p.append(f'    <rect x="80" y="{y}" width="32" height="32" rx="9" fill="{badge}"/>')
         p.append(f'    <text x="96" y="{y+21}" text-anchor="middle" fill="{num_fill}" '
-                 f'font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">{i+1}</text>')
+                 f'font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">{rank_text}</text>')
         p.append(f'    <text x="142" y="{y+19}" font-size="19" font-weight="600">{label}</text>')
-        tag = "TRAINED HERE" if ours else ("UNTRAINED BASE" if name == BASE else None)
+        tag = (
+            "UNRANKED · 15/16" if diagnostic
+            else "TRAINED HERE" if ours
+            else "UNTRAINED BASE" if name == BASE
+            else None
+        )
         if tag:
             p.append(f'    <text x="{142 + 10 * len(label) + 14}" y="{y+19}" font-size="13" '
                      f'fill="{OURS_DARK if ours else FAINT}" '
                      f'font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">{tag}</text>')
+        score_text = f"{score:.2f}*" if diagnostic else f"{score:.2f}"
         p.append(f'    <text x="1040" y="{y+19}" text-anchor="end" fill="{INK}" '
-                 f'font-family="IBM Plex Mono, Menlo, monospace" font-size="19">{score:.2f}</text>')
+                 f'font-family="IBM Plex Mono, Menlo, monospace" font-size="19">{score_text}</text>')
         p.append(f'    <rect x="{TRACK_X0}" y="{y+29}" width="{TRACK_W}" height="12" rx="6" fill="{TRACK_BG}"/>')
         p.append(f'    <rect x="{TRACK_X0}" y="{y+29}" width="{round(TRACK_W * score / 100)}" '
                  f'height="12" rx="6" fill="url(#{"ours" if ours else "bar"})"/>')
@@ -221,7 +232,8 @@ def main() -> None:
     render_svg(rows, args.svg)
     render_png(rows, args.png, args.scale)
     for i, (name, score) in enumerate(rows, 1):
-        print(f"  {i}. {name:26} {score:6.2f}")
+        rank = "—" if name == OPUS_DIAGNOSTIC else str(i)
+        print(f"  {rank:>2}. {name:36} {score:6.2f}")
     print(f"wrote {args.svg}")
     print(f"wrote {args.png}")
 

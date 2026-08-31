@@ -48,50 +48,17 @@ with a fixed bootstrap seed.
 | 2 | Grok 4.6 | 46.78 | 44.56–48.95 | 16/16 |
 | 3 | GLM-5.3-Flash | 44.17 | 39.18–49.47 | 16/16 |
 | 4 | GPT-5.6 Sol | 43.81 | 37.61–50.62 | 16/16 |
-| 5 | Qwen3.5-4B GRPO (v1-trained) | 38.42 | 35.66–41.69 | 16/16 |
+| 5 | Qwen3.5-4B GRPO | 38.42 | 35.66–41.69 | 16/16 |
 | 6 | GPT-5.6 Luna | 18.51 | 15.31–23.21 | 16/16 |
 | 7 | Qwen3.5-4B (untrained) | 11.78 | 9.41–14.72 | 16/16 |
+| — | Claude Opus 5 | 54.81* | 52.39–57.07* | 15/16 |
+
+\* Diagnostic clean-subset result. Opus had one genuine protocol failure and
+is not ranked.
 
 The committed leaderboard, coverage failures, action traces, and hindsight
 reference are in
 [`artifacts/live_y_domain_randomized_grpo_v2/evaluations/`](../artifacts/live_y_domain_randomized_grpo_v2/evaluations/).
-
-## Archived standard protocol
-
-`standard` is the existing live-Y capacity-400 research protocol:
-
-- Y topology, wholesaler control, 36 decision weeks, and three settlement weeks.
-- Order delay 1, shipment delay 2, order range 0–128.
-- Holding cost 0.5 per unit-week; backlog cost 1.0 per unit-week.
-- Factory capacity 400 is hidden from the model; the four existing demand
-  buckets contain four fixed SHA-derived seeds each.
-- The model receives only its local state, delayed incoming order, supply-line
-  summary, and bounded own history. It never receives evaluator traces,
-  hindsight actions, or another role's private state.
-
-The committed standard seeds and source artifacts are unchanged. The Verifiers
-Hub Tier-5 capacity-22 protocol and the older 100-seed serial benchmark are
-legacy tracks and must not be combined with this board.
-
-## Archived standard interface and score
-
-The action is exactly one JSON object, `{"quantity": INTEGER}`, with an integer
-from 0 through 128. A malformed action terminates the episode as a protocol
-failure; it is never clamped or silently repaired.
-
-For weekly local inventory `I_t` and backlog `B_t`,
-
-`c_t = 0.5 I_t + 1.0 B_t`.
-
-Episode cost includes decision weeks, settlement weeks, and terminal inventory
-position exposure. Standard normalized score is
-
-`100 × mean_s(C*_s) / mean_s(C_policy,s)`.
-
-`C*` is the committed feasible hindsight-search reference for that seed. It is
-an upper bound on the true optimum, not a claim of exact global optimality.
-Runs with protocol failures retain a diagnostic clean-subset score but are
-unranked. Ranked results require all 16 expected seeds and 16 clean episodes.
 
 ## Hidden-dynamics suites
 
@@ -123,9 +90,11 @@ must not be compared numerically with the standard score.
 
 ## Seeds and reproducibility
 
-Standard uses the historical manifest. New seeds derive from
+The 16 held-out benchmark seeds are frozen in
+[`experiments/live_y_domain_randomized_grpo_v2/seed_manifest.json`](../experiments/live_y_domain_randomized_grpo_v2/seed_manifest.json)
+and derive from
 
-`SHA256("supplychainbench|beer-distribution|1.0.0|suite|phase|index")[:16]`.
+`SHA256("live-y-domain-randomized-grpo-v2|evaluation|index:08d")[:16]`.
 
 The evaluator records suite/version, exact seeds, git commit, provider
 configuration (never credentials), timestamp, action trace, protocol failures,

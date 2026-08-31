@@ -7,23 +7,31 @@
   "coverage_rule": "Official scores require 16/16 protocol-clean episodes; clean-subset scores are diagnostic only.",
   "models": {
     "Claude Opus 5": {
-      "adaptive_score_on_clean": null,
+      "adaptive_score_on_clean": 69.95841995841995,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_anthropic_claude-opus-5.json",
-      "clean_subset_score_diagnostic": null,
-      "coverage": 0.0,
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        52.39209386785864,
+        57.070483186625296
+      ],
+      "clean_subset_score_diagnostic": 54.80634548356624,
+      "coverage": 0.9375,
       "model_id": "anthropic/claude-opus-5",
-      "model_mean_cost_on_clean": null,
-      "n_protocol_clean": 0,
+      "model_mean_cost_on_clean": 1023.3,
+      "n_protocol_clean": 15,
       "n_scheduled": 16,
       "official_score": null,
       "official_score_bootstrap_95_ci": null,
       "protocol_failures": 1,
       "status": "unscored_incomplete_protocol_coverage",
-      "transport_failures": 15
+      "transport_failures": 0
     },
     "DeepSeek V4 Flash": {
       "adaptive_score_on_clean": 69.56685184411678,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_deepseek_deepseek-v4-flash-0731.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        5.576686227631674,
+        7.835465097162397
+      ],
       "clean_subset_score_diagnostic": 6.572223427973877,
       "coverage": 0.9375,
       "model_id": "deepseek/deepseek-v4-flash-0731",
@@ -39,6 +47,10 @@
     "GLM-5.3-Flash": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_z-ai_glm-5.3-flash.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        39.1756362885273,
+        49.46852003270646
+      ],
       "clean_subset_score_diagnostic": 44.16707859614434,
       "coverage": 1.0,
       "model_id": "z-ai/glm-5.3-flash",
@@ -57,6 +69,10 @@
     "GPT-5.6 Luna": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_openai_gpt-5.6-luna.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        15.307348266430102,
+        23.212927502969002
+      ],
       "clean_subset_score_diagnostic": 18.514489375148933,
       "coverage": 1.0,
       "model_id": "openai/gpt-5.6-luna",
@@ -75,6 +91,10 @@
     "GPT-5.6 Sol": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_openai_gpt-5.6-sol.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        37.606631741635056,
+        50.62116078561
+      ],
       "clean_subset_score_diagnostic": 43.8065354350011,
       "coverage": 1.0,
       "model_id": "openai/gpt-5.6-sol",
@@ -93,6 +113,10 @@
     "Grok 4.5": {
       "adaptive_score_on_clean": 68.97204916652635,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_x-ai_grok-4.5.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        30.708750070368353,
+        37.90366227674544
+      ],
       "clean_subset_score_diagnostic": 34.21310893487294,
       "coverage": 0.9375,
       "model_id": "x-ai/grok-4.5",
@@ -108,6 +132,10 @@
     "Grok 4.6": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_x-ai_grok-4.6.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        44.55871667318764,
+        48.954781733832654
+      ],
       "clean_subset_score_diagnostic": 46.78010471204188,
       "coverage": 1.0,
       "model_id": "x-ai/grok-4.6",
@@ -126,6 +154,10 @@
     "Laguna S 2.1 (free)": {
       "adaptive_score_on_clean": 70.50605402049054,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_poolside_laguna-s-2.1_free.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        12.5868148306443,
+        19.61945790701849
+      ],
       "clean_subset_score_diagnostic": 15.210984594775619,
       "coverage": 0.125,
       "model_id": "poolside/laguna-s-2.1:free",
@@ -141,6 +173,10 @@
     "Muse Spark 1.2": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_meta_muse-spark-1.2.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        46.38668938558685,
+        55.926758753613875
+      ],
       "clean_subset_score_diagnostic": 51.3653348663409,
       "coverage": 1.0,
       "model_id": "meta/muse-spark-1.2",
@@ -159,6 +195,7 @@
     "Nemotron 3 Ultra (free)": {
       "adaptive_score_on_clean": null,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/openrouter_nvidia_nemotron-3-ultra-550b-a55b_free.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": null,
       "clean_subset_score_diagnostic": null,
       "coverage": 0.0,
       "model_id": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -174,6 +211,10 @@
     "Qwen3.5-4B (untrained)": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/untrained_qwen_v2.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        9.410722778934938,
+        14.716730814089107
+      ],
       "clean_subset_score_diagnostic": 11.775559289644493,
       "coverage": 1.0,
       "model_id": "untrained_qwen_v2",
@@ -189,9 +230,13 @@
       "status": "scored",
       "transport_failures": 0
     },
-    "Qwen3.5-4B GRPO (v1-trained)": {
+    "Qwen3.5-4B GRPO": {
       "adaptive_score_on_clean": 69.58451773684826,
       "artifact": "artifacts/live_y_domain_randomized_grpo_v2/evaluations/trained_qwen_grpo_v2.json",
+      "clean_subset_score_bootstrap_95_ci_diagnostic": [
+        35.65837372918121,
+        41.6867731768286
+      ],
       "clean_subset_score_diagnostic": 38.41854065442662,
       "coverage": 1.0,
       "model_id": "trained_qwen_grpo_v2",
@@ -231,7 +276,7 @@
       "score": 43.8065354350011
     },
     {
-      "model": "Qwen3.5-4B GRPO (v1-trained)",
+      "model": "Qwen3.5-4B GRPO",
       "rank": 5,
       "score": 38.41854065442662
     },
