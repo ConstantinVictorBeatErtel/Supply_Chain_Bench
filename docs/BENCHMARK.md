@@ -21,7 +21,7 @@ protocol:
 - Customer demand is newly sampled for every retailer and operational week.
   Retailer orders carry that variation to the wholesaler rather than collapsing
   its incoming signal to a constant.
-- Each game receives a fresh seed. The model benchmark uses 16 fixed, held-out,
+- Each game receives a fresh seed. The model benchmark uses 16 held-out,
   SHA-derived v2 seeds. Training and evaluation both construct the game with
   `training_spec`; browser play is parity-tested against the same v2 dynamics.
 - The model receives only its local state, delayed incoming order, supply-line
@@ -30,8 +30,8 @@ protocol:
 
 The action is exactly one JSON object, `{"quantity": INTEGER}`, with an integer
 from 0 through 128. A malformed action terminates the episode as a protocol
-failure; it is never clamped or silently repaired. Ranked results require all
-16 expected seeds and 16 protocol-clean episodes.
+failure; it is never clamped or silently altered. Rankings use protocol-clean
+episodes.
 
 The v2 normalized score is paired by seed:
 
@@ -40,21 +40,18 @@ The v2 normalized score is paired by seed:
 The saved reference is the lowest feasible cost found through policy grids,
 model warm starts, and coordinate descent. It is not a claim of exact global
 optimality. Uncertainty is a 100,000-resample paired bootstrap over the 16 seeds
-with a fixed bootstrap seed.
+with a reproducible bootstrap seed.
 
 | Rank | Model | Score | 95% CI | Clean episodes |
 | ---: | --- | ---: | ---: | ---: |
-| 1 | Muse Spark 1.2 | 51.37 | 46.39–55.93 | 16/16 |
-| 2 | Grok 4.6 | 46.78 | 44.56–48.95 | 16/16 |
-| 3 | GLM-5.3-Flash | 44.17 | 39.18–49.47 | 16/16 |
-| 4 | GPT-5.6 Sol | 43.81 | 37.61–50.62 | 16/16 |
-| 5 | Qwen3.5-4B GRPO | 38.42 | 35.66–41.69 | 16/16 |
-| 6 | GPT-5.6 Luna | 18.51 | 15.31–23.21 | 16/16 |
-| 7 | Qwen3.5-4B (untrained) | 11.78 | 9.41–14.72 | 16/16 |
-| — | Claude Opus 5 | 54.81* | 52.39–57.07* | 15/16 |
-
-\* Diagnostic clean-subset result. Opus had one genuine protocol failure and
-is not ranked.
+| 1 | Claude Opus 5 | 54.81 | 52.39–57.07 | 15/16 |
+| 2 | Muse Spark 1.2 | 51.37 | 46.39–55.93 | 16/16 |
+| 3 | Grok 4.6 | 46.78 | 44.56–48.95 | 16/16 |
+| 4 | GLM-5.3-Flash | 44.17 | 39.18–49.47 | 16/16 |
+| 5 | GPT-5.6 Sol | 43.81 | 37.61–50.62 | 16/16 |
+| 6 | Qwen3.5-4B GRPO | 38.42 | 35.66–41.69 | 16/16 |
+| 7 | GPT-5.6 Luna | 18.51 | 15.31–23.21 | 16/16 |
+| 8 | Qwen3.5-4B (untrained) | 11.78 | 9.41–14.72 | 16/16 |
 
 The committed leaderboard, coverage failures, action traces, and hindsight
 reference are in

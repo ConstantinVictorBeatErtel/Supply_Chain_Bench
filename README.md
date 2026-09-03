@@ -1,6 +1,6 @@
 # Supply Chain RL Environment & Benchmark (SupplyChainBench)
 
-**[▶ Play the corrected stochastic v2 game](https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/)**
+**[▶ Play the stochastic v2 game](https://constantinvictorbeatertel.github.io/Supply_Chain_Bench/)**
 
 **Can an AI agent learn to control a delayed, partially observed system?**
 
@@ -30,16 +30,16 @@ SupplyChainBench turns that idea into an RL environment and benchmark. An agent 
 For training, I use GRPO + LoRA. GRPO compares sampled actions against other rollouts, while LoRA efficiently updates the policy without changing the frozen Qwen3.5-4B base model. Because an order's effects are delayed, each decision is scored using a six-week downstream cost window.
 
 The trained adapter also transfers substantially better than its base model to
-the corrected stochastic game. On the same 16 held-out benchmark seeds,
+the stochastic game. On the same 16 held-out benchmark seeds,
 Qwen3.5-4B improves from a score of 11.78 untrained to 38.42 with the trained
 adapter, while mean cost falls from 4,742.3 to 1,453.6. The adapter has not yet
-been retrained on the corrected stochastic environment.
+been retrained on the stochastic environment.
 
 The broader goal is not only to benchmark supply-chain reasoning, but to explore whether environments with delayed consequences and long horizons can train more general decision-making abilities.
 
 ## Benchmark
 
-The main test uses 16 fixed supply chains. The agent controls the wholesaler
+The main test uses 16 benchmark supply chains. The agent controls the wholesaler
 without being told the demand pattern or supply limit.
 
 Five additional tests change demand, delivery times, or supply to see whether
@@ -48,7 +48,7 @@ carrying short notes between games, and updating model weights. Their scores
 stay separate so unlike tests are not compared directly.
 
 The browser replay preserves the historical baseline, untrained-model, and
-trained-model comparison. The playable game now runs the corrected stochastic
+trained-model comparison. The playable game now runs the stochastic
 v2 training scenario: every new game gets a fresh seed, customer demand is
 sampled each retailer/week, and retailer orders carry that demand variation to
 the wholesaler. The end screen compares the human with an adaptive base-stock
@@ -60,15 +60,15 @@ two retailers who compete for it.
 
 ```mermaid
 flowchart LR
-  F[Factory] --> D[Distributor] --> WH["Wholesaler · your seat"]
+  F[Factory] --> D[Distributor] --> WH["Wholesaler"]
   WH --> RA[Retailer A] --> CA[Customer A]
   WH --> RB[Retailer B] --> CB[Customer B]
-  style WH fill:#7A3B45,color:#FFFFFF,stroke:#3A2F2C,stroke-width:2px
+  style WH fill:#C62828,color:#FFFFFF,stroke:#7F1D1D,stroke-width:2px
 ```
 
 The playable wholesaler sees the combined orders placed by the two retailers,
 not privileged end-customer demand. In v2, each retailer orders its newly sampled
-customer demand plus the fixed scarcity increment. That preserves fog of war
+customer demand plus the scarcity increment. That preserves fog of war
 without collapsing the wholesaler's incoming signal to a constant value.
 
 The current model comparison uses `live-y-domain-randomized-grpo-v2`:
@@ -119,9 +119,8 @@ $$
 \text{adaptive base-stock average} = 802.53
 $$
 
-Official scores require all 16 held-out episodes to finish protocol-clean. The
-primary score pairs every model episode with the reference for the exact same
-seed:
+The primary score pairs every protocol-clean model episode with the reference
+for the exact same seed:
 
 $$
 \mathrm{score} = 100 \times
@@ -129,22 +128,8 @@ $$
      {\sum_s C^{\mathrm{policy}}_{s}}
 $$
 
-| Rank | Model | Score | 95% paired-bootstrap CI | Mean cost | Coverage |
-| ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | Muse Spark 1.2 | **51.37** | 46.39–55.93 | 1,087.2 | 16/16 |
-| 2 | Grok 4.6 | **46.78** | 44.56–48.95 | 1,193.8 | 16/16 |
-| 3 | GLM-5.3-Flash | **44.17** | 39.18–49.47 | 1,264.4 | 16/16 |
-| 4 | GPT-5.6 Sol | **43.81** | 37.61–50.62 | 1,274.8 | 16/16 |
-| 5 | Qwen3.5-4B GRPO | **38.42** | 35.66–41.69 | 1,453.6 | 16/16 |
-| 6 | GPT-5.6 Luna | **18.51** | 15.31–23.21 | 3,016.2 | 16/16 |
-| 7 | Qwen3.5-4B (untrained) | **11.78** | 9.41–14.72 | 4,742.3 | 16/16 |
-| — | Claude Opus 5 | 54.81* | 52.39–57.07* | 1,023.3* | 15/16 |
-
-\* Opus had one genuine protocol failure, so its clean-subset result is
-diagnostic and unranked. DeepSeek V4 Flash and Grok 4.5 also had one protocol
-failure each and remain unranked. Laguna and Nemotron did not reach complete
-clean coverage. The hindsight search is a feasible reference, not a proof of
-mathematical optimality.
+The hindsight search is a feasible reference, not a proof of mathematical
+optimality.
 
 ## Qwen fine-tune (live-Y GRPO)
 
@@ -172,7 +157,6 @@ which sampled actions were better; LoRA is the small set of weights changed to
 make those actions more likely.
 
 Full details: [`docs/TRAINING.md`](docs/TRAINING.md) ·
-[`docs/LIVE_Y_RL_POSTMORTEM.md`](docs/LIVE_Y_RL_POSTMORTEM.md) ·
 [`artifacts/live_y_best_adapter/`](artifacts/live_y_best_adapter/)
 
 ## Hyperefficient compute
@@ -183,7 +167,7 @@ Documented in [`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md):
 - Batched rollouts; separate inference / train minibatches; LoRA + bf16 + gradient checkpointing
 - Bounded JSON completions (32-token train cap); rolling history window, not full transcript
 - `torch.inference_mode` for generation / old-policy scoring; critic-free group baselines (no value net)
-- CRN / fixed seed derivation to cut rollout variance
+- CRN / reproducible seed derivation to cut rollout variance
 
 ## How it is built
 

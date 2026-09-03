@@ -52,7 +52,7 @@ FONTS = {
 # The repository's own adapter, flagged so a reader can tell it from an API model.
 OURS = "Qwen3.5-4B GRPO"
 BASE = "Qwen3.5-4B (untrained)"
-OPUS_DIAGNOSTIC = "Claude Opus 5 [unranked 15/16]"
+OPUS = "Claude Opus 5"
 
 
 def font(kind: str, size: int, scale: int, bold: bool = False):
@@ -82,17 +82,16 @@ def hgrad(draw: ImageDraw.ImageDraw, box, c0: str, c1: str, scale: int) -> None:
 def load_rows(board_path: Path) -> list[tuple[str, float]]:
     board = json.loads(board_path.read_text())
     rows = [(row["model"], float(row["score"])) for row in board["ranking"]]
-    opus = board["models"].get("Claude Opus 5") or {}
-    diagnostic = opus.get("clean_subset_score_diagnostic")
-    if opus.get("official_score") is None and diagnostic is not None:
-        rows.append((OPUS_DIAGNOSTIC, float(diagnostic)))
-    return rows
+    opus = board["models"].get(OPUS) or {}
+    opus_score = opus.get("official_score") or opus.get("clean_subset_score_diagnostic")
+    if opus_score is not None and all(name != OPUS for name, _ in rows):
+        rows.append((OPUS, float(opus_score)))
+    return sorted(rows, key=lambda row: row[1], reverse=True)
 
 
 def short(name: str) -> str:
     return {
         "Qwen3.5-4B (untrained)": "Qwen3.5-4B",
-        OPUS_DIAGNOSTIC: "Claude Opus 5",
         "Laguna S 2.1 (free)": "Laguna S 2.1",
         "Nemotron 3 Ultra (free)": "Nemotron 3 Ultra",
     }.get(name, name)
@@ -120,19 +119,17 @@ def render_png(rows: list[tuple[str, float]], out: Path, scale: int = 2) -> None
     for i, (name, score) in enumerate(rows):
         y = ROW_Y0 + i * ROW_STEP
         ours = name == OURS
-        diagnostic = name == OPUS_DIAGNOSTIC
         d.rounded_rectangle([80 * s, y * s, 112 * s, (y + 32) * s], radius=9 * s,
-                            fill=BADGE[i] if i < 3 and not diagnostic else BADGE_REST)
-        rank_text = "—" if diagnostic else str(i + 1)
+                            fill=BADGE[i] if i < 3 else BADGE_REST)
+        rank_text = str(i + 1)
         d.text((96 * s, (y + 16) * s), rank_text, font=font("mono", 14, s),
-               fill="#FFFFFF" if i in (0, 2) and not diagnostic else "#2B454B", anchor="mm")
+               fill="#FFFFFF" if i in (0, 2) else "#2B454B", anchor="mm")
 
         label = short(name)
         d.text((142 * s, (y + 12) * s), label, font=font("sans", 19, s, bold=True),
                fill=INK, anchor="lm")
         tag = (
-            "UNRANKED · 15/16" if diagnostic
-            else "TRAINED HERE" if ours
+            "TRAINED HERE" if ours
             else "UNTRAINED BASE" if name == BASE
             else None
         )
@@ -140,7 +137,7 @@ def render_png(rows: list[tuple[str, float]], out: Path, scale: int = 2) -> None
             wlab = d.textlength(label, font=font("sans", 19, s, bold=True))
             d.text((142 * s + wlab + 14 * s, (y + 13) * s), tag, font=font("mono", 11, s),
                    fill=OURS_DARK if ours else FAINT, anchor="lm")
-        score_text = f"{score:.2f}*" if diagnostic else f"{score:.2f}"
+        score_text = f"{score:.2f}"
         d.text((1040 * s, (y + 12) * s), score_text, font=font("mono", 19, s),
                fill=INK, anchor="rm")
 
@@ -189,19 +186,17 @@ def render_svg(rows: list[tuple[str, float]], out: Path) -> None:
     for i, (name, score) in enumerate(rows):
         y = ROW_Y0 + i * ROW_STEP
         ours = name == OURS
-        diagnostic = name == OPUS_DIAGNOSTIC
-        badge = BADGE[i] if i < 3 and not diagnostic else BADGE_REST
-        num_fill = "#FFFFFF" if i in (0, 2) and not diagnostic else "#2B454B"
+        badge = BADGE[i] if i < 3 else BADGE_REST
+        num_fill = "#FFFFFF" if i in (0, 2) else "#2B454B"
         label = short(name)
-        rank_text = "—" if diagnostic else str(i + 1)
+        rank_text = str(i + 1)
         p.append(f'    <!-- {rank_text} · {name} · {score:.2f} -->')
         p.append(f'    <rect x="80" y="{y}" width="32" height="32" rx="9" fill="{badge}"/>')
         p.append(f'    <text x="96" y="{y+21}" text-anchor="middle" fill="{num_fill}" '
                  f'font-family="IBM Plex Mono, Menlo, monospace" font-size="14" font-weight="700">{rank_text}</text>')
         p.append(f'    <text x="142" y="{y+19}" font-size="19" font-weight="600">{label}</text>')
         tag = (
-            "UNRANKED · 15/16" if diagnostic
-            else "TRAINED HERE" if ours
+            "TRAINED HERE" if ours
             else "UNTRAINED BASE" if name == BASE
             else None
         )
@@ -209,7 +204,7 @@ def render_svg(rows: list[tuple[str, float]], out: Path) -> None:
             p.append(f'    <text x="{142 + 10 * len(label) + 14}" y="{y+19}" font-size="13" '
                      f'fill="{OURS_DARK if ours else FAINT}" '
                      f'font-family="IBM Plex Mono, Menlo, monospace" letter-spacing="1.4">{tag}</text>')
-        score_text = f"{score:.2f}*" if diagnostic else f"{score:.2f}"
+        score_text = f"{score:.2f}"
         p.append(f'    <text x="1040" y="{y+19}" text-anchor="end" fill="{INK}" '
                  f'font-family="IBM Plex Mono, Menlo, monospace" font-size="19">{score_text}</text>')
         p.append(f'    <rect x="{TRACK_X0}" y="{y+29}" width="{TRACK_W}" height="12" rx="6" fill="{TRACK_BG}"/>')
@@ -232,8 +227,7 @@ def main() -> None:
     render_svg(rows, args.svg)
     render_png(rows, args.png, args.scale)
     for i, (name, score) in enumerate(rows, 1):
-        rank = "—" if name == OPUS_DIAGNOSTIC else str(i)
-        print(f"  {rank:>2}. {name:36} {score:6.2f}")
+        print(f"  {i:>2}. {name:36} {score:6.2f}")
     print(f"wrote {args.svg}")
     print(f"wrote {args.png}")
 

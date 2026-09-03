@@ -102,7 +102,7 @@ def main() -> None:
         # The board tracks the current adapter.  The superseded two-update run
         # stays on disk as `trained_qwen_grpo_capacity_400.json` for provenance
         # (it scored 7.48 and was statistically indistinguishable from the
-        # untrained base); see docs/LIVE_Y_RL_POSTMORTEM.md.
+        # untrained base).
         (
             "Qwen3.5-4B GRPO",
             "trained_qwen_grpo_v3_capacity_400",

@@ -62,8 +62,7 @@ one per batch. Transient errors do not latch.
   variance and avoids spending additional rollouts on a learned critic.
   The saving is real but it is not free: a group baseline compares a member
   against groupmates that have diverged into different inventory states, which
-  is the weakest remaining component of the update. See
-  [`LIVE_Y_RL_POSTMORTEM.md`](LIVE_Y_RL_POSTMORTEM.md).
+  is the weakest remaining component of the update.
 - The surrogate scores only the tokens that encode the integer order rather than
   the whole completion, so a 32-token generation cap is not also a 32-token
   gradient budget spent mostly on JSON punctuation.

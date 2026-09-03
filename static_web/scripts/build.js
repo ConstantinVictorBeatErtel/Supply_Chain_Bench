@@ -106,7 +106,7 @@ buildTarget(PAGES);
 cpSync(PAGES, SPACE, { recursive: true });
 writeFileSync(
   resolve(SPACE, "README.md"),
-  `---\ntitle: Beer Distribution Game\nemoji: 🍺\ncolorFrom: yellow\ncolorTo: red\nsdk: static\napp_file: index.html\npinned: false\n---\n\n# Beer Distribution Game\n\nPublic human baseline for the corrected stochastic Y-network training environment.\n\n- **Seat:** wholesaler only\n- **Horizon:** 36 weeks + settlement\n- **Orders:** integers 0–128\n- **Factory capacity:** 400 (feasible upstream supply)\n- **Environment:** live-y-domain-randomized-grpo-v2\n- **Demand:** fresh episode seed; new customer draws every retailer/week; demand-responsive retailer orders\n\nPlay locally after \`npm run build\`, or on Cloudflare Pages. Archived v1 model scores use the old counterparty policy and are not compared with v2 human sessions.\n`,
+  `---\ntitle: Beer Distribution Game\nemoji: 🍺\ncolorFrom: yellow\ncolorTo: red\nsdk: static\napp_file: index.html\npinned: false\n---\n\n# Beer Distribution Game\n\nPublic human baseline for the stochastic Y-network training environment.\n\n- **Seat:** wholesaler only\n- **Horizon:** 36 weeks + settlement\n- **Orders:** integers 0–128\n- **Factory capacity:** 400 (feasible upstream supply)\n- **Environment:** live-y-domain-randomized-grpo-v2\n- **Demand:** fresh episode seed; new customer draws every retailer/week; demand-responsive retailer orders\n\nPlay locally after \`npm run build\`, or on Cloudflare Pages. Archived v1 model scores use the old counterparty policy and are not compared with v2 human sessions.\n`,
 );
 console.log(`Built ${PAGES}`);
 console.log(`Built ${SPACE}`);

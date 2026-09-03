@@ -11,8 +11,7 @@ with a four-sample baseline.
 
 Bounding the window to the causal horizon of one order (order delay 1 +
 shipment delay 2, so effects land within ~3 weeks and wash out by ~6) restores
-per-turn credit to ~73% of the variance.  See
-``docs/LIVE_Y_RL_POSTMORTEM.md``.
+per-turn credit to ~73% of the variance.
 """
 
 from __future__ import annotations

@@ -2,9 +2,8 @@
 
 The board entry **Qwen3.5-4B GRPO (20.64)** is a LoRA adapter over
 `Qwen/Qwen3.5-4B`, trained with a critic-free group-relative policy update on
-the live-Y research protocol. This document is the recipe. For *why* the first
-attempt failed, see [`LIVE_Y_RL_POSTMORTEM.md`](LIVE_Y_RL_POSTMORTEM.md); for
-the compute-efficiency machinery, [`LIVE_Y_EFFICIENCY.md`](LIVE_Y_EFFICIENCY.md).
+the live-Y research protocol. This document is the recipe. The compute-efficiency
+machinery is documented in [`LIVE_Y_EFFICIENCY.md`](LIVE_Y_EFFICIENCY.md).
 
 Weights: `artifacts/live_y_best_adapter/` and the Hugging Face Hub
 (`beer-game-wholesaler-qwen3.5-4b-grpo-lora`).
