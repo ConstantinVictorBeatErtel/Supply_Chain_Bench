@@ -6,15 +6,13 @@
 
 SupplyChainBench measures long-horizon decision-making under hidden and changing
 dynamics through the beer distribution game. In the beer supply chain distribution game, an agent runs the wholesaler for 36 weeks.
-Orders and shipments take time, mistakes are only visible weeks later, and the
-agent is not told the demand law or supply limits.
+Orders and shipments take time, so mistakes are only visible weeks later.
 
 The project measures three things:
 
-- **Control:** can the agent keep inventory and backlog costs low?
-- **Adaptation:** can it recover when demand, delays, or supply change?
-- **Learning:** does improvement come from a bounded notebook or real LoRA
-  weight updates across episodes?
+- **Forecasting:** can the agent accurately think through the future cost implications of its actions?
+- **Adaptation:** can it adapt when demand or supply changes?
+- **Learning:** Can an LLM improve at the above two tasks through training? 
 
 ## Motivation
 
@@ -37,26 +35,7 @@ been retrained on the stochastic environment.
 
 The broader goal is not only to benchmark supply-chain reasoning, but to explore whether environments with delayed consequences and long horizons can train more general decision-making abilities.
 
-## Benchmark
-
-The main test uses 16 benchmark supply chains. The agent controls the wholesaler
-without being told the demand pattern or supply limit.
-
-Five additional tests change demand, delivery times, or supply to see whether
-the agent notices and recovers. Separate experiments compare starting fresh,
-carrying short notes between games, and updating model weights. Their scores
-stay separate so unlike tests are not compared directly.
-
-The browser replay preserves the historical baseline, untrained-model, and
-trained-model comparison. The playable game now runs the stochastic
-v2 training scenario: every new game gets a fresh seed, customer demand is
-sampled each retailer/week, and retailer orders carry that demand variation to
-the wholesaler. The end screen compares the human with an adaptive base-stock
-policy on the exact same episode seed; model results are evaluated separately
-on the frozen v2 benchmark seeds.
-
-The chain is a Y: one wholesaler splitting a single inventory pool between
-two retailers who compete for it.
+## Game Setup
 
 ```mermaid
 flowchart LR
@@ -66,25 +45,23 @@ flowchart LR
   style WH fill:#C62828,color:#FFFFFF,stroke:#7F1D1D,stroke-width:2px
 ```
 
-The playable wholesaler sees the combined orders placed by the two retailers,
-not privileged end-customer demand. In v2, each retailer orders its newly sampled
-customer demand plus the scarcity increment. That preserves fog of war
-without collapsing the wholesaler's incoming signal to a constant value.
+The game contains four roles - factory, distributor, wholesaler, and retailer. 
 
-The current model comparison uses `live-y-domain-randomized-grpo-v2`:
-evaluation calls the same `training_spec` constructor as training, while browser
-play is parity-tested against those dynamics. Evaluation uses separate held-out
-seeds.
+The customer at the end demands beer according to a random distribution. 
+The retailer tries to fulfill this demand. There is a cost associated with not fulfilling orders and with backlog. 
+Hence, every role tries to match the demand as accurately as possible. 
+The demand from the retailer is fulfilled by the wholesaler, which is fulfilled by the distributor, and so on. 
+However, orders only arrive two weeks after they ordered. 
 
 ## Technical benchmark details
 
-36 weeks each, factory capacity 400. Every v2 episode resamples customer demand,
-and the LLM prompt withholds the demand law and the capacity.
+The game is plater over 36 weeks. Factory capacity is 400. Every week resamples customer demand randomly. 
+The LLM prompt withholds the demand law and the capacity.
+Higher is better. 
 
 ![Live-Y capacity-400 scoreboard](docs/assets/live-y-capacity-400-benchmark-v4.png)
 
-For reference on the same seeds: the best-found feasible hindsight reference
-scores 100 and an adaptive base-stock heuristic scores 69.58.
+The scores are based on how low the costs are compared to the mathematically optimal cost (which results in a score of 100). 
 
 Artifacts: [`artifacts/live_y_domain_randomized_grpo_v2/evaluations/`](artifacts/live_y_domain_randomized_grpo_v2/evaluations/).
 The chart is generated from the leaderboard JSON by
@@ -110,8 +87,7 @@ C &= \sum_{t=1}^{H} c_t + \sum_{t=H+1}^{H+3} c_t + c^{\mathrm{term}}
 \end{aligned}
 $$
 
-Best-found $C^{\star}$ is a feasible open-loop reference on each held-out seed.
-Across all 16 seeds the reference means are:
+Best found feasible $C^{\star}$:
 
 $$
 \overline{C^{\star}} = 558.44,
@@ -119,8 +95,8 @@ $$
 \text{adaptive base-stock average} = 802.53
 $$
 
-The primary score pairs every protocol-clean model episode with the reference
-for the exact same seed:
+The  score pairs every model week performance with the reference
+for the exact same week:
 
 $$
 \mathrm{score} = 100 \times
@@ -128,8 +104,6 @@ $$
      {\sum_s C^{\mathrm{policy}}_{s}}
 $$
 
-The hindsight search is a feasible reference, not a proof of mathematical
-optimality.
 
 ## Qwen fine-tune (live-Y GRPO)
 
@@ -141,19 +115,17 @@ optimality.
   </a>
 </p>
 
-*GRPO supplies the comparison and credit-assignment objective; LoRA is the
+*GRPO supplies the comparison and credit-assignment objective. LoRA is the
 trainable parameterization that receives those gradients while the base model
 stays frozen.*
 
 The training pipeline trains a LoRA adapter on `Qwen/Qwen3.5-4B` with
-critic-free multi-turn group-relative updates (GRPO-style). The Qwen base stays
-frozen; only a rank-16 LoRA adapter on the attention and MLP projections is
-optimized.
+critic-free multi-turn group-relative updates (GRPO-style). 
 
 Each update rolls out 8 matched seeds 6 times, scores every order against its
 groupmates using a 6-week downstream-cost window, and applies a clipped
 token-level update to the digits in `{"quantity": N}`. In short, GRPO decides
-which sampled actions were better; LoRA is the small set of weights changed to
+which sampled actions were better. I chose LoRA because it is a computer efficient way to 
 make those actions more likely.
 
 Full details: [`docs/TRAINING.md`](docs/TRAINING.md) ·
@@ -163,11 +135,10 @@ Full details: [`docs/TRAINING.md`](docs/TRAINING.md) ·
 
 Documented in [`docs/LIVE_Y_EFFICIENCY.md`](docs/LIVE_Y_EFFICIENCY.md):
 
-- Prefix KV cache across shared chat-template tokens; invalidate after each LoRA update
-- Batched rollouts; separate inference / train minibatches; LoRA + bf16 + gradient checkpointing
+- Prefix KV cache across shared chat-template tokens. 
+- Batched rollouts. separate inference / train minibatches. LoRA + bf16 + gradient checkpointing
 - Bounded JSON completions (32-token train cap); rolling history window, not full transcript
-- `torch.inference_mode` for generation / old-policy scoring; critic-free group baselines (no value net)
-- CRN / reproducible seed derivation to cut rollout variance
+
 
 ## How it is built
 
